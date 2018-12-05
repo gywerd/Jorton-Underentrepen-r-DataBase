@@ -34,6 +34,7 @@ namespace JudRepository
             this.id = 0;
             this.project = new Project();
             this.builder = new Builder();
+
             this.answerDate = "";
             this.questionDate = "";
             this.correctionSheetDate = "";
@@ -126,35 +127,6 @@ namespace JudRepository
             this.materialUrl = pdfData.MaterialUrl;
             this.conditionUrl = pdfData.ConditionUrl;
             this.passWord = pdfData.PassWord;
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Method, that sets id, if id == 0
-        /// </summary>
-        /// <param name="id">int</param>
-        public void SetId(int id)
-        {
-            if (int.TryParse(id.ToString(), out int parsedId) && this.id == 0 && parsedId >= 1)
-            {
-                this.id = parsedId;
-            }
-            else
-            {
-                this.id = 0;
-            }
-        }
-
-        /// <summary>
-        /// Returns main content as a string
-        /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
-        {
-            string result = "PDF-data til projekt: " + project.Name;
-            return result;
         }
 
         #endregion
@@ -293,6 +265,35 @@ namespace JudRepository
                     conditionDate = "";
                 }
             }
+        }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        /// <param name="id">int</param>
+        public void SetId(int id)
+        {
+            if (int.TryParse(id.ToString(), out int parsedId) && this.id == 0 && parsedId >= 1)
+            {
+                this.id = parsedId;
+            }
+            else
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            string result = "PDF-data til projekt: " + project.Name;
+            return result;
         }
 
         #endregion

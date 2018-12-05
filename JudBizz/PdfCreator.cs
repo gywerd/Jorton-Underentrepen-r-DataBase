@@ -35,6 +35,12 @@ namespace JudBizz
         string strConnection = "";
         FileStream fileStreamCreate;
         IttLetterPdfData letterData;
+        List<BluePrint> ProjectBluePrints = new List<BluePrint>();
+        List<Description> ProjectDescriptions = new List<Description>();
+        List<Enterprise> ProjectEnterpriseList = new List<Enterprise>();
+        List<IttLetterReceiver> ProjectIttLetterReceivers = new List<IttLetterReceiver>();
+        List<Miscellaneous> ProjectMiscellaneousList = new List<Miscellaneous>();
+        List<TimeSchedule> ProjectTimeSchedules = new List<TimeSchedule>();
 
         #endregion
 
@@ -50,19 +56,31 @@ namespace JudBizz
         #endregion
 
         #region Methods
-        // Method to add single cell to the header
+        /// <summary>
+        /// Method to add single cell to the header 
+        /// </summary>
+        /// <param name="tableLayout">PdfPTable</param>
+        /// <param name="cellText">string</param>
         private static void AddCellToHeader(PdfPTable tableLayout, string cellText)
         {
             tableLayout.AddCell(new PdfPCell(new Phrase(cellText, new Font(Font.FontFamily.HELVETICA, 10, 1, iTextSharp.text.BaseColor.WHITE))) { HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5, BackgroundColor = new iTextSharp.text.BaseColor(0, 104, 64) });
         }
 
-        // Method to add single cell to the body - aligned left
+        /// <summary>
+        /// Method to add single cell to the body - aligned left
+        /// </summary>
+        /// <param name="tableLayout">PdfPTable</param>
+        /// <param name="cellText">string</param>
         private static void AddCellToBodyLeft(PdfPTable tableLayout, string cellText)
         {
             tableLayout.AddCell(new PdfPCell(new Phrase(cellText, new Font(Font.FontFamily.HELVETICA, 10, 0, iTextSharp.text.BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5, BackgroundColor = iTextSharp.text.BaseColor.WHITE });
         }
 
-        // Method to add single cell to the body - aligned right
+        /// <summary>
+        /// Method to add single cell to the body - aligned right
+        /// </summary>
+        /// <param name="tableLayout">PdfPTable</param>
+        /// <param name="cellText">string</param>
         private static void AddCellToBodyRight(PdfPTable tableLayout, string cellText)
         {
             tableLayout.AddCell(new PdfPCell(new Phrase(cellText, new Font(Font.FontFamily.HELVETICA, 10, 0, iTextSharp.text.BaseColor.BLACK))) { HorizontalAlignment = Element.ALIGN_RIGHT, Padding = 5, BackgroundColor = iTextSharp.text.BaseColor.WHITE });
@@ -224,7 +242,7 @@ namespace JudBizz
 
             //Add body
             string enterpriseLine = GetEnterpriseLine();
-            string executiveTitle = GetExecutiveTitle(executive);
+            string executiveTitle = executive.JobDescription.Occupation;
             Chunk urlChunk = new Chunk(letterData.MaterialUrl, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)));
             urlChunk.SetAnchor(letterData.MaterialUrl);
 
@@ -587,30 +605,34 @@ namespace JudBizz
 
         private string GetBluePrintsLine()
         {
-            string result = "• " + letterData.BluePrints[0] + "\n";
-            if (letterData.BluePrints.Count > 1)
+            RefreshProjectBluePrints(letterData.Project);
+
+            string result = "• " + ProjectBluePrints[0] + "\n";
+            if (ProjectBluePrints.Count > 1)
             {
-                int iMax = letterData.BluePrints.Count - 1;
+                int iMax = ProjectBluePrints.Count - 1;
                 for (int i = 1; i < iMax; i++)
                 {
-                    result += "• " + letterData.BluePrints[i] + "\n";
+                    result += "• " + ProjectBluePrints[i] + "\n";
                 }
-                result += "• " + letterData.BluePrints[iMax] + "\n";
+                result += "• " + ProjectBluePrints[iMax] + "\n";
             }
             return result;
         }
 
         private string GetCompleteSetDescriptionLine()
         {
-            string result = "• " + letterData.DescriptionList[0] + "\n";
-            if (letterData.DescriptionList.Count > 1)
+            RefreshProjectDescriptions(letterData.Project);
+
+            string result = "• " + ProjectDescriptions[0] + "\n";
+            if (ProjectDescriptions.Count > 1)
             {
-                int iMax = letterData.DescriptionList.Count - 1;
+                int iMax = ProjectDescriptions.Count - 1;
                 for (int i = 1; i < iMax; i++)
                 {
-                    result += "• " + letterData.DescriptionList[i] + "\n";
+                    result += "• " + ProjectDescriptions[i] + "\n";
                 }
-                result += "• " + letterData.DescriptionList[iMax] + "\n";
+                result += "• " + ProjectDescriptions[iMax] + "\n";
             }
             return result;
         }
@@ -645,16 +667,18 @@ namespace JudBizz
 
         private string GetEnterpriseLine()
         {
-            string result = letterData.Enterprises[0].Name;
-            if (letterData.Enterprises.Count > 1)
+            RefreshProjectEnterpriseList(letterData.Project);
+
+            string result = ProjectEnterpriseList[0].Name;
+            if (ProjectEnterpriseList.Count > 1)
             {
-                int iMAx = letterData.Enterprises.Count - 1;
+                int iMAx = ProjectEnterpriseList.Count - 1;
                 for (int i = 1; i < iMAx; i++)
                 {
-                    result += @", " + letterData.Enterprises[i].Name;
+                    result += @", " + ProjectEnterpriseList[i].Name;
                 }
 
-                result += @" & " + letterData.Enterprises[iMAx].Name;
+                result += @" & " + ProjectEnterpriseList[iMAx].Name;
             }
             return result;
         }
@@ -667,20 +691,6 @@ namespace JudBizz
                 if (user.Id == id)
                 {
                     result = user;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        private string GetExecutiveTitle(User executive)
-        {
-            string result = "";
-            foreach (JobDescription description in Bizz.JobDescriptions)
-            {
-                if (description.Id == executive.JobDescription.Id)
-                {
-                    result = description.Occupation;
                     break;
                 }
             }
@@ -707,30 +717,17 @@ namespace JudBizz
 
         private string GetMiscellaneusLine()
         {
-            string result = "• " + letterData.Miscellaneous[0] + "\n";
-            if (letterData.Miscellaneous.Count > 1)
+            RefreshProjectMiscellaneousList(letterData.Project);
+
+            string result = "• " + ProjectMiscellaneousList[0].Text + "\n";
+            if (ProjectMiscellaneousList.Count > 1)
             {
-                int iMax = letterData.Miscellaneous.Count - 1;
+                int iMax = ProjectMiscellaneousList.Count - 1;
                 for (int i = 1; i < iMax; i++)
                 {
-                    result += "• " + letterData.Miscellaneous[i] + "\n";
+                    result += "• " + ProjectMiscellaneousList[i] + "\n";
                 }
-                result += "• " + letterData.Miscellaneous[iMax] + "\n";
-            }
-            return result;
-        }
-
-        private string GetOfferPrice(int id)
-        {
-            string result = "";
-            foreach (Offer offer in Bizz.Offers)
-            {
-
-                if (id == offer.Id)
-                {
-                    result = Convert.ToString(offer.Price);
-                    break;
-                }
+                result += "• " + ProjectMiscellaneousList[iMax] + "\n";
             }
             return result;
         }
@@ -766,34 +763,117 @@ namespace JudBizz
 
         private string GetProjectDocumentsLine()
         {
-            string result = "• " + letterData.IttLetterReceivers[0] + "\n";
-            if (letterData.IttLetterReceivers.Count > 1)
+            RefreshProjectIttLetterReceivers(letterData.Project);
+
+            string result = "• " + ProjectIttLetterReceivers[0] + "\n";
+            if (ProjectIttLetterReceivers.Count > 1)
             {
-                int iMax = letterData.IttLetterReceivers.Count - 1;
+                int iMax = ProjectIttLetterReceivers.Count - 1;
                 for (int i = 1; i < iMax; i++)
                 {
-                    result += "• " + letterData.IttLetterReceivers[i] + "\n";
+                    result += "• " + ProjectIttLetterReceivers[i] + "\n";
                 }
-                result += "• " + letterData.IttLetterReceivers[iMax] + "\n";
+                result += "• " + ProjectIttLetterReceivers[iMax] + "\n";
             }
             return result;
         }
 
         private string GetTimeSchedulesLine()
         {
-            string result = "• " + letterData.TimeSchedules[0] + "\n";
-            if (letterData.TimeSchedules.Count > 1)
+            RefreshProjectDescriptions(letterData.Project);
+
+            string result = "• " + ProjectDescriptions[0] + "\n";
+            if (ProjectDescriptions.Count > 1)
             {
-                int iMax = letterData.TimeSchedules.Count - 1;
+                int iMax = ProjectDescriptions.Count - 1;
                 for (int i = 1; i < iMax; i++)
                 {
-                    result += "• " + letterData.TimeSchedules[i] + "\n";
+                    result += "• " + ProjectDescriptions[i] + "\n";
                 }
-                result += "• " + letterData.TimeSchedules[iMax] + "\n";
+                result += "• " + ProjectDescriptions[iMax] + "\n";
             }
             return result;
         }
 
+        private void RefreshProjectBluePrints(Project project)
+        {
+            ProjectBluePrints.Clear();
+
+            foreach (BluePrint bluePrint in Bizz.BluePrints)
+            {
+                if (bluePrint.Project.Id == project.Id)
+                {
+                    ProjectBluePrints.Add(bluePrint);
+                }
+            }
+        }
+
+        private void RefreshProjectDescriptions(Project project)
+        {
+            ProjectDescriptions.Clear();
+
+            foreach (Description description in Bizz.Descriptions)
+            {
+                if (description.Project.Id == project.Id)
+                {
+                    ProjectDescriptions.Add(description);
+                }
+            }
+        }
+
+        private void RefreshProjectEnterpriseList(Project project)
+        {
+            ProjectEnterpriseList.Clear();
+
+            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            {
+                if (enterprise.Project.Id == project.Id)
+                {
+                    ProjectEnterpriseList.Add(enterprise);
+                }
+            }
+        }
+
+        private void RefreshProjectIttLetterReceivers(Project project)
+        {
+            ProjectIttLetterReceivers.Clear();
+
+            foreach (IttLetterReceiver receiver in Bizz.IttLetterReceivers)
+            {
+                if (receiver.Project.Id == project.Id)
+                {
+                    ProjectIttLetterReceivers.Add(receiver);
+                }
+            }
+        }
+
+        private void RefreshProjectMiscellaneousList(Project project)
+        {
+            ProjectMiscellaneousList.Clear();
+
+            foreach (Miscellaneous miscellaneous in Bizz.MiscellaneousList)
+            {
+                if (miscellaneous.Project.Id == project.Id)
+                {
+                    ProjectMiscellaneousList.Add(miscellaneous);
+                }
+            }
+        }
+
+        private void RefreshProjectTimeSchedules(Project project)
+        {
+            ProjectTimeSchedules.Clear();
+
+            foreach (TimeSchedule schedule in Bizz.TimeSchedules)
+            {
+                if (schedule.Project.Id == project.Id)
+                {
+                    ProjectTimeSchedules.Add(schedule);
+                }
+            }
+        }
+
         #endregion
     }
+
 }

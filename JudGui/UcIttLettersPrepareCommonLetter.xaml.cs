@@ -235,9 +235,9 @@ namespace JudGui
         private void GetIndexableIttLetterBulletList()
         {
             IndexableIttLetterBulletList.Clear();
-            IndexableIttLetterBulletList.Add(new IndexedIttLetterBullet(0, Bizz.IttLetterBulletList[0]));
+            IndexableIttLetterBulletList.Add(new IndexedIttLetterBullet(0, Bizz.IttLetterBullets[0]));
             int i = 1;
-            foreach (IttLetterBullet temp in Bizz.IttLetterBulletList)
+            foreach (IttLetterBullet temp in Bizz.IttLetterBullets)
             {
                 if (temp.Paragraph.Id == Bizz.TempIttLetterParagraph.Id)
                 {
@@ -254,13 +254,13 @@ namespace JudGui
         private void GetIndexableIttLetterParagraphList()
         {
             IndexableIttLetterParagraphList.Clear();
-            IndexableIttLetterParagraphList.Add(new IndexedIttLetterParagraph(0, Bizz.IttLetterParagraphList[0]));
+            IndexableIttLetterParagraphList.Add(new IndexedIttLetterParagraph(0, Bizz.IttLetterParagraphs[0]));
             if (!ParagraphsExist())
             {
                 AddParagraphs();
             }
             int i = 1;
-            foreach (IttLetterParagraph temp in Bizz.IttLetterParagraphList)
+            foreach (IttLetterParagraph temp in Bizz.IttLetterParagraphs)
             {
                 if (temp.Project.Id == Bizz.TempProject.Id)
                 {
@@ -349,7 +349,7 @@ namespace JudGui
         private bool ParagraphsExist()
         {
             bool result = false;
-            foreach (IttLetterParagraph temp in Bizz.IttLetterParagraphList)
+            foreach (IttLetterParagraph temp in Bizz.IttLetterParagraphs)
             {
                 if (temp.Project.Id == Bizz.TempProject.Id)
                 {
