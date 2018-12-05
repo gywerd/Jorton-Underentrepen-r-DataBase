@@ -14,7 +14,7 @@ namespace JudBizz
         #region Fields
         public static string strConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JortonSubEnt;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private Executor executor = new Executor(strConnection);
-        public static string macAddress = GetMacAddress();
+        public static string MacAddress = GetMacAddress();
 
             #region Lists
             public List<Address> Addresses;
@@ -71,7 +71,7 @@ namespace JudBizz
         /// Method, that retrieves a MacAddress
         /// </summary>
         /// <returns></returns>
-        private static string GetMacAddress()
+        public static string GetMacAddress()
         {
             String result = NetworkInterface
                 .GetAllNetworkInterfaces()
@@ -87,7 +87,7 @@ namespace JudBizz
         /// <returns></returns>
         public string ObtainMacAddress()
         {
-            return macAddress.ToString();
+            return MacAddress.ToString();
         }
 
         /// <summary>
@@ -1701,122 +1701,6 @@ namespace JudBizz
                     break;
             }
             return result;
-        }
-
-        /// <summary>
-        /// Method, that deletes a BluePrint from the Db
-        /// </summary>
-        /// <param name="bluePrintId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteBluePrint(int bluePrintId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("BluePrints", bluePrintId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes a CraftGroup from the Db
-        /// </summary>
-        /// <param name="craftGroupId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteCraftGroup(int craftGroupId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("CraftGroups", craftGroupId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes a Description from Db
-        /// </summary>
-        /// <param name="enterpriseForm">string</param>
-        public bool DeleteDescription(int descriptionId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("Descriptions", descriptionId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes an Enterprise from Db
-        /// </summary>
-        /// <param name="enterpriseId">string</param>
-        public bool DeleteEnterprise(int enterpriseId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("EnterpriseList", enterpriseId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes an EnterpriseForm from Db
-        /// </summary>
-        /// <param name="enterpriseForm">string</param>
-        public bool DeleteEnterpriseForm(string abbreviation)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("EnterpriseForms", abbreviation));
-        }
-
-        /// <summary>
-        /// Method, that deletes an IttLetter PdfData from Db
-        /// </summary>
-        /// <param name="letterId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteIttLetter(int letterId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("IttLetters", letterId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes an IttLetter PdfData from Db
-        /// </summary>
-        /// <param name="bulletId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteIttLetterBullet(int bulletId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("IttLetterBullets", bulletId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes an IttLetter PdfData from Db
-        /// </summary>
-        /// <param name="pdfDataId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteIttLetterPdfData(int pdfDataId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("IttLetterPdfDataList", pdfDataId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes an IttLetter PdfData from Db
-        /// </summary>
-        /// <param name="receiverId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteIttLetterReceiver(int receiverId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("IttLetterReceivers", receiverId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes a Project from the Db
-        /// </summary>
-        /// <param name="projectId">int</param>
-        /// <returns>bool</returns>
-        public bool DeleteProject(int projectId)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("Projects", projectId.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes row from Requests in Db
-        /// </summary>
-        /// <param name="id">int</param>
-        public bool DeleteRequest(int id)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("Requests", id.ToString()));
-        }
-
-        /// <summary>
-        /// Method, that deletes a Project from the Db
-        /// </summary>
-        /// <param name="zip">string</param>
-        /// <returns>bool</returns>
-        public bool DeleteZipTown(string zip)
-        {
-            return ProcesSqlQuery(CreateSqlQueryDeleteFromList("ZipTown", zip));
         }
 
         #endregion

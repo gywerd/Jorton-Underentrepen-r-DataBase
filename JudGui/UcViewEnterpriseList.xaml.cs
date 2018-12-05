@@ -23,18 +23,18 @@ namespace JudGui
     public partial class UcViewEnterpriseList : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
         public List<Enterprise> IndexableEnterpriseList = new List<Enterprise>();
 
         #endregion
 
-        public UcViewEnterpriseList(Bizz bizz, UserControl ucRight)
+        public UcViewEnterpriseList(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcRight = ucRight;
-            ComboBoxCaseId.ItemsSource = Bizz.IndexedActiveProjects;
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
         #region Buttons
@@ -42,14 +42,14 @@ namespace JudGui
         {
             //Close right UserControl
             MessageBox.Show("Visning af Entrepriselisten lukkes.", "Luk Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
-            Bizz.UcRightActive = false;
+            CBZ.UcRightActive = false;
             UcRight.Content = new UserControl();
         }
 
         private void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
         {
-            PdfCreator pdfCreator = new PdfCreator(Bizz.strConnection);
-            string path = pdfCreator.GenerateEnterpriseListPdf(Bizz, IndexableEnterpriseList, Bizz.Users);
+            PdfCreator pdfCreator = new PdfCreator(GetStrConnection());
+            string path = pdfCreator.GenerateEnterpriseListPdf(CBZ, IndexableEnterpriseList, CBZ.Users);
             System.Diagnostics.Process.Start(path);
         }
 
@@ -59,14 +59,14 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
-            TextBoxCaseName.Text = Bizz.TempProject.Name;
+            TextBoxCaseName.Text = CBZ.TempProject.Name;
             IndexableEnterpriseList = GetIndexableEnterpriseList();
         }
 
@@ -86,16 +86,25 @@ namespace JudGui
         {
             List<Enterprise> result = new List<Enterprise>();
             int i = 0;
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.EnterpriseList)
             {
-                if (enterprise.Project.Id == Bizz.TempProject.Id)
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
-                    IndexedEnterprise temp = new IndexedEnterprise(Bizz.strConnection, i, enterprise);
+                    IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
                     result.Add(temp);
                 }
                 i++;
             }
             return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves the strConnection
+        /// </summary>
+        /// <returns></returns>
+        private string GetStrConnection()
+        {
+            return CBZ.GetStrConnection();
         }
 
         #endregion

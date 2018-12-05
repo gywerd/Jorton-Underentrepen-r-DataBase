@@ -85,10 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocCreator.cs" />
-    <Compile Include="Bizz.cs" />
     <Compile Include="ITextEvents .cs" />
     <Compile Include="MyEntityFrameWork.cs" />
     <Compile Include="IttLetterPdfLists.cs" />
+    <Compile Include="Bizz.cs" />
     <Compile Include="PdfCreator.cs" />
     <Compile Include="PdfWriterEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

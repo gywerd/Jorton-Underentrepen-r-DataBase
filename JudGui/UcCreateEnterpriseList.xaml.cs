@@ -26,9 +26,8 @@ namespace JudGui
         public Bizz Bizz;
         public UserControl UcRight;
 
-        private static string strConnection = Bizz.strConnection;
-        CraftGroup CCG = new CraftGroup(strConnection);
-        Project CCP = new Project(strConnection);
+        CraftGroup CCG = new CraftGroup();
+        Project CCP = new Project();
 
         #endregion
 
@@ -62,13 +61,12 @@ namespace JudGui
             if (Bizz.TempProject.EnterpriseList == false)
             {
                 Bizz.TempProject.ToggleEnterpriseList();
-                Bizz.PRO.UpdateProject(Bizz.TempProject);
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
-                ReloadListActiveProjects();
-                ReloadListIndexableProjects();
+                Bizz.UpdateInDb(Bizz.TempProject);
+                Bizz.RefreshList("Projects");
+                Bizz.RefreshIndexedList("IndexedActiveProjects");
+                Bizz.RefreshIndexedList("IndexableProjects");
             }
-            bool result = Bizz.ENP.InsertIntoEnterpriseList(Bizz.TempEnterprise);
+            bool result = Bizz.CreateInDbReturnBool(Bizz.TempEnterprise);
 
             if (result)
             {
@@ -76,9 +74,8 @@ namespace JudGui
                 MessageBox.Show("Entrepriselisten blev oprettet", "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update EnterpriseList
-                Bizz.EnterpriseList.Clear();
-                Bizz.EnterpriseList = Bizz.ENP.GetEnterpriseList();
-                Bizz.TempEnterprise = new Enterprise(Bizz.strConnection);
+                Bizz.RefreshList("EnterpriseList");
+                Bizz.TempEnterprise = new Enterprise();
 
                 //Close right UserControl
                 Bizz.UcRightActive = false;
@@ -97,13 +94,12 @@ namespace JudGui
             if (Bizz.TempProject.EnterpriseList == false)
             {
                 Bizz.TempProject.ToggleEnterpriseList();
-                Bizz.PRO.UpdateProject(Bizz.TempProject);
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
-                ReloadListActiveProjects();
-                ReloadListIndexableProjects();
+                Bizz.UpdateInDb(Bizz.TempProject);
+                Bizz.RefreshList("Projects");
+                Bizz.RefreshIndexedList("IndexedActiveProjects");
+                Bizz.RefreshIndexedList("IndexableProjects");
             }
-            bool result = Bizz.ENP.InsertIntoEnterpriseList(Bizz.TempEnterprise);
+            bool result = Bizz.CreateInDbReturnBool(Bizz.TempEnterprise);
 
             if (result)
             {
@@ -121,15 +117,15 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = 0;
 
                 //Update Enterprise list
-                Bizz.EnterpriseList.Clear();
-                Bizz.EnterpriseList = Bizz.ENP.GetEnterpriseList();
+                Bizz.RefreshList("EnterpriseList");
                 Bizz.TempEnterprise.Name = "";
                 Bizz.TempEnterprise.Elaboration = "";
                 Bizz.TempEnterprise.OfferList = "";
-                Bizz.TempEnterprise.CraftGroup1 = CCG.GetCraftGroup(0);
-                Bizz.TempEnterprise.CraftGroup2 = CCG.GetCraftGroup(0);
-                Bizz.TempEnterprise.CraftGroup3 = CCG.GetCraftGroup(0);
-                Bizz.TempEnterprise.CraftGroup4 = CCG.GetCraftGroup(0);
+                CraftGroup craftgroup0 = new CraftGroup((CraftGroup)Bizz.GetEntity("CraftGroup", "0"));
+                Bizz.TempEnterprise.CraftGroup1 = craftgroup0;
+                Bizz.TempEnterprise.CraftGroup2 = craftgroup0;
+                Bizz.TempEnterprise.CraftGroup3 = craftgroup0;
+                Bizz.TempEnterprise.CraftGroup4 = craftgroup0;
             }
             else
             {
@@ -148,39 +144,40 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
             TextBoxCaseName.Content = Bizz.TempProject.Name;
-            Bizz.TempEnterprise.Project = CCP.GetProject(Bizz.TempProject.Id);
+            Bizz.TempEnterprise.Project = Bizz.TempProject;
             ComboBoxCraftGroup1.SelectedIndex = 0;
             ComboBoxCraftGroup2.SelectedIndex = 0;
             ComboBoxCraftGroup3.SelectedIndex = 0;
             ComboBoxCraftGroup4.SelectedIndex = 0;
-            Bizz.TempEnterprise.CraftGroup1 = CCG.GetCraftGroup(0);
-            Bizz.TempEnterprise.CraftGroup2 = CCG.GetCraftGroup(0);
-            Bizz.TempEnterprise.CraftGroup3 = CCG.GetCraftGroup(0);
-            Bizz.TempEnterprise.CraftGroup4 = CCG.GetCraftGroup(0);
+            CraftGroup craftGroup0 = new CraftGroup((CraftGroup)Bizz.GetEntity("CraftGroup", "0"));
+            Bizz.TempEnterprise.CraftGroup1 = craftGroup0;
+            Bizz.TempEnterprise.CraftGroup2 = craftGroup0;
+            Bizz.TempEnterprise.CraftGroup3 = craftGroup0;
+            Bizz.TempEnterprise.CraftGroup4 = craftGroup0;
         }
 
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup1 = CCG.GetCraftGroup(ComboBoxCraftGroup1.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup2 = CCG.GetCraftGroup(ComboBoxCraftGroup2.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup3 = CCG.GetCraftGroup(ComboBoxCraftGroup3.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup4 = CCG.GetCraftGroup(ComboBoxCraftGroup4.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
         }
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
@@ -243,39 +240,6 @@ namespace JudGui
                 ComboBoxCraftGroup2.Items.Add(temp);
                 ComboBoxCraftGroup3.Items.Add(temp);
                 ComboBoxCraftGroup4.Items.Add(temp);
-            }
-        }
-
-        /// <summary>
-        /// Method, that reloads list of active projects
-        /// </summary>
-        private void ReloadListActiveProjects()
-        {
-            Bizz.IndexedActiveProjects.Clear();
-            int i = 0;
-            foreach (Project tempProject in Bizz.Projects)
-            {
-                if (tempProject.Status == 1)
-                {
-                    IndexedProject result = new IndexedProject(Bizz.strConnection, i, tempProject);
-                    Bizz.IndexedActiveProjects.Add(result);
-                    i++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Method, that reloads list of indexable projects
-        /// </summary>
-        private void ReloadListIndexableProjects()
-        {
-            Bizz.IndexedProjects.Clear();
-            int i = 0;
-            foreach (Project temp in Bizz.Projects)
-            {
-                IndexedProject result = new IndexedProject(Bizz.strConnection, i, temp);
-                Bizz.IndexedProjects.Add(result);
-                i++;
             }
         }
 

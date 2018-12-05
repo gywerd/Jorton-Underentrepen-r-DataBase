@@ -50,8 +50,8 @@ namespace JudGui
         private void ButtonCopy_Click(object sender, RoutedEventArgs e)
         {
             // Code that copies the current project into a new project
-            Project project = new Project(Bizz.strConnection, Bizz.TempProject.CaseId, Bizz.TempProject.Name, Bizz.TempProject.Builder, 1, Bizz.TempProject.TenderForm, Bizz.TempProject.EnterpriseForm, Bizz.TempProject.Executive);
-            bool result = Bizz.PRO.InsertIntoProject(Bizz.TempProject);
+            Project project = new Project(Bizz.TempProject.CaseId, Bizz.TempProject.Name, Bizz.TempProject.Builder, new ProjectStatus((ProjectStatus)Bizz.GetEntity("ProjectStatus","1")), Bizz.TempProject.TenderForm, Bizz.TempProject.EnterpriseForm, Bizz.TempProject.Executive);
+            bool result = Bizz.CreateInDbReturnBool(Bizz.TempProject);
 
             if (result)
             {
@@ -59,10 +59,9 @@ namespace JudGui
                 MessageBox.Show("Projektet blev kopieret", "Kopier projekt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
-                ReloadListActiveProjects();
-                ReloadListIndexableProjects();
+                Bizz.RefreshList("Projects");
+                Bizz.RefreshIndexedList("IndexedActiveProjects");
+                Bizz.RefreshIndexedList("IndexableProjects");
 
                 //Close right UserControl
                 Bizz.UcRightActive = false;
@@ -74,6 +73,7 @@ namespace JudGui
                 MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke kopieret. Prøv igen.", "Kopier Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
         #endregion
 
         #region Events
@@ -84,7 +84,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
             TextBoxCaseName.Text = Bizz.TempProject.Name;
@@ -123,39 +123,6 @@ namespace JudGui
             foreach (IndexedProject temp in Bizz.IndexedProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
-            }
-        }
-
-        /// <summary>
-        /// Method, that reloads list of active projects
-        /// </summary>
-        private void ReloadListActiveProjects()
-        {
-            Bizz.IndexedActiveProjects.Clear();
-            int i = 0;
-            foreach (Project tempProject in Bizz.Projects)
-            {
-                if (tempProject.Status == 1)
-                {
-                    IndexedProject result = new IndexedProject(Bizz.strConnection, i, tempProject);
-                    Bizz.IndexedActiveProjects.Add(result);
-                    i++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Method, that reloads list of indexable projects
-        /// </summary>
-        private void ReloadListIndexableProjects()
-        {
-            Bizz.IndexedProjects.Clear();
-            int i = 0;
-            foreach (Project temp in Bizz.Projects)
-            {
-                IndexedProject result = new IndexedProject(Bizz.strConnection, i, temp);
-                Bizz.IndexedProjects.Add(result);
-                i++;
             }
         }
 

@@ -27,8 +27,7 @@ namespace JudGui
         public UserControl UcRight;
         public List<Enterprise> IndexableEnterpriseList = new List<Enterprise>();
 
-        public static string strConnection = Bizz.strConnection;
-        CraftGroup CCG = new CraftGroup(strConnection);
+        CraftGroup CCG = new CraftGroup();
 
         #endregion
 
@@ -56,8 +55,8 @@ namespace JudGui
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
             //Code that deletes a project from Db
-            bool result = Bizz.ENP.DeleteFromEnterpriseList(Bizz.TempEnterprise.Id);
-            Bizz.TempEnterprise = new Enterprise(Bizz.strConnection);
+            bool result = Bizz.DeleteFromDb("EnterpriseList", Bizz.TempEnterprise.Id.ToString());
+            Bizz.TempEnterprise = new Enterprise();
 
             if (result)
             {
@@ -73,8 +72,7 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = -1;
 
                 //Update Enterprise List
-                Bizz.EnterpriseList.Clear();
-                Bizz.EnterpriseList = Bizz.ENP.GetEnterpriseList();
+                Bizz.RefreshList("EnterpriseList");
                 IndexableEnterpriseList.Clear();
                 IndexableEnterpriseList = GetIndexableEnterpriseList();
                 ListBoxEnterpriseList.ItemsSource = IndexableEnterpriseList;
@@ -89,7 +87,7 @@ namespace JudGui
         private void ButtonEdit_Click(object sender, RoutedEventArgs e)
         {
             //Code that edits a project
-            bool result = Bizz.ENP.UpdateEnterpriseList(Bizz.TempEnterprise);
+            bool result = Bizz.UpdateInDb(Bizz.TempEnterprise);
 
             if (result)
             {
@@ -106,8 +104,7 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = -1;
 
                 //Update Enterprise List
-                Bizz.EnterpriseList.Clear();
-                Bizz.EnterpriseList = Bizz.ENP.GetEnterpriseList();
+                Bizz.RefreshList("EnterpriseList");
                 IndexableEnterpriseList.Clear();
                 IndexableEnterpriseList = GetIndexableEnterpriseList();
                 ListBoxEnterpriseList.ItemsSource = IndexableEnterpriseList;
@@ -129,7 +126,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
             IndexableEnterpriseList = GetIndexableEnterpriseList();
@@ -138,27 +135,27 @@ namespace JudGui
 
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup1 = CCG.GetCraftGroup(ComboBoxCraftGroup1.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup2 = CCG.GetCraftGroup(ComboBoxCraftGroup2.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup3 = CCG.GetCraftGroup(ComboBoxCraftGroup3.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup4 = CCG.GetCraftGroup(ComboBoxCraftGroup4.SelectedIndex);
+            Bizz.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
         }
 
         private void ListBoxEnterpriseList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Enterprise temp = new Enterprise(Bizz.strConnection, (Enterprise)ListBoxEnterpriseList.SelectedItem);
+            Enterprise temp = new Enterprise((Enterprise)ListBoxEnterpriseList.SelectedItem);
             Bizz.TempEnterprise = temp;
             TextBoxName.Text = temp.Name;
             TextBoxElaboration.Text = temp.Elaboration;
@@ -240,7 +237,7 @@ namespace JudGui
             {
                 if (enterprise.Project.Id == Bizz.TempProject.Id)
                 {
-                    IndexedEnterprise temp = new IndexedEnterprise(Bizz.strConnection, i, enterprise);
+                    IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
                     result.Add(temp);
                 }
                 i++;

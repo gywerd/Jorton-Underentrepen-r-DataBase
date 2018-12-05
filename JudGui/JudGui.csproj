@@ -266,7 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JudBizz\JudBizz.csproj">
-      <Project>{1AAED803-E59F-4D61-B875-8FCB61C3E064}</Project>
+      <Project>{75556eba-ec71-44b9-a6ad-3367dfd06c90}</Project>
       <Name>JudBizz</Name>
     </ProjectReference>
     <ProjectReference Include="..\JudRepository\JudRepository.csproj">

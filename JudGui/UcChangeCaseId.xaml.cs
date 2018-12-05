@@ -52,7 +52,7 @@ namespace JudGui
         private void ButtonEdit_Click(object sender, RoutedEventArgs e)
         {
             // Code that save changed CaseId to the project
-            bool result = Bizz.PRO.UpdateProject(Bizz.TempProject);
+            bool result = Bizz.UpdateInDb(Bizz.TempProject);
 
             if (result)
             {
@@ -60,8 +60,7 @@ namespace JudGui
                 MessageBox.Show("Sagsnummer blev ændret", "Skift Sagsnummer", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
+                Bizz.RefreshList("Projects");
                 ReloadListActiveProjects();
                 ReloadListIndexableProjects();
 
@@ -86,7 +85,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
             TextBoxName.Text = Bizz.TempProject.Name;
@@ -125,9 +124,9 @@ namespace JudGui
             int i = 0;
             foreach (Project tempProject in Bizz.Projects)
             {
-                if (tempProject.Status == 1)
+                if (tempProject.Status.Id == 1)
                 {
-                    IndexedProject result = new IndexedProject(Bizz.strConnection, i, tempProject);
+                    IndexedProject result = new IndexedProject(i, tempProject);
                     Bizz.IndexedActiveProjects.Add(result);
                     i++;
                 }
@@ -143,7 +142,7 @@ namespace JudGui
             int i = 0;
             foreach (Project temp in Bizz.Projects)
             {
-                IndexedProject result = new IndexedProject(Bizz.strConnection,i, temp);
+                IndexedProject result = new IndexedProject(i, temp);
                 Bizz.IndexedProjects.Add(result);
                 i++;
             }

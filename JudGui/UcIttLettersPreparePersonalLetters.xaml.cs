@@ -22,19 +22,21 @@ namespace JudGui
     /// </summary>
     public partial class UcIttLettersPreparePersonalLetters : UserControl
     {
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
         public IttLetterShipping Shipping = new IttLetterShipping();
+        public static string macAddress;
 
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterpriseList = new List<Enterprise>();
         public List<IttLetterReceiver> ProjectIttLetterReceivers = new List<IttLetterReceiver>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
-        public UcIttLettersPreparePersonalLetters(Bizz bizz, UserControl ucRight)
+        public UcIttLettersPreparePersonalLetters(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
+            macAddress = GetMacAddress();
             this.UcRight = ucRight;
             GenerateComboBoxCaseIdItems();
             ComboBoxCaseId.SelectedIndex = 0;
@@ -48,17 +50,17 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcRight.Content = new UserControl();
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
             }
         }
 
         private void ButtonPrepare_Click(object sender, RoutedEventArgs e)
         {
             //Code, that prepares 
-            Bizz.TempIttLetterPdfData = new IttLetterPdfData(Bizz.TempProject, Bizz.TempBuilder, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, TextBoxPassword.Text);
+            CBZ.TempIttLetterPdfData = new IttLetterPdfData(CBZ.TempProject, CBZ.TempBuilder, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, TextBoxPassword.Text);
 
             // Code that save changes to the IttLetter PdfData
-            int result = Bizz.CreateInDbReturnInt("IttLetterPdfData", Bizz.TempIttLetterPdfData);
+            int result = CBZ.CreateInDbReturnInt(CBZ.TempIttLetterPdfData);
 
             if (result > 0)
             {
@@ -66,13 +68,13 @@ namespace JudGui
                 MessageBox.Show("Personlig del af Udbudsbrevet blev rettet", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update IttLetter PdfData List
-                Bizz.RefreshIttLetterPdfDataList();
+                CBZ.RefreshList("IttLetterPdfDataList");
 
                 //Reset UcIttLetterPreparePersonal
                 ComboBoxCaseId.SelectedIndex = 0;
-                Bizz.TempProject = new Project();
-                Bizz.TempBuilder = new Builder();
-                Bizz.TempIttLetterPdfData = new IttLetterPdfData();
+                CBZ.TempProject = new Project();
+                CBZ.TempBuilder = new Builder();
+                CBZ.TempIttLetterPdfData = new IttLetterPdfData();
 
             }
             else
@@ -91,15 +93,15 @@ namespace JudGui
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
             if (selectedIndex >= 0)
             {
-                foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+                foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                        CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                         break;
                     }
                 }
-                TextBoxName.Text = Bizz.TempProject.Name;
+                TextBoxName.Text = CBZ.TempProject.Name;
                 GetProjectSubEntrepeneurs();
                 GetProjectIttLetterReceivers();
             }
@@ -122,7 +124,7 @@ namespace JudGui
         private bool CheckEntityIttLetterReceivers(LegalEntity entity)
         {
             bool result = false;
-            foreach (IttLetterReceiver receiver in Bizz.IttLetterReceivers)
+            foreach (IttLetterReceiver receiver in CBZ.IttLetterReceivers)
             {
                 if (receiver.CompanyId == entity.Id)
                 {
@@ -154,10 +156,13 @@ namespace JudGui
             return exist;
         }
 
+        /// <summary>
+        /// Method, that generate content of ComboBoxCaseId
+        /// </summary>
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }
@@ -172,7 +177,7 @@ namespace JudGui
         private Address GetAddress(int id)
         {
             Address result = new Address();
-            foreach (Address temp in Bizz.Addresses)
+            foreach (Address temp in CBZ.Addresses)
             {
                 if (temp.Id == id)
                 {
@@ -201,7 +206,7 @@ namespace JudGui
         private Contact GetContactFromList(int id)
         {
             Contact result = new Contact();
-            foreach (Contact contact in Bizz.Contacts)
+            foreach (Contact contact in CBZ.Contacts)
             {
                 if (contact.Id == id)
                 {
@@ -220,7 +225,7 @@ namespace JudGui
         private string GetContactEmail(int id)
         {
             string result = "";
-            foreach (ContactInfo info in Bizz.ContactInfoList)
+            foreach (ContactInfo info in CBZ.ContactInfoList)
             {
                 if (info.Id == id)
                 {
@@ -237,13 +242,13 @@ namespace JudGui
         /// <returns></returns>
         private void GetIttLetterShipping()
         {
-            Shipping = new IttLetterShipping(Bizz.TempProject, @"PDF_Documents\", Bizz.MacAdresss);
+            this.Shipping = new IttLetterShipping(this.CBZ.TempProject, @"PDF_Documents\", macAddress);
             try
             {
-                int id = Bizz.CreateInDbReturnInt("IttLetterShipping", Shipping);
+                int id = CBZ.CreateInDbReturnInt(Shipping);
                 Shipping.SetId(id);
                 Shipping.PdfPath = "";
-                Shipping.UpdateIttLetterShipping(Shipping);
+                CBZ.UpdateInDb(Shipping);
             }
             catch (Exception ex)
             {
@@ -257,11 +262,11 @@ namespace JudGui
         private void GetProjectIttLetterReceivers()
         {
             ProjectIttLetterReceivers.Clear();
-            Bizz.RefreshIttLetterReceivers();
+            CBZ.RefreshList("IttLetterReceivers");
 
-            foreach (IttLetterReceiver receiver in Bizz.IttLetterReceivers)
+            foreach (IttLetterReceiver receiver in CBZ.IttLetterReceivers)
             {
-                if (receiver.Project.Id == Bizz.TempProject.Id)
+                if (receiver.Project.Id == CBZ.TempProject.Id)
                 {
                     ProjectIttLetterReceivers.Add(receiver);
                 }
@@ -279,18 +284,27 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that generates List of ProjectSubEntrepeneurs
+        /// Method, that retrieves the MacAddress
+        /// </summary>
+        /// <returns></returns>
+        private string GetMacAddress()
+        {
+            return CBZ.GetMacAddress();
+        }
+
+        /// <summary>
+        /// Method, that generates the Project SubEntrepeneurs list
         /// </summary>
         private void GetProjectSubEntrepeneurs()
         {
             ProjectEnterpriseList.Clear();
             ProjectSubEntrepeneurs.Clear();
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.EnterpriseList)
             {
-                if (enterprise.Project.Id == Bizz.TempProject.Id)
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
                     ProjectEnterpriseList.Add(enterprise);
-                    foreach (SubEntrepeneur sub in Bizz.SubEntrepeneurs)
+                    foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
                     {
                         if (sub.EnterpriseList.Id == enterprise.Id)
                         {
@@ -301,16 +315,24 @@ namespace JudGui
             }
         }
 
+        /// <summary>
+        /// Method, that retrieves a SubEntrepeneur
+        /// </summary>
+        /// <param name="entrepeneur"></param>
+        /// <returns></returns>
         private SubEntrepeneur GetSubEntrepeneur(string entrepeneur)
         {
             SubEntrepeneur result = new SubEntrepeneur();
+
             foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)
             {
                 if (sub.Entrepeneur.Id == entrepeneur)
                 {
                     result = sub;
+                    break;
                 }
             }
+
             return result;
         }
 

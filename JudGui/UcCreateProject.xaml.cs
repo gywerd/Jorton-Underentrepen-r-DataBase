@@ -53,8 +53,8 @@ namespace JudGui
         private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            Project project = new Project(Bizz.strConnection, Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, ComboBoxBuilder.SelectedIndex, 1, ComboBoxTenderForm.SelectedIndex, ComboBoxEnterpriseForm.SelectedIndex, ComboBoxExecutive.SelectedIndex);
-            bool result = Bizz.PRO.InsertIntoProject(project);
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetEntity("ProjectStatus", "1")), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            bool result = Bizz.CreateInDbReturnBool(project);
 
             if (result)
             {
@@ -62,12 +62,9 @@ namespace JudGui
                 MessageBox.Show("Projektet blev oprettet", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
-                Bizz.IndexedActiveProjects.Clear();
-                Bizz.IndexedActiveProjects = Bizz.RefreshIndexedActiveProjects();
-                Bizz.IndexedProjects.Clear();
-                Bizz.IndexedProjects = Bizz.RefreshIndexedProjects();
+                Bizz.RefreshList("Projects");
+                Bizz.RefreshIndexedList("IndexedActiveProjects");
+                Bizz.RefreshIndexedList("IndexedProjects");
 
                 //Close right UserControl
                 Bizz.UcRightActive = false;
@@ -83,8 +80,8 @@ namespace JudGui
         private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            Project project = new Project(Bizz.strConnection, Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, ComboBoxBuilder.SelectedIndex, 1, ComboBoxTenderForm.SelectedIndex, ComboBoxEnterpriseForm.SelectedIndex, ComboBoxExecutive.SelectedIndex);
-            bool result = Bizz.PRO.InsertIntoProject(project);
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetEntity("ProjectStatus", "1")), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            bool result = Bizz.CreateInDbReturnBool(project);
 
             if (result)
             {
@@ -100,12 +97,9 @@ namespace JudGui
                 ComboBoxExecutive.SelectedIndex = -1;
 
                 //Update list of projects
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
-                Bizz.IndexedActiveProjects.Clear();
-                Bizz.IndexedActiveProjects = Bizz.RefreshIndexedActiveProjects();
-                Bizz.IndexedProjects.Clear();
-                Bizz.IndexedProjects = Bizz.RefreshIndexedProjects();
+                Bizz.RefreshList("Projects");
+                Bizz.RefreshIndexedList("IndexedActiveProjects");
+                Bizz.RefreshIndexedList("IndexedProjects");
             }
             else
             {

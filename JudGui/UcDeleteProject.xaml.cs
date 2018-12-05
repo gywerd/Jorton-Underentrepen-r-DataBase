@@ -55,7 +55,7 @@ namespace JudGui
                 if (MessageBox.Show("Er du sikker på, at du vil slette projektet? Alle data vil gå tabt!", "Slet Projekt", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     // Code that changes project status
-                    bool result = Bizz.PRO.DeleteFromProject(Bizz.TempProject.Id);
+                    bool result = Bizz.DeleteFromDb("Projects", Bizz.TempProject.Id.ToString());
 
                     if (result)
                     {
@@ -65,15 +65,15 @@ namespace JudGui
                             {
                                 foreach (SubEntrepeneur subEntrepeneur in Bizz.SubEntrepeneurs)
                                 {
-                                    if (subEntrepeneur.EnterpriseList == enterprise.Id)
+                                    if (subEntrepeneur.EnterpriseList.Id == enterprise.Id)
                                     {
-                                        Bizz.CRQ.DeleteFromRequests(subEntrepeneur.Request);
-                                        Bizz.ILT.DeleteFromIttLetters(subEntrepeneur.IttLetter);
-                                        Bizz.OFR.DeleteFromOffers(subEntrepeneur.Offer);
-                                        Bizz.SUB.DeleteFromSubEntrepeneurs(subEntrepeneur.Id);
+                                        Bizz.DeleteFromDb("Requests", subEntrepeneur.Request.Id.ToString());
+                                        Bizz.DeleteFromDb("IttLetters", subEntrepeneur.IttLetter.Id.ToString());
+                                        Bizz.DeleteFromDb("Offers", subEntrepeneur.Offer.Id.ToString());
+                                        Bizz.DeleteFromDb("SubEntrepeneurs", subEntrepeneur.Id.ToString());
                                     }
                                 }
-                                Bizz.ENP.DeleteFromEnterpriseList(enterprise.Id);
+                                Bizz.DeleteFromDb("EnterpriseList", enterprise.Id.ToString());
                             }
                         }
 
@@ -81,10 +81,9 @@ namespace JudGui
                         MessageBox.Show("Projektet blev slettet", "Slet Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         //Update list of projects
-                        Bizz.Projects.Clear();
-                        Bizz.Projects = Bizz.PRO.GetProjects();
-                        ReloadListActiveProjects();
-                        ReloadListIndexableProjects();
+                        Bizz.RefreshList("Projects");
+                        Bizz.RefreshIndexedList("IndexedActiveProjects");
+                        Bizz.RefreshIndexedList("IndexedProjects");
 
                         //Close right UserControl
                         Bizz.UcRightActive = false;
@@ -114,7 +113,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
         }
@@ -128,39 +127,6 @@ namespace JudGui
             foreach (IndexedProject temp in Bizz.IndexedProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
-            }
-        }
-
-        /// <summary>
-        /// Method, that reloads list of active projects
-        /// </summary>
-        private void ReloadListActiveProjects()
-        {
-            Bizz.IndexedActiveProjects.Clear();
-            int i = 0;
-            foreach (Project tempProject in Bizz.Projects)
-            {
-                if (tempProject.Status == 1)
-                {
-                    IndexedProject result = new IndexedProject(Bizz.strConnection, i, tempProject);
-                    Bizz.IndexedActiveProjects.Add(result);
-                    i++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Method, that reloads list of indexable projects
-        /// </summary>
-        private void ReloadListIndexableProjects()
-        {
-            Bizz.IndexedProjects.Clear();
-            int i = 0;
-            foreach (Project temp in Bizz.Projects)
-            {
-                IndexedProject result = new IndexedProject(Bizz.strConnection, i, temp);
-                Bizz.IndexedProjects.Add(result);
-                i++;
             }
         }
 

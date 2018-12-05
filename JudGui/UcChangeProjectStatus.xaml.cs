@@ -52,7 +52,7 @@ namespace JudGui
         private void ButtonExecute_Click(object sender, RoutedEventArgs e)
         {
             // Code that changes project status
-            bool result = Bizz.PRO.UpdateProject(Bizz.TempProject);
+            bool result = Bizz.UpdateInDb(Bizz.TempProject);
 
             if (result)
             {
@@ -60,12 +60,9 @@ namespace JudGui
                 MessageBox.Show("Projekstatus blev ændret", "Ændr Projektstatus", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.Projects.Clear();
-                Bizz.Projects = Bizz.PRO.GetProjects();
-                Bizz.IndexedActiveProjects.Clear();
-                Bizz.IndexedActiveProjects = Bizz.RefreshIndexedActiveProjects();
-                Bizz.IndexedProjects.Clear();
-                Bizz.IndexedProjects = Bizz.RefreshIndexedProjects();
+                Bizz.RefreshList("Projects");
+                Bizz.RefreshIndexedList("IndexedActiveProjects");
+                Bizz.RefreshIndexedList("IndexedProjects");
 
                 //Close right UserControl
                 Bizz.UcRightActive = false;
@@ -88,16 +85,16 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(Bizz.strConnection, temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                 }
             }
-            ComboBoxProjectStatus.SelectedIndex = Bizz.TempProject.Status;
+            ComboBoxProjectStatus.SelectedIndex = Bizz.TempProject.Status.Id;
             TextBoxCaseName.Content = Bizz.TempProject.Name;
         }
 
         private void ComboBoxProjectStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempProject.Status = ComboBoxProjectStatus.SelectedIndex;
+            Bizz.TempProject.Status = new ProjectStatus((ProjectStatus)ComboBoxProjectStatus.SelectedItem);
         }
 
         #endregion
@@ -130,9 +127,9 @@ namespace JudGui
             int i = 0;
             foreach (Project tempProject in Bizz.Projects)
             {
-                if (tempProject.Status == 1)
+                if (tempProject.Status.Id == 1)
                 {
-                    IndexedProject result = new IndexedProject(Bizz.strConnection, i, tempProject);
+                    IndexedProject result = new IndexedProject(i, tempProject);
                     Bizz.IndexedActiveProjects.Add(result);
                     i++;
                 }
@@ -148,7 +145,7 @@ namespace JudGui
             int i = 0;
             foreach (Project temp in Bizz.Projects)
             {
-                IndexedProject result = new IndexedProject(Bizz.strConnection, i, temp);
+                IndexedProject result = new IndexedProject(i, temp);
                 Bizz.IndexedProjects.Add(result);
                 i++;
             }

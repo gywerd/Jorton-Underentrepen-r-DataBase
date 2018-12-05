@@ -55,7 +55,7 @@ namespace JudGui
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.CheckCredentials(Bizz, UserName, MenuItemChangePassWord, MenuItemLogOut, TextBoxInitials.Text, TextBoxPassword.Password))
+            if (CBZ.CheckCredentials(UserName, MenuItemChangePassWord, MenuItemLogOut, TextBoxInitials.Text, TextBoxPassword.Password))
             {
                 TabOffer.IsEnabled = true;
                 TabAdministration.IsEnabled = true;

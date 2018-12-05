@@ -23,9 +23,10 @@ namespace JudGui
     public partial class UcIttLettersChooseReceivers : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ = new Bizz();
         public bool result;
         public UserControl UcRight;
+        public static string macAddress;
 
         public IttLetterShipping Shipping = new IttLetterShipping();
         public List<Contact> ProjectContacts = new List<Contact>();
@@ -36,10 +37,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcIttLettersChooseReceivers(Bizz bizz, UserControl ucRight)
+        public UcIttLettersChooseReceivers(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
+            macAddress = GetMacAddress();
             this.UcRight = ucRight;
             GenerateComboBoxCaseIdItems();
         }
@@ -76,8 +78,8 @@ namespace JudGui
                 ComboBoxCaseId.SelectedIndex = -1;
 
                 //Update lists and fields
-                Bizz.RefreshList("IttLetterReceivers");
-                Bizz.RefreshList("IttLetterShippingList");
+                CBZ.RefreshList("IttLetterReceivers");
+                CBZ.RefreshList("IttLetterShippingList");
                 Shipping = new IttLetterShipping();
             }
             else
@@ -102,7 +104,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
         }
@@ -115,15 +117,15 @@ namespace JudGui
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
             if (selectedIndex >= 0)
             {
-                foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+                foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                        CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
                         break;
                     }
                 }
-                TextBoxName.Text = Bizz.TempProject.Name;
+                TextBoxName.Text = CBZ.TempProject.Name;
                 GetProjectSubEntrepeneurs();
                 GetIndexableLegalEntities();
                 ListBoxLegalEntities.ItemsSource = "";
@@ -150,18 +152,18 @@ namespace JudGui
                     {
                         if (temp.Index == selectedIndex)
                         {
-                            Bizz.TempLegalEntity = temp;
-                            Bizz.TempSubEntrepeneur = GetSubEntrepeneur(Bizz.TempLegalEntity.Id);
-                            if (!Bizz.TempSubEntrepeneur.Active)
+                            CBZ.TempLegalEntity = temp;
+                            CBZ.TempSubEntrepeneur = GetSubEntrepeneur(CBZ.TempLegalEntity.Id);
+                            if (!CBZ.TempSubEntrepeneur.Active)
                             {
-                                Bizz.TempSubEntrepeneur.ToggleActive();
+                                CBZ.TempSubEntrepeneur.ToggleActive();
                             }
                         }
                     }
                     break;
                 default:
-                    Bizz.TempLegalEntity = null;
-                    Bizz.TempSubEntrepeneur = null;
+                    CBZ.TempLegalEntity = null;
+                    CBZ.TempSubEntrepeneur = null;
                     break;
             }
         }
@@ -180,7 +182,7 @@ namespace JudGui
             {
                 tempReceiver = FillIttLetterReceiver(entity);
                 //Code that ads a enterprise to Enterprise List
-                int tempResult = Bizz.CreateInDbReturnInt(tempReceiver);
+                int tempResult = CBZ.CreateInDbReturnInt(tempReceiver);
 
                 //Code, that checks result
                 if (!result)
@@ -201,7 +203,7 @@ namespace JudGui
         private bool CheckEntityIttLetterReceivers(LegalEntity entity)
         {
             bool result = false;
-            foreach (IttLetterReceiver receiver in Bizz.IttLetterReceivers)
+            foreach (IttLetterReceiver receiver in CBZ.IttLetterReceivers)
             {
                 if (receiver.CompanyId == entity.Id)
                 {
@@ -266,7 +268,7 @@ namespace JudGui
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }
@@ -280,7 +282,7 @@ namespace JudGui
         private Address GetAddress(int id)
         {
             Address result = new Address();
-            foreach (Address temp in Bizz.Addresses)
+            foreach (Address temp in CBZ.Addresses)
             {
                 if (temp.Id == id)
                 {
@@ -311,7 +313,7 @@ namespace JudGui
         private Contact GetContactFromList(int id)
         {
             Contact result = new Contact();
-            foreach (Contact contact in Bizz.Contacts)
+            foreach (Contact contact in CBZ.Contacts)
             {
                 if (contact.Id == id)
                 {
@@ -349,8 +351,8 @@ namespace JudGui
             List<LegalEntity> tempResult = new List<LegalEntity>();
             foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)
             {
-                Bizz.RefreshList("IttLetterReceivers");
-                foreach (LegalEntity tempEntity in Bizz.LegalEntities)
+                CBZ.RefreshList("IttLetterReceivers");
+                foreach (LegalEntity tempEntity in CBZ.LegalEntities)
                 {
                     if (tempEntity.Id == sub.Entrepeneur.Id)
                     {
@@ -386,18 +388,23 @@ namespace JudGui
         /// <returns></returns>
         private void GetIttLetterShipping()
         {
-            Shipping = new IttLetterShipping(Bizz.TempProject, @"PDF_Documents\", Bizz.MacAdresss);
+            Shipping = new IttLetterShipping(CBZ.TempProject, @"PDF_Documents\", macAddress);
             try
             {
-                int id = Bizz.CreateInDbReturnInt(Shipping);
+                int id = CBZ.CreateInDbReturnInt(Shipping);
                 Shipping.SetId(id);
                 Shipping.PdfPath = "";
-                Bizz.UpdateInDb(Shipping);
+                CBZ.UpdateInDb(Shipping);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Opdater forsendelse", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private string GetMacAddress()
+        {
+            return CBZ.GetMacAddress();
         }
 
         /// <summary>
@@ -408,12 +415,12 @@ namespace JudGui
         {
             ProjectEnterpriseList.Clear();
             ProjectSubEntrepeneurs.Clear();
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.EnterpriseList)
             {
-                if (enterprise.Project.Id == Bizz.TempProject.Id)
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
                     ProjectEnterpriseList.Add(enterprise);
-                    foreach (SubEntrepeneur sub in Bizz.SubEntrepeneurs)
+                    foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
                     {
                         if (sub.EnterpriseList.Id == enterprise.Id)
                         {

@@ -16,9 +16,9 @@ namespace JudBizz
     {
         #region Fields
 
-            #region Fields
+            #region Ordinary Fields
             public static MyEntityFrameWork MEFW = new MyEntityFrameWork();
-            private static string macAddress = MEFW.ObtainMacAddress();
+            public static string macAddress;
 
 
             public User CurrentUser = new User();
@@ -75,10 +75,10 @@ namespace JudBizz
             public List<User> Users = MEFW.Users;
             public List<ZipTown> ZipTownList = MEFW.ZipTownList;
 
-        #endregion
+            #endregion
 
-        #region Indexable Lists
-        public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
+            #region Indexable Lists
+            public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
             public List<IndexedEnterpriseForm> IndexedEnterpriseForms = new List<IndexedEnterpriseForm>();
             public List<IndexedProject> IndexedProjects = new List<IndexedProject>();
             public List<IndexedProjectStatus> IndexedProjectStatusList = new List<IndexedProjectStatus>();
@@ -96,6 +96,7 @@ namespace JudBizz
         public Bizz()
         {
             RefreshAllIndexedLists();
+            macAddress = GetMacAddress();
         }
 
         #endregion
@@ -105,20 +106,19 @@ namespace JudBizz
         /// <summary>
         /// Method, that checks credentials
         /// </summary>
-        /// <param name="bizz">Bizz</param>
         /// <param name="userName">TextBlock</param>
         /// <param name="menuItemChangePassWord">RibbonApplicationMenuItem</param>
         /// <param name="menuItemLogOut">RibbonApplicationMenuItem</param>
         /// <param name="initials">string</param>
         /// <param name="passWord">string</param>
         /// <returns>bool</returns>
-        public bool CheckCredentials(Bizz bizz, TextBlock userName, RibbonApplicationMenuItem menuItemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, string initials, string passWord)
+        public bool CheckCredentials(TextBlock userName, RibbonApplicationMenuItem menuItemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, string initials, string passWord)
         {
             foreach (User user in Users)
             {
                 if (user.Initials == initials && user.PassWord == passWord)
                 {
-                    bizz.CurrentUser = user;
+                    CurrentUser = user;
                     userName.Text = user.Name;
                     menuItemChangePassWord.IsEnabled = true;
                     menuItemLogOut.IsEnabled = true;
@@ -131,35 +131,45 @@ namespace JudBizz
 
         #region Database
 
-            #region Create
+        #region Create
 
-            public bool CreateInDbReturnBool(object entity)
-            {
-                return MEFW.CreateInDbReturnBool(entity);
-            }
+        public bool CreateInDbReturnBool(object entity)
+        {
+            return MEFW.CreateInDbReturnBool(entity);
+        }
 
-            public int CreateInDbReturnInt(object entity)
-            {
-                return MEFW.CreateInDbReturnInt(entity);
-            }
+        public int CreateInDbReturnInt(object entity)
+        {
+            return MEFW.CreateInDbReturnInt(entity);
+        }
 
-            #endregion
+        #endregion
 
-            #region Read
+        #region Read
 
-            #endregion
+        #endregion
 
-            #region Update In Database
-            public bool UpdateInDb(object entity)
-            {
-                return MEFW.UpdateInDb(entity);
-            }
+        #region Update In Database
+        public bool UpdateInDb(object entity)
+        {
+            return MEFW.UpdateInDb(entity);
+        }
 
-            #endregion
+        #endregion
 
-            #region Delete
+        #region Delete
+        /// <summary>
+        /// Method, that Deletes an entity from Db
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool DeleteFromDb(string list, string id)
+        {
+            return MEFW.DeleteFromDb(list, id);
+        }
+        #endregion
 
-            #endregion
 
         #endregion
 
@@ -171,6 +181,24 @@ namespace JudBizz
         public object GetEntity(string entity, string id)
         {
             return MEFW.GetEntity(entity, id);
+        }
+
+        /// <summary>
+        /// Method, that retrieves the MacAddress
+        /// </summary>
+        /// <returns></returns>
+        public string GetMacAddress()
+        {
+            return MEFW.ObtainMacAddress();
+        }
+
+        /// <summary>
+        /// Method, that retrieves the MacAddress
+        /// </summary>
+        /// <returns></returns>
+        public string GetStrConnection()
+        {
+            return MEFW.ObtainStrConnection();
         }
 
         #region Refresh Indexed Lists
@@ -294,7 +322,7 @@ namespace JudBizz
         {
             MEFW.RefreshAllLists();
         }
-            
+
         /// <summary>
         /// Method, that refreshes IttLetters ist
         /// </summary>
