@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace JudGui
 
         public IttLetterShipping Shipping = new IttLetterShipping();
         public List<Contact> ProjectContacts = new List<Contact>();
-        public List<Enterprise> ProjectEnterpriseList = new List<Enterprise>();
+        public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
         public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
@@ -121,7 +121,7 @@ namespace JudGui
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                        CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                         break;
                     }
                 }
@@ -135,7 +135,7 @@ namespace JudGui
             {
                 TextBoxName.Text = "";
                 ProjectSubEntrepeneurs.Clear();
-                ProjectEnterpriseList.Clear();
+                ProjectEnterprises.Clear();
                 IndexableLegalEntities.Clear();
                 ListBoxLegalEntities.ItemsSource = "";
             }
@@ -326,14 +326,14 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates an indexable EnterpriseList
+        /// Method, that creates an indexable Enterprises
         /// </summary>
         /// <returns>List<IndexableEnterprise></returns>
-        private List<Enterprise> GetIndexableEnterpriseList()
+        private List<Enterprise> GetIndexableEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             int i = 0;
-            foreach (Enterprise enterprise in ProjectEnterpriseList)
+            foreach (Enterprise enterprise in ProjectEnterprises)
             {
                 IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
                 result.Add(temp);
@@ -413,16 +413,16 @@ namespace JudGui
         /// <returns></returns>
         private void GetProjectSubEntrepeneurs()
         {
-            ProjectEnterpriseList.Clear();
+            ProjectEnterprises.Clear();
             ProjectSubEntrepeneurs.Clear();
-            foreach (Enterprise enterprise in CBZ.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
-                    ProjectEnterpriseList.Add(enterprise);
+                    ProjectEnterprises.Add(enterprise);
                     foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
                     {
-                        if (sub.EnterpriseList.Id == enterprise.Id)
+                        if (sub.Enterprise.Id == enterprise.Id)
                         {
                             ProjectSubEntrepeneurs.Add(sub);
                         }

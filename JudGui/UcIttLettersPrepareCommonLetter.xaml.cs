@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace JudGui
         public UserControl UcRight;
         public List<IttLetterShipping> ShippingList = new List<IttLetterShipping>();
         public List<Contact> ProjectContacts = new List<Contact>();
-        public List<Enterprise> ProjectEnterpriseList = new List<Enterprise>();
+        public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
         public List<IndexedEnterprise> IndexableEnterprises = new List<IndexedEnterprise>();
         public List<IndexedIttLetterBullet> IndexableIttLetterBulletList = new List<IndexedIttLetterBullet>();
         public List<IndexedIttLetterParagraph> IndexableIttLetterParagraphList = new List<IndexedIttLetterParagraph>();
@@ -121,7 +121,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxName.Text = Bizz.TempProject.Name;
@@ -280,7 +280,7 @@ namespace JudGui
             IndexedLegalEntity temp = new IndexedLegalEntity(0, Bizz.LegalEntities[0]);
             IndexableLegalEntities.Clear();
             IndexableLegalEntities.Add(temp);
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in Bizz.Enterprises)
             {
                 foreach (LegalEntity entity in Bizz.LegalEntities)
                 {
@@ -307,17 +307,17 @@ namespace JudGui
         private void GetProjectDetails()
         {
             ProjectSubEntrepeneurs.Clear();
-            ProjectEnterpriseList.Clear();
+            ProjectEnterprises.Clear();
             IndexableEnterprises.Clear();
             IttLetterReceivers.Clear();
             ShippingList.Clear();
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in Bizz.Enterprises)
             {
                 if (enterprise.Project.Id == Bizz.TempProject.Id)
                 {
                     foreach (SubEntrepeneur sub in Bizz.SubEntrepeneurs)
                     {
-                        if (sub.EnterpriseList.Id == enterprise.Id)
+                        if (sub.Enterprise.Id == enterprise.Id)
                         {
                             ProjectSubEntrepeneurs.Add(sub);
                         }
@@ -336,7 +336,7 @@ namespace JudGui
                             }
                         }
                     }
-                    ProjectEnterpriseList.Add(enterprise);
+                    ProjectEnterprises.Add(enterprise);
                 }
             }
             GetIndexableIttLetterParagraphList();

@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -18,18 +18,18 @@ using System.Windows.Shapes;
 namespace JudGui
 {
     /// <summary>
-    /// Interaction logic for UcViewEnterpriseList.xaml
+    /// Interaction logic for UcViewEnterprises.xaml
     /// </summary>
-    public partial class UcViewEnterpriseList : UserControl
+    public partial class UcViewEnterprises : UserControl
     {
         #region Fields
         public Bizz CBZ;
         public UserControl UcRight;
-        public List<Enterprise> IndexableEnterpriseList = new List<Enterprise>();
+        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
 
         #endregion
 
-        public UcViewEnterpriseList(Bizz cbz, UserControl ucRight)
+        public UcViewEnterprises(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
             this.CBZ = cbz;
@@ -49,7 +49,7 @@ namespace JudGui
         private void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
         {
             PdfCreator pdfCreator = new PdfCreator(GetStrConnection());
-            string path = pdfCreator.GenerateEnterpriseListPdf(CBZ, IndexableEnterpriseList, CBZ.Users);
+            string path = pdfCreator.GenerateEnterprisesPdf(CBZ, IndexableEnterprises, CBZ.Users);
             System.Diagnostics.Process.Start(path);
         }
 
@@ -63,11 +63,11 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
-            IndexableEnterpriseList = GetIndexableEnterpriseList();
+            IndexableEnterprises = GetIndexableEnterprises();
         }
 
         #endregion
@@ -82,11 +82,11 @@ namespace JudGui
         //    }
         //}
 
-        private List<Enterprise> GetIndexableEnterpriseList()
+        private List<Enterprise> GetIndexableEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             int i = 0;
-            foreach (Enterprise enterprise in CBZ.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {

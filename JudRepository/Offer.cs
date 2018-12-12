@@ -57,7 +57,7 @@ namespace JudRepository
         /// <param name="receivedDate">DateTime?</param>
         /// <param name="price">double</param>
         /// <param name="chosen">bool</param>
-        public Offer(int id, bool received, double price, bool chosen, DateTime receivedDate)
+        public Offer(int id, bool received, DateTime receivedDate, double price, bool chosen)
         {
             this.id = id;
             this.received = received;

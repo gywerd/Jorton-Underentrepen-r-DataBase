@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -59,13 +59,13 @@ namespace JudGui
 
                     if (result)
                     {
-                        foreach (Enterprise enterprise in Bizz.EnterpriseList)
+                        foreach (Enterprise enterprise in Bizz.Enterprises)
                         {
                             if (enterprise.Project.Id == Bizz.TempProject.CaseId)
                             {
                                 foreach (SubEntrepeneur subEntrepeneur in Bizz.SubEntrepeneurs)
                                 {
-                                    if (subEntrepeneur.EnterpriseList.Id == enterprise.Id)
+                                    if (subEntrepeneur.Enterprise.Id == enterprise.Id)
                                     {
                                         Bizz.DeleteFromDb("Requests", subEntrepeneur.Request.Id.ToString());
                                         Bizz.DeleteFromDb("IttLetters", subEntrepeneur.IttLetter.Id.ToString());
@@ -73,7 +73,7 @@ namespace JudGui
                                         Bizz.DeleteFromDb("SubEntrepeneurs", subEntrepeneur.Id.ToString());
                                     }
                                 }
-                                Bizz.DeleteFromDb("EnterpriseList", enterprise.Id.ToString());
+                                Bizz.DeleteFromDb("Enterprises", enterprise.Id.ToString());
                             }
                         }
 
@@ -113,7 +113,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
         }

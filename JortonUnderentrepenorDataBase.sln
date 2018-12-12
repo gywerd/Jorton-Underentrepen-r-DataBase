@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudDataAccess", "JudDataAccess\JudDataAccess.csproj", "{AA780E01-092B-442C-A9B7-82A3593BBF76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudBizz", "JudBizz\JudBizz.csproj", "{75556EBA-EC71-44B9-A6AD-3367DFD06C90}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudGui", "JudGui\JudGui.csproj", "{AEC956EC-C29F-424D-87A3-13FA3FE947A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudRepository", "JudRepository\JudRepository.csproj", "{E1D9B59F-506B-428E-9A6C-52BE7691DF15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassBizz", "ClassBizz\ClassBizz.csproj", "{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{AA780E01-092B-442C-A9B7-82A3593BBF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA780E01-092B-442C-A9B7-82A3593BBF76}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{AA780E01-092B-442C-A9B7-82A3593BBF76}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{75556EBA-EC71-44B9-A6AD-3367DFD06C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75556EBA-EC71-44B9-A6AD-3367DFD06C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75556EBA-EC71-44B9-A6AD-3367DFD06C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75556EBA-EC71-44B9-A6AD-3367DFD06C90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEC956EC-C29F-424D-87A3-13FA3FE947A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEC956EC-C29F-424D-87A3-13FA3FE947A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC956EC-C29F-424D-87A3-13FA3FE947A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{E1D9B59F-506B-428E-9A6C-52BE7691DF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1D9B59F-506B-428E-9A6C-52BE7691DF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1D9B59F-506B-428E-9A6C-52BE7691DF15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

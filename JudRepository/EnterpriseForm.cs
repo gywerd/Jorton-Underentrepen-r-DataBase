@@ -10,7 +10,7 @@ namespace JudRepository
     public class EnterpriseForm
     {
         #region Fields
-        private string abbreviation;
+        private int id;
         private string name;
 
         #endregion
@@ -21,18 +21,18 @@ namespace JudRepository
         /// </summary>
         public EnterpriseForm()
         {
-            this.abbreviation = "";
+            this.id = 0;
             this.name = "";
         }
 
         /// <summary>
         /// Constructor to add EnterpriseForm
         /// </summary>
-        /// <param name="abbreviation">string</param>
+        /// <param name="id">string</param>
         /// <param name="name">string</param>
-        public EnterpriseForm(string abbreviation, string name)
+        public EnterpriseForm(int id, string name)
         {
-            this.abbreviation = abbreviation;
+            this.id = id;
             this.name = name;
         }
 
@@ -43,16 +43,8 @@ namespace JudRepository
         /// <param name="form">string</param>
         public EnterpriseForm(EnterpriseForm form)
         {
-            if (form != null)
-            {
-                this.abbreviation = form.Abbreviation;
-                this.name = form.Name;
-            }
-            else
-            {
-                this.abbreviation = "";
-                this.name = "";
-            }
+            this.id = form.Id;
+            this.name = form.Name;
         }
 
         #endregion
@@ -70,25 +62,7 @@ namespace JudRepository
         #endregion
 
         #region Properties
-        public string Abbreviation
-        {
-            get => abbreviation;
-            set
-            {
-                try
-                {
-                    if (value != null)
-                    {
-                        abbreviation = value;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                    throw ex;
-                }
-            }
-        }
+        public int Id { get => id; }
 
         public string Name
         {

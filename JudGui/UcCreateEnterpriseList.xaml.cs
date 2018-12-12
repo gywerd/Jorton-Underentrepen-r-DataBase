@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -18,9 +18,9 @@ using System.Windows.Shapes;
 namespace JudGui
 {
     /// <summary>
-    /// Interaction logic for UcCreateEnterpriseList.xaml
+    /// Interaction logic for UcCreateEnterprises.xaml
     /// </summary>
-    public partial class UcCreateEnterpriseList : UserControl
+    public partial class UcCreateEnterprises : UserControl
     {
         #region Fields
         public Bizz Bizz;
@@ -32,7 +32,7 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcCreateEnterpriseList(Bizz bizz, UserControl ucRight)
+        public UcCreateEnterprises(Bizz bizz, UserControl ucRight)
         {
             InitializeComponent();
             this.Bizz = bizz;
@@ -58,9 +58,9 @@ namespace JudGui
         private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            if (Bizz.TempProject.EnterpriseList == false)
+            if (Bizz.TempProject.EnterprisesList == false)
             {
-                Bizz.TempProject.ToggleEnterpriseList();
+                Bizz.TempProject.ToggleEnterprises();
                 Bizz.UpdateInDb(Bizz.TempProject);
                 Bizz.RefreshList("Projects");
                 Bizz.RefreshIndexedList("IndexedActiveProjects");
@@ -73,8 +73,8 @@ namespace JudGui
                 //Show Confirmation
                 MessageBox.Show("Entrepriselisten blev oprettet", "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                //Update EnterpriseList
-                Bizz.RefreshList("EnterpriseList");
+                //Update Enterprises
+                Bizz.RefreshList("Enterprises");
                 Bizz.TempEnterprise = new Enterprise();
 
                 //Close right UserControl
@@ -91,9 +91,9 @@ namespace JudGui
         private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            if (Bizz.TempProject.EnterpriseList == false)
+            if (Bizz.TempProject.EnterprisesList == false)
             {
-                Bizz.TempProject.ToggleEnterpriseList();
+                Bizz.TempProject.ToggleEnterprises();
                 Bizz.UpdateInDb(Bizz.TempProject);
                 Bizz.RefreshList("Projects");
                 Bizz.RefreshIndexedList("IndexedActiveProjects");
@@ -117,7 +117,7 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = 0;
 
                 //Update Enterprise list
-                Bizz.RefreshList("EnterpriseList");
+                Bizz.RefreshList("Enterprises");
                 Bizz.TempEnterprise.Name = "";
                 Bizz.TempEnterprise.Elaboration = "";
                 Bizz.TempEnterprise.OfferList = "";
@@ -144,7 +144,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxCaseName.Content = Bizz.TempProject.Name;

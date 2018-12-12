@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,25 +37,25 @@ namespace JudGui
         }
 
         #region Buttons
-        private void ButtonCreateEnterpriseListe_Click(object sender, RoutedEventArgs e)
+        private void ButtonCreateEnterprisese_Click(object sender, RoutedEventArgs e)
         {
             Bizz.UcRightActive = true;
-            UcCreateEnterpriseList ucCreateEnterpriseList = new UcCreateEnterpriseList(Bizz, UcRight);
-            UcRight.Content = ucCreateEnterpriseList;
+            UcCreateEnterprises ucCreateEnterprises = new UcCreateEnterprises(Bizz, UcRight);
+            UcRight.Content = ucCreateEnterprises;
         }
 
-        private void ButtonEditEnterpriseList_Click(object sender, RoutedEventArgs e)
+        private void ButtonEditEnterprises_Click(object sender, RoutedEventArgs e)
         {
             Bizz.UcRightActive = true;
-            UcEditEnterpriseList ucEditEnterpriseList = new UcEditEnterpriseList(Bizz, UcRight);
-            UcRight.Content = ucEditEnterpriseList;
+            UcEditEnterprises ucEditEnterprises = new UcEditEnterprises(Bizz, UcRight);
+            UcRight.Content = ucEditEnterprises;
         }
 
-        private void ButtonViewEnterpriseList_Click(object sender, RoutedEventArgs e)
+        private void ButtonViewEnterprises_Click(object sender, RoutedEventArgs e)
         {
             Bizz.UcRightActive = true;
-            UcViewEnterpriseList ucViewEnterpriseList = new UcViewEnterpriseList(Bizz, UcRight);
-            UcRight.Content = ucViewEnterpriseList;
+            UcViewEnterprises ucViewEnterprises = new UcViewEnterprises(Bizz, UcRight);
+            UcRight.Content = ucViewEnterprises;
         }
 
         #endregion

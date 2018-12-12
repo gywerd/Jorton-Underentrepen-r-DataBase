@@ -10,6 +10,7 @@ namespace JudRepository
     public class ZipTown
     {
         #region Fields
+        private int id;
         private string zip;
         private string town;
 
@@ -21,17 +22,31 @@ namespace JudRepository
         /// </summary>
         public ZipTown()
         {
+            this.id = 1000;
             this.zip = "";
             this.town = "";
         }
 
         /// <summary>
-        /// Constructor for adding ZipTown
+        /// Constructor for adding new ZipTown
         /// </summary>
         /// <param name="zip">string</param>
         /// <param name="town">string</param>
         public ZipTown(string zip, string town)
         {
+            this.id = 1000;
+            this.zip = zip;
+            this.town = town;
+        }
+
+        /// <summary>
+        /// Constructor for adding new ZipTown
+        /// </summary>
+        /// <param name="zip">string</param>
+        /// <param name="town">string</param>
+        public ZipTown(int id, string zip, string town)
+        {
+            this.id = id;
             this.zip = zip;
             this.town = town;
         }
@@ -42,16 +57,9 @@ namespace JudRepository
         /// <param name="zipTown">ZipTown</param>
         public ZipTown(ZipTown zipTown)
         {
-            if (zipTown != null)
-            {
-                this.zip = zipTown.zip;
-                this.town = zipTown.town;
-            }
-            else
-            {
-                this.zip = "";
-                this.town = "";
-            }
+            this.id = zipTown.Id;
+            this.zip = zipTown.zip;
+            this.town = zipTown.town;
         }
 
         #endregion
@@ -69,6 +77,7 @@ namespace JudRepository
         #endregion
 
         #region Properties
+        public int Id { get => id; }
         public string Zip
         {
             get => zip;

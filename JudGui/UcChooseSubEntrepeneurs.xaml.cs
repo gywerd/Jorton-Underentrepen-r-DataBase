@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace JudGui
         public Bizz Bizz;
         public UserControl UcRight;
         public List<IndexedContact> IndexableContacts = new List<IndexedContact>();
-        public List<Enterprise> IndexableEnterpriseList = new List<Enterprise>();
+        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
         public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
 
         #endregion
@@ -110,12 +110,12 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxName.Text = Bizz.TempProject.Name;
-            IndexableEnterpriseList = GetIndexableEnterpriseList();
-            ComboBoxEnterprise.ItemsSource = IndexableEnterpriseList;
+            IndexableEnterprises = GetIndexableEnterprises();
+            ComboBoxEnterprise.ItemsSource = IndexableEnterprises;
         }
 
         private void ComboBoxContact_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -126,11 +126,11 @@ namespace JudGui
         private void ComboBoxEnterprise_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxEnterprise.SelectedIndex;
-            if (IndexableEnterpriseList.Count == 0)
+            if (IndexableEnterprises.Count == 0)
             {
-                IndexableEnterpriseList = GetIndexableEnterpriseList();
+                IndexableEnterprises = GetIndexableEnterprises();
             }
-            foreach (IndexedEnterprise temp in IndexableEnterpriseList)
+            foreach (IndexedEnterprise temp in IndexableEnterprises)
             {
                 if (temp.Index == selectedIndex)
                 {
@@ -155,7 +155,7 @@ namespace JudGui
                     {
                         Bizz.TempLegalEntity = temp;
                         Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-                        Bizz.TempSubEntrepeneur.EnterpriseList = Bizz.TempEnterprise;
+                        Bizz.TempSubEntrepeneur.Enterprise = Bizz.TempEnterprise;
                         Bizz.TempSubEntrepeneur.Entrepeneur = new LegalEntity(temp);
                         if (!Bizz.TempSubEntrepeneur.Active)
                         {
@@ -187,7 +187,7 @@ namespace JudGui
             {
                 Bizz.TempLegalEntity = entity;
                 Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-                Bizz.TempSubEntrepeneur.EnterpriseList = Bizz.TempEnterprise;
+                Bizz.TempSubEntrepeneur.Enterprise = Bizz.TempEnterprise;
                 Bizz.TempSubEntrepeneur.Entrepeneur = entity;
                 if (!Bizz.TempSubEntrepeneur.Active)
                 {
@@ -212,7 +212,7 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method that compares CraftGroups in LegalEntities and EnterpriseList
+        /// Method that compares CraftGroups in LegalEntities and Enterprises
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -350,8 +350,8 @@ namespace JudGui
         private void GenerateEnterpriseItems()
         {
             ComboBoxEnterprise.Items.Clear();
-            IndexableEnterpriseList = GetIndexableEnterpriseList();
-            foreach (Enterprise temp in IndexableEnterpriseList)
+            IndexableEnterprises = GetIndexableEnterprises();
+            foreach (Enterprise temp in IndexableEnterprises)
             {
                     ComboBoxEnterprise.Items.Add(temp);
             }
@@ -403,14 +403,14 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates an indexable EnterpriseList
+        /// Method, that creates an indexable Enterprises
         /// </summary>
         /// <returns>List<IndexableEnterprise></returns>
-        private List<Enterprise> GetIndexableEnterpriseList()
+        private List<Enterprise> GetIndexableEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             int i = 0;
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in Bizz.Enterprises)
             {
                 if (enterprise.Project.Id == Bizz.TempProject.Id)
                 {
@@ -457,7 +457,7 @@ namespace JudGui
 
             foreach (SubEntrepeneur temp in Bizz.SubEntrepeneurs)
             {
-                if (temp.Entrepeneur.Id == entrepeneurId && temp.EnterpriseList.Id == enterpriseId)
+                if (temp.Entrepeneur.Id == entrepeneurId && temp.Enterprise.Id == enterpriseId)
                 {
                     return true;
                 }

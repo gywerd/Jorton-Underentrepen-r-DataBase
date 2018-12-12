@@ -14,7 +14,7 @@ namespace JudRepository
         int id;
         Project project;
         string name;
-        string description;
+        Description description;
         string url;
 
         #endregion
@@ -25,11 +25,11 @@ namespace JudRepository
             this.id = 0;
             this.project = new Project();
             this.name = "";
-            this.description = "";
+            this.description = new Description();
             this.url = "";
         }
 
-        public BluePrint(Project project, string name, string description, string url)
+        public BluePrint(Project project, string name, Description description, string url)
         {
             this.id = 0;
             this.project = project;
@@ -38,7 +38,7 @@ namespace JudRepository
             this.url = url;
         }
 
-        public BluePrint(int id, Project project, string name, string description, string url)
+        public BluePrint(int id, Project project, string name, Description description, string url)
         {
             this.id = id;
             this.project = project;
@@ -107,7 +107,7 @@ namespace JudRepository
             }
         }
 
-        public string Description
+        public Description Description
         {
             get { return description; }
             set
@@ -118,7 +118,7 @@ namespace JudRepository
                 }
                 catch (Exception)
                 {
-                    description = "";
+                    description = new Description();
                 }
             }
         }

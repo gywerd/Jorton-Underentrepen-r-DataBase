@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private Enterprise enterpriseList;
+        private Enterprise enterprise;
         private LegalEntity entrepeneur;
         private Contact contact;
         private Request request;
@@ -32,7 +32,7 @@ namespace JudRepository
         public SubEntrepeneur()
         {
             this.id = 0;
-            this.enterpriseList = new Enterprise();
+            this.enterprise = new Enterprise();
             this.entrepeneur = new LegalEntity();
             this.contact = new Contact();
             this.request = new Request();
@@ -48,7 +48,7 @@ namespace JudRepository
         /// Constructor to add new subentrepeneur
         /// </summary>
         /// <param name="entrepeneurs">List<LegalEntity></param>
-        /// <param name="enterpriseList">int?</param>
+        /// <param name="enterprise">int?</param>
         /// <param name="entrepeneur">string</param>
         /// <param name="contact">int?</param>
         /// <param name="request">int?</param>
@@ -58,10 +58,10 @@ namespace JudRepository
         /// <param name="uphold">bool</param>
         /// <param name="agreementConcluded">bool</param>
         /// <param name="active">bool</param>
-        public SubEntrepeneur(Enterprise enterpriseList, LegalEntity entrepeneur, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
+        public SubEntrepeneur(Enterprise enterprise, LegalEntity entrepeneur, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
         {
             this.id = 0;
-            this.enterpriseList = enterpriseList;
+            this.enterprise = enterprise;
             this.entrepeneur = entrepeneur;
             this.contact = contact;
             this.request = request;
@@ -78,7 +78,7 @@ namespace JudRepository
         /// </summary>
         /// <param name="entrepeneurs">List<LegalEntity></param>
         /// <param name="id">int</param>
-        /// <param name="enterpriseList">int?</param>
+        /// <param name="enterprise">int?</param>
         /// <param name="entrepeneur">string</param>
         /// <param name="contact">int?</param>
         /// <param name="request">int?</param>
@@ -88,10 +88,10 @@ namespace JudRepository
         /// <param name="uphold">bool</param>
         /// <param name="agreementConcluded">bool</param>
         /// <param name="active">bool</param>
-        public SubEntrepeneur(int id, Enterprise enterpriseList, LegalEntity entrepeneur, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
+        public SubEntrepeneur(int id, Enterprise enterprise, LegalEntity entrepeneur, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
         {
             this.id = id;
-            this.enterpriseList = enterpriseList;
+            this.enterprise = enterprise;
             this.entrepeneur = entrepeneur;
             this.contact = contact;
             this.request = request;
@@ -112,7 +112,7 @@ namespace JudRepository
         {
             this.id = subEntrepeneur.Id;
             this.contact = subEntrepeneur.Contact;
-            this.enterpriseList = subEntrepeneur.EnterpriseList;
+            this.enterprise = subEntrepeneur.Enterprise;
             this.entrepeneur = subEntrepeneur.Entrepeneur;
             this.request = subEntrepeneur.Request;
             this.ittLetter = subEntrepeneur.IttLetter;
@@ -202,7 +202,7 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public Enterprise EnterpriseList { get; set; }
+        public Enterprise Enterprise { get; set; }
 
         public LegalEntity Entrepeneur { get; set; }
 

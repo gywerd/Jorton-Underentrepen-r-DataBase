@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections;
@@ -34,7 +34,7 @@ namespace JudGui
         public Bizz Bizz;
         public UserControl UcRight;
         public List<IndexedContact> IndexableContacts = new List<IndexedContact>();
-        public List<Enterprise> IndexableEnterpriseList = new List<Enterprise>();
+        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
         public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
         public List<IndexedSubEntrepeneur> IndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
 
@@ -74,14 +74,14 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                     break;
                 }
             }
             OverrideControl = true;
             TextBoxName.Text = Bizz.TempProject.Name;
-            IndexableEnterpriseList = GetIndexableEnterpriseList();
-            ComboBoxEnterprise.ItemsSource = IndexableEnterpriseList;
+            IndexableEnterprises = GetIndexableEnterprises();
+            ComboBoxEnterprise.ItemsSource = IndexableEnterprises;
             ComboBoxEnterprise.SelectedIndex = 0;
             ListBoxSubEntrepeneurs.ItemsSource = "";
             ListBoxSubEntrepeneurs.SelectedIndex = -1;
@@ -141,7 +141,7 @@ namespace JudGui
                 ResetRadioButtons();
                 OverrideControl = false;
                 int selectedIndex = ComboBoxEnterprise.SelectedIndex;
-                foreach (IndexedEnterprise temp in IndexableEnterpriseList)
+                foreach (IndexedEnterprise temp in IndexableEnterprises)
                 {
                     if (temp.Index == selectedIndex)
                     {
@@ -848,7 +848,7 @@ namespace JudGui
 
         #region Methods
         /// <summary>
-        /// Method that compares CraftGroups in LegalEntities and EnterpriseList
+        /// Method that compares CraftGroups in LegalEntities and Enterprises
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>bool</returns>
@@ -901,11 +901,11 @@ namespace JudGui
             string type = temp.GetType().ToString();
             switch (type)
             {
-                case "JudBizz.IttLetter":
+                case "ClassBizz.IttLetter":
                     IttLetter tempIttLetter = new IttLetter((IttLetter)temp);
                     tempDate = Convert.ToDateTime(tempIttLetter.SentDate);
                     break;
-                case "JudBizz.Offer":
+                case "ClassBizz.Offer":
                     Offer tempOffer = new Offer((Offer)temp);
                     tempDate = Convert.ToDateTime(tempOffer.ReceivedDate);
                     break;
@@ -915,11 +915,11 @@ namespace JudGui
             {
                 switch (type)
                 {
-                    case "JudBizz.IttLetter":
+                    case "ClassBizz.IttLetter":
                         Bizz.TempIttLetter.SentDate = date;
                         result = true;
                         break;
-                    case "JudBizz.Offer":
+                    case "ClassBizz.Offer":
                         Bizz.TempOffer.SetReceivedDate(date);
                         result = true;
                         break;
@@ -1370,13 +1370,13 @@ namespace JudGui
         /// Methods, creates a list of indexable Enterprises
         /// </summary>
         /// <returns>List<IndexableEnterprise></returns>
-        private List<Enterprise> GetIndexableEnterpriseList()
+        private List<Enterprise> GetIndexableEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
-            Enterprise notSpecified = new IndexedEnterprise(0, Bizz.EnterpriseList[0]);
+            Enterprise notSpecified = new IndexedEnterprise(0, Bizz.Enterprises[0]);
             result.Add(notSpecified);
             int i = 1;
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in Bizz.Enterprises)
             {
                 if (enterprise.Project.Id == Bizz.TempProject.Id)
                 {
@@ -1422,7 +1422,7 @@ namespace JudGui
             int id = Bizz.TempEnterprise.Id;
             foreach (SubEntrepeneur subEntrepeneur in Bizz.SubEntrepeneurs)
             {
-                if (subEntrepeneur.EnterpriseList.Id == id)
+                if (subEntrepeneur.Enterprise.Id == id)
                 {
                     IndexedSubEntrepeneur temp = new IndexedSubEntrepeneur(i, subEntrepeneur);
                     result.Add(temp);
@@ -1545,15 +1545,15 @@ namespace JudGui
 
         /// Method, that checks if a legal entity is already added to SubEntrepeneurs
         /// </summary>
-        /// <param name="enterpriseList">int</param>
+        /// <param name="enterprise">int</param>
         /// <param name="entrepeneur">string</param>
         /// <returns>bool</returns>
-        private bool IdExistsInSubEntrepeneurs(int enterpriseList, string entrepeneur)
+        private bool IdExistsInSubEntrepeneurs(int enterprise, string entrepeneur)
         {
 
             foreach (SubEntrepeneur temp in Bizz.SubEntrepeneurs)
             {
-                if (temp.Entrepeneur.Id == entrepeneur && temp.EnterpriseList.Id == enterpriseList)
+                if (temp.Entrepeneur.Id == entrepeneur && temp.Enterprise.Id == enterprise)
                 {
                     return true;
                 }
@@ -1816,7 +1816,7 @@ namespace JudGui
         private void SetBizzTempSubEntrepeneur(int index)
         {
             IndexedSubEntrepeneur temp = IndexableSubEntrepeneurs[index];
-            Bizz.TempSubEntrepeneur = new SubEntrepeneur(temp.Id, temp.EnterpriseList, temp.Entrepeneur, temp.Contact, temp.Request, temp.IttLetter, temp.Offer, temp.Reservations, temp.Uphold, temp.AgreementConcluded, temp.Active);
+            Bizz.TempSubEntrepeneur = new SubEntrepeneur(temp.Id, temp.Enterprise, temp.Entrepeneur, temp.Contact, temp.Request, temp.IttLetter, temp.Offer, temp.Reservations, temp.Uphold, temp.AgreementConcluded, temp.Active);
             if (!Bizz.TempSubEntrepeneur.Active)
             {
                 Bizz.TempSubEntrepeneur.ToggleActive();

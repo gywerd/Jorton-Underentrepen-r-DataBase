@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace JudGui
         public Bizz CBZ;
         public UserControl UcRight;
         public List<int> EnterpriseIds = new List<int>();
-        public List<Enterprise> IndexableEnterpriseList = new List<Enterprise>();
+        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
         public List<IndexedSubEntrepeneur> IndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
         public List<IndexedSubEntrepeneur> OpenIndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
         public List<IndexedSubEntrepeneur> ChosenIndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
@@ -66,23 +66,23 @@ namespace JudGui
             PdfCreator pdfCreator = new PdfCreator(GetStrConnection());
             if (RadioButtonShowAll.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterpriseList, IndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, IndexableSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowOpen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterpriseList, OpenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, OpenIndexableSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowChosen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterpriseList, ChosenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, ChosenIndexableSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowYesReceivedChosen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterpriseList, YesReceivedChosenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, YesReceivedChosenIndexableSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowAgreement.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdfForAgreement(CBZ, IndexableEnterpriseList, ChosenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdfForAgreement(CBZ, IndexableEnterprises, ChosenIndexableSubEntrepeneurs, CBZ.Users);
             }
             Process.Start(path);
         }
@@ -97,11 +97,11 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
-            IndexableEnterpriseList = GetIndexableEnterpriseList();
+            IndexableEnterprises = GetIndexableEnterprises();
             IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
             RadioButtonShowAll.IsChecked = true;
         }
@@ -177,7 +177,7 @@ namespace JudGui
             {
                 foreach (IndexedSubEntrepeneur entrepeneur in IndexableSubEntrepeneurs)
                 {
-                    if (entrepeneur.EnterpriseList.Id == id)
+                    if (entrepeneur.Enterprise.Id == id)
                     {
                         foreach (Offer offer in CBZ.Offers)
                         {
@@ -216,7 +216,7 @@ namespace JudGui
             {
                 foreach (IndexedSubEntrepeneur entrepeneur in IndexableSubEntrepeneurs)
                 {
-                    if (entrepeneur.EnterpriseList.Id == id)
+                    if (entrepeneur.Enterprise.Id == id)
                     {
                         foreach (Request request in CBZ.Requests)
                         {
@@ -237,12 +237,12 @@ namespace JudGui
             return result;
         }
 
-        private List<Enterprise> GetIndexableEnterpriseList()
+        private List<Enterprise> GetIndexableEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             EnterpriseIds.Clear();
             int i = 0;
-            foreach (Enterprise enterprise in CBZ.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
@@ -267,7 +267,7 @@ namespace JudGui
             {
                 foreach (int id in EnterpriseIds)
                 {
-                    if (entrepeneur.EnterpriseList.Id == id)
+                    if (entrepeneur.Enterprise.Id == id)
                     {
                         IndexedSubEntrepeneur temp = new IndexedSubEntrepeneur(i, entrepeneur);
                         result.Add(temp);
@@ -288,12 +288,12 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that reloads IndexableEnterpriseList & IndexableSubEntrepeneurs
+        /// Method, that reloads IndexableEnterprises & IndexableSubEntrepeneurs
         /// </summary>
         private void UpdateIndexableLists()
         {
-            IndexableEnterpriseList.Clear();
-            IndexableEnterpriseList = GetIndexableEnterpriseList();
+            IndexableEnterprises.Clear();
+            IndexableEnterprises = GetIndexableEnterprises();
             IndexableSubEntrepeneurs.Clear();
             IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
         }

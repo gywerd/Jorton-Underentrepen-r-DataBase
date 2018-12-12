@@ -19,24 +19,24 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Label x:Name="LabelEnterpriseList" Content="Entrepriser" 
+        <Label x:Name="LabelEnterprises" Content="Entrepriser" 
                FontSize="36" FontWeight="Bold" 
                Grid.Row="0"
                Height="60" Width="250"
                HorizontalAlignment="Left" 
                Margin="25,0,0,0" 
                VerticalAlignment="Top" />
-        <Button x:Name="ButtonCreateEnterpriseListe" 
+        <Button x:Name="ButtonCreateEnterprisese" 
                 Content="Opret Entrepriseliste"
-                Click="ButtonCreateEnterpriseListe_Click" 
+                Click="ButtonCreateEnterprisese_Click" 
                 Grid.Row="1"
                 FontSize="20"
                 Height="60" Width="250"
                 HorizontalAlignment="Left"
                 Margin="25,0,0,0"
                 VerticalAlignment="Top" />
-        <Button x:Name="ButtonEditEnterpriseList" 
-                Click="ButtonEditEnterpriseList_Click" 
+        <Button x:Name="ButtonEditEnterprises" 
+                Click="ButtonEditEnterprises_Click" 
                 Content="Rediger Entrepriseliste"
                 FontSize="20"
                 Grid.Row="2"
@@ -44,8 +44,8 @@
                 HorizontalAlignment="Left"
                 Margin="25,0,0,0"
                 VerticalAlignment="Top" />
-        <Button x:Name="ButtonViewEnterpriseList" 
-                Click="ButtonViewEnterpriseList_Click" 
+        <Button x:Name="ButtonViewEnterprises" 
+                Click="ButtonViewEnterprises_Click" 
                 Content="Vis Entrepriseliste"
                 FontSize="20"
                 Grid.Row="3"

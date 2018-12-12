@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace JudRepository
 {
-    public class Address : ZipTown
+    public class Address
     {
         #region Fields
         private int id;
         private string street;
         private string place;
+        private ZipTown zipTown;
 
         #endregion
 
@@ -20,38 +21,26 @@ namespace JudRepository
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public Address() : base("","")
+        public Address()
         {
             this.id = 0;
             this.street = "";
             this.place = "";
+            this.zipTown = new ZipTown();
         }
 
         /// <summary>
         /// Constructor to add a new address
         /// </summary>
         /// <param name="street">string</param>
-        /// <param name="zipTown">int</param>
+        /// <param name="zipTown">ZipTown</param>
         /// <param name="place">string</param>
-        public Address(string street, ZipTown zip, string place = "") : base(zip)
+        public Address(string street, ZipTown zipTown, string place = "")
         {
             this.id = 0;
             this.street = street;
             this.place = place;
-        }
-
-        /// <summary>
-        /// Constructor to add a new address
-        /// </summary>
-        /// <param name="street">string</param>
-        /// <param name="place">string</param>
-        /// <param name="zip">string</param>
-        /// <param name="town">string</param>
-        public Address(string street, string zip, string town, string place = "") : base(zip, town)
-        {
-            this.id = 0;
-            this.street = street;
-            this.place = place;
+            this.zipTown = zipTown;
         }
 
         /// <summary>
@@ -60,23 +49,25 @@ namespace JudRepository
         /// <param name="id">int</param>
         /// <param name="street">string</param>
         /// <param name="place">string</param>
-        /// <param name="zip">ZipTown</param>
-        public Address(int id, string street, string place, ZipTown zip) : base(zip)
+        /// <param name="zipTown">ZipTown</param>
+        public Address(int id, string street, string place, ZipTown zipTown)
         {
             this.id = id;
             this.street = street;
             this.place = place;
+            this.zipTown = zipTown;
         }
 
         /// <summary>
         /// Constructor that accepts an existing Address
         /// </summary>
         /// <param name="address">Address</param>
-        public Address(Address address) : base(address.Zip, address.Town)
+        public Address(Address address)
         {
             this.id = address.Id;
             this.street = address.Street;
             this.place = address.Place;
+            this.zipTown = address.ZipTown;
         }
 
         #endregion

@@ -10,70 +10,70 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Controls.Ribbon;
 
-namespace JudBizz
+namespace ClassBizz
 {
     public class Bizz
     {
         #region Fields
 
             #region Ordinary Fields
-            public static MyEntityFrameWork MEFW = new MyEntityFrameWork();
-            public static string macAddress;
+            public MyEntityFrameWork MEFW = new MyEntityFrameWork();
+            public MacAddress macAddress = new MacAddress();
+            public bool UcRightActive = false;
 
 
             public User CurrentUser = new User();
-            //public Address TempAddress = new Address();
-            //public Builder TempBuilder = new Builder();
-            //public Contact TempContact = new Contact();
-            //public ContactInfo TempContactInfo = new ContactInfo();
-            //public Enterprise TempEnterprise = new Enterprise();
-            //public IttLetter TempIttLetter = new IttLetter();
-            //public IttLetterBullet TempIttLetterBullet = new IttLetterBullet();
-            //public IttLetterParagraph TempIttLetterParagraph = new IttLetterParagraph();
-            //public IttLetterPdfData TempIttLetterPdfData = new IttLetterPdfData();
-            //public IttLetterReceiver TempIttLetterReceiver = new IttLetterReceiver();
-            //public IttLetterShipping TempIttLetterShipping = new IttLetterShipping();
-            //public LegalEntity TempLegalEntity = new LegalEntity();
-            //public Offer TempOffer = new Offer();
-            //public Project TempProject = new Project();
-            //public Request TempRequest = new Request();
-            //public SubEntrepeneur TempSubEntrepeneur;
-            //public ZipTown TempZipTown = new ZipTown();
-            //public bool UcRightActive = false;
+            public Address TempAddress = new Address();
+            public Builder TempBuilder = new Builder();
+            public Contact TempContact = new Contact();
+            public ContactInfo TempContactInfo = new ContactInfo();
+            public Enterprise TempEnterprise = new Enterprise();
+            public IttLetter TempIttLetter = new IttLetter();
+            public IttLetterBullet TempIttLetterBullet = new IttLetterBullet();
+            public IttLetterParagraph TempIttLetterParagraph = new IttLetterParagraph();
+            public IttLetterPdfData TempIttLetterPdfData = new IttLetterPdfData();
+            public IttLetterReceiver TempIttLetterReceiver = new IttLetterReceiver();
+            public IttLetterShipping TempIttLetterShipping = new IttLetterShipping();
+            public LegalEntity TempLegalEntity = new LegalEntity();
+            public Offer TempOffer = new Offer();
+            public Project TempProject = new Project();
+            public Request TempRequest = new Request();
+            public SubEntrepeneur TempSubEntrepeneur;
+            public ZipTown TempZipTown = new ZipTown();
 
             #endregion
 
             #region Ordinary Lists
-            public List<Address> Addresses = MEFW.Addresses;
-            public List<BluePrint> BluePrints = MEFW.BluePrints;
-            public List<Builder> Builders = MEFW.Builders;
-            public List<Category> Categories = MEFW.Categories;
-            public List<Contact> Contacts = MEFW.Contacts;
-            public List<ContactInfo> ContactInfoList = MEFW.ContactInfoList;
-            public List<CraftGroup> CraftGroups = MEFW.CraftGroups;
-            public List<Description> Descriptions = MEFW.Descriptions;
-            public List<Enterprise> EnterpriseList = MEFW.EnterpriseList;
-            public List<EnterpriseForm> EnterpriseForms = MEFW.EnterpriseForms;
-            public List<IttLetter> IttLetters = MEFW.IttLetters;
-            public List<IttLetterBullet> IttLetterBullets = MEFW.IttLetterBullets;
-            public List<IttLetterParagraph> IttLetterParagraphs = MEFW.IttLetterParagraphs;
-            public List<IttLetterPdfData> IttLetterPdfDataList = MEFW.IttLetterPdfDataList;
-            public List<IttLetterReceiver> IttLetterReceivers = MEFW.IttLetterReceivers;
-            public List<IttLetterShipping> IttLetterShippingList = MEFW.IttLetterShippingList;
-            public List<JobDescription> JobDescriptions = MEFW.JobDescriptions;
-            public List<LegalEntity> LegalEntities = MEFW.LegalEntities;
-            public List<Miscellaneous> MiscellaneousList = MEFW.MiscellaneousList;
-            public List<Offer> Offers = MEFW.Offers;
-            public List<Project> Projects = MEFW.Projects;
-            public List<ProjectStatus> ProjectStatusList = MEFW.ProjectStatusList;
-            public List<Region> Regions = MEFW.Regions;
-            public List<Request> Requests = MEFW.Requests;
-            public List<RequestStatus> RequestStatusList = MEFW.RequestStatusList;
-            public List<SubEntrepeneur> SubEntrepeneurs = MEFW.SubEntrepeneurs;
-            public List<TenderForm> TenderForms = MEFW.TenderForms;
-            public List<TimeSchedule> TimeSchedules = MEFW.TimeSchedules;
-            public List<User> Users = MEFW.Users;
-            public List<ZipTown> ZipTownList = MEFW.ZipTownList;
+            public List<Address> Addresses;
+            public List<BluePrint> BluePrints;
+            public List<Builder> Builders;
+            public List<Category> Categories;
+            public List<Contact> Contacts;
+            public List<ContactInfo> ContactInfoList;
+            public List<CraftGroup> CraftGroups;
+            public List<Description> Descriptions;
+            public List<Enterprise> Enterprises;
+            public List<EnterpriseForm> EnterpriseForms;
+            public List<IttLetter> IttLetters;
+            public List<IttLetterBullet> IttLetterBullets;
+            public List<IttLetterParagraph> IttLetterParagraphs;
+            public List<IttLetterPdfData> IttLetterPdfDataList;
+            public List<IttLetterReceiver> IttLetterReceivers;
+            public List<IttLetterShipping> IttLetterShippingList;
+            public List<JobDescription> JobDescriptions;
+            public List<LegalEntity> LegalEntities;
+            public List<Miscellaneous> MiscellaneousList;
+            public List<Offer> Offers;
+            public List<Project> Projects;
+            public List<ProjectStatus> ProjectStatusList;
+            public List<Region> Regions;
+            public List<Request> Requests;
+            public List<RequestStatus> RequestStatusList;
+            public List<SubEntrepeneur> SubEntrepeneurs;
+            public List<TenderForm> TenderForms;
+            public List<TimeSchedule> TimeSchedules;
+            public List<User> Users;
+            public List<ZipTown> ZipTownList;
 
             #endregion
 
@@ -95,8 +95,8 @@ namespace JudBizz
         /// </summary>
         public Bizz()
         {
-            RefreshAllIndexedLists();
-            macAddress = GetMacAddress();
+            RetrieveOrdinaryLists();
+            //RefreshAllIndexedLists();
         }
 
         #endregion
@@ -189,7 +189,7 @@ namespace JudBizz
         /// <returns></returns>
         public string GetMacAddress()
         {
-            return MEFW.ObtainMacAddress();
+            return macAddress.ToString();
         }
 
         /// <summary>
@@ -331,12 +331,47 @@ namespace JudBizz
             MEFW.RefreshList(list);
         }
 
-        #endregion
+        private void RetrieveOrdinaryLists()
+        {
+            Addresses = MEFW.Addresses;
+            BluePrints = MEFW.BluePrints;
+            Builders = MEFW.Builders;
+            Categories = MEFW.Categories;
+            Contacts = MEFW.Contacts;
+            ContactInfoList = MEFW.ContactInfoList;
+            CraftGroups = MEFW.CraftGroups;
+            Descriptions = MEFW.Descriptions;
+            Enterprises = MEFW.Enterprises;
+            EnterpriseForms = MEFW.EnterpriseForms;
+            IttLetters = MEFW.IttLetters;
+            IttLetterBullets = MEFW.IttLetterBullets;
+            IttLetterParagraphs = MEFW.IttLetterParagraphs;
+            IttLetterPdfDataList = MEFW.IttLetterPdfDataList;
+            IttLetterReceivers = MEFW.IttLetterReceivers;
+            IttLetterShippingList = MEFW.IttLetterShippingList;
+            JobDescriptions = MEFW.JobDescriptions;
+            LegalEntities = MEFW.LegalEntities;
+            MiscellaneousList = MEFW.MiscellaneousList;
+            Offers = MEFW.Offers;
+            Projects = MEFW.Projects;
+            ProjectStatusList = MEFW.ProjectStatusList;
+            Regions = MEFW.Regions;
+            Requests = MEFW.Requests;
+            RequestStatusList = MEFW.RequestStatusList;
+            SubEntrepeneurs = MEFW.SubEntrepeneurs;
+            TenderForms = MEFW.TenderForms;
+            TimeSchedules = MEFW.TimeSchedules;
+            Users = MEFW.Users;
+            ZipTownList = MEFW.ZipTownList;
 
-        #endregion
+        }
 
-        #region Properties
-        public static string MacAdresss { get; }
+    #endregion
+
+    #endregion
+
+    #region Properties
+    public static string MacAdresss { get; }
 
         #endregion
     }

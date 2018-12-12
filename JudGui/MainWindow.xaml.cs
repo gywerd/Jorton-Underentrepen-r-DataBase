@@ -1,4 +1,4 @@
-﻿using JudBizz;
+﻿using ClassBizz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace JudGui
     public partial class MainWindow : Window
     {
         #region Fields
-        public Bizz CBZ = new Bizz();
+        public Bizz CBZ;
         public UcBuilders UcBuilders;
         public UcCommunication UcCommunication;
         public UcContacts UcContacts;
@@ -45,6 +45,7 @@ namespace JudGui
         public MainWindow()
         {
             InitializeComponent();
+            CBZ = new Bizz();
             TabOffer.IsEnabled = false;
             TabAdministration.IsEnabled = false;
             HelpData.IsEnabled = false;
