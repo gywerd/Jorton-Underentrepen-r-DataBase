@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -23,43 +23,45 @@ namespace JudGui
     public partial class UcIttLettersPrepareCommonLetter : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
-        public List<IttLetterShipping> ShippingList = new List<IttLetterShipping>();
+        public PdfCreator PdfCreator;
+        public List<Shipping> Shippings = new List<Shipping>();
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
-        public List<IndexedEnterprise> IndexableEnterprises = new List<IndexedEnterprise>();
-        public List<IndexedIttLetterBullet> IndexableIttLetterBulletList = new List<IndexedIttLetterBullet>();
-        public List<IndexedIttLetterParagraph> IndexableIttLetterParagraphList = new List<IndexedIttLetterParagraph>();
-        public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
-        public List<IttLetterParagraph> paragraphs = new List<IttLetterParagraph>();
+        public List<IndexedEnterprise> IndexedEnterprises = new List<IndexedEnterprise>();
+        public List<IndexedBullet> IndexedBullets = new List<IndexedBullet>();
+        public List<IndexedParagraph> IndexedParagraphs = new List<IndexedParagraph>();
+        public List<IndexedEntrepeneur> IndexedLegalEntities = new List<IndexedEntrepeneur>();
+        public List<JudRepository.Paragraph> paragraphs = new List<JudRepository.Paragraph>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
-        public List<IttLetterReceiver> IttLetterReceivers = new List<IttLetterReceiver>();
+        public List<Receiver> Receivers = new List<Receiver>();
 
         #endregion
 
         #region Constructors
-        public UcIttLettersPrepareCommonLetter(Bizz bizz, UserControl ucRight)
+        public UcIttLettersPrepareCommonLetter(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcRight = ucRight;
             GenerateComboBoxCaseIdItems();
+            PdfCreator = new PdfCreator(CBZ.MEFW.ObtainStrConnection());
         }
 
         #endregion
 
         #region Buttons
-        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddBullet_Click(object sender, RoutedEventArgs e)
         {
             if (TextBoxNewBullet.Text != "")
             {
                 int dbAnswer = 0;
                 Exception exception = new Exception();
-                Bizz.TempIttLetterBullet = new IttLetterBullet(Bizz.TempIttLetterParagraph, TextBoxNewBullet.Text);
+                CBZ.TempBullet = new Bullet(CBZ.TempParagraph, TextBoxNewBullet.Text);
                 try
                 {
-                    dbAnswer = Bizz.CreateInDbReturnInt(Bizz.TempIttLetterBullet);
+                    dbAnswer = CBZ.CreateInDb(CBZ.TempBullet);
                 }
                 catch (Exception ex)
                 {
@@ -79,34 +81,105 @@ namespace JudGui
                 }
                 else
                 {
-                    RefreshBullets();
-                    GetIndexableIttLetterBulletList();
-                    ListBoxBullets.ItemsSource = IndexableIttLetterBulletList;
+                    RefreshList("Bullets");
+                    GetIndexedBullets();
+                    ListBoxBullets.ItemsSource = IndexedBullets;
                     ListBoxBullets.SelectedIndex = 0;
                     TextBoxNewBullet.Text = "";
                 }
             }
         }
 
+        private void ButtonAddParagraph_Click(object sender, RoutedEventArgs e)
+        {
+            if (TextBoxNewBullet.Text != "")
+            {
+                int dbAnswer = 0;
+                Exception exception = new Exception();
+                this.CBZ.TempParagraph = new JudRepository.Paragraph(this.CBZ.TempProject, this.TextBoxNewParagraph.Text);
+                try
+                {
+                    dbAnswer = CBZ.CreateInDb(CBZ.TempParagraph);
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
+                if (dbAnswer < 1)
+                {
+                    Exception tempEx = new Exception();
+                    if (exception != tempEx)
+                    {
+                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet\n" + exception, "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    RefreshList("Paragraphs");
+                    GetIndexedParagraphs();
+                    ComboBoxParagraphs.ItemsSource = "";
+                    ComboBoxParagraphs.ItemsSource = IndexedBullets;
+                    ComboBoxParagraphs.SelectedIndex = 0;
+                    TextBoxNewParagraph.Text = "";
+                }
+            }
+        }
+
         private void ButtonPrepare_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckBoxReceiverListExist.IsChecked == true)
+            try
             {
+                CheckReceiversListExist();
+                CheckParagraphsExist();
+                CheckParagraphBulletsExist();
+
+                string commonPdfPath = GetCommonPdfPath();
+
+                UpdateCommonPdfPathInShippingList(commonPdfPath);
+
+                CBZ.RefreshList("ShippingList");
+                RefreshShippingList();
+                ComboBoxCaseId.SelectedIndex = 0;
+                ComboBoxParagraphs.ItemsSource = "";
+                ComboBoxParagraphs.SelectedIndex = -1;
+                ListBoxBullets.ItemsSource = "";
+                ListBoxBullets.SelectedIndex = -1;
 
             }
-            else
+            catch (ArgumentNullException ane)
             {
-                MessageBox.Show("Der er ingen modtagerliste. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                switch (ane.ParamName)
+                {
+                    case "missingBullet":
+                        MessageBox.Show("Mindst et afsnit mangler underpunkter. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case "pdf":
+                        MessageBox.Show("Pdf'en med Fælles del af Udbudsbrev kunne ikke genereres.\n" + ane.ToString(), "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case "shipping":
+                        MessageBox.Show("Forsendelseslisten kunne ikke opdateres.\n" + ane.ToString(), "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case "noParagraphs":
+                        MessageBox.Show("Der er ingen afsnit. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                    case "noReceivers":
+                        MessageBox.Show("Der er ingen modtagerliste. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
             }
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev?", "Luk Klargør Udbudsbrev", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
         }
@@ -117,39 +190,39 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
-            TextBoxName.Text = Bizz.TempProject.Name;
+            TextBoxName.Text = CBZ.TempProject.Name;
             GetProjectDetails();
-            SetCheckBoxReceiverListExist();
-            ComboBoxParagraphs.ItemsSource = IndexableIttLetterParagraphList;
+            SetCheckBoxReceiversListExist();
+            ComboBoxParagraphs.ItemsSource = IndexedParagraphs;
             ComboBoxParagraphs.SelectedIndex = 0;
         }
 
         private void ComboBoxParagraphs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxParagraphs.SelectedIndex;
-            if (IndexableIttLetterParagraphList.Count == 0)
+            if (IndexedParagraphs.Count == 0)
             {
-                GetIndexableIttLetterParagraphList();
+                GetIndexedParagraphs();
             }
-            foreach (IndexedIttLetterParagraph temp in IndexableIttLetterParagraphList)
+            foreach (IndexedParagraph temp in IndexedParagraphs)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempIttLetterParagraph = new IttLetterParagraph(temp.Id, temp.Project, temp.Name);
+                    this.CBZ.TempParagraph = new JudRepository.Paragraph(temp.Id, temp.Project, temp.Text);
                     break;
                 }
             }
-            Bizz.RefreshList("LegalEntities");
-            IndexableLegalEntities.Clear();
-            GetIndexableIttLetterBulletList();
-            ListBoxBullets.ItemsSource = IndexableIttLetterBulletList;
+            CBZ.RefreshList("LegalEntities");
+            IndexedLegalEntities.Clear();
+            GetIndexedBullets();
+            ListBoxBullets.ItemsSource = IndexedBullets;
             ListBoxBullets.SelectedIndex = 0;
         }
 
@@ -163,22 +236,22 @@ namespace JudGui
         /// <summary>
         /// Method that adds Paragraphs to Db
         /// </summary>
-        private void AddParagraphs()
-        {
-            string[] names = { "Komplet sæt beskrivelse i henhold til vedlagte dokumenter", "Projektdokumenter", "Tegninger i henhold til Tegningsliste", "Tidsplaner", "Øvrigt udbudsmateriale" };
-            int i = 0;
-            foreach (string name in names)
-            {
-                IttLetterParagraph temp = new IttLetterParagraph(Bizz.TempProject, names[i]);
-                int dbAnswer = Bizz.CreateInDbReturnInt(temp);
-                if (dbAnswer < 1)
-                {
-                    MessageBox.Show("Databasen meldte fejl. Afsnittet blev ikke tilføjet.", "Tilføj Afsnit", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                i++;
-            }
-            RefreshParagraphs();
-        }
+        //private void AddParagraphs()
+        //{
+        //    string[] names = { "Komplet sæt beskrivelse i henhold til vedlagte dokumenter", "Projektdokumenter", "Tegninger i henhold til Tegningsliste", "Tidsplaner", "Øvrigt udbudsmateriale" };
+        //    int i = 0;
+        //    foreach (string name in names)
+        //    {
+        //        Paragraph temp = new Paragraph(Bizz.TempProject, names[i]);
+        //        int dbAnswer = Bizz.CreateInDbReturnInt(temp);
+        //        if (dbAnswer < 1)
+        //        {
+        //            MessageBox.Show("Databasen meldte fejl. Afsnittet blev ikke tilføjet.", "Tilføj Afsnit", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        }
+        //        i++;
+        //    }
+        //    RefreshParagraphs();
+        //}
 
         /// <summary>
         /// Method that adds a Shipping to Shipping List
@@ -186,8 +259,8 @@ namespace JudGui
         /// <param name="id">int</param>
         private void AddShipping(int id)
         {
-            IttLetterShipping shipping = new IttLetterShipping();
-            foreach (IttLetterShipping temp in Bizz.IttLetterShippingList)
+            Shipping shipping = new Shipping();
+            foreach (Shipping temp in CBZ.Shippings)
             {
                 if (temp.Id == id)
                 {
@@ -195,20 +268,41 @@ namespace JudGui
                     break;
                 }
             }
-            ShippingList.Add(shipping);
+            Shippings.Add(shipping);
+        }
+
+        /// <summary>
+        /// Method, that checks, whether Bullets for an Paragraph exist
+        /// </summary>
+        /// <param name="paragraphId"></param>
+        /// <returns></returns>
+        private bool CheckBulletExist(int paragraphId)
+        {
+            bool result = false;
+
+            foreach (Bullet bullet in CBZ.Bullets)
+            {
+                if (bullet.Paragraph.Id == paragraphId)
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
         /// Method, that checks, whether a LegalEntity exists in in a list
         /// </summary>
-        /// <param name="entity">LegalEntity</param>
+        /// <param name="entrepeneur">LegalEntity</param>
         /// <returns>bool</returns>
-        private bool CheckEntity(LegalEntity entity, List<LegalEntity> list)
+        private bool CheckEntrepeneur(Entrepeneur entrepeneur, List<Entrepeneur> list)
         {
             bool result = false;
-            foreach (LegalEntity sub in list)
+            foreach (Entrepeneur entr in list)
             {
-                if (sub.Id == entity.Id)
+                if (entr.Id == entrepeneur.Id)
                 {
                     result = true;
                     break;
@@ -218,83 +312,156 @@ namespace JudGui
         }
 
         /// <summary>
+        /// Method that checks wether paragraphs have already been added
+        /// </summary>
+        private void CheckParagraphsExist()
+        {
+            bool paragraphsExist = false;
+
+            foreach (JudRepository.Paragraph temp in this.CBZ.Paragraphs)
+            {
+                if (temp.Project.Id == this.CBZ.TempProject.Id)
+                {
+                    paragraphsExist = true;
+                    break;
+                }
+
+            }
+
+            if (!paragraphsExist)
+            {
+                throw new ArgumentNullException("noParagraphs");
+            }
+        }
+
+        /// <summary>
+        /// Method, that checks, whether all Paragraphs have a Bullet
+        /// </summary>
+        private void CheckParagraphBulletsExist()
+        {
+
+            foreach (IndexedParagraph paragraph in IndexedParagraphs)
+            {
+                bool bulletExist = CheckBulletExist(paragraph.Id);
+                if (!bulletExist)
+                {
+                    throw new ArgumentNullException("missingBullet");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method, that checks, whether CheckBoxReceiversListExist is checked
+        /// </summary>
+        private void CheckReceiversListExist()
+        {
+            if (CheckBoxReceiversListExist.IsChecked == false)
+            {
+                throw new ArgumentNullException("noReceivers");
+            }
+        }
+
+        /// <summary>
         /// Method, that generates Items for ComboBoxCaseId
         /// </summary>
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
-            {
-                ComboBoxCaseId.Items.Add(temp);
-            }
+            //foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            //{
+            //    ComboBoxCaseId.Items.Add(temp);
+            //}
+            ComboBoxCaseId.ItemsSource = "";
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
         /// <summary>
-        /// Method that creates an Indexable Bullet List
+        /// Method, that creates a PDF and returns the path
         /// </summary>
-        private void GetIndexableIttLetterBulletList()
+        /// <returns>string</returns>
+        private string GetCommonPdfPath()
         {
-            IndexableIttLetterBulletList.Clear();
-            IndexableIttLetterBulletList.Add(new IndexedIttLetterBullet(0, Bizz.IttLetterBullets[0]));
-            int i = 1;
-            foreach (IttLetterBullet temp in Bizz.IttLetterBullets)
+            string result = "";
+
+            try
             {
-                if (temp.Paragraph.Id == Bizz.TempIttLetterParagraph.Id)
+                result = PdfCreator.GenerateIttLetterCommonPdf(CBZ, CBZ.TempProject, Shippings);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentNullException("pdf");
+            }
+
+            return result;
+
+        }
+
+        /// <summary>
+        /// Method that creates an Indexed Bullet List
+        /// </summary>
+        private void GetIndexedBullets()
+        {
+            IndexedBullets.Clear();
+            IndexedBullets.Add(new IndexedBullet(0, CBZ.Bullets[0]));
+            int i = 1;
+            foreach (Bullet temp in CBZ.Bullets)
+            {
+                if (temp.Paragraph.Id == CBZ.TempParagraph.Id)
                 {
-                    IndexedIttLetterBullet other = new IndexedIttLetterBullet(i, temp);
-                    IndexableIttLetterBulletList.Add(other);
+                    IndexedBullet other = new IndexedBullet(i, temp);
+                    IndexedBullets.Add(other);
                     i++;
                 }
             }
         }
 
         /// <summary>
-        /// Method that creates an Indexable Enterprise List
+        /// Method that creates an Indexed Enterprise List
         /// </summary>
-        private void GetIndexableIttLetterParagraphList()
+        private void GetIndexedParagraphs()
         {
-            IndexableIttLetterParagraphList.Clear();
-            IndexableIttLetterParagraphList.Add(new IndexedIttLetterParagraph(0, Bizz.IttLetterParagraphs[0]));
-            if (!ParagraphsExist())
-            {
-                AddParagraphs();
-            }
+            IndexedParagraphs.Clear();
+            IndexedParagraphs.Add(new IndexedParagraph(0, CBZ.Paragraphs[0]));
+            //if (!ParagraphsExist())
+            //{
+            //    AddParagraphs();
+            //}
             int i = 1;
-            foreach (IttLetterParagraph temp in Bizz.IttLetterParagraphs)
+            foreach (JudRepository.Paragraph temp in this.CBZ.Paragraphs)
             {
-                if (temp.Project.Id == Bizz.TempProject.Id)
+                if (temp.Project.Id == this.CBZ.TempProject.Id)
                 {
-                    IndexedIttLetterParagraph other = new IndexedIttLetterParagraph(i, temp);
-                    IndexableIttLetterParagraphList.Add(other);
+                    IndexedParagraph other = new IndexedParagraph(i, temp);
+                    this.IndexedParagraphs.Add(other);
                     i++;
                 }
             }
         }
 
         /// <summary>
-        /// Method that creates a list of indexable Legal Entities
+        /// Method that creates a list of indexed Entrepeneurs
         /// </summary>
-        private void GetIndexableLegalEntities()
+        private void GetIndexedEntrepeneurs()
         {
-            List<LegalEntity> tempResult = new List<LegalEntity>();
-            IndexedLegalEntity temp = new IndexedLegalEntity(0, Bizz.LegalEntities[0]);
-            IndexableLegalEntities.Clear();
-            IndexableLegalEntities.Add(temp);
-            foreach (Enterprise enterprise in Bizz.Enterprises)
+            List<Entrepeneur> tempResult = new List<Entrepeneur>();
+            IndexedEntrepeneur temp = new IndexedEntrepeneur(0, CBZ.Entrepeneurs[0]);
+            IndexedLegalEntities.Clear();
+            IndexedLegalEntities.Add(temp);
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
-                foreach (LegalEntity entity in Bizz.LegalEntities)
+                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
                 {
-                    if (!CheckEntity(entity, tempResult))
+                    if (!CheckEntrepeneur(entrepeneur, tempResult))
                     {
-                        tempResult.Add(entity);
+                        tempResult.Add(entrepeneur);
                     }
                 }
             }
             int i = 1;
-            foreach (LegalEntity sub in tempResult)
+            foreach (Entrepeneur sub in tempResult)
             {
-                temp = new IndexedLegalEntity(i, sub);
-                IndexableLegalEntities.Add(temp);
+                temp = new IndexedEntrepeneur(i, sub);
+                IndexedLegalEntities.Add(temp);
                 i++;
             }
         }
@@ -308,79 +475,92 @@ namespace JudGui
         {
             ProjectSubEntrepeneurs.Clear();
             ProjectEnterprises.Clear();
-            IndexableEnterprises.Clear();
-            IttLetterReceivers.Clear();
-            ShippingList.Clear();
-            foreach (Enterprise enterprise in Bizz.Enterprises)
+            IndexedEnterprises.Clear();
+            Receivers.Clear();
+            Shippings.Clear();
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
-                if (enterprise.Project.Id == Bizz.TempProject.Id)
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
-                    foreach (SubEntrepeneur sub in Bizz.SubEntrepeneurs)
+                    foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
                     {
                         if (sub.Enterprise.Id == enterprise.Id)
                         {
                             ProjectSubEntrepeneurs.Add(sub);
                         }
-                        foreach (LegalEntity entity in Bizz.LegalEntities)
+                        foreach (Shipping shipping in CBZ.Shippings)
                         {
-                            if (sub.Entrepeneur.Id == entity.Id)
+                            if (shipping.SubEntrepeneur.Id == sub.Id)
                             {
-                                foreach (IttLetterReceiver receiver in Bizz.IttLetterReceivers)
-                                {
-                                    if (receiver.CompanyId == sub.Entrepeneur.Id && receiver.Project.Id == Bizz.TempProject.Id)
-                                    {
-                                        IttLetterReceivers.Add(receiver);
-                                        AddShipping(receiver.Id);
-                                    }
-                                }
+                                Receivers.Add(shipping.Receiver);
+                                Shippings.Add(shipping);
                             }
                         }
                     }
                     ProjectEnterprises.Add(enterprise);
                 }
             }
-            GetIndexableIttLetterParagraphList();
-            GetIndexableLegalEntities();
+            GetIndexedParagraphs();
+            GetIndexedEntrepeneurs();
         }
 
         /// <summary>
-        /// Method that checks wether paragraphs have already been added
+        /// Method, that refreshes content of a list
         /// </summary>
-        private bool ParagraphsExist()
+        /// <param name="list">string</param>
+        private void RefreshList(string list)
         {
-            bool result = false;
-            foreach (IttLetterParagraph temp in Bizz.IttLetterParagraphs)
-            {
-                if (temp.Project.Id == Bizz.TempProject.Id)
-                {
-                    result = true;
-                    break;
-                }
-
-            }
-            return result;
+            CBZ.RefreshList(list);
         }
 
-        private void SetCheckBoxReceiverListExist()
+        /// <summary>
+        /// Method, that refreshes content of the Shipping List
+        /// </summary>
+        private void RefreshShippingList()
         {
-            if (IttLetterReceivers.Count <= 1)
+            Shippings.Clear();
+            foreach (Receiver receiver in Receivers)
             {
-                CheckBoxReceiverListExist.IsChecked = true;
+                AddShipping(receiver.Id);
+            }
+        }
+
+        /// <summary>
+        /// Method, that determines, whether CheckBoxReceiversList should be checked
+        /// </summary>
+        private void SetCheckBoxReceiversListExist()
+        {
+            if (Receivers.Count <= 1)
+            {
+                CheckBoxReceiversListExist.IsChecked = true;
             }
             else
             {
-                CheckBoxReceiverListExist.IsChecked = false;
+                CheckBoxReceiversListExist.IsChecked = false;
             }
         }
 
-        private void RefreshBullets()
+        /// <summary>
+        /// Method, that adds the common PDF path to Shippings in ShippingList
+        /// </summary>
+        /// <param name="commonPdfPath">string</param>
+        private void UpdateCommonPdfPathInShippingList(string commonPdfPath)
         {
-            Bizz.RefreshList("IttLetterBullets");
-        }
+            try
+            {
+                foreach (Shipping shipping in Shippings)
+                {
+                    CBZ.TempShipping = shipping;
+                    CBZ.TempShipping.CommonPdfPath = commonPdfPath;
+                    CBZ.UpdateInDb(CBZ.TempShipping);
+                }
 
-        private void RefreshParagraphs()
-        {
-            Bizz.RefreshList("IttLetterParagraphList");
+            }
+            catch (Exception)
+            {
+                throw new ArgumentNullException("shipping");
+            }
+
         }
 
         #endregion

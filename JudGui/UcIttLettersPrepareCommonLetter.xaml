@@ -25,7 +25,8 @@
             <RowDefinition Height="60*"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="60*"/>
-            <RowDefinition Height="315*"/>
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="255*"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="110*"/>
             <RowDefinition Height="50"/>
@@ -56,7 +57,7 @@
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
-        <CheckBox x:Name="CheckBoxReceiverListExist" 
+        <CheckBox x:Name="CheckBoxReceiversListExist" 
                   Content="Modtagerliste er klargjort" 
                  FontSize="15" 
                   Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" 
@@ -94,44 +95,68 @@
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
+        <Label x:Name="LabelNewParagraph"
+               Content="Nyt Afsnit:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <TextBox x:Name="TextBoxNewParagraph"
+                 FontSize="30"
+                 Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="5"
+                 Height="50"
+                 Width="795"
+                 HorizontalAlignment="Left"
+                 IsEnabled="False"
+                 Text=""
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top" />
+        <Button x:Name="ButtonAddParagraph"
+                Content="Tilføj"
+                Click="ButtonAddParagraph_Click"
+                FontSize="30" FontWeight="Bold"
+                Grid.Column="8" Grid.Row="5" Grid.ColumnSpan="1"
+                Height="50" Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" />
         <ListBox x:Name="ListBoxBullets" 
-                 Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="6" 
-                 Height="290" Width="955" 
+                 Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6" 
+                 Height="240" Width="955" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxBullets_SelectionChanged"
                  VerticalAlignment="Top" />
-        <Label x:Name="LabelNewBullet" Content="Ny Linje:" 
+        <Label x:Name="LabelNewBullet" Content="Nyt Punkt:" 
                FontSize="30" 
-               Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxNewBullet" 
                  FontSize="30" 
-                 Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="5" 
+                 Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="5" 
                  Height="50" Width="795" 
                  HorizontalAlignment="Left" 
                  IsEnabled="False" 
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
-        <Button x:Name="ButtonAdd" Content="Tilføj"
-                Click="ButtonAdd_Click" 
+        <Button x:Name="ButtonAddBullet" Content="Tilføj"
+                Click="ButtonAddBullet_Click" 
                 FontSize="30" FontWeight="Bold" 
-                Grid.Column="8" Grid.Row="6" Grid.ColumnSpan="1" 
+                Grid.Column="8" Grid.Row="7" Grid.ColumnSpan="1" 
                 Height="50"  Width="150" 
                 HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Top" />
         <Button x:Name="ButtonClose" Content="Luk"
                 Click="ButtonClose_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" 
+                Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="2" 
                 Height="100"  Width="315" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonPrepare" Content="Klargør"
                 Click="ButtonPrepare_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="6" Grid.Row="7" Grid.ColumnSpan="2" 
+                Grid.Column="6" Grid.Row="8" Grid.ColumnSpan="2" 
                 Height="100"  Width="315" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />

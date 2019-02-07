@@ -41,7 +41,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding new Enterprise
+        /// Costructor to add a a new Enterprise
         /// </summary>
         /// <param name="project">int</param>
         /// <param name="name">string</param>
@@ -51,7 +51,7 @@ namespace JudRepository
         /// <param name="craftGroup2">int</param>
         /// <param name="craftGroup3">int</param>
         /// <param name="craftGroup4">int</param>
-        public Enterprise(Project project, string name, CraftGroup craftGroup1, CraftGroup craftGroup2, CraftGroup craftGroup3, CraftGroup craftGroup4, string elaboration = "", string offerList = "")
+        public Enterprise(Project project, string name, string elaboration, string offerList, CraftGroup craftGroup1, CraftGroup craftGroup2, CraftGroup craftGroup3, CraftGroup craftGroup4)
         {
             this.id = 0;
             this.project = project;
@@ -65,7 +65,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding Enterprise from Db
+        /// Costructor to add a an Enterprise from Db
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="project">Project</param>
@@ -90,24 +90,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for that accepts data from existing Indexed Enterprise
-        /// </summary>
-        /// <param name="indexEnterprise">IndexedEnterprise</param>
-        public Enterprise(IndexedEnterprise indexEnterprise)
-        {
-            this.id = indexEnterprise.id;
-            this.project = indexEnterprise.Project;
-            this.name = indexEnterprise.Name;
-            this.elaboration = indexEnterprise.Elaboration;
-            this.offerList = indexEnterprise.OfferList;
-            this.craftGroup1 = indexEnterprise.CraftGroup1;
-            this.craftGroup2 = indexEnterprise.CraftGroup2;
-            this.craftGroup3 = indexEnterprise.CraftGroup3;
-            this.craftGroup4 = indexEnterprise.CraftGroup4;
-        }
-
-        /// <summary>
-        /// Constructor for that accepts data from existing Enterprise
+        /// Constructor, that accepts data from an existing Enterprise
         /// </summary>
         /// <param name="enterprise">Enterprise</param>
         public Enterprise(Enterprise enterprise)
@@ -123,16 +106,21 @@ namespace JudRepository
             this.craftGroup4 = enterprise.CraftGroup4;
         }
 
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Method, that returns main info as a string
+        /// Constructor, that accepts data from an existing Indexed Enterprise
         /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
+        /// <param name="indexEnterprise">IndexedEnterprise</param>
+        public Enterprise(IndexedEnterprise indexEnterprise)
         {
-            return name;
+            this.id = indexEnterprise.id;
+            this.project = indexEnterprise.Project;
+            this.name = indexEnterprise.Name;
+            this.elaboration = indexEnterprise.Elaboration;
+            this.offerList = indexEnterprise.OfferList;
+            this.craftGroup1 = indexEnterprise.CraftGroup1;
+            this.craftGroup2 = indexEnterprise.CraftGroup2;
+            this.craftGroup3 = indexEnterprise.CraftGroup3;
+            this.craftGroup4 = indexEnterprise.CraftGroup4;
         }
 
         #endregion
@@ -140,7 +128,7 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public Project Project { get; set; }
+        public Project Project { get => project; set => project = value; }
 
         public string Name
         {
@@ -190,14 +178,45 @@ namespace JudRepository
             }
         }
 
-        public CraftGroup CraftGroup1 { get; set; }
+        public CraftGroup CraftGroup1 { get => craftGroup1; set => craftGroup1 = value; }
 
-        public CraftGroup CraftGroup2 { get; set; }
+        public CraftGroup CraftGroup2 { get => craftGroup2; set => craftGroup2 = value; }
 
-        public CraftGroup CraftGroup3 { get; set; }
+        public CraftGroup CraftGroup3 { get => craftGroup3; set => craftGroup3 = value; }
 
-        public CraftGroup CraftGroup4 { get; set; }
+        public CraftGroup CraftGroup4 { get => craftGroup4; set => craftGroup4 = value; }
 
         #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Method, that returns main info as a string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            return name;
+        }
+
+        #endregion
+
     }
 }

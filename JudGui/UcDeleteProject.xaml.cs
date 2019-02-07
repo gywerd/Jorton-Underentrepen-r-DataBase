@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -61,7 +61,7 @@ namespace JudGui
                     {
                         foreach (Enterprise enterprise in Bizz.Enterprises)
                         {
-                            if (enterprise.Project.Id == Bizz.TempProject.CaseId)
+                            if (enterprise.Project.Id == Bizz.TempProject.Case)
                             {
                                 foreach (SubEntrepeneur subEntrepeneur in Bizz.SubEntrepeneurs)
                                 {
@@ -113,7 +113,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
         }

@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudGui", "JudGui\JudGui.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudRepository", "JudRepository\JudRepository.csproj", "{E1D9B59F-506B-428E-9A6C-52BE7691DF15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassBizz", "ClassBizz\ClassBizz.csproj", "{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudBizz", "JudBizz\JudBizz.csproj", "{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

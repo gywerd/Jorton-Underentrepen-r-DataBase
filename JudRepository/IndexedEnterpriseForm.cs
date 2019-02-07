@@ -8,8 +8,12 @@ namespace JudRepository
 {
     public class IndexedEnterpriseForm : EnterpriseForm
     {
+        #region Fields
         int index;
 
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Empty Constructor
         /// </summary>
@@ -19,7 +23,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, to create an Indexable EnterpriseForm
+        /// Constructor to add a new Indexed EnterpriseForm
         /// </summary>
         /// <param name="index">int</param>
         /// <param name="form">EnterpriseForm</param>
@@ -28,14 +32,22 @@ namespace JudRepository
             this.index = index;
         }
 
+        #endregion
+
+        #region Methods
         public override string ToString()
         {
             return base.ToString();
         }
 
+        #endregion
+
+        #region Properties
         public int Index
         {
             get => index;
         }
+
+        #endregion
     }
 }

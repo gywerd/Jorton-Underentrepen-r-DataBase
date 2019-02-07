@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string name;
+        private string text;
 
         #endregion
 
@@ -22,41 +22,48 @@ namespace JudRepository
         public EnterpriseForm()
         {
             this.id = 0;
-            this.name = "";
+            this.text = "";
         }
 
         /// <summary>
-        /// Constructor to add EnterpriseForm
+        /// Constructor to add a new EnterpriseForm
+        /// </summary>
+        /// <param name="text">string</param>
+        public EnterpriseForm(string text)
+        {
+            this.id = 0;
+            this.text = text;
+        }
+
+        /// <summary>
+        /// Constructor to add an EnterpriseForm from Db
         /// </summary>
         /// <param name="id">string</param>
-        /// <param name="name">string</param>
-        public EnterpriseForm(int id, string name)
+        /// <param name="text">string</param>
+        public EnterpriseForm(int id, string text)
         {
             this.id = id;
-            this.name = name;
+            this.text = text;
         }
 
         /// <summary>
-        /// Constructor, that accepts an existing Enterprise Form
+        /// Constructor, that accepts data from an existing Enterprise Form
         /// </summary>
-        /// <param name="abbreviation">string</param>
-        /// <param name="form">string</param>
-        public EnterpriseForm(EnterpriseForm form)
+        /// <param name="Indexed">IndexedEnterpriseForm</param>
+        public EnterpriseForm(EnterpriseForm enterpriseForm)
         {
-            this.id = form.Id;
-            this.name = form.Name;
+            this.id = enterpriseForm.Id;
+            this.text = enterpriseForm.Text;
         }
 
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Returns main content as a string
+        /// Constructor, that accepts data from an existing Indexed Enterprise Form
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="Indexed">IndexedEnterpriseForm</param>
+        public EnterpriseForm(IndexedEnterpriseForm enterpriseForm)
         {
-            return name;
+            this.id = enterpriseForm.Id;
+            this.text = enterpriseForm.Text;
         }
 
         #endregion
@@ -64,20 +71,50 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public string Name
+        public string Text
         {
-            get => name;
+            get => text;
             set
             {
                 try
                 {
-                    name = value;
+                    text = value;
                 }
                 catch (Exception)
                 {
-                    name = "";
+                    text = "";
                 }
             }
+        }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return text;
         }
 
         #endregion

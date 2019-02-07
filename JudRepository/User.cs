@@ -12,121 +12,91 @@ namespace JudRepository
     {
         #region Fields
         private int id;
+        private Person person;
         private string initials;
-        private string name;
-        private string passWord;
-        private ContactInfo contactInfo;
         private JobDescription jobDescription;
-        private bool administrator;
+        private Authentication authentication;
 
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Empty Constryctor
+        /// Empty Constructor
         /// </summary>
         public User()
         {
             this.id = 0;
-            this.name = "";
-            this.passWord = "1234";
-            this.contactInfo = new ContactInfo();
+            this.person = new Person();
+            this.initials = "";
             this.jobDescription = new JobDescription();
-            this.administrator = false;
+            this.authentication = new Authentication();
         }
 
         /// <summary>
-        /// Constructor to add user
+        /// Constructor to add a new User
         /// </summary>
+        /// <param name="person">Person</param>
         /// <param name="initials">string</param>
-        /// <param name="name">string</param>
-        /// <param name="contactInfo">int</param>
-        /// <param name="jobDescription">int</param>
-        /// <param name="passWord">string</param>
-        /// <param name="admin">bool</param>
-        public User(string initials, string name, ContactInfo contactInfo, JobDescription jobDescription, string password = "1234", bool admin = false)
+        /// <param name="jobDescription">JobDescription</param>
+        /// <param name="authentication">Authentication</param>
+        public User(Person person, string initials, JobDescription jobDescription, Authentication authentication)
         {
             this.id = 0;
+            this.person = person;
             this.initials = initials;
-            this.name = name;
-            this.passWord = password;
-            this.contactInfo = contactInfo;
             this.jobDescription = jobDescription;
-            this.administrator = admin;
+            this.authentication = authentication;
         }
 
         /// <summary>
-        /// Constructor to add user from Db to list
+        /// Constructor to add a User from Db
         /// </summary>
         /// <param name="id">int</param>
+        /// <param name="person">Person</param>
         /// <param name="initials">string</param>
-        /// <param name="name">string</param>
-        /// <param name="contactInfo">int</param>
-        /// <param name="jobDescription">int</param>
-        /// <param name="passWord">string</param>
-        /// <param name="admin">bool</param>
-        public User(int id, string initials, string name, string passWord, ContactInfo contactInfo, JobDescription jobDescription, bool admin)
+        /// <param name="jobDescription">JobDescription</param>
+        /// <param name="authentication">Authentication</param>
+        public User(int id, Person person, string initials, JobDescription jobDescription, Authentication authentication)
         {
             this.id = id;
+            this.person = person;
             this.initials = initials;
-            this.name = name;
-            this.passWord = passWord;
-            this.contactInfo = contactInfo;
             this.jobDescription = jobDescription;
-            this.administrator = admin;
+            this.authentication = authentication;
         }
 
         /// <summary>
-        /// Constructor to add user from Db to list
+        /// Constructor, that accepts data from an existing User
         /// </summary>
         /// <param name="user">User</param>
         public User(User user)
         {
             this.id = user.Id;
+            this.person = user.Person;
             this.initials = user.Initials;
-            this.name = user.Name;
-            this.passWord = user.PassWord;
-            this.contactInfo = user.ContactInfo;
             this.jobDescription = user.JobDescription;
-            this.administrator = user.Administrator;
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Method, that changes password, if eligible
-        /// </summary>
-        /// <param name="oldPassWord"></param>
-        /// <param name="newPassWord"></param>
-        /// <returns></returns>
-        public bool ChangePassword(string oldPassWord, string newPassWord)
-        {
-            if (passWord == oldPassWord)
-            {
-                passWord = newPassWord;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            this.authentication = user.Authentication;
         }
 
         /// <summary>
-        /// Method returns user name as string
+        /// Constructor, that accepts data from an existing Indexed User
         /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
+        /// <param name="user">IndexedUser</param>
+        public User(IndexedUser user)
         {
-            string result = name + " (" + initials + ")";
-            return result;
+            this.id = user.Id;
+            this.person = user.Person;
+            this.initials = user.Initials;
+            this.jobDescription = user.JobDescription;
+            this.authentication = user.Authentication;
         }
 
         #endregion
 
         #region Properties
         public int Id { get => id; }
+
+        public Person Person { get => person; set => person = value; }
 
         public string Initials
         {
@@ -144,29 +114,61 @@ namespace JudRepository
             }
         }
 
-        public string Name
+        public JobDescription JobDescription { get => jobDescription; set => jobDescription = value; }
+
+        public Authentication Authentication { get => authentication; set => authentication = value; }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that changes password, if eligible
+        /// </summary>
+        /// <param name="oldPassWord"></param>
+        /// <param name="newPassWord"></param>
+        /// <returns></returns>
+        public bool ChangePassword(string oldPassWord, string newPassWord)
         {
-            get => name;
-            set
+            bool result = false;
+
+            if (authentication.PassWord == oldPassWord)
             {
-                try
+                authentication.PassWord = newPassWord;
+                result = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
                 {
-                    name = value;
+                    this.id = id;
                 }
-                catch (Exception)
-                {
-                    name = "";
-                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
             }
         }
 
-        public ContactInfo ContactInfo { get; set; }
+        /// <summary>
+        /// Method returns user name as string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            return person.Name + " (" + initials + ")";
 
-        public JobDescription JobDescription { get; set; }
+        }
 
-        public string PassWord { get => passWord; }
-
-        public bool Administrator { get => administrator; }
         #endregion
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace JudGui
             GenerateComboBoxBuilderItems();
             GenerateComboBoxProjectStatusItems();
             GenerateComboBoxTenderFormItems();
-            ComboBoxExecutive.ItemsSource = Bizz.IndexableUsers;
+            ComboBoxExecutive.ItemsSource = Bizz.IndexedUsers;
             ComboBoxProjectStatus.ItemsSource = Bizz.IndexedEnterpriseForms;
             GenerateComboBoxExecutiveItems();
         }
@@ -91,7 +91,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxCaseName.Text = Bizz.TempProject.Name;
@@ -156,7 +156,7 @@ namespace JudGui
         private void GenerateComboBoxProjectStatusItems()
         {
             ComboBoxProjectStatus.Items.Clear();
-            foreach (ProjectStatus temp in Bizz.ProjectStatusList)
+            foreach (ProjectStatus temp in Bizz.ProjectStatuses)
             {
                 ComboBoxProjectStatus.Items.Add(temp);
             }
@@ -205,7 +205,7 @@ namespace JudGui
 
             foreach (IndexedEnterpriseForm indexForm in ComboBoxExecutive.Items)
             {
-                if (indexForm.Name == enterpriseForm.Name)
+                if (indexForm.Text == enterpriseForm.Text)
                 {
                     result = indexForm.Index;
                 }
@@ -236,7 +236,7 @@ namespace JudGui
             IndexedProjectStatus result = new IndexedProjectStatus();
             int i = 0;
 
-            foreach (IndexedProjectStatus status in Bizz.IndexedProjectStatusList)
+            foreach (IndexedProjectStatus status in Bizz.IndexedProjectStatuses)
             {
                 if (status.Index == selectedIndex)
                 {
@@ -247,14 +247,14 @@ namespace JudGui
                 i++;
             }
 
-            return new ProjectStatus(result.Id, result.Description);
+            return new ProjectStatus(result.Id, result.Text);
         }
 
         private int GetProjectStatusIndex(int id)
         {
             int result = 0;
 
-            foreach (IndexedProjectStatus indexProjectStatus in Bizz.IndexedProjectStatusList)
+            foreach (IndexedProjectStatus indexProjectStatus in Bizz.IndexedProjectStatuses)
             {
                 if (indexProjectStatus.Id == id)
                 {
@@ -280,7 +280,7 @@ namespace JudGui
 
             }
 
-            return new TenderForm(result.Id, result.Description);
+            return new TenderForm(result.Id, result.Text);
         }
 
         private User GetUser(int selectedIndex)

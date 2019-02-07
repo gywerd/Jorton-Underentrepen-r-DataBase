@@ -30,7 +30,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding new ITT Letter
+        /// Costructor to add a a new ITT Letter
         /// </summary>
         /// <param name="sent">bool</param>
         /// <param name="sentDate">DateTime</param>
@@ -42,7 +42,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding ITT Letter from Db
+        /// Costructor to add a an ITT Letter from Db
         /// </summary>
         /// <param name="id"></param>
         /// <param name="sent"></param>
@@ -55,7 +55,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for accepts an existing Itt Letter
+        /// Constructor, that accepts data from an existing Itt Letter
         /// </summary>
         /// <param name="ittLetter">IttLetter</param>
         public IttLetter(IttLetter ittLetter)
@@ -64,7 +64,39 @@ namespace JudRepository
             this.sent = ittLetter.Sent;
             this.sentDate = ittLetter.SentDate;
         }
-        
+
+        #endregion
+
+        #region Properties
+        public int Id { get => id; }
+
+        public bool Sent { get => sent; }
+
+        public DateTime SentDate
+        {
+            get => sentDate;
+            set
+            {
+                DateTime tempValue = Convert.ToDateTime("1932-03-17");
+
+                try
+                {
+                    if (value != tempValue)
+                    {
+                        sentDate = value;
+                    }
+                    else
+                    {
+                        sentDate = tempValue;
+                    }
+                }
+                catch (Exception)
+                {
+                    sentDate = tempValue;
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -121,36 +153,5 @@ namespace JudRepository
 
         #endregion
 
-        #region Properties
-        public int Id { get => id; }
-
-        public bool Sent { get => sent; }
-
-        public DateTime SentDate
-        {
-            get => sentDate;
-            set
-            {
-                DateTime tempValue = Convert.ToDateTime("1932-03-17");
-
-                try
-                {
-                    if (value != tempValue)
-                    {
-                        sentDate = value;
-                    }
-                    else
-                    {
-                        sentDate = tempValue;
-                    }
-                }
-                catch (Exception)
-                {
-                    sentDate = tempValue;
-                }
-            }
-        }
-
-        #endregion
     }
 }

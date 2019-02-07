@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,7 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    Bizz.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             ComboBoxProjectStatus.SelectedIndex = Bizz.TempProject.Status.Id;
@@ -112,7 +112,7 @@ namespace JudGui
         private void GenerateComboBoxProjectStatusItems()
         {
             ComboBoxProjectStatus.Items.Clear();
-            foreach (ProjectStatus temp in Bizz.ProjectStatusList)
+            foreach (ProjectStatus temp in Bizz.ProjectStatuses)
             {
                 ComboBoxProjectStatus.Items.Add(temp);
             }
@@ -125,7 +125,7 @@ namespace JudGui
         {
             Bizz.IndexedActiveProjects.Clear();
             int i = 0;
-            foreach (Project tempProject in Bizz.Projects)
+            foreach (Project tempProject in Bizz.ActiveProjects)
             {
                 if (tempProject.Status.Id == 1)
                 {
@@ -139,11 +139,11 @@ namespace JudGui
         /// <summary>
         /// Method, that reloads list of indexable projects
         /// </summary>
-        private void ReloadListIndexableProjects()
+        private void ReloadListIndexedProjects()
         {
             Bizz.IndexedProjects.Clear();
             int i = 0;
-            foreach (Project temp in Bizz.Projects)
+            foreach (Project temp in Bizz.ActiveProjects)
             {
                 IndexedProject result = new IndexedProject(i, temp);
                 Bizz.IndexedProjects.Add(result);

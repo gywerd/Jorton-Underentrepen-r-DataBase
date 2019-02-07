@@ -48,21 +48,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
-    <Compile Include="BluePrint.cs" />
+    <Compile Include="Authentication.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="ContactInfo.cs" />
     <Compile Include="CraftGroup.cs" />
-    <Compile Include="Description.cs" />
     <Compile Include="Enterprise.cs" />
     <Compile Include="EnterpriseForm.cs" />
+    <Compile Include="Entrepeneur.cs" />
     <Compile Include="IndexedContact.cs" />
     <Compile Include="IndexedEnterprise.cs" />
     <Compile Include="IndexedEnterpriseForm.cs" />
-    <Compile Include="IndexedIttLetterBullet.cs" />
-    <Compile Include="IndexedIttLetterParagraph.cs" />
-    <Compile Include="IndexedLegalEntity.cs" />
+    <Compile Include="IndexedBullet.cs" />
+    <Compile Include="IndexedParagraph.cs" />
+    <Compile Include="IndexedEntrepeneur.cs" />
     <Compile Include="IndexedProject.cs" />
     <Compile Include="IndexedRequest.cs" />
     <Compile Include="IndexedRequestStatus.cs" />
@@ -71,14 +71,14 @@
     <Compile Include="IndexedUser.cs" />
     <Compile Include="IndexedProjectStatus.cs" />
     <Compile Include="IttLetter.cs" />
-    <Compile Include="IttLetterBullet.cs" />
-    <Compile Include="IttLetterParagraph.cs" />
-    <Compile Include="IttLetterPdfData.cs" />
-    <Compile Include="IttLetterReceiver.cs" />
-    <Compile Include="IttLetterShipping.cs" />
+    <Compile Include="Bullet.cs" />
+    <Compile Include="Paragraph.cs" />
+    <Compile Include="LetterData.cs" />
+    <Compile Include="Person.cs" />
+    <Compile Include="Receiver.cs" />
+    <Compile Include="Shipping.cs" />
     <Compile Include="JobDescription.cs" />
     <Compile Include="LegalEntity.cs" />
-    <Compile Include="Miscellaneous.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="ProjectStatus.cs" />
@@ -88,8 +88,8 @@
     <Compile Include="RequestStatus.cs" />
     <Compile Include="SubEntrepeneur.cs" />
     <Compile Include="TenderForm.cs" />
-    <Compile Include="TimeSchedule.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserLevel.cs" />
     <Compile Include="ZipTown.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -27,11 +27,11 @@ namespace JudGui
         public Bizz CBZ;
         public UserControl UcRight;
         public List<int> EnterpriseIds = new List<int>();
-        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
-        public List<IndexedSubEntrepeneur> IndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
-        public List<IndexedSubEntrepeneur> OpenIndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
-        public List<IndexedSubEntrepeneur> ChosenIndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
-        public List<IndexedSubEntrepeneur> YesReceivedChosenIndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
+        public List<Enterprise> IndexedEnterprises = new List<Enterprise>();
+        public List<IndexedSubEntrepeneur> IndexedSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
+        public List<IndexedSubEntrepeneur> OpenIndexedSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
+        public List<IndexedSubEntrepeneur> ChosenIndexedSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
+        public List<IndexedSubEntrepeneur> YesReceivedChosenIndexedSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
 
         #endregion
 
@@ -66,23 +66,23 @@ namespace JudGui
             PdfCreator pdfCreator = new PdfCreator(GetStrConnection());
             if (RadioButtonShowAll.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, IndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, IndexedSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowOpen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, OpenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, OpenIndexedSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowChosen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, ChosenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, ChosenIndexedSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowYesReceivedChosen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexableEnterprises, YesReceivedChosenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, YesReceivedChosenIndexedSubEntrepeneurs, CBZ.Users);
             }
             if (RadioButtonShowAgreement.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdfForAgreement(CBZ, IndexableEnterprises, ChosenIndexableSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdfForAgreement(CBZ, IndexedEnterprises, ChosenIndexedSubEntrepeneurs, CBZ.Users);
             }
             Process.Start(path);
         }
@@ -97,12 +97,12 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
-            IndexableEnterprises = GetIndexableEnterprises();
-            IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
+            IndexedEnterprises = GetIndexedEnterprises();
+            IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
             RadioButtonShowAll.IsChecked = true;
         }
 
@@ -113,7 +113,7 @@ namespace JudGui
             RadioButtonShowChosen.IsChecked = false;
             RadioButtonShowYesReceivedChosen.IsChecked = false;
             RadioButtonShowAgreement.IsChecked = false;
-            UpdateIndexableLists();
+            UpdateIndexedLists();
         }
 
         private void RadioButtonShowOpen_Checked(object sender, RoutedEventArgs e)
@@ -123,9 +123,9 @@ namespace JudGui
             RadioButtonShowChosen.IsChecked = false;
             RadioButtonShowYesReceivedChosen.IsChecked = false;
             RadioButtonShowAgreement.IsChecked = false;
-            UpdateIndexableLists();
-            OpenIndexableSubEntrepeneurs.Clear();
-            OpenIndexableSubEntrepeneurs = FilterOpen();
+            UpdateIndexedLists();
+            OpenIndexedSubEntrepeneurs.Clear();
+            OpenIndexedSubEntrepeneurs = FilterOpen();
         }
 
         private void RadioButtonShowChosen_Checked(object sender, RoutedEventArgs e)
@@ -135,9 +135,9 @@ namespace JudGui
             RadioButtonShowChosen.IsChecked = true;
             RadioButtonShowYesReceivedChosen.IsChecked = false;
             RadioButtonShowAgreement.IsChecked = false;
-            UpdateIndexableLists();
-            ChosenIndexableSubEntrepeneurs.Clear();
-            ChosenIndexableSubEntrepeneurs = FilterChosen();
+            UpdateIndexedLists();
+            ChosenIndexedSubEntrepeneurs.Clear();
+            ChosenIndexedSubEntrepeneurs = FilterChosen();
         }
 
         private void RadioButtonShowYesReceivedChosen_Checked(object sender, RoutedEventArgs e)
@@ -147,9 +147,9 @@ namespace JudGui
             RadioButtonShowChosen.IsChecked = false;
             RadioButtonShowYesReceivedChosen.IsChecked = true;
             RadioButtonShowAgreement.IsChecked = false;
-            UpdateIndexableLists();
-            YesReceivedChosenIndexableSubEntrepeneurs.Clear();
-            YesReceivedChosenIndexableSubEntrepeneurs = FilterYesReceivedChosen();
+            UpdateIndexedLists();
+            YesReceivedChosenIndexedSubEntrepeneurs.Clear();
+            YesReceivedChosenIndexedSubEntrepeneurs = FilterYesReceivedChosen();
         }
 
         private void RadioButtonShowAgreement_Checked(object sender, RoutedEventArgs e)
@@ -159,23 +159,23 @@ namespace JudGui
             RadioButtonShowChosen.IsChecked = false;
             RadioButtonShowYesReceivedChosen.IsChecked = false;
             RadioButtonShowAgreement.IsChecked = true;
-            UpdateIndexableLists();
-            ChosenIndexableSubEntrepeneurs.Clear();
-            ChosenIndexableSubEntrepeneurs = FilterChosen();
+            UpdateIndexedLists();
+            ChosenIndexedSubEntrepeneurs.Clear();
+            ChosenIndexedSubEntrepeneurs = FilterChosen();
         }
         #endregion
 
         #region Methods
         /// <summary>
-        /// Method, that returns list of chosen Subentrepeneurs from IndexableSubEntrepeneur
+        /// Method, that returns list of chosen Subentrepeneurs from IndexedSubEntrepeneur
         /// </summary>
-        /// <returns>List<IndexableSubEntrepeneur></returns>
+        /// <returns>List<IndexedSubEntrepeneur></returns>
         private List<IndexedSubEntrepeneur> FilterChosen()
         {
             List<IndexedSubEntrepeneur> result = new List<IndexedSubEntrepeneur>();
             foreach (int id in EnterpriseIds)
             {
-                foreach (IndexedSubEntrepeneur entrepeneur in IndexableSubEntrepeneurs)
+                foreach (IndexedSubEntrepeneur entrepeneur in IndexedSubEntrepeneurs)
                 {
                     if (entrepeneur.Enterprise.Id == id)
                     {
@@ -198,7 +198,7 @@ namespace JudGui
             List<IndexedSubEntrepeneur> result = new List<IndexedSubEntrepeneur>();
             foreach (int id in EnterpriseIds)
             {
-                foreach (IndexedSubEntrepeneur entrepeneur in IndexableSubEntrepeneurs)
+                foreach (IndexedSubEntrepeneur entrepeneur in IndexedSubEntrepeneurs)
                 {
                     if (entrepeneur.Active)
                     {
@@ -214,7 +214,7 @@ namespace JudGui
             List<IndexedSubEntrepeneur> result = new List<IndexedSubEntrepeneur>();
             foreach (int id in EnterpriseIds)
             {
-                foreach (IndexedSubEntrepeneur entrepeneur in IndexableSubEntrepeneurs)
+                foreach (IndexedSubEntrepeneur entrepeneur in IndexedSubEntrepeneurs)
                 {
                     if (entrepeneur.Enterprise.Id == id)
                     {
@@ -237,7 +237,7 @@ namespace JudGui
             return result;
         }
 
-        private List<Enterprise> GetIndexableEnterprises()
+        private List<Enterprise> GetIndexedEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             EnterpriseIds.Clear();
@@ -259,7 +259,7 @@ namespace JudGui
         /// Method, that load add an index to S
         /// </summary>
         /// <returns></returns>
-        private List<IndexedSubEntrepeneur> GetIndexableSubEntrepeneurs()
+        private List<IndexedSubEntrepeneur> GetIndexedSubEntrepeneurs()
         {
             List<IndexedSubEntrepeneur> result = new List<IndexedSubEntrepeneur>();
             int i = 0;
@@ -288,14 +288,14 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that reloads IndexableEnterprises & IndexableSubEntrepeneurs
+        /// Method, that reloads IndexedEnterprises & IndexedSubEntrepeneurs
         /// </summary>
-        private void UpdateIndexableLists()
+        private void UpdateIndexedLists()
         {
-            IndexableEnterprises.Clear();
-            IndexableEnterprises = GetIndexableEnterprises();
-            IndexableSubEntrepeneurs.Clear();
-            IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
+            IndexedEnterprises.Clear();
+            IndexedEnterprises = GetIndexedEnterprises();
+            IndexedSubEntrepeneurs.Clear();
+            IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
         }
 
         #endregion

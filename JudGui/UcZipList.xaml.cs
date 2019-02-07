@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,12 @@ namespace JudGui
         private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            bool result = Bizz.CreateInDbReturnBool(Bizz.TempZipTown);
+            bool result = false;
+            int id = Bizz.CreateInDb(Bizz.TempZipTown);
+            if (id >= 1)
+            {
+                result = true;
+            }
 
             if (result)
             {

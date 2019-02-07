@@ -28,7 +28,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding new ZipTown
+        /// Costructor to add a new ZipTown
         /// </summary>
         /// <param name="zip">string</param>
         /// <param name="town">string</param>
@@ -40,7 +40,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding new ZipTown
+        /// Costructor to add a ZipTown from Db
         /// </summary>
         /// <param name="zip">string</param>
         /// <param name="town">string</param>
@@ -52,7 +52,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, that accepts an existing ZipTown
+        /// Constructor, that accepts data from an existing ZipTown
         /// </summary>
         /// <param name="zipTown">ZipTown</param>
         public ZipTown(ZipTown zipTown)
@@ -60,18 +60,6 @@ namespace JudRepository
             this.id = zipTown.Id;
             this.zip = zipTown.zip;
             this.town = zipTown.town;
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Method, that converts main info to string
-        /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
-        {
-            return this.zip + " " + this.town;
         }
 
         #endregion
@@ -111,5 +99,36 @@ namespace JudRepository
         }
 
         #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Method, that converts main info to string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            return this.zip + " " + this.town;
+        }
+
+        #endregion
+
     }
 }

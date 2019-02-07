@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -28,10 +28,11 @@ namespace JudGui
         public UserControl UcRight;
         public static string macAddress;
 
-        public IttLetterShipping Shipping = new IttLetterShipping();
+        public Shipping Shipping = new Shipping();
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
-        public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
+        public List<IndexedEntrepeneur> IndexedLegalEntities;
+        public List<Shipping> ProjectShippingList = new List<Shipping>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
         #endregion
@@ -41,6 +42,7 @@ namespace JudGui
         {
             InitializeComponent();
             this.CBZ = cbz;
+            IndexedLegalEntities = cbz.IndexedEntrepeneurs;
             macAddress = GetMacAddress();
             this.UcRight = ucRight;
             GenerateComboBoxCaseIdItems();
@@ -52,12 +54,8 @@ namespace JudGui
         private void ButtonChoose_Click(object sender, RoutedEventArgs e)
         {
             result = false;
-            bool receivers = false;
+            bool receivers = CheckReceiversExist();
 
-            if (ListBoxLegalEntities.SelectedItems.Count >= 1)
-            {
-                receivers = true;
-            }
             switch (receivers)
             {
                 case false:
@@ -78,9 +76,9 @@ namespace JudGui
                 ComboBoxCaseId.SelectedIndex = -1;
 
                 //Update lists and fields
-                CBZ.RefreshList("IttLetterReceivers");
-                CBZ.RefreshList("IttLetterShippingList");
-                Shipping = new IttLetterShipping();
+                CBZ.RefreshList("Receivers");
+                CBZ.RefreshList("ShippingList");
+                Shipping = new Shipping();
             }
             else
             {
@@ -91,12 +89,12 @@ namespace JudGui
 
         private void ButtonClearAll_Click(object sender, RoutedEventArgs e)
         {
-            ListBoxLegalEntities.UnselectAll();
+            ListBoxEntrepeneurs.UnselectAll();
         }
 
         private void ButtonChoseAll_Click(object sender, RoutedEventArgs e)
         {
-            ListBoxLegalEntities.SelectAll();
+            ListBoxEntrepeneurs.SelectAll();
         }
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
@@ -121,39 +119,40 @@ namespace JudGui
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                        CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                         break;
                     }
                 }
                 TextBoxName.Text = CBZ.TempProject.Name;
                 GetProjectSubEntrepeneurs();
-                GetIndexableLegalEntities();
-                ListBoxLegalEntities.ItemsSource = "";
-                ListBoxLegalEntities.ItemsSource = IndexableLegalEntities;
+                CBZ.RefreshLetterLists();
+                GetIndexedEntrepeneurs();
+                ListBoxEntrepeneurs.ItemsSource = "";
+                ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
             }
             else
             {
                 TextBoxName.Text = "";
                 ProjectSubEntrepeneurs.Clear();
                 ProjectEnterprises.Clear();
-                IndexableLegalEntities.Clear();
-                ListBoxLegalEntities.ItemsSource = "";
+                IndexedLegalEntities.Clear();
+                ListBoxEntrepeneurs.ItemsSource = "";
             }
         }
 
-        private void ListBoxLegalEntities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedItemsCount = ListBoxLegalEntities.SelectedItems.Count;
+            int selectedItemsCount = ListBoxEntrepeneurs.SelectedItems.Count;
             switch (selectedItemsCount)
             {
                 case 1:
-                    int selectedIndex = ListBoxLegalEntities.SelectedIndex;
-                    foreach (IndexedLegalEntity temp in IndexableLegalEntities)
+                    int selectedIndex = ListBoxEntrepeneurs.SelectedIndex;
+                    foreach (IndexedEntrepeneur temp in CBZ.IndexedEntrepeneurs)
                     {
                         if (temp.Index == selectedIndex)
                         {
-                            CBZ.TempLegalEntity = temp;
-                            CBZ.TempSubEntrepeneur = GetSubEntrepeneur(CBZ.TempLegalEntity.Id);
+                            CBZ.TempEntrepeneur = temp;
+                            CBZ.TempSubEntrepeneur = GetSubEntrepeneur(CBZ.TempEntrepeneur.Id);
                             if (!CBZ.TempSubEntrepeneur.Active)
                             {
                                 CBZ.TempSubEntrepeneur.ToggleActive();
@@ -177,12 +176,11 @@ namespace JudGui
         /// <returns></returns>
         private void AddReceivers()
         {
-            IttLetterReceiver tempReceiver;
-            foreach (IndexedLegalEntity entity in ListBoxLegalEntities.SelectedItems)
+            foreach (IndexedEntrepeneur entrepeneur in ListBoxEntrepeneurs.SelectedItems)
             {
-                tempReceiver = FillIttLetterReceiver(entity);
+                CBZ.TempReceiver = FillReceiver(CBZ.TempProject, entrepeneur);
                 //Code that ads a enterprise to Enterprise List
-                int tempResult = CBZ.CreateInDbReturnInt(tempReceiver);
+                int tempResult = CBZ.CreateInDb(CBZ.TempReceiver);
 
                 //Code, that checks result
                 if (!result)
@@ -196,101 +194,79 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that checks, whether a LegalEntity exists in IttLetter Receivers list
+        /// Method, that checks if Receivers have been selected in ListBoxEntrepeneurs
         /// </summary>
-        /// <param name="entity">LegalEntity</param>
-        /// <returns>bool</returns>
-        private bool CheckEntityIttLetterReceivers(LegalEntity entity)
+        /// <returns></returns>
+        private bool CheckReceiversExist()
         {
             bool result = false;
-            foreach (IttLetterReceiver receiver in CBZ.IttLetterReceivers)
+
+            if (ListBoxEntrepeneurs.SelectedItems.Count >= 1)
             {
-                if (receiver.CompanyId == entity.Id)
-                {
-                    result = true;
-                    break;
-                }
+                result = true;
             }
+
             return result;
         }
 
         /// <summary>
-        /// Method, that checks, whether a LegalEntity exists in tempResult list
+        /// Method, that creates a Shipping
         /// </summary>
-        /// <param name="tempEntity">LegalEntity</param>
-        /// <param name="sub">SubEntrepeneur</param>
-        /// <param name="List<LegalEntity>"></param>
-        /// <returns></returns>
-        private bool CheckEntityTempResult(LegalEntity tempEntity, List<LegalEntity> tempResult)
+        /// <param name="project">Project</param>
+        /// <param name="receiver">Receiver</param>
+        /// <param name="subEntrepeneur">SubEntrepeneur</param>
+        /// <param name="letterData">PdfData</param>
+        private void CreateShipping(Project project, Receiver receiver, SubEntrepeneur subEntrepeneur)
         {
-            bool exist = false;
-            foreach (LegalEntity entity in tempResult)
+            Shipping = new Shipping(project, receiver, subEntrepeneur, new LetterData(), @"PDF_Documents\", macAddress);
+            try
             {
-                if (entity.Id == tempEntity.Id)
-                {
-                    exist = true;
-                    break;
-                }
+                int id = CBZ.CreateInDb(Shipping);
+                Shipping.SetId(id);
+                Shipping.PdfPath = "";
+                CBZ.UpdateInDb(Shipping);
             }
-            return exist;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Opdater forsendelse", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
         /// Method, that adds data to an ITT-letter receiver
         /// </summary>
-        /// <param name="entity">IndexableLegalEntity</param>
-        /// <returns>IttLetterReceiver</returns>
-        private IttLetterReceiver FillIttLetterReceiver(IndexedLegalEntity entity)
+        /// <param name="entrepeneur">IndexedLegalEntity</param>
+        /// <returns>Receiver</returns>
+        private Receiver FillReceiver(Project project, IndexedEntrepeneur entrepeneur)
         {
-            GetIttLetterShipping();
-            IttLetterShipping shipping = Shipping;
-            Project project = Shipping.Project;
-            string companyId = entity.Id;
-            string companyName = entity.Name;
-            Contact contact = GetContact(entity.Id);
-            string attention = contact.Name;
-            Address address = GetAddress(entity.Address.Id);
+            string cvr = entrepeneur.Entity.Cvr;
+            string companyName = entrepeneur.Entity.Name;
+            Contact contact = GetContact(entrepeneur.Id);
+            string attention = contact.Person.Name;
+            Address address = entrepeneur.Entity.Address;
             string street = address.Street;
             string place = address.Place;
             ZipTown zipTown = address.ZipTown;
             string zip = zipTown.ToString();
-            string email = contact.ContactInfo.Email;
+            string email = contact.Person.ContactInfo.Email;
 
-            IttLetterReceiver result = new IttLetterReceiver(shipping, project, companyId, companyName, attention, street, zip, email, place);
+            Receiver result = new Receiver(cvr, companyName, attention, street, zip, email, place);
+            CreateShipping(project, result, CBZ.TempSubEntrepeneur);
+            ProjectShippingList.Add(Shipping);
 
             return result;
 
         }
 
+ 
         /// <summary>
         /// Method, that generates Items for ComboBoxCaseId
         /// </summary>
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                ComboBoxCaseId.Items.Add(temp);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id">int</param>
-        /// <returns>Address</returns>
-        private Address GetAddress(int id)
-        {
-            Address result = new Address();
-            foreach (Address temp in CBZ.Addresses)
-            {
-                if (temp.Id == id)
-                {
-                    result = temp;
-                    break;
-                }
-            }
-            return result;
+            ComboBoxCaseId.ItemsSource = "";
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
         /// <summary>
@@ -298,7 +274,7 @@ namespace JudGui
         /// </summary>
         /// <param name="entrepeneur">string</param>
         /// <returns>Contact</returns>
-        private Contact GetContact(string entrepeneur)
+        private Contact GetContact(int entrepeneur)
         {
             SubEntrepeneur sub = GetSubEntrepeneur(entrepeneur);
             Contact contact = sub.Contact;
@@ -306,32 +282,12 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that retrieves a Contact from Contact List
+        /// Method, that creates an indexable Enterprises List
         /// </summary>
-        /// <param name="sub">int</param>
-        /// <returns>Contact</returns>
-        private Contact GetContactFromList(int id)
+        /// <returns>List<IndexedEnterprise></returns>
+        private List<IndexedEnterprise> GetIndexedEnterprises()
         {
-            Contact result = new Contact();
-            foreach (Contact contact in CBZ.Contacts)
-            {
-                if (contact.Id == id)
-                {
-                    result = contact;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that creates an indexable Enterprises
-        /// </summary>
-        /// <returns>List<IndexableEnterprise></returns>
-        private List<Enterprise> GetIndexableEnterprises()
-        {
-            List<Enterprise> result = new List<Enterprise>();
+            List<IndexedEnterprise> result = new List<IndexedEnterprise>();
             int i = 0;
             foreach (Enterprise enterprise in ProjectEnterprises)
             {
@@ -345,61 +301,12 @@ namespace JudGui
         /// <summary>
         /// Method that creates a list of indexable Legal Entities
         /// </summary>
-        /// <returns>List<IndexableLegalEntity></returns>
-        private void GetIndexableLegalEntities()
+        /// <returns>List<IndexedLegalEntity></returns>
+        private void GetIndexedEntrepeneurs()
         {
-            List<LegalEntity> tempResult = new List<LegalEntity>();
-            foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)
-            {
-                CBZ.RefreshList("IttLetterReceivers");
-                foreach (LegalEntity tempEntity in CBZ.LegalEntities)
-                {
-                    if (tempEntity.Id == sub.Entrepeneur.Id)
-                    {
-                        bool result = CheckEntityTempResult(tempEntity, tempResult);
-                        bool exist = CheckEntityIttLetterReceivers(tempEntity);
-                        if (!result && !exist)
-                        {
-                            tempResult.Add(tempEntity);
-                            break;
-                        }
-                    }
-                }
-            }
-            int i = 0;
-            IndexableLegalEntities.Clear();
-            foreach (LegalEntity entity in tempResult)
-            {
-                bool result = CheckEntityIttLetterReceivers(entity);
-                if (!result)
-                {
-                    IndexedLegalEntity temp = new IndexedLegalEntity(i, entity);
-                    IndexableLegalEntities.Add(temp);
-                    i++;
-                }
-            }
-            ListBoxLegalEntities.ItemsSource = "";
-            ListBoxLegalEntities.ItemsSource = IndexableLegalEntities;
-        }
-
-        /// <summary>
-        /// Method, that creates a IttLetterShipping
-        /// </summary>
-        /// <returns></returns>
-        private void GetIttLetterShipping()
-        {
-            Shipping = new IttLetterShipping(CBZ.TempProject, @"PDF_Documents\", macAddress);
-            try
-            {
-                int id = CBZ.CreateInDbReturnInt(Shipping);
-                Shipping.SetId(id);
-                Shipping.PdfPath = "";
-                CBZ.UpdateInDb(Shipping);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Opdater forsendelse", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            CBZ.GetIndexedEntrepeneurs();
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
         }
 
         private string GetMacAddress()
@@ -431,7 +338,7 @@ namespace JudGui
             }
         }
 
-        private SubEntrepeneur GetSubEntrepeneur(string entrepeneur)
+        private SubEntrepeneur GetSubEntrepeneur(int entrepeneur)
         {
             SubEntrepeneur tempSub = new SubEntrepeneur();
             foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)

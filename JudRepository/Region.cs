@@ -11,10 +11,9 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string regionName;
+        private string text;
         private string zips;
 
-        //Region CRG = new Region(strConnection);
         #endregion
 
         #region Constructors
@@ -24,37 +23,37 @@ namespace JudRepository
         public Region()
         {
             this.id = 0;
-            this.regionName = "";
+            this.text = "";
             this.zips = "";
         }
 
         /// <summary>
-        /// Constructor to add new EnterpriseForm
+        /// Constructor to add a new Enterprise Form
         /// </summary>
-        /// <param name="regionName">string</param>
+        /// <param name="text">string</param>
         /// <param name="zips">string</param>
-        public Region(string regionName, string zips)
+        public Region(string text, string zips)
         {
             this.id = 0;
-            this.regionName = regionName;
+            this.text = text;
             this.zips = zips;
         }
 
         /// <summary>
-        /// Constructor to add Enterprise Form from Db
+        /// Constructor to add an Enterprise Form from Db
         /// </summary>
         /// <param name="id">int</param>
-        /// <param name="regionName">string</param>
+        /// <param name="text">string</param>
         /// <param name="zips">string</param>
-        public Region(int id, string regionName, string zips)
+        public Region(int id, string text, string zips)
         {
             this.id = id;
-            this.regionName = regionName;
+            this.text = text;
             this.zips = zips;
         }
 
         /// <summary>
-        /// Constructor to add Enterprise Form from Db
+        /// Constructor, that accepts data from an existing Enterprise Form
         /// </summary>
         /// <param name="region">Region</param>
         public Region(Region region)
@@ -62,27 +61,15 @@ namespace JudRepository
             if (region != null)
             {
                 this.id = region.Id;
-                this.regionName = region.RegionName;
+                this.text = region.Text;
                 this.zips = region.Zips;
             }
             else
             {
                 this.id = 0;
-                this.regionName = "";
+                this.text = "";
                 this.zips = "";
             }
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Returns main content as a string
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return regionName;
         }
 
         #endregion
@@ -90,17 +77,18 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public string RegionName {
-            get => regionName;
+        public string Text
+        {
+            get => text;
             set
             {
                 try
                 {
-                    regionName = value;
+                    text = value;
                 }
                 catch (Exception)
                 {
-                    regionName = "";
+                    text = "";
                 }
             }
         }
@@ -119,6 +107,36 @@ namespace JudRepository
                     zips = "";
                 }
             }
+        }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return text;
         }
 
         #endregion

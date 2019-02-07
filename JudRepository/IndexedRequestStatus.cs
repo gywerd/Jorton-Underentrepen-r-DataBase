@@ -8,8 +8,12 @@ namespace JudRepository
 {
     public class IndexedRequestStatus : RequestStatus
     {
+        #region Fields
         int index;
 
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Empty Constructor
         /// </summary>
@@ -19,7 +23,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, to create an Indexable Project Status
+        /// Constructor to add a new Indexed Project Status
         /// </summary>
         /// <param name="index">int</param>
         /// <param name="status">ProjectStatus</param>
@@ -28,14 +32,20 @@ namespace JudRepository
             this.index = index;
         }
 
+        #endregion
+
+        #region Methods
         public override string ToString()
         {
             return base.ToString();
         }
 
-        public int Index
-        {
-            get => index;
-        }
+        #endregion
+
+        #region Properties
+        public int Index { get => index; }
+
+        #endregion
+
     }
 }

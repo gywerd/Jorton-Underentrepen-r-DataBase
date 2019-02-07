@@ -33,7 +33,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor to add craft new group
+        /// Constructor to add a new Craft Group
         /// </summary>
         /// <param name="category">int</param>
         /// <param name="designation">string</param>
@@ -49,7 +49,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor to add craft group from Db
+        /// Constructor to add a Craft Group from Db
         /// </summary>
         /// <param name="id">string</param>
         /// <param name="active">bool</param>
@@ -66,7 +66,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor to add craft group
+        /// Constructor, that accepts data from an existing Craft Group
         /// </summary>
         /// <param name="craftGroup">CraftGroup</param>
         public CraftGroup(CraftGroup craftGroup)
@@ -80,22 +80,10 @@ namespace JudRepository
 
         #endregion
 
-        #region Methods
-        /// <summary>
-        /// Method, that returns main info as string
-        /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
-        {
-            return designation;
-        }
-
-        #endregion
-
         #region Properties
         public int Id { get => id; }
 
-        public Category Category { get; set; }
+        public Category Category { get => category; set => category = value; }
         public string Designation
         {
             get => designation;
@@ -128,20 +116,51 @@ namespace JudRepository
             }
         }
 
-        public bool Active
+        public bool Active { get => active; }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
         {
-            get => active;
-            set
+            try
             {
-                try
+                if (this.id == 0 && id >= 1)
                 {
-                    active = value;
-                }
-                catch (Exception)
-                {
-                    active = false;
+                    this.id = id;
                 }
             }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Methods that toggles value of Copy field
+        /// </summary>
+        public void ToggleActive()
+        {
+            if (active)
+            {
+                active = false;
+            }
+            else
+            {
+                active = true;
+            }
+        }
+
+        /// <summary>
+        /// Method, that returns main info as string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            return designation;
         }
 
         #endregion

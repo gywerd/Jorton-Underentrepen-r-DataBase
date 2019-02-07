@@ -20,7 +20,7 @@ namespace JudRepository
         public IndexedEnterprise() : base() { }
 
         /// <summary>
-        /// Constructor, that adds an index to an existing Enterprise
+        /// Constructor, that add a new Indexed Enterprise
         /// </summary>
         /// <param name="index">int</param>
         /// <param name="enterprise">Enterprise</param>

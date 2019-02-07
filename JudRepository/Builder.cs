@@ -11,11 +11,8 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string cvr;
-        private string name;
-        private Address address;
-        private ContactInfo contactInfo;
-        private string url;
+        private LegalEntity entity;
+        private bool active;
 
         #endregion
 
@@ -25,62 +22,56 @@ namespace JudRepository
         /// </summary>
         public Builder()
         {
-            id = 0;
-            cvr = "0";
-            name = "";
-            address = new Address();
-            contactInfo = new ContactInfo();
-            url = "";
+            this.id = 0;
+            this.entity = new LegalEntity();
+            this.active = false;
         }
 
         /// <summary>
-        /// Constructor for adding new builder
+        /// Costructor to add a a new builder
         /// </summary>
-        /// <param name="cvr">string</param>
-        /// <param name="name">string</param>
-        /// <param name="address">Address</param>
-        /// <param name="contactInfo">ContactInfo</param>
-        /// <param name="url">string</param>
-        public Builder(string cvr, string name, Address address, ContactInfo contactInfo, string url = "")
+        /// <param name="entity">LegalEntity</param>
+        /// <param name="active">bool</param>
+        public Builder(LegalEntity entity, bool active)
         {
             this.id = 0;
-            this.cvr = cvr;
-            this.name = name;
-            this.address = address;
-            this.contactInfo = contactInfo;
-            this.url = url;
+            this.entity = entity;
+            this.active = active;
         }
 
         /// <summary>
-        /// Constructor for adding a builder from Db to list
+        /// Costructor to add a a builder from Db to list
         /// </summary>
         /// <param name="id">int</param>
-        /// <param name="cvr">string</param>
-        /// <param name="name">string</param>
-        /// <param name="address">Address</param>
-        /// <param name="contactInfo">ContactInfo</param>
-        /// <param name="url">string</param>
-        public Builder(int id, string cvr, string name, Address address, ContactInfo contactInfo, string url)
+        /// <param name="entity">LegalEntity</param>
+        /// <param name="active">bool</param>
+        public Builder(int id, LegalEntity entity, bool active)
         {
             this.id = id;
-            this.name = name;
-            this.address = address;
-            this.contactInfo = contactInfo;
-            this.url = url;
+            this.entity = entity;
+            this.active = active;
         }
 
         /// <summary>
-        /// Constructor, that accepts an existing builder
+        /// Constructor, that accepts data from an existing builder
         /// </summary>
         /// <param name="builder">Builder</param>
         public Builder(Builder builder)
         {
             this.id = builder.Id;
-            this.name = builder.Name;
-            this.address = builder.Address;
-            this.contactInfo = builder.ContactInfo;
-            this.url = builder.Url;
+            this.entity = builder.Entity;
+            this.active = builder.Active;
         }
+
+
+        #endregion
+
+        #region Properties
+        public int Id { get => id; }
+
+        public LegalEntity Entity { get => entity; set => entity = value; }
+
+        public bool Active { get => active; }
 
 
         #endregion
@@ -90,67 +81,46 @@ namespace JudRepository
         /// Returns main content as a string
         /// </summary>
         /// <returns></returns>
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Methods that toggles value of Active field
+        /// </summary>
+        public void ToggleActive()
+        {
+            if (active)
+            {
+                active = false;
+            }
+            else
+            {
+                active = true;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns>string</returns>
         public override string ToString()
         {
-            string result = name;
-            return result;
-        }
-
-        #endregion
-
-        #region Properties
-        public int Id { get => id; }
-
-        public string Cvr
-        {
-            get => cvr;
-            set
-            {
-                try
-                {
-                    cvr = value;
-                }
-                catch (Exception)
-                {
-                    cvr = "";
-                }
-            }
-        }
-
-        public string Name
-        {
-            get => name;
-            set
-            {
-                try
-                {
-                    name = value;
-                }
-                catch (Exception)
-                {
-                    name = "";
-                }
-            }
-        }
-
-        public Address Address { get; set; }
-
-        public ContactInfo ContactInfo { get; set; }
-
-        public string Url
-        {
-            get => url;
-            set
-            {
-                try
-                {
-                   url = value;
-                }
-                catch (Exception)
-                {
-                    url = "";
-                }
-            }
+            return entity.ToString();
         }
 
         #endregion

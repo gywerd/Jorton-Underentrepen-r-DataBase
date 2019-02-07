@@ -13,10 +13,9 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        protected LegalEntity legalEntity;
-        protected string name;
+        private Person person;
+        protected Entrepeneur entrepeneur;
         protected string area;
-        protected ContactInfo contactInfo;
 
         #endregion
 
@@ -27,70 +26,63 @@ namespace JudRepository
         public Contact()
         {
             this.id = 0;
-            legalEntity = new LegalEntity();
-            name = "";
+            person = new Person();
+            entrepeneur = new Entrepeneur();
             area = "";
-            contactInfo = new ContactInfo();
 
         }
 
         /// <summary>
-        /// Constructor for adding ContactPerson
+        /// Costructor to add a a new ContactPerson
         /// </summary>
-        /// <param name="legalEntity">int</param>
-        /// <param name="name">int</param>
-        /// <param name="description">string</param>
-        /// <param name="email">string</param>
-        /// <param name="mobile">string</param>
-        public Contact(LegalEntity legalEntity, string name, string description, ContactInfo contactInfo)
+        /// <param name="person">Person</param>
+        /// <param name="entrepeneur">Entrepeneur</param>
+        /// <param name="area">string</param>
+        public Contact(Person person, Entrepeneur entrepeneur, string area)
         {
             this.id = 0;
-            this.legalEntity = legalEntity;
-            this.name = name;
-            this.area = description;
-            this.contactInfo = contactInfo;
+            this.person = person;
+            this.entrepeneur = entrepeneur;
+            this.area = area;
         }
 
         /// <summary>
-        /// Constructor for adding ContactPerson from Db
+        /// Costructor to add a a ContactPerson from Db
         /// </summary>
         /// <param name="id">int</param>
-        /// <param name="legalEntityId">int</param>
-        /// <param name="name">int</param>
-        /// <param name="description">string</param>
-        /// <param name="email">string</param>
-        /// <param name="mobile">string</param>
-        public Contact(int id, LegalEntity legalEntity, string name, string description, ContactInfo contactInfo)
+        /// <param name="person">Person</param>
+        /// <param name="entrepeneur">Entrepeneur</param>
+        /// <param name="area">string</param>
+        public Contact(int id, Person person, Entrepeneur entity, string area)
         {
             this.id = id;
-            this.legalEntity = legalEntity;
-            this.name = name;
-            this.area = description;
-            this.contactInfo = contactInfo;
+            this.person = person;
+            this.entrepeneur = entity;
+            this.area = area;
         }
 
         /// <summary>
-        /// Constructor that accepts data from existing Contact
+        /// Constructor, that accepts data from an existing Contact
         /// </summary>
         /// <param name="contact">Contact</param>
         public Contact(Contact contact)
         {
-            if (contact != null)
-            {
                 this.id = contact.Id;
-                this.legalEntity = contact.LegalEntity;
-                this.name = contact.Name;
+                this.person = contact.Person;
+                this.entrepeneur = contact.Entity;
                 this.area = contact.Area;
-                this.contactInfo = contact.ContactInfo;
-            }
-            else
-            {
-                id = 0;
-                legalEntity = new LegalEntity();
-                name = "";
-                area = "";
-                contactInfo = new ContactInfo();
-            }
+        }
+
+        /// <summary>
+        /// Constructor, that accepts data from an existing Indexed Contact
+        /// </summary>
+        /// <param name="contact">IndexedContact</param>
+        public Contact(IndexedContact contact)
+        {
+            this.id = contact.Id;
+            this.person = contact.Person;
+            this.entrepeneur = contact.Entity;
+            this.area = contact.Area;
         }
 
         #endregion
@@ -120,12 +112,7 @@ namespace JudRepository
         /// <returns>string</returns>
         public override string ToString()
         {
-            string tempName = name;
-            if (area != "")
-            {
-                tempName += " (" + area + ")";
-            }
-            return tempName;
+            return person.Name + " (" + area + ")";
         }
 
         #endregion
@@ -133,22 +120,9 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public LegalEntity LegalEntity { get; set; }
-        public string Name
-        {
-            get => name;
-            set
-            {
-                try
-                {
-                    name = value;
-                }
-                catch (Exception)
-                {
-                    name = "";
-                }
-            }
-        }
+        public Person Person { get => person; set => person = value; }
+
+        public Entrepeneur Entity { get => entrepeneur; set => entrepeneur = value; }
 
         public string Area
         {
@@ -165,8 +139,6 @@ namespace JudRepository
                 }
             }
         }
-
-        public ContactInfo ContactInfo { get; set; }
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -23,18 +23,19 @@ namespace JudGui
     public partial class UcCopyProject : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
+
+        #endregion
 
         public UcCopyProject(Bizz bizz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = bizz;
             this.UcRight = ucRight;
 
             GenerateComboBoxCaseIdItems();
         }
-        #endregion
 
         #region Buttons
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -43,15 +44,20 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcRight.Content = new UserControl();
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
             }
         }
 
         private void ButtonCopy_Click(object sender, RoutedEventArgs e)
         {
+            bool result = false;
             // Code that copies the current project into a new project
-            Project project = new Project(Bizz.TempProject.CaseId, Bizz.TempProject.Name, Bizz.TempProject.Builder, new ProjectStatus((ProjectStatus)Bizz.GetEntity("ProjectStatus","1")), Bizz.TempProject.TenderForm, Bizz.TempProject.EnterpriseForm, Bizz.TempProject.Executive);
-            bool result = Bizz.CreateInDbReturnBool(Bizz.TempProject);
+            Project project = new Project(CBZ.TempProject.Case, CBZ.TempProject.Name, CBZ.TempProject.Builder, new ProjectStatus((ProjectStatus)CBZ.GetObject("ProjectStatus", 1)), CBZ.TempProject.TenderForm, CBZ.TempProject.EnterpriseForm, CBZ.TempProject.Executive);
+            int id = CBZ.CreateInDb(CBZ.TempProject);
+            if (id >= 1)
+            {
+                result = true;
+            }
 
             if (result)
             {
@@ -59,12 +65,12 @@ namespace JudGui
                 MessageBox.Show("Projektet blev kopieret", "Kopier projekt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.RefreshList("Projects");
-                Bizz.RefreshIndexedList("IndexedActiveProjects");
-                Bizz.RefreshIndexedList("IndexableProjects");
+                CBZ.RefreshList("Projects");
+                CBZ.RefreshIndexedList("IndexedActiveProjects");
+                CBZ.RefreshIndexedList("IndexedProjects");
 
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
             else
@@ -80,14 +86,14 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedProjects)
+            foreach (IndexedProject temp in CBZ.IndexedProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
-            TextBoxCaseName.Text = Bizz.TempProject.Name;
+            TextBoxCaseName.Text = CBZ.TempProject.Name;
         }
 
         private void TextBoxCaseId_TextChanged(object sender, TextChangedEventArgs e)
@@ -99,7 +105,7 @@ namespace JudGui
                 TextBoxCaseId.Text = id;
                 TextBoxCaseId.Select(TextBoxCaseId.Text.Length, 0);
             }
-            Bizz.TempProject.CaseId = Convert.ToInt32(TextBoxCaseId.Text);
+            CBZ.TempProject.Case = Convert.ToInt32(TextBoxCaseId.Text);
         }
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
@@ -111,7 +117,7 @@ namespace JudGui
                 TextBoxCaseName.Text = id;
                 TextBoxCaseName.Select(TextBoxCaseName.Text.Length, 0);
             }
-            Bizz.TempProject.Name = TextBoxCaseName.Text;
+            CBZ.TempProject.Name = TextBoxCaseName.Text;
         }
 
         #endregion
@@ -120,7 +126,7 @@ namespace JudGui
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedProjects)
+            foreach (IndexedProject temp in CBZ.IndexedProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }

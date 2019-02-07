@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -52,9 +52,15 @@ namespace JudGui
 
         private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
         {
+            bool result = false;
+
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetEntity("ProjectStatus", "1")), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
-            bool result = Bizz.CreateInDbReturnBool(project);
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            int id = Bizz.CreateInDb(project);
+            if (id >= 1)
+            {
+                result = true;
+            }
 
             if (result)
             {
@@ -79,9 +85,15 @@ namespace JudGui
 
         private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
         {
+            bool result = false;
+
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetEntity("ProjectStatus", "1")), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
-            bool result = Bizz.CreateInDbReturnBool(project);
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            int id = Bizz.CreateInDb(project);
+            if (id >= 1)
+            {
+                result = true;
+            }
 
             if (result)
             {

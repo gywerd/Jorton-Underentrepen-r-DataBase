@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace JudGui
         #region Fields
         public Bizz CBZ;
         public UserControl UcRight;
-        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
+        public List<Enterprise> IndexedEnterprises = new List<Enterprise>();
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace JudGui
         private void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
         {
             PdfCreator pdfCreator = new PdfCreator(GetStrConnection());
-            string path = pdfCreator.GenerateEnterprisesPdf(CBZ, IndexableEnterprises, CBZ.Users);
+            string path = pdfCreator.GenerateEnterprisesPdf(CBZ, IndexedEnterprises, CBZ.Users);
             System.Diagnostics.Process.Start(path);
         }
 
@@ -63,11 +63,11 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
-            IndexableEnterprises = GetIndexableEnterprises();
+            IndexedEnterprises = GetIndexedEnterprises();
         }
 
         #endregion
@@ -76,13 +76,13 @@ namespace JudGui
         //private void GenerateComboBoxCaseIdItems()
         //{
         //    ComboBoxCaseId.Items.Clear();
-        //    foreach (IndexableProject temp in Bizz.ActiveProjects)
+        //    foreach (IndexedProject temp in Bizz.ActiveProjects)
         //    {
         //        ComboBoxCaseId.Items.Add(temp);
         //    }
         //}
 
-        private List<Enterprise> GetIndexableEnterprises()
+        private List<Enterprise> GetIndexedEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             int i = 0;

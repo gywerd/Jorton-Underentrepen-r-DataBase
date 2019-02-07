@@ -11,8 +11,8 @@ namespace JudRepository
     {
         #region Fields
         private int id;
+        private Entrepeneur entrepeneur;
         private Enterprise enterprise;
-        private LegalEntity entrepeneur;
         private Contact contact;
         private Request request;
         private IttLetter ittLetter;
@@ -28,12 +28,11 @@ namespace JudRepository
         /// <summary>
         /// Empty constructor
         /// </summary>
-        /// <param name="entrepeneurs">List<LegalEntity></param>
         public SubEntrepeneur()
         {
             this.id = 0;
             this.enterprise = new Enterprise();
-            this.entrepeneur = new LegalEntity();
+            this.entrepeneur = new Entrepeneur();
             this.contact = new Contact();
             this.request = new Request();
             this.ittLetter = new IttLetter();
@@ -45,20 +44,19 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor to add new subentrepeneur
+        /// Constructor to add a new Sbentrepeneur
         /// </summary>
-        /// <param name="entrepeneurs">List<LegalEntity></param>
-        /// <param name="enterprise">int?</param>
-        /// <param name="entrepeneur">string</param>
-        /// <param name="contact">int?</param>
-        /// <param name="request">int?</param>
-        /// <param name="ittLetter">int?</param>
-        /// <param name="offer">int?</param>
+        /// <param name="entrepeneur">LegalEntity</param>
+        /// <param name="enterprise">Enterprise</param>
+        /// <param name="contact">Contact</param>
+        /// <param name="request">Request</param>
+        /// <param name="ittLetter">IttLetter</param>
+        /// <param name="offer">Offer</param>
         /// <param name="reservations">bool</param>
         /// <param name="uphold">bool</param>
         /// <param name="agreementConcluded">bool</param>
         /// <param name="active">bool</param>
-        public SubEntrepeneur(Enterprise enterprise, LegalEntity entrepeneur, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
+        public SubEntrepeneur(Entrepeneur entrepeneur, Enterprise enterprise, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
         {
             this.id = 0;
             this.enterprise = enterprise;
@@ -74,25 +72,24 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor to add subentrepeneur from Db to List
+        /// Constructor to add a Subentrepeneur from Db to List
         /// </summary>
-        /// <param name="entrepeneurs">List<LegalEntity></param>
         /// <param name="id">int</param>
-        /// <param name="enterprise">int?</param>
-        /// <param name="entrepeneur">string</param>
-        /// <param name="contact">int?</param>
-        /// <param name="request">int?</param>
-        /// <param name="ittLetter">int?</param>
-        /// <param name="offer">int?</param>
+        /// <param name="entrepeneur">LegalEntity</param>
+        /// <param name="enterprise">Enterprise</param>
+        /// <param name="contact">Contact</param>
+        /// <param name="request">Request</param>
+        /// <param name="ittLetter">IttLetter</param>
+        /// <param name="offer">Offer</param>
         /// <param name="reservations">bool</param>
         /// <param name="uphold">bool</param>
         /// <param name="agreementConcluded">bool</param>
         /// <param name="active">bool</param>
-        public SubEntrepeneur(int id, Enterprise enterprise, LegalEntity entrepeneur, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
+        public SubEntrepeneur(int id, Entrepeneur entrepeneur, Enterprise enterprise, Contact contact, Request request, IttLetter ittLetter, Offer offer, bool reservations, bool uphold, bool agreementConcluded, bool active)
         {
             this.id = id;
-            this.enterprise = enterprise;
             this.entrepeneur = entrepeneur;
+            this.enterprise = enterprise;
             this.contact = contact;
             this.request = request;
             this.ittLetter = ittLetter;
@@ -104,16 +101,34 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for that accepts data from existing SubEntrepeneur
+        /// Constructor, that accepts data from an existing SubEntrepeneur
         /// </summary>
-        /// <param name="entrepeneurs">List<LegalEntity></param>
         /// <param name="subEntrepeneur">SubEntrepeneur</param>
         public SubEntrepeneur(SubEntrepeneur subEntrepeneur)
         {
             this.id = subEntrepeneur.Id;
-            this.contact = subEntrepeneur.Contact;
-            this.enterprise = subEntrepeneur.Enterprise;
             this.entrepeneur = subEntrepeneur.Entrepeneur;
+            this.enterprise = subEntrepeneur.Enterprise;
+            this.contact = subEntrepeneur.Contact;
+            this.request = subEntrepeneur.Request;
+            this.ittLetter = subEntrepeneur.IttLetter;
+            this.offer = subEntrepeneur.Offer;
+            this.reservations = subEntrepeneur.Reservations;
+            this.uphold = subEntrepeneur.Uphold;
+            this.agreementConcluded = subEntrepeneur.AgreementConcluded;
+            this.active = subEntrepeneur.Active;
+        }
+
+        /// <summary>
+        /// Constructor, that accepts data from an existing Indexed SubEntrepeneur
+        /// </summary>
+        /// <param name="subEntrepeneur">IndexedSubEntrepeneur</param>
+        public SubEntrepeneur(IndexedSubEntrepeneur subEntrepeneur)
+        {
+            this.id = subEntrepeneur.Id;
+            this.entrepeneur = subEntrepeneur.Entrepeneur;
+            this.enterprise = subEntrepeneur.Enterprise;
+            this.contact = subEntrepeneur.Contact;
             this.request = subEntrepeneur.Request;
             this.ittLetter = subEntrepeneur.IttLetter;
             this.offer = subEntrepeneur.Offer;
@@ -125,7 +140,50 @@ namespace JudRepository
 
         #endregion
 
+        #region Properties
+        public int Id { get => id; }
+
+        public Entrepeneur Entrepeneur { get => entrepeneur; set => entrepeneur = value; }
+
+        public Enterprise Enterprise { get => enterprise; set => enterprise = value; }
+
+        public Contact Contact { get => contact; set => contact = value; }
+
+        public Request Request { get => request; set => request = value; }
+
+        public IttLetter IttLetter { get => ittLetter; set => ittLetter = value; }
+
+        public Offer Offer { get => offer; set => offer = value; }
+
+        public bool Reservations { get => reservations; }
+
+        public bool Uphold { get => uphold; }
+
+        public bool AgreementConcluded { get => agreementConcluded; }
+
+        public bool Active { get => active; }
+
+        #endregion
+
         #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
         /// <summary>
         /// Method, that toggles value of active
         /// </summary>
@@ -193,35 +251,11 @@ namespace JudRepository
         /// <returns>string</returns>
         public override string ToString()
         {
-            string result = Entrepeneur.Name;
+            string result = Entrepeneur.Entity.Name;
             return result;
         }
 
         #endregion
 
-        #region Properties
-        public int Id { get => id; }
-
-        public Enterprise Enterprise { get; set; }
-
-        public LegalEntity Entrepeneur { get; set; }
-
-        public Contact Contact { get; set; }
-
-        public Request Request { get; set; }
-
-        public IttLetter IttLetter { get; set; }
-
-        public Offer Offer { get; set; }
-
-        public bool Reservations { get => reservations; }
-
-        public bool Uphold { get => uphold; }
-
-        public bool AgreementConcluded { get => agreementConcluded; }
-
-        public bool Active { get => active; }
-
-        #endregion
     }
 }

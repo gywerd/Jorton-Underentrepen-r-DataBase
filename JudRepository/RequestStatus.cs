@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string description;
+        private string text;
 
         #endregion
 
@@ -22,50 +22,48 @@ namespace JudRepository
         public RequestStatus()
         {
             this.id = 0;
-            this.description = "";
+            this.text = "";
         }
 
         /// <summary>
-        /// Costructor used to add new RequestStatus
+        /// Costructor to add a new RequestStatus
         /// </summary>
-        /// <param name="description">string</param>
-        public RequestStatus(string description)
+        /// <param name="text">string</param>
+        public RequestStatus(string text)
         {
             this.id = 0;
-            this.description = description;
+            this.text = text;
         }
 
         /// <summary>
-        /// Costructor used to add RequestStatus from Db
+        /// Costructor to add a RequestStatus from Db
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="description"></param>
-        public RequestStatus(int id, string description)
+        /// <param name="text"></param>
+        public RequestStatus(int id, string text)
         {
             this.id = id;
-            this.description = description;
+            this.text = text;
         }
 
         /// <summary>
-        /// Costructor used to add RequestStatus from Db
+        /// Costructor, that accepts an existing Request Status
         /// </summary>
-        /// <param name="status">RequestStatus</param>
-        public RequestStatus(RequestStatus status)
+        /// <param name="requestStatus">RequestStatus</param>
+        public RequestStatus(RequestStatus requestStatus)
         {
-            this.id = status.Id;
-            this.description = status.Description;
+            this.id = requestStatus.Id;
+            this.text = requestStatus.Text;
         }
 
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Returns main content as a string
+        /// Costructor, that accepts an existing Indexed Request Status
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="requestStatus">IndexedRequestStatus</param>
+        public RequestStatus(IndexedRequestStatus requestStatus)
         {
-            return description;
+            this.id = requestStatus.Id;
+            this.text = requestStatus.Text;
         }
 
         #endregion
@@ -73,25 +71,56 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public string Description
+        public string Text
         {
-            get => description;
+            get => Text;
             set
             {
                 try
                 {
                     if (value != null)
                     {
-                        description = value;
+                        text = value.ToString();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex;
+                    text = "";
                 }
             }
         }
 
         #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return text;
+        }
+
+        #endregion
+
     }
 }

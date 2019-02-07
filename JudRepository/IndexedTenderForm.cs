@@ -8,8 +8,12 @@ namespace JudRepository
 {
     public class IndexedTenderForm : TenderForm
     {
+        #region Fields
         int index;
 
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Empty Constructor
         /// </summary>
@@ -19,7 +23,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, to create an Indexable TenderForm
+        /// Constructor to add a new Indexed Tender Form
         /// </summary>
         /// <param name="index">int</param>
         /// <param name="form">TenderForm</param>
@@ -28,11 +32,19 @@ namespace JudRepository
             this.index = index;
         }
 
+        #endregion
+
+        #region Methods
         public override string ToString()
         {
             return base.ToString();
         }
 
+        #endregion
+
+        #region Properties
         public int Index { get => index; }
+
+        #endregion
     }
 }

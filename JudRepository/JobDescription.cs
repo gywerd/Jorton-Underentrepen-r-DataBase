@@ -30,7 +30,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding a new job descripton
+        /// Costructor to add a a new JobDescripton
         /// </summary>
         /// <param name="occupation">string</param>
         /// <param name="area">string (departement, jobtitle etc.)</param>
@@ -44,7 +44,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding a job descripton from Db to List
+        /// Costructor to add a a Jobdescripton from Db to List
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="occupation">string</param>
@@ -59,20 +59,80 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding a job descripton from Db to List
+        /// Constructor, that accepts data from an existing job descripton from Db to List
         /// </summary>
         /// <param name="JobDescription">description</param>
-        public JobDescription(JobDescription description)
+        public JobDescription(JobDescription jobDescription)
         {
-                this.id = description.Id;
-                this.occupation = description.Occupation;
-                this.area = description.Area;
-                this.procuration = description.Procuration;
+                this.id = jobDescription.Id;
+                this.occupation = jobDescription.Occupation;
+                this.area = jobDescription.Area;
+                this.procuration = jobDescription.Procuration;
         }
-        
+
+        #endregion
+
+        #region Properties
+        public int Id { get => id; }
+
+        public string Occupation
+        {
+            get => occupation;
+            set
+            {
+                try
+                {
+                    occupation = value;
+                }
+                catch (Exception)
+                {
+                    occupation = "";
+                }
+            }
+        }
+
+
+        public string Area
+        {
+            get => area;
+            set
+            {
+                try
+                {
+                    area = value;
+                }
+                catch (Exception)
+                {
+                    area = "";
+                }
+            }
+        }
+
+        public bool Procuration { get => procuration; }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Method, that switches Procuration between true and false
+        /// </summary>
         public void ToggleProcuration()
         {
             if (procuration)
@@ -94,13 +154,6 @@ namespace JudRepository
             return occupation;
         }
 
-        #endregion
-
-        #region Properties
-        public int Id { get => id; }
-        public string Occupation { get => occupation; set => occupation = value; }
-        public string Area { get => area; set => area = value; }
-        public bool Procuration { get => procuration; }
         #endregion
 
     }

@@ -35,7 +35,7 @@ namespace JudRepository
         /// <param name="street">string</param>
         /// <param name="zipTown">ZipTown</param>
         /// <param name="place">string</param>
-        public Address(string street, ZipTown zipTown, string place = "")
+        public Address(string street, string place, ZipTown zipTown)
         {
             this.id = 0;
             this.street = street;
@@ -59,7 +59,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor that accepts an existing Address
+        /// Constructor, that accepts data from an existing Address
         /// </summary>
         /// <param name="address">Address</param>
         public Address(Address address)
@@ -68,27 +68,6 @@ namespace JudRepository
             this.street = address.Street;
             this.place = address.Place;
             this.zipTown = address.ZipTown;
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Returns main content as a string with one row
-        /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
-        {
-            return street + ", " + place + ", " + base.ToString();
-        }
-
-        /// <summary>
-        /// Returns main content as a string with multiple rows
-        /// </summary>
-        /// <returns>string</returns>
-        public string ToLongString()
-        {
-            return street + "\n" + place + "\n" + base.ToString();
         }
 
         #endregion
@@ -128,8 +107,48 @@ namespace JudRepository
             }
         }
 
-        public ZipTown ZipTown { get; set; }
+        public ZipTown ZipTown { get => zipTown; set => zipTown = value; }
 
         #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string with one row
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            return street + ", " + place + ", " + base.ToString();
+        }
+
+        /// <summary>
+        /// Returns main content as a string with multiple rows
+        /// </summary>
+        /// <returns>string</returns>
+        public string ToLongString()
+        {
+            return street + "\n" + place + "\n" + base.ToString();
+        }
+
+        #endregion
+
     }
 }

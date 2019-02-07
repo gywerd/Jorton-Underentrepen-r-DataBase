@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -23,11 +23,11 @@ namespace JudGui
     public partial class UcChooseSubEntrepeneurs : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
-        public List<IndexedContact> IndexableContacts = new List<IndexedContact>();
-        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
-        public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
+        public List<IndexedContact> IndexedContacts = new List<IndexedContact>();
+        public List<Enterprise> IndexedEnterprises = new List<Enterprise>();
+        public List<IndexedEntrepeneur> IndexedLegalEntities = new List<IndexedEntrepeneur>();
 
         #endregion
 
@@ -35,10 +35,10 @@ namespace JudGui
         public UcChooseSubEntrepeneurs(Bizz bizz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = bizz;
             this.UcRight = ucRight;
             GenerateComboBoxCaseIdItems();
-            ComboBoxArea.ItemsSource = Bizz.Regions;
+            ComboBoxArea.ItemsSource = CBZ.Regions;
         }
 
         #endregion
@@ -47,22 +47,28 @@ namespace JudGui
         private void ButtonChoose_Click(object sender, RoutedEventArgs e)
         {
             bool result = false;
-            if (ListBoxLegalEntities.SelectedItems.Count == 0)
+            if (ListBoxEntrepeneurs.SelectedItems.Count == 0)
             {
                 //Show Confirmation
                 MessageBox.Show("Du har ikke valgt nogen underentrepenører.", "Vælg Underentrepenør", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            else if (ListBoxLegalEntities.SelectedItems.Count == 1)
+            else if (ListBoxEntrepeneurs.SelectedItems.Count == 1)
             {
+                int id = 0;
+
                 //Code that adds IttLetter, Offer and Request to Bizz.TempSubEntrepeneur
                 CreateIttLetter();
                 CreateOffer();
                 CreateRequest();
                 Contact tempContact = GetContact();
-                Bizz.TempSubEntrepeneur.Contact = tempContact;
+                CBZ.TempSubEntrepeneur.Contact = tempContact;
 
                 //Code that adds a SubEntrepeneur to Enterprise List
-                result = Bizz.CreateInDbReturnBool(Bizz.TempSubEntrepeneur);
+                id = CBZ.CreateInDb(CBZ.TempSubEntrepeneur);
+                if (id >= 1)
+                {
+                    result = true;
+                }
             }
             else
             {
@@ -71,16 +77,16 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Underentrepenøre(r)n(e) blev føjet til Entrepriselisten. Ved flere underentrepenører, er der ikke valgt kontaktperson. Ret dette under 'Rediger Underentrepenør'", "Vælg Underentrepenør", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Underentrepenøren/-ne blev føjet til Entrepriselisten. Ved flere underentrepenører, er der ikke valgt kontaktperson. Ret dette under 'Rediger Underentrepenør'", "Vælg Underentrepenør", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
                 TextBoxName.Text = "";
 
                 //Update Enterprise List
-                Bizz.RefreshList("SubEntrepeneurs");
-                IndexableLegalEntities.Clear();
-                IndexableLegalEntities = GetIndexableLegalEntities();
-                ListBoxLegalEntities.ItemsSource = IndexableLegalEntities;
+                CBZ.RefreshList("SubEntrepeneurs");
+                IndexedLegalEntities.Clear();
+                IndexedLegalEntities = GetIndexedEntrepeneurs();
+                ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
             }
             else
             {
@@ -95,7 +101,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke Vælg Underentrepenør?", "Luk Vælg Underentrepenør", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
         }
@@ -106,16 +112,16 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
-            TextBoxName.Text = Bizz.TempProject.Name;
-            IndexableEnterprises = GetIndexableEnterprises();
-            ComboBoxEnterprise.ItemsSource = IndexableEnterprises;
+            TextBoxName.Text = CBZ.TempProject.Name;
+            IndexedEnterprises = GetIndexedEnterprises();
+            ComboBoxEnterprise.ItemsSource = IndexedEnterprises;
         }
 
         private void ComboBoxContact_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -126,48 +132,48 @@ namespace JudGui
         private void ComboBoxEnterprise_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxEnterprise.SelectedIndex;
-            if (IndexableEnterprises.Count == 0)
+            if (IndexedEnterprises.Count == 0)
             {
-                IndexableEnterprises = GetIndexableEnterprises();
+                IndexedEnterprises = GetIndexedEnterprises();
             }
-            foreach (IndexedEnterprise temp in IndexableEnterprises)
+            foreach (IndexedEnterprise temp in IndexedEnterprises)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempEnterprise = new Enterprise(temp);
+                    CBZ.TempEnterprise = new Enterprise(temp);
                     break;
                 }
             }
-            Bizz.RefreshList("LegalEntities");
-            IndexableLegalEntities.Clear();
-            IndexableLegalEntities = GetIndexableLegalEntities();
-            ListBoxLegalEntities.ItemsSource = IndexableLegalEntities;
+            CBZ.RefreshList("LegalEntities");
+            IndexedLegalEntities.Clear();
+            IndexedLegalEntities = GetIndexedEntrepeneurs();
+            ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
         }
 
-        private void ListBoxLegalEntities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListBoxLegalEntities.SelectedItems.Count < 2)
+            if (ListBoxEntrepeneurs.SelectedItems.Count < 2)
             {
-                int selectedIndex = ListBoxLegalEntities.SelectedIndex;
-                foreach (IndexedLegalEntity temp in IndexableLegalEntities)
+                Entrepeneur selected = new Entrepeneur((IndexedEntrepeneur)ListBoxEntrepeneurs.SelectedItem);
+                foreach (Entrepeneur temp in CBZ.Entrepeneurs)
                 {
-                    if (temp.Index == selectedIndex)
+                    if (temp.Id == selected.Id)
                     {
-                        Bizz.TempLegalEntity = temp;
-                        Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-                        Bizz.TempSubEntrepeneur.Enterprise = Bizz.TempEnterprise;
-                        Bizz.TempSubEntrepeneur.Entrepeneur = new LegalEntity(temp);
-                        if (!Bizz.TempSubEntrepeneur.Active)
+                        CBZ.TempEntrepeneur = temp;
+                        CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+                        CBZ.TempSubEntrepeneur.Enterprise = CBZ.TempEnterprise;
+                        CBZ.TempSubEntrepeneur.Entrepeneur = new Entrepeneur(temp);
+                        if (!CBZ.TempSubEntrepeneur.Active)
                         {
-                            Bizz.TempSubEntrepeneur.ToggleActive();
+                            CBZ.TempSubEntrepeneur.ToggleActive();
                         }
                     }
                 }
-                Bizz.RefreshList("Contacts");
-                IndexableContacts.Clear();
-                IndexableContacts = GetIndexableContacts();
-                //ListBoxLegalEntities.ItemsSource = IndexableLegalEntities;
-                ComboBoxContact.ItemsSource = IndexableContacts;
+                CBZ.RefreshList("Contacts");
+                IndexedContacts.Clear();
+                IndexedContacts = GetIndexedContacts();
+                //ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
+                ComboBoxContact.ItemsSource = IndexedContacts;
                 ComboBoxContact.SelectedIndex = 0;
             }
         }
@@ -182,24 +188,30 @@ namespace JudGui
         private bool AddMultipleSubentrepeneurs()
         {
             bool result = false;
-            List<IndexedLegalEntity> tempList = new List<IndexedLegalEntity>();
-            foreach (IndexedLegalEntity entity in ListBoxLegalEntities.SelectedItems)
+            List<IndexedEntrepeneur> tempList = new List<IndexedEntrepeneur>();
+            foreach (IndexedEntrepeneur entrepeneur in ListBoxEntrepeneurs.SelectedItems)
             {
-                Bizz.TempLegalEntity = entity;
-                Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-                Bizz.TempSubEntrepeneur.Enterprise = Bizz.TempEnterprise;
-                Bizz.TempSubEntrepeneur.Entrepeneur = entity;
-                if (!Bizz.TempSubEntrepeneur.Active)
+                CBZ.TempEntrepeneur = entrepeneur;
+                CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+                CBZ.TempSubEntrepeneur.Enterprise = CBZ.TempEnterprise;
+                CBZ.TempSubEntrepeneur.Entrepeneur = entrepeneur;
+                if (!CBZ.TempSubEntrepeneur.Active)
                 {
-                    Bizz.TempSubEntrepeneur.ToggleActive();
+                    CBZ.TempSubEntrepeneur.ToggleActive();
                 }
-                Bizz.TempSubEntrepeneur.Contact = new Contact();
+                CBZ.TempSubEntrepeneur.Contact = new Contact();
                 CreateIttLetter();
                 CreateOffer();
                 CreateRequest();
 
-                //Code that ads a enterprise to Enterprise List
-                bool tempResult = Bizz.CreateInDbReturnBool(Bizz.TempSubEntrepeneur);
+                //Code that adds a enterprise to Enterprise List
+                int id = 0;
+                bool tempResult = false;
+                id = CBZ.CreateInDb(CBZ.TempSubEntrepeneur);
+                if (id >= 1)
+                {
+                    tempResult = true;
+                }
 
                 //Code, that checks result
                 if (!result)
@@ -214,34 +226,34 @@ namespace JudGui
         /// <summary>
         /// Method that compares CraftGroups in LegalEntities and Enterprises
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entrepeneur"></param>
         /// <returns></returns>
-        private bool CheckCraftGroups(LegalEntity entity)
+        private bool CheckCraftGroups(Entrepeneur entrepeneur)
         {
-            if (entity.CraftGroup1.Id != 0)
+            if (entrepeneur.CraftGroup1.Id != 0)
             {
-                if (entity.CraftGroup1.Id == Bizz.TempEnterprise.CraftGroup1.Id || entity.CraftGroup1.Id == Bizz.TempEnterprise.CraftGroup2.Id || entity.CraftGroup1.Id == Bizz.TempEnterprise.CraftGroup3.Id || entity.CraftGroup1.Id == Bizz.TempEnterprise.CraftGroup4.Id)
+                if (entrepeneur.CraftGroup1.Id == CBZ.TempEnterprise.CraftGroup1.Id || entrepeneur.CraftGroup1.Id == CBZ.TempEnterprise.CraftGroup2.Id || entrepeneur.CraftGroup1.Id == CBZ.TempEnterprise.CraftGroup3.Id || entrepeneur.CraftGroup1.Id == CBZ.TempEnterprise.CraftGroup4.Id)
                 {
                     return true;
                 }
             }
-            if (entity.CraftGroup2.Id != 0)
+            if (entrepeneur.CraftGroup2.Id != 0)
             {
-                if (entity.CraftGroup2.Id == Bizz.TempEnterprise.CraftGroup1.Id || entity.CraftGroup2.Id == Bizz.TempEnterprise.CraftGroup2.Id || entity.CraftGroup2.Id == Bizz.TempEnterprise.CraftGroup3.Id || entity.CraftGroup2.Id == Bizz.TempEnterprise.CraftGroup4.Id)
+                if (entrepeneur.CraftGroup2.Id == CBZ.TempEnterprise.CraftGroup1.Id || entrepeneur.CraftGroup2.Id == CBZ.TempEnterprise.CraftGroup2.Id || entrepeneur.CraftGroup2.Id == CBZ.TempEnterprise.CraftGroup3.Id || entrepeneur.CraftGroup2.Id == CBZ.TempEnterprise.CraftGroup4.Id)
                 {
                     return true;
                 }
             }
-            if (entity.CraftGroup3.Id != 0)
+            if (entrepeneur.CraftGroup3.Id != 0)
             {
-                if (entity.CraftGroup3.Id == Bizz.TempEnterprise.CraftGroup1.Id || entity.CraftGroup3.Id == Bizz.TempEnterprise.CraftGroup2.Id || entity.CraftGroup3.Id == Bizz.TempEnterprise.CraftGroup3.Id || entity.CraftGroup3.Id == Bizz.TempEnterprise.CraftGroup4.Id)
+                if (entrepeneur.CraftGroup3.Id == CBZ.TempEnterprise.CraftGroup1.Id || entrepeneur.CraftGroup3.Id == CBZ.TempEnterprise.CraftGroup2.Id || entrepeneur.CraftGroup3.Id == CBZ.TempEnterprise.CraftGroup3.Id || entrepeneur.CraftGroup3.Id == CBZ.TempEnterprise.CraftGroup4.Id)
                 {
                     return true;
                 }
             }
-            if (entity.CraftGroup4.Id != 0)
+            if (entrepeneur.CraftGroup4.Id != 0)
             {
-                if (entity.CraftGroup4.Id == Bizz.TempEnterprise.CraftGroup1.Id || entity.CraftGroup4.Id == Bizz.TempEnterprise.CraftGroup2.Id || entity.CraftGroup4.Id == Bizz.TempEnterprise.CraftGroup3.Id || entity.CraftGroup4.Id == Bizz.TempEnterprise.CraftGroup4.Id)
+                if (entrepeneur.CraftGroup4.Id == CBZ.TempEnterprise.CraftGroup1.Id || entrepeneur.CraftGroup4.Id == CBZ.TempEnterprise.CraftGroup2.Id || entrepeneur.CraftGroup4.Id == CBZ.TempEnterprise.CraftGroup3.Id || entrepeneur.CraftGroup4.Id == CBZ.TempEnterprise.CraftGroup4.Id)
                 {
                     return true;
                 }
@@ -254,10 +266,10 @@ namespace JudGui
         /// </summary>
         private void CreateIttLetter()
         {
-            Bizz.TempIttLetter = new IttLetter();
-            int id = Bizz.CreateInDbReturnInt(Bizz.TempIttLetter);
-            Bizz.TempIttLetter.SetId(id);
-            Bizz.TempSubEntrepeneur.IttLetter = Bizz.TempIttLetter;
+            CBZ.TempIttLetter = new IttLetter();
+            int id = CBZ.CreateInDb(CBZ.TempIttLetter);
+            CBZ.TempIttLetter.SetId(id);
+            CBZ.TempSubEntrepeneur.IttLetter = CBZ.TempIttLetter;
         }
 
         /// <summary>
@@ -265,10 +277,10 @@ namespace JudGui
         /// </summary>
         private void CreateOffer()
         {
-            Bizz.TempOffer = new Offer();
-            int id = Bizz.CreateInDbReturnInt(Bizz.TempOffer);
-            Bizz.TempOffer.SetId(id);
-            Bizz.TempSubEntrepeneur.Offer = Bizz.TempOffer;
+            CBZ.TempOffer = new Offer();
+            int id = CBZ.CreateInDb(CBZ.TempOffer);
+            CBZ.TempOffer.SetId(id);
+            CBZ.TempSubEntrepeneur.Offer = CBZ.TempOffer;
         }
 
         /// <summary>
@@ -276,10 +288,10 @@ namespace JudGui
         /// </summary>
         private void CreateRequest()
         {
-            Bizz.TempRequest = new Request();
-            int id = Bizz.CreateInDbReturnInt(Bizz.TempRequest);
-            Bizz.TempRequest.SetId(id);
-            Bizz.TempSubEntrepeneur.Request = Bizz.TempRequest;
+            CBZ.TempRequest = new Request();
+            int id = CBZ.CreateInDb(CBZ.TempRequest);
+            CBZ.TempRequest.SetId(id);
+            CBZ.TempSubEntrepeneur.Request = CBZ.TempRequest;
         }
 
         /// <summary>
@@ -287,31 +299,31 @@ namespace JudGui
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        private List<IndexedLegalEntity> FilterIndexableLegalEntities(List<LegalEntity> list)
+        private List<IndexedEntrepeneur> FilterIndexedEntrepeneur(List<Entrepeneur> list)
         {
-            List<LegalEntity> tempResult = new List<LegalEntity>();
-            List<IndexedLegalEntity> result = new List<IndexedLegalEntity>();
-            LegalEntity tempEntity = new LegalEntity();
-            foreach (LegalEntity entity in list)
+            List<Entrepeneur> tempResult = new List<Entrepeneur>();
+            List<IndexedEntrepeneur> result = new List<IndexedEntrepeneur>();
+            Entrepeneur tempEntrepeneur = new Entrepeneur();
+            foreach (Entrepeneur entrepeneur in list)
             {
-                if (entity.Region.Id == ComboBoxArea.SelectedIndex)
+                if (entrepeneur.Region.Id == ComboBoxArea.SelectedIndex)
                 {
-                    tempResult.Add(entity);
+                    tempResult.Add(entrepeneur);
                 }
             }
-            foreach (LegalEntity entity in tempResult)
+            foreach (Entrepeneur entrepeneur in tempResult)
             {
-                if (entity.Region.Id != ComboBoxArea.SelectedIndex && entity.CountryWide.Equals(true))
+                if (entrepeneur.Region.Id != ComboBoxArea.SelectedIndex && entrepeneur.CountryWide.Equals(true))
                 {
-                    tempResult.Add(entity);
+                    tempResult.Add(entrepeneur);
                 }
             }
             int i = 0;
-            foreach (LegalEntity temp in tempResult)
+            foreach (Entrepeneur temp in tempResult)
             {
-                if (!IdExistsInSubEntrepeneurs(Bizz.TempEnterprise.Id, temp.Id))
+                if (!IdExistsInSubEntrepeneurs(CBZ.TempEnterprise.Id, temp.Id))
                 {
-                    IndexedLegalEntity entity = new IndexedLegalEntity(i, temp);
+                    IndexedEntrepeneur entity = new IndexedEntrepeneur(i, temp);
                     result.Add(entity);
                     i++;
                 }
@@ -325,7 +337,7 @@ namespace JudGui
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }
@@ -337,8 +349,8 @@ namespace JudGui
         private void GenerateContactItems()
         {
             ComboBoxContact.Items.Clear();
-            IndexableContacts = GetIndexableContacts();
-            foreach (IndexedContact temp in IndexableContacts)
+            IndexedContacts = GetIndexedContacts();
+            foreach (IndexedContact temp in IndexedContacts)
             {
                     ComboBoxContact.Items.Add(temp);
             }
@@ -350,8 +362,8 @@ namespace JudGui
         private void GenerateEnterpriseItems()
         {
             ComboBoxEnterprise.Items.Clear();
-            IndexableEnterprises = GetIndexableEnterprises();
-            foreach (Enterprise temp in IndexableEnterprises)
+            IndexedEnterprises = GetIndexedEnterprises();
+            foreach (Enterprise temp in IndexedEnterprises)
             {
                     ComboBoxEnterprise.Items.Add(temp);
             }
@@ -365,11 +377,11 @@ namespace JudGui
         {
             Contact result = new Contact();
             int index = ComboBoxContact.SelectedIndex;
-            if (IndexableContacts.Count == 0)
+            if (IndexedContacts.Count == 0)
             {
-                GetIndexableContacts();
+                GetIndexedContacts();
             }
-            foreach (IndexedContact tempContact in IndexableContacts)
+            foreach (IndexedContact tempContact in IndexedContacts)
             {
                 if (tempContact.Index == index)
                 {
@@ -383,16 +395,16 @@ namespace JudGui
         /// <summary>
         /// Method that creates a list of indexable Contacts
         /// </summary>
-        /// <returns>List<IndexableSubEntrepeneur></returns>
-        private List<IndexedContact> GetIndexableContacts()
+        /// <returns>List<IndexedSubEntrepeneur></returns>
+        private List<IndexedContact> GetIndexedContacts()
         {
             List<IndexedContact> result = new List<IndexedContact>();
-            IndexedContact iContact = new IndexedContact(0, Bizz.Contacts[0]);
+            IndexedContact iContact = new IndexedContact(0, CBZ.Contacts[0]);
             result.Add(iContact);
             int i = 1;
-            foreach (Contact contact in Bizz.Contacts)
+            foreach (Contact contact in CBZ.Contacts)
             {
-                if (contact.LegalEntity.Id == Bizz.TempLegalEntity.Id)
+                if (contact.Entity.Id == CBZ.TempLegalEntity.Id)
                 {
                     IndexedContact temp = new IndexedContact(i, contact);
                     result.Add(temp);
@@ -405,14 +417,14 @@ namespace JudGui
         /// <summary>
         /// Method, that creates an indexable Enterprises
         /// </summary>
-        /// <returns>List<IndexableEnterprise></returns>
-        private List<Enterprise> GetIndexableEnterprises()
+        /// <returns>List<IndexedEnterprise></returns>
+        private List<Enterprise> GetIndexedEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
             int i = 0;
-            foreach (Enterprise enterprise in Bizz.Enterprises)
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
-                if (enterprise.Project.Id == Bizz.TempProject.Id)
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
                     IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
                     result.Add(temp);
@@ -425,23 +437,23 @@ namespace JudGui
         /// <summary>
         /// Method that creates a list of indexable Legal Entities
         /// </summary>
-        /// <returns>List<IndexableLegalEntity></returns>
-        private List<IndexedLegalEntity> GetIndexableLegalEntities()
+        /// <returns>List<IndexedEntrepeneur></returns>
+        private List<IndexedEntrepeneur> GetIndexedEntrepeneurs()
         {
-            List<LegalEntity> tempResult = new List<LegalEntity>();
-            List<IndexedLegalEntity> result = new List<IndexedLegalEntity>();
-            IndexedLegalEntity temp = new IndexedLegalEntity(0, Bizz.LegalEntities[0]);
+            List<Entrepeneur> tempResult = new List<Entrepeneur>();
+            List<IndexedEntrepeneur> result = new List<IndexedEntrepeneur>();
+            IndexedEntrepeneur temp = new IndexedEntrepeneur(0, CBZ.Entrepeneurs[0]);
             result.Add(temp);
             int i = 1;
-            foreach (LegalEntity entity in Bizz.LegalEntities)
+            foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
             {
-                if (CheckCraftGroups(entity))
+                if (CheckCraftGroups(entrepeneur))
                 {
-                    tempResult.Add(entity);
+                    tempResult.Add(entrepeneur);
                     i++;
                 }
             }
-            result = FilterIndexableLegalEntities(tempResult);
+            result = FilterIndexedEntrepeneur(tempResult);
             return result;
         }
 
@@ -452,18 +464,20 @@ namespace JudGui
         /// <param name="enterpriseId">int</param>
         /// <param name="entrepeneur">string</param>
         /// <returns>bool</returns>
-        private bool IdExistsInSubEntrepeneurs(int enterpriseId, string entrepeneurId)
+        private bool IdExistsInSubEntrepeneurs(int enterpriseId, int entrepeneurId)
         {
+            bool result = false;
 
-            foreach (SubEntrepeneur temp in Bizz.SubEntrepeneurs)
+            foreach (SubEntrepeneur temp in CBZ.SubEntrepeneurs)
             {
                 if (temp.Entrepeneur.Id == entrepeneurId && temp.Enterprise.Id == enterpriseId)
                 {
-                    return true;
+                    result = true;
+                    break;
                 }
             }
 
-            return false;
+            return result;
         }
 
         #endregion

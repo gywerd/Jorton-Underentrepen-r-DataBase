@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +36,9 @@ namespace JudGui
         public UcProjectStatusList UcProjectStatusList;
         public UcRegions UcRegions;
         public UcSubEntrepeneurList UcSubEntrepeneurList;
-        public UcSubEntrepeneurs UcSubEntrepeneurs;
+        public UcChooseSubEntrepeneurs UcChooseSubEntrepeneurs;
+        public UcEditSubEntrepeneurs UcEditSubEntrepeneurs;
+        public UcViewSubEntrepeneurs UcViewSubEntrepeneurs;
         public UcTenderForms UcTenderForms;
         public UcUsers UcUsers;
         public UcZipList UcZipList;
@@ -48,7 +50,7 @@ namespace JudGui
             CBZ = new Bizz();
             TabOffer.IsEnabled = false;
             TabAdministration.IsEnabled = false;
-            HelpData.IsEnabled = false;
+            Data.IsEnabled = false;
             Information.IsEnabled = false;
             OpenUcLoginHelp();
             OpenUcLogin();
@@ -201,6 +203,21 @@ namespace JudGui
             }
         }
 
+        private void ButtonEnterprisesCreate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonEnterprisesEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonEnterprisesShow_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void ButtonEnterpriseForms_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcRightActive)
@@ -232,6 +249,25 @@ namespace JudGui
             MessageBox.Show("Ikke implementeret. Vil muligvis erstatte overslagsberegninger på excel-ark i en senere version. Særligt velegnet, når tilbud skal gives på skønnede priser.", "Beregninger", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void ButtonIttLetterPrepareCommon_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonIttLetterPreparePersonal_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonIttLetterSelectReceivers_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonIttLetterSend_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void ButtonJobDescritions_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcRightActive)
@@ -310,6 +346,21 @@ namespace JudGui
             }
         }
 
+        private void ButtonRequestPrepare_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonRequestSelectReceivers_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonRequestSend_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void ButtonRegions_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcRightActive)
@@ -331,7 +382,7 @@ namespace JudGui
             }
         }
 
-        private void ButtonSubEntrepeneurList_Click(object sender, RoutedEventArgs e)
+        private void ButtonEntrepeneurs_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcRightActive)
             {
@@ -352,24 +403,93 @@ namespace JudGui
             }
         }
 
-        private void ButtonSubEntrepeneurs_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectCreate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonProjectEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonProjectChangeCaseId_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonProjectCopy_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonProjectRemove_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonProjectChangeStatus_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonSubEntrepeneursChoose_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcRightActive)
             {
-                if (MessageBox.Show("Vil du åbne 'Underentrepenør'. Alt, der ikke er gemt vil blive mistet!", "Åbn Underentrepenør", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vælg Underentrepenør'. Alt, der ikke er gemt vil blive mistet!", "Vælg Underentrepenør", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcRightActive = false;
-                    UcSubEntrepeneurs = new UcSubEntrepeneurs(CBZ, UcLeft, UcRight);
-                    UcLeft.Content = UcSubEntrepeneurs;
-                    UcRight.Content = new UserControl();
+                    CBZ.UcRightActive = true;
+                    UcChooseSubEntrepeneurs = new UcChooseSubEntrepeneurs(CBZ, UcRight);
+                    UcRight.Content = UcChooseSubEntrepeneurs;
                 }
             }
             else
             {
-                CBZ.UcRightActive = false;
-                UcSubEntrepeneurs = new UcSubEntrepeneurs(CBZ, UcLeft, UcRight);
-                UcLeft.Content = UcSubEntrepeneurs;
-                UcRight.Content = new UserControl();
+                CBZ.UcRightActive = true;
+                UcChooseSubEntrepeneurs = new UcChooseSubEntrepeneurs(CBZ, UcRight);
+                UcRight.Content = UcChooseSubEntrepeneurs;
+            }
+        }
+
+
+        private void ButtonSubEntrepeneursEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcRightActive)
+            {
+                if (MessageBox.Show("Vil du åbne 'Vælg Underentrepenør'. Alt, der ikke er gemt vil blive mistet!", "Vælg Underentrepenør", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcRightActive = true;
+                    UcEditSubEntrepeneurs = new UcEditSubEntrepeneurs(CBZ, UcRight);
+                    UcRight.Content = UcEditSubEntrepeneurs;
+                }
+            }
+            else
+            {
+                CBZ.UcRightActive = true;
+                UcEditSubEntrepeneurs = new UcEditSubEntrepeneurs(CBZ, UcRight);
+                UcRight.Content = UcEditSubEntrepeneurs;
+            }
+
+        }
+
+
+        private void ButtonSubEntrepeneursView_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcRightActive)
+            {
+                if (MessageBox.Show("Vil du åbne 'Vælg Underentrepenør'. Alt, der ikke er gemt vil blive mistet!", "Vælg Underentrepenør", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcRightActive = true;
+                    UcViewSubEntrepeneurs = new UcViewSubEntrepeneurs(CBZ, UcRight);
+                    UcRight.Content = UcViewSubEntrepeneurs;
+                }
+            }
+            else
+            {
+                CBZ.UcRightActive = true;
+                UcViewSubEntrepeneurs = new UcViewSubEntrepeneurs(CBZ, UcRight);
+                UcRight.Content = UcViewSubEntrepeneurs;
             }
         }
 
@@ -445,7 +565,7 @@ namespace JudGui
         {
             TabOffer.IsEnabled = false;
             TabAdministration.IsEnabled = false;
-            HelpData.IsEnabled = false;
+            Data.IsEnabled = false;
             Information.IsEnabled = false;
             CBZ = new Bizz();
             UserName.Text = "";
@@ -465,7 +585,7 @@ namespace JudGui
         private void OpenUcLogin()
         {
             CBZ.UcRightActive = true;
-            UcLogin = new UcLogin(CBZ, TabOffer, TabAdministration, HelpData, Information, MenuItemChangePassWord, MenuItemLogOut, UserName, UcLeft, UcRight);
+            UcLogin = new UcLogin(CBZ, TabOffer, TabAdministration, Data, Information, MenuItemChangePassWord, MenuItemLogOut, UserName, UcLeft, UcRight);
             UcRight.Content = UcLogin;
         }
 

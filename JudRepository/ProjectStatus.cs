@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string description;
+        private string text;
 
         #endregion
 
@@ -22,49 +22,47 @@ namespace JudRepository
         public ProjectStatus()
         {
             this.id = 0;
-            this.description = "";
+            this.text = "";
         }
 
         /// <summary>
-        /// Constructor add a new ProjectStatus
+        /// Constructor to add a new Project Status
         /// </summary>
-        /// <param name="description">string</param>
-        public ProjectStatus(string description)
+        /// <param name="text">string</param>
+        public ProjectStatus(string text)
         {
             this.id = 0;
-            this.description = description;
+            this.text = text;
         }
 
         /// <summary>
-        /// Constructor add a ProjectStatus from Db
+        /// Constructor to add a Project Status from Db
         /// </summary>
-        /// <param name="description"></param>
-        public ProjectStatus(int id, string description)
+        /// <param name="text"></param>
+        public ProjectStatus(int id, string text)
         {
             this.id = id;
-            this.description = description;
+            this.text = text;
         }
 
         /// <summary>
-        /// Constructor add a ProjectStatus
+        /// Constructor, that accepts data from an existing Project Status
         /// </summary>
         /// <param name="status">ProjectStatus</param>
         public ProjectStatus(ProjectStatus status)
         {
             this.id = status.Id;
-            this.description = status.Description;
+            this.text = status.Text;
         }
 
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Returns main content as a string
+        /// Constructor, that accepts data from an existing Indexed Project Status
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="status">IndexedProjectStatus</param>
+        public ProjectStatus(IndexedProjectStatus status)
         {
-            return description;
+            this.id = status.Id;
+            this.text = status.Text;
         }
 
         #endregion
@@ -72,16 +70,16 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public string Description
+        public string Text
         {
-            get => description;
+            get => text;
             set
             {
                 try
                 {
                     if (value != null)
                     {
-                        description = value;
+                        text = value;
                     }
                 }
                 catch (Exception ex)
@@ -91,5 +89,36 @@ namespace JudRepository
             }
         }
         #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return text;
+        }
+
+        #endregion
+
     }
 }

@@ -28,19 +28,16 @@ namespace JudBizz
     public class PdfCreator
     {
         #region Fields
-        Bizz Bizz = new Bizz();
+        Bizz CBZ = new Bizz();
         string date = "";
         string fileName = string.Empty;
         string pdfPath = "";
         string strConnection = "";
+        Shipping shipping;
         FileStream fileStreamCreate;
-        IttLetterPdfData letterData;
-        List<BluePrint> ProjectBluePrints = new List<BluePrint>();
-        List<Description> ProjectDescriptions = new List<Description>();
-        List<Enterprise> ProjectEnterpriseList = new List<Enterprise>();
-        List<IttLetterReceiver> ProjectIttLetterReceivers = new List<IttLetterReceiver>();
-        List<Miscellaneous> ProjectMiscellaneousList = new List<Miscellaneous>();
-        List<TimeSchedule> ProjectTimeSchedules = new List<TimeSchedule>();
+        List<Shipping> shippings;
+        List<Enterprise> ProjectEnterprises = new List<Enterprise>();
+        List<Receiver> ProjectReceivers = new List<Receiver>();
 
         #endregion
 
@@ -91,10 +88,10 @@ namespace JudBizz
         /// </summary>
         /// <param name="tableLayout">PdfPTable</param>
         /// <param name="project">Project</param>
-        /// <param name="list">List<IndexableEnterprise></param>
+        /// <param name="list">List<IndexedEnterprise></param>
         /// <param name="users">List<User></param>
         /// <returns>PdfPTable</returns>
-        private PdfPTable AddContentToEnterpriseListPDF(PdfPTable tableLayout, Project project, List<Enterprise> list, List<User> users)
+        private PdfPTable AddContentToEnterprisesPDF(PdfPTable tableLayout, Project project, List<Enterprise> list, List<User> users)
         {
             float[] headers = { 30, 35, 35 };  //Header Widths
             tableLayout.SetWidths(headers);        //Set the pdf headers
@@ -102,13 +99,13 @@ namespace JudBizz
 
             DateTime today = DateTime.Today;
             string date = @"Udskrift pr.: " + today.ToShortDateString();
-            string executive = @"Tilbudsansvarlig: " + project.Executive.Name;
+            string executive = @"Tilbudsansvarlig: " + project.Executive.Person.Name;
 
             //Add Title to the PDF file at the top
             tableLayout.AddCell(new PdfPCell(new Phrase("Jorton A/S", new Font(Font.FontFamily.HELVETICA, 24, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Entrepriseliste", new Font(Font.FontFamily.HELVETICA, 24, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(date, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_RIGHT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Sagsnr: " + project.CaseId, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Sagsnr: " + project.Case, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(project.Name, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(executive, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_RIGHT, VerticalAlignment = Element.ALIGN_BOTTOM });
 
@@ -138,9 +135,8 @@ namespace JudBizz
         /// <param name="tableLayout">PdfPTable</param>
         /// <param name="project">Project</param>
         /// <param name="entity">LegalEntity</param>
-        /// <param name="entrepeneur">SubEntrepeneur</param>
         /// <returns>PdfPTable</returns>
-        private PdfPTable AddContentToIttLetterCommonPDF(PdfPTable tableLayout, Project project, SubEntrepeneur entrepeneur)
+        private PdfPTable AddContentToIttLetterCommonPDF(PdfPTable tableLayout, Project project)
         {
             float[] headers = { 5, 5, 90 };  //Header Widths
             tableLayout.SetWidths(headers);        //Set the pdf headers
@@ -159,8 +155,8 @@ namespace JudBizz
             string bluePrints = GetBluePrintsLine();
             string schedules = GetTimeSchedulesLine();
             string miscellaneus = GetMiscellaneusLine();
-            Chunk c = new Chunk(letterData.ConditionUrl, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)));
-            c.SetAnchor(letterData.ConditionUrl);
+            Chunk c = new Chunk(shipping.LetterData.ConditionUrl, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)));
+            c.SetAnchor(shipping.LetterData.ConditionUrl);
             Chunk urlChunk = new Chunk("Klik for at se", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)));
             urlChunk.Chunks.Add(c);
 
@@ -201,7 +197,7 @@ namespace JudBizz
         /// <param name="entity">LegalEntity</param>
         /// <param name="entrepeneur">SubEntrepeneur</param>
         /// <returns>PdfPTable</returns>
-        private PdfPTable AddContentToIttLetterCompanyPDF(PdfPTable tableLayout, Project project, LegalEntity entity, SubEntrepeneur entrepeneur)
+        private PdfPTable AddContentToIttLetterCompanyPDF(PdfPTable tableLayout, Shipping shipping)
         {
             float[] headers = { 30, 35, 35 };  //Header Widths
             tableLayout.SetWidths(headers);        //Set the pdf headers
@@ -209,27 +205,23 @@ namespace JudBizz
 
             DateTime today = DateTime.Today;
             string date = @"Aabenraa den " + today.ToString(@"dd-MM-yyyy");
-            User executive = project.Executive;
-            ContactInfo executiveInfo = executive.ContactInfo;
             string executivePhone = @"Tlf.: ";
             if (executivePhone != "")
             {
-                executivePhone += executiveInfo.Phone;
+                executivePhone += shipping.Project.Executive.Person.ContactInfo.Phone;
             }
             else
             {
-                executivePhone += executiveInfo.Mobile;
+                executivePhone += shipping.Project.Executive.Person.ContactInfo.Mobile;
             }
-            string executiveMail = @"Mail: " + executiveInfo.Email;
-            Contact receiver = entrepeneur.Contact;
-            ContactInfo receiverInfo = receiver.ContactInfo;
-            string receiverContactName = @"Att.: " + receiver.Name;
+            string executiveMail = @"Mail: " + shipping.Project.Executive.Person.ContactInfo.Email;
+            string receiverContactName = @"Att.: " + shipping.SubEntrepeneur.Contact.Person.Name;
 
             //Add address and colophon
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 48, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase(entity.Name, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase(shipping.SubEntrepeneur.Entrepeneur.Entity.Name, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase(executive.Initials, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_RIGHT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase(shipping.Project.Executive.Initials, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_RIGHT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(receiverContactName, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(executivePhone, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_RIGHT, VerticalAlignment = Element.ALIGN_BOTTOM });
@@ -242,28 +234,27 @@ namespace JudBizz
 
             //Add body
             string enterpriseLine = GetEnterpriseLine();
-            string executiveTitle = executive.JobDescription.Occupation;
-            Chunk urlChunk = new Chunk(letterData.MaterialUrl, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)));
-            urlChunk.SetAnchor(letterData.MaterialUrl);
+            Chunk urlChunk = new Chunk(this.shipping.LetterData.MaterialUrl, new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)));
+            urlChunk.SetAnchor(this.shipping.LetterData.MaterialUrl);
 
-            tableLayout.AddCell(new PdfPCell(new Phrase("UDBUDSBREV VEDR. " + project.Name + "\n", new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("UDBUDSBREV VEDR. " + shipping.Project.Name + "\n", new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("I anmodes hermed om at give tilbud på følgende entreprise:\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(enterpriseLine + "\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Tilbud bedes fremsendt til undertegnede senest den " + letterData.AnswerDate + ", kl. 12.00\n", new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Spørgsmål til udbuddet fremsendes senest den " + letterData.QuestionDate + ", kl. 12.00", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Sidste rettelsesblad udsendes " + letterData.CorrectionSheetDate + ", kl. 12.00 - fra rådgiveren\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Tilbud bedes fremsendt til undertegnede senest den " + this.shipping.LetterData.AnswerDate + ", kl. 12.00\n", new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Spørgsmål til udbuddet fremsendes senest den " + this.shipping.LetterData.QuestionDate + ", kl. 12.00", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Sidste rettelsesblad udsendes " + this.shipping.LetterData.CorrectionDate + ", kl. 12.00 - fra rådgiveren\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Bygherrens tilbudsliste ønskes modtaget udfyldt i Excel-format og gerne suppleret med eksemplar i PDF format.\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("JORTON forventer, at vores samarbejdspartnere overholder gældende overenskomster og regler for anvendelse af udenlandsk arbejdskraft.", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("JORTON afgiver hovedentreprisetilbud til " + letterData.Builder + ". Udførelsesperioden er " + letterData.TimeSpan + " jf. bygherrens udbudstidsplan.\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("JORTON afgiver hovedentreprisetilbud til " + this.shipping.LetterData.Builder + ". Udførelsesperioden er " + this.shipping.LetterData.TimeSpan + " jf. bygherrens udbudstidsplan.\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Såfremt I efter gennemgang af udbudsmaterialet ikke er interesseret i at afgive tilbud, eller der er mangler ved eller opstår spørgsmål til udbudsmaterialet, er I naturligvis velkommen til at kontakte undertegnede.\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Udbudsmaterialet kan ses og hentes på denne adresse:\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(urlChunk)) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Adgangskode: " + letterData.PassWord + "\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Adgangskode: " + this.shipping.LetterData.PassWord + "\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Vi ser frem til at modtage jeres tilbud.\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Med venlig hilsen\n", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase(executive.Name + "\n", new Font(Font.FontFamily.HELVETICA, 12, 2, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase(executiveTitle + "\n", new Font(Font.FontFamily.HELVETICA, 12, 2, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase(shipping.Project.Executive.Person.Name + "\n", new Font(Font.FontFamily.HELVETICA, 12, 2, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase(shipping.Project.Executive.JobDescription.Occupation + "\n", new Font(Font.FontFamily.HELVETICA, 12, 2, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("Bilag – oplistning af udbudsdokumenter", new Font(Font.FontFamily.HELVETICA, 12, 0, new iTextSharp.text.BaseColor(0, 0, 0)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_LEFT, VerticalAlignment = Element.ALIGN_BOTTOM });
 
             return tableLayout;
@@ -274,10 +265,10 @@ namespace JudBizz
         /// </summary>
         /// <param name="tableLayout">PdfPTable</param>
         /// <param name="project">Project</param>
-        /// <param name="enterpriseList">List<IndexableEnterprise></param>
+        /// <param name="enterprise">List<IndexedEnterprise></param>
         /// <param name="users">List<User></param>
         /// <returns>PdfPTable</returns>
-        private PdfPTable AddContentToSubEntrepeneursPDF(PdfPTable tableLayout, Project project, List<Enterprise> enterpriseList, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
+        private PdfPTable AddContentToSubEntrepeneursPDF(PdfPTable tableLayout, Project project, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
             float[] headers = { 20, 20, 10, 10, 13, 7, 6, 6, 8 };  //Header Widths
             tableLayout.SetWidths(headers);        //Set the pdf headers
@@ -285,7 +276,7 @@ namespace JudBizz
 
             DateTime today = DateTime.Today;
             string date = @"Udskrift pr.: " + today.ToShortDateString();
-            string executive = @"Tilbudsansvarlig: " + project.Executive.Name;
+            string executive = @"Tilbudsansvarlig: " + project.Executive.Person.Name;
 
             //Add Title to the PDF file at the top
             tableLayout.AddCell(new PdfPCell(new Phrase("Jorton A/S", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
@@ -293,7 +284,7 @@ namespace JudBizz
             tableLayout.AddCell(new PdfPCell(new Phrase("Fagentrepenører", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 2, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 2, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(date, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Sagsnr: " + project.CaseId, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Sagsnr: " + project.Case, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(project.Name, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 2, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 2, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
@@ -311,17 +302,17 @@ namespace JudBizz
             AddCellToHeader(tableLayout, "Pris");
 
             //Add body
-            foreach (Enterprise temp in enterpriseList)
+            foreach (Enterprise temp in enterprise)
             {
                 if (temp.Project.Id == project.Id)
                 {
                     tableLayout.AddCell(new PdfPCell(new Phrase(temp.Name, new Font(Font.FontFamily.HELVETICA, 10, 1, iTextSharp.text.BaseColor.BLACK))) { Colspan = 9, HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5, BackgroundColor = iTextSharp.text.BaseColor.WHITE });
                     foreach (IndexedSubEntrepeneur tempSub in entrepeneurList)
                     {
-                        if (tempSub.EnterpriseList.Id == temp.Id)
+                        if (tempSub.Enterprise.Id == temp.Id)
                         {
                             Contact contact = tempSub.Contact;
-                            ContactInfo info = contact.ContactInfo;
+                            ContactInfo info = contact.Person.ContactInfo;
                             string uphold = "Nej";
                             if (tempSub.Uphold)
                             {
@@ -332,8 +323,8 @@ namespace JudBizz
                             {
                                 reservations = "Ja";
                             }
-                            AddCellToBodyLeft(tableLayout, tempSub.Entrepeneur.Name);
-                            AddCellToBodyLeft(tableLayout, contact.Name);
+                            AddCellToBodyLeft(tableLayout, tempSub.Entrepeneur.Entity.Name);
+                            AddCellToBodyLeft(tableLayout, contact.Person.Name);
                             AddCellToBodyRight(tableLayout, info.Phone);
                             AddCellToBodyRight(tableLayout, info.Mobile);
                             AddCellToBodyLeft(tableLayout, info.Email);
@@ -349,7 +340,7 @@ namespace JudBizz
             return tableLayout;
         }
 
-        private PdfPTable AddContentToSubEntrepeneursPDFForAgreement(PdfPTable tableLayout, Project project, List<Enterprise> enterpriseList, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
+        private PdfPTable AddContentToSubEntrepeneursPDFForAgreement(PdfPTable tableLayout, Project project, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
             float[] headers = { 20, 20, 20, 20, 6, 6, 8 };  //Header Widths
             tableLayout.SetWidths(headers);        //Set the pdf headers
@@ -357,7 +348,7 @@ namespace JudBizz
 
             DateTime today = DateTime.Today;
             string date = @"Udskrift pr.: " + today.ToShortDateString();
-            string executive = @"Tilbudsansvarlig: " + project.Executive.Name;
+            string executive = @"Tilbudsansvarlig: " + project.Executive.Person.Name;
 
             //Add Title to the PDF file at the top
             tableLayout.AddCell(new PdfPCell(new Phrase("Jorton A/S", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
@@ -365,7 +356,7 @@ namespace JudBizz
             tableLayout.AddCell(new PdfPCell(new Phrase("Fagentrepenører", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(date, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 3, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
-            tableLayout.AddCell(new PdfPCell(new Phrase("Sagsnr: " + project.CaseId, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
+            tableLayout.AddCell(new PdfPCell(new Phrase("Sagsnr: " + project.Case, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase(project.Name, new Font(Font.FontFamily.HELVETICA, 12, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 20, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
             tableLayout.AddCell(new PdfPCell(new Phrase("", new Font(Font.FontFamily.HELVETICA, 18, 1, new iTextSharp.text.BaseColor(24, 80, 116)))) { Colspan = 1, Border = 0, PaddingBottom = 5, HorizontalAlignment = Element.ALIGN_CENTER, VerticalAlignment = Element.ALIGN_BOTTOM });
@@ -381,17 +372,17 @@ namespace JudBizz
             AddCellToHeader(tableLayout, "Pris");
 
             //Add body
-            foreach (Enterprise temp in enterpriseList)
+            foreach (Enterprise temp in enterprise)
             {
                 if (temp.Project.Id == project.Id)
                 {
                     tableLayout.AddCell(new PdfPCell(new Phrase(temp.Name, new Font(Font.FontFamily.HELVETICA, 10, 1, iTextSharp.text.BaseColor.BLACK))) { Colspan = 9, HorizontalAlignment = Element.ALIGN_LEFT, Padding = 5, BackgroundColor = iTextSharp.text.BaseColor.WHITE });
                     foreach (IndexedSubEntrepeneur tempSub in entrepeneurList)
                     {
-                        if (tempSub.EnterpriseList.Id == temp.Id)
+                        if (tempSub.Enterprise.Id == temp.Id)
                         {
                             Contact contact = tempSub.Contact;
-                            ContactInfo info = contact.ContactInfo;
+                            ContactInfo info = contact.Person.ContactInfo;
                             String ittletterSentDate = "Sendt: " + tempSub.IttLetter.SentDate.ToShortDateString();
                             string uphold = "Nej";
                             if (tempSub.Uphold)
@@ -403,8 +394,8 @@ namespace JudBizz
                             {
                                 reservations = "Ja";
                             }
-                            AddCellToBodyLeft(tableLayout, tempSub.Entrepeneur.Name);
-                            AddCellToBodyLeft(tableLayout, contact.Name);
+                            AddCellToBodyLeft(tableLayout, tempSub.Entrepeneur.Entity.Name);
+                            AddCellToBodyLeft(tableLayout, contact.Person.Name);
                             AddCellToBodyRight(tableLayout, info.ToLongString());
                             AddCellToBodyLeft(tableLayout, ittletterSentDate);
                             AddCellToBodyLeft(tableLayout, uphold);
@@ -418,10 +409,11 @@ namespace JudBizz
             return tableLayout;
         }
 
-        public string GenerateEnterpriseListPdf(Bizz bizz, List<Enterprise> list, List<User> users)
+        public string GenerateEnterprisesPdf(Bizz cbz, List<Enterprise> list, List<User> users)
         {
+            this.CBZ = cbz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
-            pdfPath = @"PDF_Documents\Projekt_" + Bizz.TempProject.CaseId.ToString() + "_Entrepriseliste_" + date + ".pdf";
+            pdfPath = @"PDF_Documents\Projekt_" + CBZ.TempProject.Case.ToString() + "_Entrepriseliste_" + date + ".pdf";
             
             //Create document
             Document document = new Document(PageSize.A4.Rotate(), 48, 48, 48, 48);
@@ -436,7 +428,7 @@ namespace JudBizz
             document.Open();
 
             //Add Content to PDF
-            document.Add(AddContentToEnterpriseListPDF(tableLayout, Bizz.TempProject, list, users));
+            document.Add(AddContentToEnterprisesPDF(tableLayout, CBZ.TempProject, list, users));
 
             // Closing the document
             document.Close();
@@ -445,12 +437,12 @@ namespace JudBizz
 
         }
 
-        public string GenerateIttLetterCommonPdf(Bizz bizz, Project project, SubEntrepeneur entrepeneur, IttLetterPdfData letterData)
+        public string GenerateIttLetterCommonPdf(Bizz cbz, Project project, List<Shipping> shippings)
         {
-            this.Bizz = bizz;
-            this.letterData = letterData;
+            this.CBZ = cbz;
+            this.shippings = shippings;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
-            pdfPath = @"PDF_Documents\Projekt_" + project.Name + "_Foelgebrev_faelles_" + date + ".pdf";
+            pdfPath = @"PDF_Documents\Projekt_" + project.Name.Replace(" ", "_") + "_Foelgebrev_faelles_" + date + ".pdf";
             fileStreamCreate = new FileStream(pdfPath, FileMode.Create);
 
             //step 1
@@ -479,7 +471,7 @@ namespace JudBizz
                 document.Open();
 
                 //Add Content to PDF
-                document.Add(AddContentToIttLetterCommonPDF(tableLayout, project, entrepeneur));
+                document.Add(AddContentToIttLetterCommonPDF(tableLayout, project));
 
             }
             catch (Exception ex)
@@ -496,12 +488,12 @@ namespace JudBizz
 
         }
 
-        public string GenerateIttLetterCompanyPdf(Bizz bizz, Project project, LegalEntity entity, SubEntrepeneur entrepeneur, IttLetterPdfData letterData)
+        public string GenerateIttLetterCompanyPdf(Bizz cbz, Shipping shipping)
         {
-            this.Bizz = bizz;
-            this.letterData = letterData;
+            this.CBZ = cbz;
+            this.shipping = shipping;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
-            pdfPath = @"PDF_Documents\Projekt_" + project.Name + "_Foelgebrev_til_" + entity.Name + "_" + date + ".pdf";
+            pdfPath = @"PDF_Documents\Projekt_" + shipping.Project.Name.Replace(" ", "_") + "_Foelgebrev_til_" + shipping.SubEntrepeneur.Entrepeneur.Entity.Name.Replace(" ", "_") + "_" + date + ".pdf";
             fileStreamCreate = new FileStream(pdfPath, FileMode.Create);
 
             //step 1
@@ -530,7 +522,7 @@ namespace JudBizz
                 document.Open();
 
                 //Add Content to PDF
-                document.Add(AddContentToIttLetterCompanyPDF(tableLayout, project, entity, entrepeneur));
+                document.Add(AddContentToIttLetterCompanyPDF(tableLayout, shipping));
 
             }
             catch (Exception ex)
@@ -547,11 +539,11 @@ namespace JudBizz
 
         }
 
-        public string GenerateSubEntrepeneursPdf(Bizz bizz, List<Enterprise> enterpriseList, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
+        public string GenerateSubEntrepeneursPdf(Bizz bizz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
-            this.Bizz = bizz;
+            this.CBZ = bizz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
-            pdfPath = @"PDF_Documents\Projekt" + Bizz.TempProject.CaseId.ToString() + "_Underentrenoerer_" + date + ".pdf";
+            pdfPath = @"PDF_Documents\Projekt" + CBZ.TempProject.Case.ToString() + "_Underentrenoerer_" + date + ".pdf";
 
             //Create document
             Document document = new Document(PageSize.A4.Rotate(), 48, 48, 48, 48);
@@ -566,7 +558,7 @@ namespace JudBizz
             document.Open();
 
             //Add Content to PDF
-            document.Add(AddContentToSubEntrepeneursPDF(tableLayout, Bizz.TempProject, enterpriseList, entrepeneurList, users));
+            document.Add(AddContentToSubEntrepeneursPDF(tableLayout, CBZ.TempProject, enterprise, entrepeneurList, users));
 
             // Closing the document
             document.Close();
@@ -575,11 +567,11 @@ namespace JudBizz
 
         }
 
-        public string GenerateSubEntrepeneursPdfForAgreement(Bizz bizz, List<Enterprise> enterpriseList, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
+        public string GenerateSubEntrepeneursPdfForAgreement(Bizz bizz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
-            this.Bizz = bizz;
+            this.CBZ = bizz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
-            pdfPath = @"PDF_Documents\Projekt_" + Bizz.TempProject.CaseId.ToString() + "_Underentrenoerer_" + date + ".pdf";
+            pdfPath = @"PDF_Documents\Projekt_" + CBZ.TempProject.Case.ToString() + "_Underentrenoerer_" + date + ".pdf";
 
             //Create document
             Document document = new Document(PageSize.A4.Rotate(), 48, 48, 48, 48);
@@ -594,7 +586,7 @@ namespace JudBizz
             document.Open();
 
             //Add Content to PDF
-            document.Add(AddContentToSubEntrepeneursPDFForAgreement(tableLayout, Bizz.TempProject, enterpriseList, entrepeneurList, users));
+            document.Add(AddContentToSubEntrepeneursPDFForAgreement(tableLayout, CBZ.TempProject, enterprise, entrepeneurList, users));
 
             // Closing the document
             document.Close();
@@ -605,42 +597,13 @@ namespace JudBizz
 
         private string GetBluePrintsLine()
         {
-            RefreshProjectBluePrints(letterData.Project);
-
-            string result = "• " + ProjectBluePrints[0] + "\n";
-            if (ProjectBluePrints.Count > 1)
-            {
-                int iMax = ProjectBluePrints.Count - 1;
-                for (int i = 1; i < iMax; i++)
-                {
-                    result += "• " + ProjectBluePrints[i] + "\n";
-                }
-                result += "• " + ProjectBluePrints[iMax] + "\n";
-            }
-            return result;
-        }
-
-        private string GetCompleteSetDescriptionLine()
-        {
-            RefreshProjectDescriptions(letterData.Project);
-
-            string result = "• " + ProjectDescriptions[0] + "\n";
-            if (ProjectDescriptions.Count > 1)
-            {
-                int iMax = ProjectDescriptions.Count - 1;
-                for (int i = 1; i < iMax; i++)
-                {
-                    result += "• " + ProjectDescriptions[i] + "\n";
-                }
-                result += "• " + ProjectDescriptions[iMax] + "\n";
-            }
-            return result;
+            throw new NotImplementedException();
         }
 
         private Contact GetContact(int id)
         {
             Contact result = new Contact();
-            foreach (Contact contact in Bizz.Contacts)
+            foreach (Contact contact in CBZ.Contacts)
             {
                 if (contact.Id == id)
                 {
@@ -654,7 +617,7 @@ namespace JudBizz
         private ContactInfo GetContactInfo(int id)
         {
             ContactInfo result = new ContactInfo();
-            foreach (ContactInfo info in Bizz.ContactInfoList)
+            foreach (ContactInfo info in CBZ.ContactInfoList)
             {
                 if (info.Id == id)
                 {
@@ -665,20 +628,25 @@ namespace JudBizz
             return result;
         }
 
+        private string GetCompleteSetDescriptionLine()
+        {
+            throw new NotImplementedException();
+        }
+
         private string GetEnterpriseLine()
         {
-            RefreshProjectEnterpriseList(letterData.Project);
+            RefreshProjectEnterprises(shipping.Project);
 
-            string result = ProjectEnterpriseList[0].Name;
-            if (ProjectEnterpriseList.Count > 1)
+            string result = ProjectEnterprises[0].Name;
+            if (ProjectEnterprises.Count > 1)
             {
-                int iMAx = ProjectEnterpriseList.Count - 1;
+                int iMAx = ProjectEnterprises.Count - 1;
                 for (int i = 1; i < iMAx; i++)
                 {
-                    result += @", " + ProjectEnterpriseList[i].Name;
+                    result += @", " + ProjectEnterprises[i].Name;
                 }
 
-                result += @" & " + ProjectEnterpriseList[iMAx].Name;
+                result += @" & " + ProjectEnterprises[iMAx].Name;
             }
             return result;
         }
@@ -686,7 +654,7 @@ namespace JudBizz
         private User GetExecutive(int id)
         {
             User result = new User();
-            foreach (User user in Bizz.Users)
+            foreach (User user in CBZ.Users)
             {
                 if (user.Id == id)
                 {
@@ -700,7 +668,7 @@ namespace JudBizz
         private string GetIttLetterSentDate(int id)
         {
             string result = "";
-            foreach (IttLetter letter in Bizz.IttLetters)
+            foreach (IttLetter letter in CBZ.IttLetters)
             {
                 if (letter.Id == id)
                 {
@@ -717,29 +685,17 @@ namespace JudBizz
 
         private string GetMiscellaneusLine()
         {
-            RefreshProjectMiscellaneousList(letterData.Project);
-
-            string result = "• " + ProjectMiscellaneousList[0].Text + "\n";
-            if (ProjectMiscellaneousList.Count > 1)
-            {
-                int iMax = ProjectMiscellaneousList.Count - 1;
-                for (int i = 1; i < iMax; i++)
-                {
-                    result += "• " + ProjectMiscellaneousList[i] + "\n";
-                }
-                result += "• " + ProjectMiscellaneousList[iMax] + "\n";
-            }
-            return result;
+            throw new NotImplementedException();
         }
 
         private string GetOfferStatus(SubEntrepeneur sub)
         {
             string result = "Ukendt";
-            foreach (Offer offer in Bizz.Offers)
+            foreach (Offer offer in CBZ.Offers)
             {
                 if (sub.Offer.Id == offer.Id && !offer.Received && !offer.Chosen)
                 {
-                    foreach (IttLetter letter in Bizz.IttLetters)
+                    foreach (IttLetter letter in CBZ.IttLetters)
                     {
                         result = "Nej";
                         if (letter.Id == sub.IttLetter.Id && letter.Sent)
@@ -763,113 +719,50 @@ namespace JudBizz
 
         private string GetProjectDocumentsLine()
         {
-            RefreshProjectIttLetterReceivers(letterData.Project);
+            RefreshProjectReceivers(shippings);
 
-            string result = "• " + ProjectIttLetterReceivers[0] + "\n";
-            if (ProjectIttLetterReceivers.Count > 1)
+            string result = "• " + ProjectReceivers[0] + "\n";
+            if (ProjectReceivers.Count > 1)
             {
-                int iMax = ProjectIttLetterReceivers.Count - 1;
+                int iMax = ProjectReceivers.Count - 1;
                 for (int i = 1; i < iMax; i++)
                 {
-                    result += "• " + ProjectIttLetterReceivers[i] + "\n";
+                    result += "• " + ProjectReceivers[i] + "\n";
                 }
-                result += "• " + ProjectIttLetterReceivers[iMax] + "\n";
+                result += "• " + ProjectReceivers[iMax] + "\n";
             }
             return result;
         }
 
         private string GetTimeSchedulesLine()
         {
-            RefreshProjectDescriptions(letterData.Project);
-
-            string result = "• " + ProjectDescriptions[0] + "\n";
-            if (ProjectDescriptions.Count > 1)
-            {
-                int iMax = ProjectDescriptions.Count - 1;
-                for (int i = 1; i < iMax; i++)
-                {
-                    result += "• " + ProjectDescriptions[i] + "\n";
-                }
-                result += "• " + ProjectDescriptions[iMax] + "\n";
-            }
-            return result;
+            throw new NotImplementedException();
         }
 
-        private void RefreshProjectBluePrints(Project project)
+        private void RefreshProjectEnterprises(Project project)
         {
-            ProjectBluePrints.Clear();
+            ProjectEnterprises.Clear();
 
-            foreach (BluePrint bluePrint in Bizz.BluePrints)
-            {
-                if (bluePrint.Project.Id == project.Id)
-                {
-                    ProjectBluePrints.Add(bluePrint);
-                }
-            }
-        }
-
-        private void RefreshProjectDescriptions(Project project)
-        {
-            ProjectDescriptions.Clear();
-
-            foreach (Description description in Bizz.Descriptions)
-            {
-                if (description.Project.Id == project.Id)
-                {
-                    ProjectDescriptions.Add(description);
-                }
-            }
-        }
-
-        private void RefreshProjectEnterpriseList(Project project)
-        {
-            ProjectEnterpriseList.Clear();
-
-            foreach (Enterprise enterprise in Bizz.EnterpriseList)
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == project.Id)
                 {
-                    ProjectEnterpriseList.Add(enterprise);
+                    ProjectEnterprises.Add(enterprise);
                 }
             }
         }
 
-        private void RefreshProjectIttLetterReceivers(Project project)
+        /// <summary>
+        /// Method, that refreshes Project Receivers
+        /// </summary>
+        /// <param name="shipping">Project</param>
+        private void RefreshProjectReceivers(List<Shipping> shippings)
         {
-            ProjectIttLetterReceivers.Clear();
+            ProjectReceivers.Clear();
 
-            foreach (IttLetterReceiver receiver in Bizz.IttLetterReceivers)
+            foreach (Shipping shipping in shippings)
             {
-                if (receiver.Project.Id == project.Id)
-                {
-                    ProjectIttLetterReceivers.Add(receiver);
-                }
-            }
-        }
-
-        private void RefreshProjectMiscellaneousList(Project project)
-        {
-            ProjectMiscellaneousList.Clear();
-
-            foreach (Miscellaneous miscellaneous in Bizz.MiscellaneousList)
-            {
-                if (miscellaneous.Project.Id == project.Id)
-                {
-                    ProjectMiscellaneousList.Add(miscellaneous);
-                }
-            }
-        }
-
-        private void RefreshProjectTimeSchedules(Project project)
-        {
-            ProjectTimeSchedules.Clear();
-
-            foreach (TimeSchedule schedule in Bizz.TimeSchedules)
-            {
-                if (schedule.Project.Id == project.Id)
-                {
-                    ProjectTimeSchedules.Add(schedule);
-                }
+                ProjectReceivers.Add(shipping.Receiver);
             }
         }
 

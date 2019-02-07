@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -22,15 +22,20 @@ namespace JudGui
     /// </summary>
     public partial class UcIttLettersPreparePersonalLetters : UserControl
     {
+        #region Fields
         public Bizz CBZ;
         public UserControl UcRight;
-        public IttLetterShipping Shipping = new IttLetterShipping();
+        public Shipping Shipping = new Shipping();
+        public PdfCreator PdfCreator;
         public static string macAddress;
 
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
-        public List<IttLetterReceiver> ProjectIttLetterReceivers = new List<IttLetterReceiver>();
+        public List<Receiver> ProjectReceivers = new List<Receiver>();
+        public List<Shipping> ProjectShippings = new List<Shipping>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
+
+        #endregion
 
         public UcIttLettersPreparePersonalLetters(Bizz cbz, UserControl ucRight)
         {
@@ -46,7 +51,7 @@ namespace JudGui
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             //Warning about lost changes before closing
-            if (MessageBox.Show("Du er ved at lukke projektet. Alt, der ikke er gemt vil blive mistet!", "Luk Projekt", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev ?", "Luk Klargør Udbudsbrev", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
                 //Close right UserControl
                 UcRight.Content = new UserControl();
@@ -57,30 +62,61 @@ namespace JudGui
         private void ButtonPrepare_Click(object sender, RoutedEventArgs e)
         {
             //Code, that prepares 
-            CBZ.TempIttLetterPdfData = new IttLetterPdfData(CBZ.TempProject, CBZ.TempBuilder, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, TextBoxPassword.Text);
+            CBZ.TempLetterData = new LetterData(CBZ.TempProject.Name, CBZ.TempBuilder.Entity.Name, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, TextBoxPassword.Text);
 
-            // Code that save changes to the IttLetter PdfData
-            int result = CBZ.CreateInDbReturnInt(CBZ.TempIttLetterPdfData);
-
-            if (result > 0)
+            try
             {
-                //Show Confirmation
-                MessageBox.Show("Personlig del af Udbudsbrevet blev rettet", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Information);
+                // Code that save changes to the PdfData
+                int result = CBZ.CreateInDb(CBZ.TempLetterData);
 
-                //Update IttLetter PdfData List
-                CBZ.RefreshList("IttLetterPdfDataList");
+                if (result > 0)
+                {
 
-                //Reset UcIttLetterPreparePersonal
-                ComboBoxCaseId.SelectedIndex = 0;
-                CBZ.TempProject = new Project();
-                CBZ.TempBuilder = new Builder();
-                CBZ.TempIttLetterPdfData = new IttLetterPdfData();
+                    foreach (Shipping shipping in ProjectShippings)
+                    {
+                        CBZ.TempShipping = shipping;
+                        CBZ.TempShipping.PdfPath = PdfCreator.GenerateIttLetterCompanyPdf(CBZ, shipping);
+                        CBZ.UpdateInDb(CBZ.TempShipping);
+
+                    }
+
+                    //Show Confirmation
+                    MessageBox.Show("Personlig del af Udbudsbrevet blev oprettet", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    //Update PdfData List
+                    CBZ.RefreshList("PdfDataList");
+
+                    //Reset UcIttLetterPreparePersonal
+                    ComboBoxCaseId.SelectedIndex = 0;
+                    CBZ.RefreshList("ShippingList");
+                    RefreshShippingList();
+                    CBZ.TempProject = new Project();
+                    CBZ.TempBuilder = new Builder();
+                    CBZ.TempLetterData = new LetterData();
+                    TextBoxAnswerDate.Text = "";
+                    TextBoxQuestionDate.Text = "";
+                    TextBoxCorrectionSheetDate.Text = "";
+                    TextBoxTimeSpan.Text = "";
+                    TextBoxMaterialUrl.Text = "";
+                    TextBoxConditionUrl.Text = "";
+                    TextBoxPassword.Text = "";
+
+                }
+                else
+                {
+                    throw new OperationCanceledException();
+                }
 
             }
-            else
+            catch (OperationCanceledException)
             {
                 //Show error
                 MessageBox.Show("Databasen returnerede en fejl. Personlig del af Tilbudsbrev blev ikke oprettet. Prøv igen.", "Forbered UdbudsBrev", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                //Show error
+                MessageBox.Show("Der opstod en fejl.\n" + ex, "Forbered UdbudsBrev", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
         }
@@ -97,13 +133,13 @@ namespace JudGui
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        CBZ.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                        CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                         break;
                     }
                 }
                 TextBoxName.Text = CBZ.TempProject.Name;
                 GetProjectSubEntrepeneurs();
-                GetProjectIttLetterReceivers();
+                GetProjectReceivers();
             }
             else
             {
@@ -117,16 +153,26 @@ namespace JudGui
 
         #region Methods
         /// <summary>
-        /// Method, that checks, whether a LegalEntity exists in IttLetter Receivers list
+        /// Method that adds a Shipping to Project Shipping List
+        /// </summary>
+        /// <param name="id">int</param>
+        private void AddShipping(int id)
+        {
+            Shipping shipping = GetShipping(id);
+            ProjectShippings.Add(shipping);
+        }
+
+        /// <summary>
+        /// Method, that checks, whether a LegalEntity exists in Receivers list
         /// </summary>
         /// <param name="entity">LegalEntity</param>
         /// <returns>bool</returns>
-        private bool CheckEntityIttLetterReceivers(LegalEntity entity)
+        private bool CheckEntityReceivers(LegalEntity entity)
         {
             bool result = false;
-            foreach (IttLetterReceiver receiver in CBZ.IttLetterReceivers)
+            foreach (Receiver receiver in CBZ.Receivers)
             {
-                if (receiver.CompanyId == entity.Id)
+                if (receiver.Cvr == entity.Cvr)
                 {
                     result = true;
                     break;
@@ -193,9 +239,9 @@ namespace JudGui
         /// </summary>
         /// <param name="entrepeneur">string</param>
         /// <returns>Contact</returns>
-        private Contact GetContact(string entrepeneur)
+        private Contact GetContact(int entrepeneurId)
         {
-            return GetSubEntrepeneur(entrepeneur).Contact;
+            return GetSubEntrepeneur(entrepeneurId).Contact;
         }
 
         /// <summary>
@@ -237,42 +283,46 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates a IttLetterShipping
+        /// Method, that creates a Shipping
         /// </summary>
-        /// <returns></returns>
-        private void GetIttLetterShipping()
+        /// <param name="shippingId">int</param>
+        /// <returns>Shipping</returns>
+        private Shipping GetShipping(int shippingId)
         {
-            this.Shipping = new IttLetterShipping(this.CBZ.TempProject, @"PDF_Documents\", macAddress);
-            try
-            {
-                int id = CBZ.CreateInDbReturnInt(Shipping);
-                Shipping.SetId(id);
-                Shipping.PdfPath = "";
-                CBZ.UpdateInDb(Shipping);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Opdater forsendelse", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+            Shipping result = new Shipping();
 
-        /// <summary>
-        /// Method, that generates List of IttLetterReceivers
-        /// </summary>
-        private void GetProjectIttLetterReceivers()
-        {
-            ProjectIttLetterReceivers.Clear();
-            CBZ.RefreshList("IttLetterReceivers");
-
-            foreach (IttLetterReceiver receiver in CBZ.IttLetterReceivers)
+            foreach (Shipping shipping in CBZ.Shippings)
             {
-                if (receiver.Project.Id == CBZ.TempProject.Id)
+                if (shipping.Id == shippingId)
                 {
-                    ProjectIttLetterReceivers.Add(receiver);
+                    result = shipping;
+                    break;
                 }
             }
 
-            if (ProjectIttLetterReceivers.Count >= 1)
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that generates List of Receivers
+        /// </summary>
+        private void GetProjectReceivers()
+        {
+            ProjectReceivers.Clear();
+            ProjectShippings.Clear();
+            CBZ.RefreshList("Receivers");
+            CBZ.RefreshList("ShippingList");
+
+            foreach (Shipping shipping in CBZ.Shippings)
+            {
+                if (shipping.Project.Id == CBZ.TempProject.Id)
+                {
+                    ProjectReceivers.Add(shipping.Receiver);
+                    ProjectShippings.Add(shipping);
+                }
+            }
+
+            if (ProjectReceivers.Count >= 1)
             {
                 CheckBoxReceiverListExist.IsChecked = true;
             }
@@ -318,15 +368,15 @@ namespace JudGui
         /// <summary>
         /// Method, that retrieves a SubEntrepeneur
         /// </summary>
-        /// <param name="entrepeneur"></param>
+        /// <param name="entrepeneurId">int</param>
         /// <returns></returns>
-        private SubEntrepeneur GetSubEntrepeneur(string entrepeneur)
+        private SubEntrepeneur GetSubEntrepeneur(int entrepeneurId)
         {
             SubEntrepeneur result = new SubEntrepeneur();
 
             foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)
             {
-                if (sub.Entrepeneur.Id == entrepeneur)
+                if (sub.Entrepeneur.Id == entrepeneurId)
                 {
                     result = sub;
                     break;
@@ -334,6 +384,18 @@ namespace JudGui
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Method, that refreshes content of the Shipping List
+        /// </summary>
+        private void RefreshShippingList()
+        {
+            ProjectShippings.Clear();
+            foreach (Receiver receiver in ProjectReceivers)
+            {
+                AddShipping(receiver.Id);
+            }
         }
 
         #endregion

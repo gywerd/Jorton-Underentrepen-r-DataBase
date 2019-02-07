@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace JudGui
     public partial class UcCreateEnterprises : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
 
         CraftGroup CCG = new CraftGroup();
@@ -35,7 +35,7 @@ namespace JudGui
         public UcCreateEnterprises(Bizz bizz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = bizz;
             this.UcRight = ucRight;
             GenerateComboBoxCaseIdItems();
             GenerateCraftGroupItems();
@@ -50,7 +50,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du annullere oprettelse af EntrepriseLister?", "Luk Projekt", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
         }
@@ -58,15 +58,20 @@ namespace JudGui
         private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            if (Bizz.TempProject.EnterprisesList == false)
+            if (CBZ.TempProject.EnterprisesList == false)
             {
-                Bizz.TempProject.ToggleEnterprises();
-                Bizz.UpdateInDb(Bizz.TempProject);
-                Bizz.RefreshList("Projects");
-                Bizz.RefreshIndexedList("IndexedActiveProjects");
-                Bizz.RefreshIndexedList("IndexableProjects");
+                CBZ.TempProject.ToggleEnterprises();
+                CBZ.UpdateInDb(CBZ.TempProject);
+                CBZ.RefreshList("Projects");
+                CBZ.RefreshIndexedList("IndexedActiveProjects");
+                CBZ.RefreshIndexedList("IndexedProjects");
             }
-            bool result = Bizz.CreateInDbReturnBool(Bizz.TempEnterprise);
+            bool result = false;
+            int id = CBZ.CreateInDb(CBZ.TempEnterprise);
+            if (id >= 1)
+            {
+                result = true;
+            }
 
             if (result)
             {
@@ -74,11 +79,11 @@ namespace JudGui
                 MessageBox.Show("Entrepriselisten blev oprettet", "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update Enterprises
-                Bizz.RefreshList("Enterprises");
-                Bizz.TempEnterprise = new Enterprise();
+                CBZ.RefreshList("Enterprises");
+                CBZ.TempEnterprise = new Enterprise();
 
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
             else
@@ -91,15 +96,20 @@ namespace JudGui
         private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
-            if (Bizz.TempProject.EnterprisesList == false)
+            if (CBZ.TempProject.EnterprisesList == false)
             {
-                Bizz.TempProject.ToggleEnterprises();
-                Bizz.UpdateInDb(Bizz.TempProject);
-                Bizz.RefreshList("Projects");
-                Bizz.RefreshIndexedList("IndexedActiveProjects");
-                Bizz.RefreshIndexedList("IndexableProjects");
+                CBZ.TempProject.ToggleEnterprises();
+                CBZ.UpdateInDb(CBZ.TempProject);
+                CBZ.RefreshList("Projects");
+                CBZ.RefreshIndexedList("IndexedActiveProjects");
+                CBZ.RefreshIndexedList("IndexedProjects");
             }
-            bool result = Bizz.CreateInDbReturnBool(Bizz.TempEnterprise);
+            bool result = false;
+            int id = CBZ.CreateInDb(CBZ.TempEnterprise);
+            if (id >= 1)
+            {
+                result = true;
+            }
 
             if (result)
             {
@@ -117,15 +127,14 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = 0;
 
                 //Update Enterprise list
-                Bizz.RefreshList("Enterprises");
-                Bizz.TempEnterprise.Name = "";
-                Bizz.TempEnterprise.Elaboration = "";
-                Bizz.TempEnterprise.OfferList = "";
-                CraftGroup craftgroup0 = new CraftGroup((CraftGroup)Bizz.GetEntity("CraftGroup", "0"));
-                Bizz.TempEnterprise.CraftGroup1 = craftgroup0;
-                Bizz.TempEnterprise.CraftGroup2 = craftgroup0;
-                Bizz.TempEnterprise.CraftGroup3 = craftgroup0;
-                Bizz.TempEnterprise.CraftGroup4 = craftgroup0;
+                CBZ.RefreshList("Enterprises");
+                CBZ.TempEnterprise.Name = "";
+                CBZ.TempEnterprise.Elaboration = "";
+                CBZ.TempEnterprise.OfferList = "";
+                CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+                CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+                CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+                CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
             }
             else
             {
@@ -140,44 +149,43 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
-            TextBoxCaseName.Content = Bizz.TempProject.Name;
-            Bizz.TempEnterprise.Project = Bizz.TempProject;
+            TextBoxCaseName.Content = CBZ.TempProject.Name;
+            CBZ.TempEnterprise.Project = CBZ.TempProject;
             ComboBoxCraftGroup1.SelectedIndex = 0;
             ComboBoxCraftGroup2.SelectedIndex = 0;
             ComboBoxCraftGroup3.SelectedIndex = 0;
             ComboBoxCraftGroup4.SelectedIndex = 0;
-            CraftGroup craftGroup0 = new CraftGroup((CraftGroup)Bizz.GetEntity("CraftGroup", "0"));
-            Bizz.TempEnterprise.CraftGroup1 = craftGroup0;
-            Bizz.TempEnterprise.CraftGroup2 = craftGroup0;
-            Bizz.TempEnterprise.CraftGroup3 = craftGroup0;
-            Bizz.TempEnterprise.CraftGroup4 = craftGroup0;
+            CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+            CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+            CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+            CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
         }
 
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
+            CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
+            CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
+            CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
+            CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
         }
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
@@ -189,7 +197,7 @@ namespace JudGui
                 TextBoxName.Text = textBlock;
                 TextBoxName.Select(TextBoxName.Text.Length, 0);
             }
-            Bizz.TempEnterprise.Name = TextBoxName.Text;
+            CBZ.TempEnterprise.Name = TextBoxName.Text;
         }
 
         private void TextBoxElaboration_TextChanged(object sender, TextChangedEventArgs e)
@@ -201,7 +209,7 @@ namespace JudGui
                 TextBoxElaboration.Text = textBlock;
                 TextBoxElaboration.Select(TextBoxElaboration.Text.Length, 0);
             }
-            Bizz.TempEnterprise.Elaboration = TextBoxElaboration.Text;
+            CBZ.TempEnterprise.Elaboration = TextBoxElaboration.Text;
         }
 
         private void TextBoxOfferList_TextChanged(object sender, TextChangedEventArgs e)
@@ -213,7 +221,7 @@ namespace JudGui
                 TextBoxOfferList.Text = textBlock;
                 TextBoxOfferList.Select(TextBoxOfferList.Text.Length, 0);
             }
-            Bizz.TempEnterprise.OfferList = TextBoxOfferList.Text;
+            CBZ.TempEnterprise.OfferList = TextBoxOfferList.Text;
         }
 
         #endregion
@@ -222,7 +230,7 @@ namespace JudGui
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }
@@ -234,7 +242,7 @@ namespace JudGui
             ComboBoxCraftGroup2.Items.Clear();
             ComboBoxCraftGroup3.Items.Clear();
             ComboBoxCraftGroup4.Items.Clear();
-            foreach (CraftGroup temp in Bizz.CraftGroups)
+            foreach (CraftGroup temp in CBZ.CraftGroups)
             {
                 ComboBoxCraftGroup1.Items.Add(temp);
                 ComboBoxCraftGroup2.Items.Add(temp);

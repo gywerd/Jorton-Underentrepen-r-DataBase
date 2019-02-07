@@ -265,9 +265,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassBizz\ClassBizz.csproj">
+    <ProjectReference Include="..\JudBizz\JudBizz.csproj">
       <Project>{a55a0c27-c72d-46e4-9476-9bada2f38ca4}</Project>
-      <Name>ClassBizz</Name>
+      <Name>JudBizz</Name>
     </ProjectReference>
     <ProjectReference Include="..\JudRepository\JudRepository.csproj">
       <Project>{e1d9b59f-506b-428e-9a6c-52be7691df15}</Project>
@@ -436,8 +436,6 @@
     <Resource Include="Images\craft.png" />
     <Resource Include="Images\cut.png" />
     <Resource Include="Images\enterprise-form.png" />
-    <Resource Include="Images\enterprise-global.png" />
-    <Resource Include="Images\enterprise-list.png" />
     <Resource Include="Images\enterprise.png" />
     <Resource Include="Images\format_painter.png" />
     <Resource Include="Images\help.png" />
@@ -495,6 +493,41 @@
     <Resource Include="Images\jorton-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\receivers-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\prepare-letter-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\send-letter-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ittletter.png" />
+    <Resource Include="Images\request.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\project-caseid-small.png" />
+    <Resource Include="Images\project-create-small.png" />
+    <Resource Include="Images\project-edit-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enterprise-create-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enterprise-edit-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\entrepeneur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\subentrepeneur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\subentrepeneur-edit-small.png" />
+    <Resource Include="Images\subentrepeneur-show-small.png" />
+    <Resource Include="Images\subentrepeneur-small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

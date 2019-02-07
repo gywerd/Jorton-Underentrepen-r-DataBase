@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string description;
+        private string text;
 
         #endregion
 
@@ -22,50 +22,48 @@ namespace JudRepository
         public TenderForm()
         {
             this.id = 0;
-            this.description = "";
+            this.text = "";
         }
 
         /// <summary>
-        /// Method to add a new Tender Form
+        /// Constructor to add a new Tender Form
         /// </summary>
-        /// <param name="description">string</param>
-        public TenderForm(string description)
+        /// <param name="text">string</param>
+        public TenderForm(string text)
         {
             this.id = 0;
-            this.description = description;
+            this.text = text;
         }
 
         /// <summary>
-        /// Method to add a Tender Form from Db
+        /// Constructor to add a Tender Form from Db
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="description"></param>
-        public TenderForm(int id, string description)
+        /// <param name="text"></param>
+        public TenderForm(int id, string text)
         {
             this.id = id;
-            this.description = description;
+            this.text = text;
         }
 
         /// <summary>
-        /// Method to add a Tender Form
+        /// Constructor, that accepts data from an existing Tender Form
         /// </summary>
         /// <param name="form">TenderForm</param>
         public TenderForm(TenderForm form)
         {
                 this.id = form.Id;
-                this.description = form.Description;
+                this.text = form.Text;
         }
 
-        #endregion
-
-        #region Methods
         /// <summary>
-        /// Returns main content as a string
+        /// Constructor, that accepts data from an existing Indexed Tender Form
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="form">IndexedTenderForm</param>
+        public TenderForm(IndexedTenderForm form)
         {
-            return description;
+            this.id = form.Id;
+            this.text = form.Text;
         }
 
         #endregion
@@ -73,16 +71,16 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public string Description
+        public string Text
         {
-            get => description;
+            get => text;
             set
             {
                 try
                 {
                     if (value != null)
                     {
-                        description = value;
+                        text = value;
                     }
                 }
                 catch (Exception ex)
@@ -91,6 +89,36 @@ namespace JudRepository
                 }
             }
         }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Returns main content as a string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return text;
+        }
+
+        #endregion
     }
-    #endregion
 }

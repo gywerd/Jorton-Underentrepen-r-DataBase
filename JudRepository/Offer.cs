@@ -34,7 +34,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor used to add new offer
+        /// Constructor used to add anew Offer
         /// </summary>
         /// <param name="received">bool</param>
         /// <param name="receivedDate">DateTime?</param>
@@ -50,7 +50,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor used to add offer from Db to list
+        /// Constructor used to add an Offer from Db to list
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="received">bool</param>
@@ -67,7 +67,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, thats accepts an existing Offer
+        /// Constructor, thats accepts data from an existing Offer
         /// </summary>
         /// <param name="offer">Offer</param>
         public Offer(Offer offer)
@@ -81,31 +81,33 @@ namespace JudRepository
 
         #endregion
 
-        #region Methods
-        /// <summary>
-        /// Method to add received and received date to 
-        /// </summary>
-        /// <param name="receivedDate">DateTime?</param>
-        public void AddReceived(DateTime? receivedDate = null)
+        #region Properties
+        public int Id { get => id; }
+        public bool Received { get => received; }
+        public DateTime ReceivedDate { get => receivedDate; }
+        public double Price
         {
-            if (receivedDate == null)
+            get => price;
+            set
             {
-                receivedDate = DateTime.Now;
-            }
-            if (receivedDate.Value.ToShortDateString().Substring(0, 10) != "17-03-1932")
-            {
-                this.received = true;
-            }
-            else
-            {
-                this.received = false;
-            }
-            if (this.receivedDate.ToShortDateString().Substring(0, 10) != receivedDate.Value.ToShortDateString().Substring(0, 10))
-            {
-                this.receivedDate = Convert.ToDateTime(receivedDate);
+                try
+                {
+                    if (value >= 0)
+                    {
+                        price = value;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
             }
         }
+        public bool Chosen { get => chosen; }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Method to add received and received date to 
         /// </summary>
@@ -113,7 +115,7 @@ namespace JudRepository
         public void ResetReceived()
         {
             this.received = false;
-            this.receivedDate = Convert.ToDateTime("1932-03-17");
+            this.receivedDate = Convert.ToDateTime("17-03-1932");
         }
 
         /// <summary>
@@ -137,10 +139,21 @@ namespace JudRepository
         /// <summary>
         /// Method to add received and received date to 
         /// </summary>
-        /// <param name="receivedDate">DateTime?</param>
-        public void SetReceivedDate(DateTime date)
+        /// <param name="receivedDate">DateTime</param>
+        public void SetReceived(DateTime receivedDate)
         {
-            this.receivedDate = date;
+            if (receivedDate.ToShortDateString().Substring(0, 10) != "17-03-1932")
+            {
+                this.received = true;
+                if (receivedDate.ToShortDateString().Substring(0, 10) != this.receivedDate.ToShortDateString().Substring(0, 10))
+                {
+                    this.receivedDate = Convert.ToDateTime(this.receivedDate);
+                }
+            }
+            else
+            {
+                ResetReceived();
+            }
         }
 
         /// <summary>
@@ -193,30 +206,5 @@ namespace JudRepository
 
         #endregion
 
-        #region Properties
-        public int Id { get => id; }
-        public bool Received { get => received; }
-        public DateTime ReceivedDate { get => receivedDate; }
-        public double Price
-        {
-            get => price;
-            set
-            {
-                try
-                {
-                    if (value >= 0)
-                    {
-                        price = value;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                    throw ex;
-                }
-            }
-        }
-        public bool Chosen { get => chosen; }
-        #endregion
     }
 }

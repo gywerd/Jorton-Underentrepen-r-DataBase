@@ -14,7 +14,13 @@ namespace JudRepository
         #endregion
 
         #region Constructors
-        /// Constructor, that adds an index to an existing SubEntrepeneur
+        /// <summary>
+        /// Empty Constructor
+        /// </summary>
+        public IndexedSubEntrepeneur() { }
+
+        /// <summary>
+        /// Constructor to add a new Indexed SubEntrepeneur
         /// </summary>
         /// <param name="index">int</param>
         /// <param name="subEntrepeneur">SubEntrepeneur</param>

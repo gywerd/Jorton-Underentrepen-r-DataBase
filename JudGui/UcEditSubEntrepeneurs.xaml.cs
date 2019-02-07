@@ -1,4 +1,4 @@
-﻿using ClassBizz;
+﻿using JudBizz;
 using JudRepository;
 using System;
 using System.Collections;
@@ -31,12 +31,12 @@ namespace JudGui
         public bool DbStatus = false;
         public bool OverrideControl = false;
 
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
-        public List<IndexedContact> IndexableContacts = new List<IndexedContact>();
-        public List<Enterprise> IndexableEnterprises = new List<Enterprise>();
-        public List<IndexedLegalEntity> IndexableLegalEntities = new List<IndexedLegalEntity>();
-        public List<IndexedSubEntrepeneur> IndexableSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
+        public List<IndexedContact> IndexedContacts = new List<IndexedContact>();
+        public List<Enterprise> IndexedEnterprises = new List<Enterprise>();
+        public List<IndexedEntrepeneur> IndexedLegalEntities = new List<IndexedEntrepeneur>();
+        public List<IndexedSubEntrepeneur> IndexedSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
 
         #endregion
 
@@ -44,10 +44,10 @@ namespace JudGui
         public UcEditSubEntrepeneurs(Bizz bizz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = bizz;
             this.UcRight = ucRight;
-            ComboBoxCaseId.ItemsSource = Bizz.IndexedActiveProjects;
-            ComboBoxRequest.ItemsSource = Bizz.RequestStatusList;
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
+            ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
         }
 
         #endregion
@@ -59,7 +59,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke redigering af Underentrepenører?", "Luk Rediger Underentrepenør", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
             }
         }
@@ -70,18 +70,18 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedActiveProjects)
+            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.CaseId, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                     break;
                 }
             }
             OverrideControl = true;
-            TextBoxName.Text = Bizz.TempProject.Name;
-            IndexableEnterprises = GetIndexableEnterprises();
-            ComboBoxEnterprise.ItemsSource = IndexableEnterprises;
+            TextBoxName.Text = CBZ.TempProject.Name;
+            IndexedEnterprises = GetIndexedEnterprises();
+            ComboBoxEnterprise.ItemsSource = IndexedEnterprises;
             ComboBoxEnterprise.SelectedIndex = 0;
             ListBoxSubEntrepeneurs.ItemsSource = "";
             ListBoxSubEntrepeneurs.SelectedIndex = -1;
@@ -99,25 +99,25 @@ namespace JudGui
             if (selectedIndex >= 0)
             {
                 Changed = false;
-                IndexedContact contact = IndexableContacts[selectedIndex];
-                if (Bizz.TempSubEntrepeneur.Contact.Id != contact.Id)
+                IndexedContact contact = IndexedContacts[selectedIndex];
+                if (CBZ.TempSubEntrepeneur.Contact.Id != contact.Id)
                 {
-                    Bizz.TempSubEntrepeneur.Contact.SetId(contact.Id);
+                    CBZ.TempSubEntrepeneur.Contact.SetId(contact.Id);
                     Changed = true;
                 }
                 if (Changed)
                 {
-                    DbStatus = Bizz.UpdateInDb(Bizz.TempSubEntrepeneur);
+                    DbStatus = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur);
                     if (DbStatus)
                     {
                         MessageBox.Show("Kontaktpersonen blev opdateret", "Opdater kontakt", MessageBoxButton.OK, MessageBoxImage.Information);
-                        Bizz.RefreshList("SubEntrepeneurs");
+                        CBZ.RefreshList("SubEntrepeneurs");
                     }
                 }
                 if (Changed && !DbStatus)
                 {
                     MessageBox.Show("Databasen meldte en fejl. Kontaktpersonen blev ikke opdateret", "Opdater kontakt", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Bizz.TempSubEntrepeneur.Contact = new Contact();
+                    CBZ.TempSubEntrepeneur.Contact = new Contact();
                     ComboBoxContact.SelectedIndex = 0;
                 }
                 DbStatus = false;
@@ -125,7 +125,7 @@ namespace JudGui
             }
             else
             {
-                Bizz.TempContact = new Contact();
+                CBZ.TempContact = new Contact();
             }
         }
 
@@ -141,22 +141,22 @@ namespace JudGui
                 ResetRadioButtons();
                 OverrideControl = false;
                 int selectedIndex = ComboBoxEnterprise.SelectedIndex;
-                foreach (IndexedEnterprise temp in IndexableEnterprises)
+                foreach (IndexedEnterprise temp in IndexedEnterprises)
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        Bizz.TempEnterprise = new Enterprise(temp.Id, temp.Project, temp.Name, temp.Elaboration, temp.OfferList, temp.CraftGroup1, temp.CraftGroup2, temp.CraftGroup3, temp.CraftGroup4);
+                        CBZ.TempEnterprise = new Enterprise(temp.Id, temp.Project, temp.Name, temp.Elaboration, temp.OfferList, temp.CraftGroup1, temp.CraftGroup2, temp.CraftGroup3, temp.CraftGroup4);
                         break;
                     }
                 }
-                IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
+                IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
                 OverrideControl = true;
                 ListBoxSubEntrepeneurs.UnselectAll();
                 ListBoxSubEntrepeneurs.ItemsSource = null;
                 OverrideControl = false;
-                if (IndexableSubEntrepeneurs.Count != 0)
+                if (IndexedSubEntrepeneurs.Count != 0)
                 {
-                    ListBoxSubEntrepeneurs.ItemsSource = IndexableSubEntrepeneurs;
+                    ListBoxSubEntrepeneurs.ItemsSource = IndexedSubEntrepeneurs;
                 }
             }
         }
@@ -172,9 +172,9 @@ namespace JudGui
                     if (Changed)
                     {
 
-                        UpdateRequestStatusInDb(selectedIndex, Bizz.TempSubEntrepeneur.Request);
+                        UpdateRequestStatusInDb(selectedIndex, CBZ.TempSubEntrepeneur.Request);
                     }
-                    Bizz.RefreshList("SubEntrepeneurs");
+                    CBZ.RefreshList("SubEntrepeneurs");
                     Changed = false;
                     Date = new DateTime();
                 }
@@ -186,7 +186,7 @@ namespace JudGui
                 else
                 {
                     ComboBoxRequest.SelectedIndex = -1;
-                    Bizz.TempRequest = new Request();
+                    CBZ.TempRequest = new Request();
                     DateTime date = DateTime.Now;
                     DateRequest.DisplayDate = date;
                     DateRequest.Text = "";
@@ -364,13 +364,13 @@ namespace JudGui
                 int selectedIndex = ListBoxSubEntrepeneurs.SelectedIndex;
                 if (selectedIndex == -1)
                 {
-                    Bizz.TempSubEntrepeneur = new SubEntrepeneur();
+                    CBZ.TempSubEntrepeneur = new SubEntrepeneur();
                     TextBoxEntrepeneur.Text = "";
                     TextBoxOfferPrice.Text = "";
                     ResetComboBoxes();
                     ResetRadioButtons();
                 }
-                else if (selectedIndex < IndexableSubEntrepeneurs.Count && selectedIndex >= 0)
+                else if (selectedIndex < IndexedSubEntrepeneurs.Count && selectedIndex >= 0)
                 {
                     OverrideControl = true;
                     TextBoxEntrepeneur.Text = "";
@@ -378,26 +378,26 @@ namespace JudGui
                     ResetComboBoxes();
                     ResetRadioButtons();
                     OverrideControl = false;
-                    Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-                    IndexableSubEntrepeneurs.Clear();
-                    IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
+                    CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+                    IndexedSubEntrepeneurs.Clear();
+                    IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
                     //ListBoxSubEntrepeneurs.ItemsSource = null;
-                    //ListBoxSubEntrepeneurs.ItemsSource = IndexableSubEntrepeneurs;
+                    //ListBoxSubEntrepeneurs.ItemsSource = IndexedSubEntrepeneurs;
                     SetBizzTempSubEntrepeneur(selectedIndex);
-                    TextBoxEntrepeneur.Text = Bizz.TempSubEntrepeneur.Entrepeneur.Name;
-                    Bizz.TempIttLetter = GetBizzTempIttLetter();
-                    Bizz.TempOffer = GetBizzTempOffer();
-                    Bizz.TempRequest = GetBizzTempRequest();
+                    TextBoxEntrepeneur.Text = CBZ.TempSubEntrepeneur.Entrepeneur.Entity.Name;
+                    CBZ.TempIttLetter = GetBizzTempIttLetter();
+                    CBZ.TempOffer = GetBizzTempOffer();
+                    CBZ.TempRequest = GetBizzTempRequest();
                     SetComboBoxes();
                     SetRadioButtons();
-                    TextBoxOfferPrice.Text = Bizz.TempOffer.Price.ToString();
+                    TextBoxOfferPrice.Text = CBZ.TempOffer.Price.ToString();
                 }
             }
         }
 
         private void RadioButtonAgreementConcludedYes_Checked(object sender, RoutedEventArgs e)
         {
-            if (Bizz != null && !OverrideControl)
+            if (CBZ != null && !OverrideControl)
             {
                 bool status = CheckTempSubEntrepeneur();
                 if (status)
@@ -405,9 +405,9 @@ namespace JudGui
                     RadioButtonAgreementConcludedYes.IsChecked = true;
                     RadioButtonAgreementConcludedNo.IsChecked = false;
                     bool changed = false;
-                    if (Bizz.TempSubEntrepeneur.AgreementConcluded == false)
+                    if (CBZ.TempSubEntrepeneur.AgreementConcluded == false)
                     {
-                        Bizz.TempSubEntrepeneur.ToggleAgreementConcluded();
+                        CBZ.TempSubEntrepeneur.ToggleAgreementConcluded();
                         changed = true;
                     }
                     if (changed)
@@ -425,7 +425,7 @@ namespace JudGui
 
         private void RadioButtonAgreementConcludedNo_Checked(object sender, RoutedEventArgs e)
         {
-            if (Bizz != null && !OverrideControl)
+            if (CBZ != null && !OverrideControl)
             {
                 bool status = CheckTempSubEntrepeneur();
                 if (status)
@@ -433,9 +433,9 @@ namespace JudGui
                     RadioButtonAgreementConcludedYes.IsChecked = false;
                     RadioButtonAgreementConcludedNo.IsChecked = true;
                     bool changed = false;
-                    if (Bizz.TempSubEntrepeneur.AgreementConcluded == true)
+                    if (CBZ.TempSubEntrepeneur.AgreementConcluded == true)
                     {
-                        Bizz.TempSubEntrepeneur.ToggleAgreementConcluded();
+                        CBZ.TempSubEntrepeneur.ToggleAgreementConcluded();
                         changed = true;
                     }
                     if (changed)
@@ -455,14 +455,14 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
                     {
-                        if (Bizz.TempSubEntrepeneur.IttLetter.Id != Bizz.TempIttLetter.Id)
+                        if (CBZ.TempSubEntrepeneur.IttLetter.Id != CBZ.TempIttLetter.Id)
                         {
-                            Bizz.TempIttLetter = GetBizzTempIttLetter();
+                            CBZ.TempIttLetter = GetBizzTempIttLetter();
                         }
                         RadioButtonIttLetterSentYes.IsChecked = true;
                         RadioButtonIttLetterSentNo.IsChecked = false;
@@ -490,14 +490,14 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
                     {
-                        if (Bizz.TempSubEntrepeneur.IttLetter.Id != Bizz.TempIttLetter.Id)
+                        if (CBZ.TempSubEntrepeneur.IttLetter.Id != CBZ.TempIttLetter.Id)
                         {
-                            Bizz.TempIttLetter = GetBizzTempIttLetter();
+                            CBZ.TempIttLetter = GetBizzTempIttLetter();
                         }
                         RadioButtonIttLetterSentYes.IsChecked = false;
                         RadioButtonIttLetterSentNo.IsChecked = true;
@@ -527,14 +527,14 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
                     {
-                        if (Bizz.TempSubEntrepeneur.Offer.Id != Bizz.TempOffer.Id)
+                        if (CBZ.TempSubEntrepeneur.Offer.Id != CBZ.TempOffer.Id)
                         {
-                            Bizz.TempOffer = GetBizzTempOffer();
+                            CBZ.TempOffer = GetBizzTempOffer();
                         }
                         RadioButtonOfferChosenYes.IsChecked = true;
                         RadioButtonOfferChosenNo.IsChecked = false;
@@ -561,14 +561,14 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
                     {
-                        if (Bizz.TempSubEntrepeneur.Offer.Id != Bizz.TempOffer.Id)
+                        if (CBZ.TempSubEntrepeneur.Offer.Id != CBZ.TempOffer.Id)
                         {
-                            Bizz.TempOffer = GetBizzTempOffer();
+                            CBZ.TempOffer = GetBizzTempOffer();
                         }
                         RadioButtonOfferChosenYes.IsChecked = false;
                         RadioButtonOfferChosenNo.IsChecked = true;
@@ -595,14 +595,14 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
                     {
-                        if (Bizz.TempSubEntrepeneur.Offer.Id != Bizz.TempOffer.Id)
+                        if (CBZ.TempSubEntrepeneur.Offer.Id != CBZ.TempOffer.Id)
                         {
-                            Bizz.TempOffer = GetBizzTempOffer();
+                            CBZ.TempOffer = GetBizzTempOffer();
                         }
                         RadioButtonOfferReceivedYes.IsChecked = true;
                         RadioButtonOfferReceivedNo.IsChecked = false;
@@ -633,14 +633,14 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
                     {
-                        if (Bizz.TempSubEntrepeneur.Offer.Id != Bizz.TempOffer.Id)
+                        if (CBZ.TempSubEntrepeneur.Offer.Id != CBZ.TempOffer.Id)
                         {
-                            Bizz.TempOffer = GetBizzTempOffer();
+                            CBZ.TempOffer = GetBizzTempOffer();
                         }
                         bool tempChanged = CheckOfferReceivedNo();
                         if (!Changed)
@@ -671,7 +671,7 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
@@ -679,9 +679,9 @@ namespace JudGui
                         RadioButtonReservationsYes.IsChecked = true;
                         RadioButtonReservationsNo.IsChecked = false;
                         Changed = false;
-                        if (Bizz.TempSubEntrepeneur.Reservations == false)
+                        if (CBZ.TempSubEntrepeneur.Reservations == false)
                         {
-                            Bizz.TempSubEntrepeneur.ToggleReservations();
+                            CBZ.TempSubEntrepeneur.ToggleReservations();
                             Changed = true;
                         }
                         if (Changed)
@@ -690,9 +690,9 @@ namespace JudGui
                         }
                         if (Changed && !DbStatus)
                         {
-                            if (Bizz.TempSubEntrepeneur.Reservations == true)
+                            if (CBZ.TempSubEntrepeneur.Reservations == true)
                             {
-                                Bizz.TempSubEntrepeneur.ToggleReservations();
+                                CBZ.TempSubEntrepeneur.ToggleReservations();
                             }
                             RadioButtonReservationsYes.IsChecked = false;
                             RadioButtonReservationsNo.IsChecked = true;
@@ -713,7 +713,7 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
@@ -721,9 +721,9 @@ namespace JudGui
                         RadioButtonReservationsYes.IsChecked = false;
                         RadioButtonReservationsNo.IsChecked = true;
                         Changed = false;
-                        if (Bizz.TempSubEntrepeneur.Reservations == true)
+                        if (CBZ.TempSubEntrepeneur.Reservations == true)
                         {
-                            Bizz.TempSubEntrepeneur.ToggleReservations();
+                            CBZ.TempSubEntrepeneur.ToggleReservations();
                             Changed = true;
                         }
                         if (Changed)
@@ -732,9 +732,9 @@ namespace JudGui
                         }
                         if (Changed && !DbStatus)
                         {
-                            if (Bizz.TempSubEntrepeneur.Reservations == true)
+                            if (CBZ.TempSubEntrepeneur.Reservations == true)
                             {
-                                Bizz.TempSubEntrepeneur.ToggleReservations();
+                                CBZ.TempSubEntrepeneur.ToggleReservations();
                             }
                             RadioButtonReservationsYes.IsChecked = false;
                             RadioButtonReservationsNo.IsChecked = true;
@@ -755,7 +755,7 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
@@ -763,9 +763,9 @@ namespace JudGui
                         RadioButtonUpholdYes.IsChecked = true;
                         RadioButtonUpholdNo.IsChecked = false;
                         bool changed = false;
-                        if (Bizz.TempSubEntrepeneur.Uphold == false)
+                        if (CBZ.TempSubEntrepeneur.Uphold == false)
                         {
-                            Bizz.TempSubEntrepeneur.ToggleUphold();
+                            CBZ.TempSubEntrepeneur.ToggleUphold();
                             changed = true;
                         }
                         if (changed)
@@ -786,7 +786,7 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     bool status = CheckTempSubEntrepeneur();
                     if (status)
@@ -794,9 +794,9 @@ namespace JudGui
                         RadioButtonUpholdYes.IsChecked = false;
                         RadioButtonUpholdNo.IsChecked = true;
                         bool changed = false;
-                        if (Bizz.TempSubEntrepeneur.Uphold == true)
+                        if (CBZ.TempSubEntrepeneur.Uphold == true)
                         {
-                            Bizz.TempSubEntrepeneur.ToggleUphold();
+                            CBZ.TempSubEntrepeneur.ToggleUphold();
                             changed = true;
                         }
                         if (changed)
@@ -817,13 +817,13 @@ namespace JudGui
         {
             if (!OverrideControl)
             {
-                if (Bizz != null)
+                if (CBZ != null)
                 {
                     if (CheckTempSubEntrepeneur())
                     {
-                        if (Bizz.TempSubEntrepeneur.Offer.Id != Bizz.TempOffer.Id)
+                        if (CBZ.TempSubEntrepeneur.Offer.Id != CBZ.TempOffer.Id)
                         {
-                            Bizz.TempOffer = GetBizzTempOffer();
+                            CBZ.TempOffer = GetBizzTempOffer();
                         }
                         string temp = TextBoxOfferPrice.Text;
                         temp = ParseOfferPrice(temp);
@@ -850,34 +850,34 @@ namespace JudGui
         /// <summary>
         /// Method that compares CraftGroups in LegalEntities and Enterprises
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entrepeneur"></param>
         /// <returns>bool</returns>
-        private bool CheckCraftGroups(LegalEntity entity)
+        private bool CheckCraftGroups(Entrepeneur entrepeneur)
         {
-            if (entity.CraftGroup4.Id != 0)
+            if (entrepeneur.CraftGroup4.Id != 0)
             {
-                if (entity.CraftGroup4 == Bizz.TempEnterprise.CraftGroup1 || entity.CraftGroup4 == Bizz.TempEnterprise.CraftGroup2 || entity.CraftGroup4 == Bizz.TempEnterprise.CraftGroup3 || entity.CraftGroup4 == Bizz.TempEnterprise.CraftGroup4)
+                if (entrepeneur.CraftGroup4 == CBZ.TempEnterprise.CraftGroup1 || entrepeneur.CraftGroup4 == CBZ.TempEnterprise.CraftGroup2 || entrepeneur.CraftGroup4 == CBZ.TempEnterprise.CraftGroup3 || entrepeneur.CraftGroup4 == CBZ.TempEnterprise.CraftGroup4)
                 {
                     return true;
                 }
             }
-            else if (entity.CraftGroup3.Id != 0)
+            else if (entrepeneur.CraftGroup3.Id != 0)
             {
-                if (entity.CraftGroup3 == Bizz.TempEnterprise.CraftGroup1 || entity.CraftGroup3 == Bizz.TempEnterprise.CraftGroup2 || entity.CraftGroup3 == Bizz.TempEnterprise.CraftGroup3 || entity.CraftGroup3 == Bizz.TempEnterprise.CraftGroup4)
+                if (entrepeneur.CraftGroup3 == CBZ.TempEnterprise.CraftGroup1 || entrepeneur.CraftGroup3 == CBZ.TempEnterprise.CraftGroup2 || entrepeneur.CraftGroup3 == CBZ.TempEnterprise.CraftGroup3 || entrepeneur.CraftGroup3 == CBZ.TempEnterprise.CraftGroup4)
                 {
                     return true;
                 }
             }
-            else if (entity.CraftGroup2.Id != 0)
+            else if (entrepeneur.CraftGroup2.Id != 0)
             {
-                if (entity.CraftGroup2 == Bizz.TempEnterprise.CraftGroup1 || entity.CraftGroup2 == Bizz.TempEnterprise.CraftGroup2 || entity.CraftGroup2 == Bizz.TempEnterprise.CraftGroup3 || entity.CraftGroup2 == Bizz.TempEnterprise.CraftGroup4)
+                if (entrepeneur.CraftGroup2 == CBZ.TempEnterprise.CraftGroup1 || entrepeneur.CraftGroup2 == CBZ.TempEnterprise.CraftGroup2 || entrepeneur.CraftGroup2 == CBZ.TempEnterprise.CraftGroup3 || entrepeneur.CraftGroup2 == CBZ.TempEnterprise.CraftGroup4)
                 {
                     return true;
                 }
             }
-            else if (entity.CraftGroup1.Id != 0)
+            else if (entrepeneur.CraftGroup1.Id != 0)
             {
-                if (entity.CraftGroup1 == Bizz.TempEnterprise.CraftGroup1 || entity.CraftGroup1 == Bizz.TempEnterprise.CraftGroup2 || entity.CraftGroup1 == Bizz.TempEnterprise.CraftGroup3 || entity.CraftGroup1 == Bizz.TempEnterprise.CraftGroup4)
+                if (entrepeneur.CraftGroup1 == CBZ.TempEnterprise.CraftGroup1 || entrepeneur.CraftGroup1 == CBZ.TempEnterprise.CraftGroup2 || entrepeneur.CraftGroup1 == CBZ.TempEnterprise.CraftGroup3 || entrepeneur.CraftGroup1 == CBZ.TempEnterprise.CraftGroup4)
                 {
                     return true;
                 }
@@ -901,11 +901,11 @@ namespace JudGui
             string type = temp.GetType().ToString();
             switch (type)
             {
-                case "ClassBizz.IttLetter":
+                case "JudBizz.IttLetter":
                     IttLetter tempIttLetter = new IttLetter((IttLetter)temp);
                     tempDate = Convert.ToDateTime(tempIttLetter.SentDate);
                     break;
-                case "ClassBizz.Offer":
+                case "JudBizz.Offer":
                     Offer tempOffer = new Offer((Offer)temp);
                     tempDate = Convert.ToDateTime(tempOffer.ReceivedDate);
                     break;
@@ -915,12 +915,12 @@ namespace JudGui
             {
                 switch (type)
                 {
-                    case "ClassBizz.IttLetter":
-                        Bizz.TempIttLetter.SentDate = date;
+                    case "JudBizz.IttLetter":
+                        CBZ.TempIttLetter.SentDate = date;
                         result = true;
                         break;
-                    case "ClassBizz.Offer":
-                        Bizz.TempOffer.SetReceivedDate(date);
+                    case "JudBizz.Offer":
+                        CBZ.TempOffer.SetReceived(date);
                         result = true;
                         break;
                 }
@@ -935,9 +935,9 @@ namespace JudGui
         private bool CheckIttLetterSentNo()
         {
             bool result = false;
-            if (Bizz.TempIttLetter.Sent == true)
+            if (CBZ.TempIttLetter.Sent == true)
             {
-                Bizz.TempIttLetter.ToggleSent();
+                CBZ.TempIttLetter.ToggleSent();
                 result = true;
             }
             Date = Convert.ToDateTime("1932-03-17");
@@ -949,7 +949,7 @@ namespace JudGui
             {
                 DateIttLetter.Text = Date.ToShortDateString();
             }
-            bool tempChanged = CheckBizzTempDate(Date, Bizz.TempIttLetter);
+            bool tempChanged = CheckBizzTempDate(Date, CBZ.TempIttLetter);
             if (!result)
             {
                 result = tempChanged;
@@ -964,18 +964,18 @@ namespace JudGui
         private bool CheckIttLetterSentYes()
         {
             bool result = false;
-            if (Bizz.TempIttLetter.Sent == false)
+            if (CBZ.TempIttLetter.Sent == false)
             {
-                Bizz.TempIttLetter.ToggleSent();
+                CBZ.TempIttLetter.ToggleSent();
                 result = true;
             }
-            DateTime date = Convert.ToDateTime(Bizz.TempIttLetter.SentDate);
+            DateTime date = Convert.ToDateTime(CBZ.TempIttLetter.SentDate);
             if (DateIttLetter.Text != "" && DateIttLetter.Text != "1932-03-17")
             {
                 if (DateIttLetter.Text == DateOffer.DisplayDate.ToShortDateString().Substring(0, 10))
                 {
                     date = DateIttLetter.DisplayDate;
-                    bool tempChanged = CheckBizzTempDate(date, Bizz.TempOffer);
+                    bool tempChanged = CheckBizzTempDate(date, CBZ.TempOffer);
                     if (!result)
                     {
                         result = tempChanged;
@@ -985,7 +985,7 @@ namespace JudGui
                 {
                     date = Convert.ToDateTime(DateIttLetter.Text);
                     DateIttLetter.DisplayDate = date;
-                    bool tempChanged = CheckBizzTempDate(date, Bizz.TempIttLetter);
+                    bool tempChanged = CheckBizzTempDate(date, CBZ.TempIttLetter);
                     if (!result)
                     {
                         result = tempChanged;
@@ -997,7 +997,7 @@ namespace JudGui
                 date = DateTime.Now;
                 DateIttLetter.DisplayDate = date;
                 DateIttLetter.Text = date.ToShortDateString();
-                bool tempChanged = CheckBizzTempDate(date, Bizz.TempOffer);
+                bool tempChanged = CheckBizzTempDate(date, CBZ.TempOffer);
                 if (!result)
                 {
                     result = tempChanged;
@@ -1014,25 +1014,25 @@ namespace JudGui
         private bool CheckOfferPriceForChanges(string temp)
         {
             bool result = false;
-            if (ParseOfferPrice(Bizz.TempOffer.Price.ToString()) != TextBoxOfferPrice.Text)
+            if (ParseOfferPrice(CBZ.TempOffer.Price.ToString()) != TextBoxOfferPrice.Text)
             {
                 temp = Regex.Replace(temp, "[,]", ".");
                 if (temp == "")
                 {
                     TextBoxOfferPrice.Text = "0";
                 }
-                if (Bizz.TempOffer.Price != Convert.ToDouble(TextBoxOfferPrice.Text))
+                if (CBZ.TempOffer.Price != Convert.ToDouble(TextBoxOfferPrice.Text))
                 {
-                    Bizz.TempOffer.Price = Convert.ToDouble(TextBoxOfferPrice.Text);
+                    CBZ.TempOffer.Price = Convert.ToDouble(TextBoxOfferPrice.Text);
                     result = true;
                 }
             }
-            if (Bizz.TempOffer.Received && DateOffer.Text.Substring(0, 10) == "31-12-2018")
+            if (CBZ.TempOffer.Received && DateOffer.Text.Substring(0, 10) == "31-12-2018")
             {
                 DateTime tempDate = DateTime.Now;
                 DateOffer.Text = tempDate.ToShortDateString();
                 DateOffer.DisplayDate = tempDate;
-                Bizz.TempOffer.SetReceivedDate(tempDate);
+                CBZ.TempOffer.SetReceived(tempDate);
                 result = true;
             }
             return result;
@@ -1045,9 +1045,9 @@ namespace JudGui
         private bool CheckOfferChosenNo()
         {
             bool result = false;
-            if (Bizz.TempOffer.Chosen == true)
+            if (CBZ.TempOffer.Chosen == true)
             {
-                Bizz.TempOffer.ToggleChosen();
+                CBZ.TempOffer.ToggleChosen();
                 result = true;
             }
             return result;
@@ -1060,9 +1060,9 @@ namespace JudGui
         private bool CheckOfferChosenYes()
         {
             bool result = false;
-            if (Bizz.TempOffer.Chosen == false)
+            if (CBZ.TempOffer.Chosen == false)
             {
-                Bizz.TempOffer.ToggleChosen();
+                CBZ.TempOffer.ToggleChosen();
                 result = true;
             }
             return result;
@@ -1075,15 +1075,15 @@ namespace JudGui
         private bool CheckOfferReceivedNo()
         {
             bool result = false;
-            if (Bizz.TempOffer.Received)
+            if (CBZ.TempOffer.Received)
             {
-                Bizz.TempOffer.ToggleReceived();
+                CBZ.TempOffer.ToggleReceived();
                 result = true;
             }
             DateTime date = Convert.ToDateTime("1932-03-17");
-            if (Bizz.TempOffer.ReceivedDate != date)
+            if (CBZ.TempOffer.ReceivedDate != date)
             {
-                Bizz.TempOffer.ResetReceived();
+                CBZ.TempOffer.ResetReceived();
                 result = true;
             }
             if (DateOffer.DisplayDate.ToShortDateString().Substring(0, 10) != date.ToShortDateString().Substring(0, 10))
@@ -1094,12 +1094,12 @@ namespace JudGui
             {
                 DateOffer.Text = date.ToShortDateString();
             }
-            if (Bizz.TempOffer.Price != Convert.ToDouble(0))
+            if (CBZ.TempOffer.Price != Convert.ToDouble(0))
             {
-                Bizz.TempOffer.Price = Convert.ToDouble(0);
+                CBZ.TempOffer.Price = Convert.ToDouble(0);
                 result = true;
             }
-            TextBoxOfferPrice.Text = Bizz.TempOffer.Price.ToString();
+            TextBoxOfferPrice.Text = CBZ.TempOffer.Price.ToString();
             return result;
         }
 
@@ -1110,23 +1110,23 @@ namespace JudGui
         private bool CheckOfferReceivedYes()
         {
             bool result = false;
-            if (Bizz.TempOffer.Received == false)
+            if (CBZ.TempOffer.Received == false)
             {
-                Bizz.TempOffer.ToggleReceived();
+                CBZ.TempOffer.ToggleReceived();
                 result = true;
             }
-            if (Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10) == "1932-03-17")
+            if (CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10) == "1932-03-17")
             {
-                Bizz.TempOffer.SetReceivedDate(DateTime.Now);
+                CBZ.TempOffer.SetReceived(DateTime.Now);
                 result = true;
             }
             if (DateOffer.Text == "" || DateOffer.Text.Substring(0, 10) == "1932-03-17")
             {
                 DateOffer.Text = DateTime.Now.ToShortDateString();
             }
-            if (DateOffer.Text.Substring(0, 10) != Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
+            if (DateOffer.Text.Substring(0, 10) != CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
             {
-                Bizz.TempOffer.SetReceivedDate(DateOffer.DisplayDate);
+                CBZ.TempOffer.SetReceived(DateOffer.DisplayDate);
                 result = true;
             }
             if (DateOffer.Text != DateOffer.DisplayDate.ToShortDateString().Substring(0, 10))
@@ -1136,7 +1136,7 @@ namespace JudGui
             if (TextBoxOfferPrice.Text == "")
             {
                 TextBoxOfferPrice.Text = "0";
-                Bizz.TempOffer.Price = Convert.ToDouble(TextBoxOfferPrice.Text);
+                CBZ.TempOffer.Price = Convert.ToDouble(TextBoxOfferPrice.Text);
                 result = true;
             }
             return result;
@@ -1149,9 +1149,9 @@ namespace JudGui
         private void CheckRequest(int index)
         {
             ComboBoxRequest.SelectedIndex = index;
-            if (Bizz.TempRequest.Status.Id != index)
+            if (CBZ.TempRequest.Status.Id != index)
             {
-                Bizz.TempRequest.Status = GetRequestStatus(index);
+                CBZ.TempRequest.Status = GetRequestStatus(index);
                 if (!Changed)
                 {
                     Changed = true;
@@ -1163,9 +1163,9 @@ namespace JudGui
             }
             if (index == 0 || index == 1)
             {
-                if (Bizz.TempRequest.SentDate.ToShortDateString().Substring(0, 10) != DateRequest.Text.Substring(0, 10))
+                if (CBZ.TempRequest.SentDate.ToShortDateString().Substring(0, 10) != DateRequest.Text.Substring(0, 10))
                 {
-                    Bizz.TempRequest.SentDate = Convert.ToDateTime(DateRequest.Text);
+                    CBZ.TempRequest.SentDate = Convert.ToDateTime(DateRequest.Text);
                     if (!Changed)
                     {
                         Changed = true;
@@ -1174,44 +1174,44 @@ namespace JudGui
             }
             if (index >= 2)
             {
-                if (Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != DateRequest.Text.Substring(0, 10))
+                if (CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != DateRequest.Text.Substring(0, 10))
                 {
-                    Bizz.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
+                    CBZ.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
                     if (!Changed)
                     {
                         Changed = true;
                     }
                 }
             }
-            GetRequestDate(Bizz.TempRequest);
+            GetRequestDate(CBZ.TempRequest);
             switch (index)
             {
                 case 0:
-                    if (Date.ToShortDateString().Substring(0, 10) != Bizz.TempRequest.SentDate.ToShortDateString().Substring(0, 10))
+                    if (Date.ToShortDateString().Substring(0, 10) != CBZ.TempRequest.SentDate.ToShortDateString().Substring(0, 10))
                     {
                         SetRequestDateNotSent();
-                        Date = Bizz.TempRequest.SentDate;
+                        Date = CBZ.TempRequest.SentDate;
                     }
                     break;
                 case 1:
-                    if (Date.ToShortDateString().Substring(0, 10) != Bizz.TempRequest.SentDate.ToShortDateString().Substring(0, 10))
+                    if (Date.ToShortDateString().Substring(0, 10) != CBZ.TempRequest.SentDate.ToShortDateString().Substring(0, 10))
                     {
                         SetRequestSentDate();
-                        Date = Bizz.TempRequest.SentDate;
+                        Date = CBZ.TempRequest.SentDate;
                     }
                     break;
                 case 2:
-                    if (Date.ToShortDateString().Substring(0, 10) != Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10))
+                    if (Date.ToShortDateString().Substring(0, 10) != CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10))
                     {
                         SetRequestReceivedDate();
-                        Date = Bizz.TempRequest.ReceivedDate;
+                        Date = CBZ.TempRequest.ReceivedDate;
                     }
                     break;
                 case 3:
-                    if (Date.ToShortDateString().Substring(0, 10) != Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10))
+                    if (Date.ToShortDateString().Substring(0, 10) != CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10))
                     {
                         SetRequestDateCancelled();
-                        Date = Bizz.TempRequest.ReceivedDate;
+                        Date = CBZ.TempRequest.ReceivedDate;
                     }
                     break;
             }
@@ -1233,7 +1233,7 @@ namespace JudGui
         {
             bool result = false;
             SubEntrepeneur temp = new SubEntrepeneur();
-            if (Bizz.TempSubEntrepeneur != temp)
+            if (CBZ.TempSubEntrepeneur != temp)
             {
                 result = true;
             }
@@ -1245,11 +1245,11 @@ namespace JudGui
         /// </summary>
         private void ClearTempEntities()
         {
-            Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-            Bizz.TempContact = new Contact();
-            Bizz.TempRequest = new Request();
-            Bizz.TempIttLetter = new IttLetter();
-            Bizz.TempOffer = new Offer();
+            CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+            CBZ.TempContact = new Contact();
+            CBZ.TempRequest = new Request();
+            CBZ.TempIttLetter = new IttLetter();
+            CBZ.TempOffer = new Offer();
         }
 
         /// <summary>
@@ -1257,37 +1257,37 @@ namespace JudGui
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        private List<IndexedLegalEntity> FilterIndexableLegalEntities(List<IndexedLegalEntity> list)
+        private List<IndexedEntrepeneur> FilterIndexedLegalEntities(List<IndexedEntrepeneur> list)
         {
-            List<IndexedLegalEntity> tempList = new List<IndexedLegalEntity>();
-            List<IndexedLegalEntity> tempResult = new List<IndexedLegalEntity>();
-            List<IndexedLegalEntity> result = new List<IndexedLegalEntity>();
+            List<IndexedEntrepeneur> tempList = new List<IndexedEntrepeneur>();
+            List<IndexedEntrepeneur> tempResult = new List<IndexedEntrepeneur>();
+            List<IndexedEntrepeneur> result = new List<IndexedEntrepeneur>();
             int i = 0;
-            foreach (IndexedLegalEntity temp in list)
+            foreach (IndexedEntrepeneur temp in list)
             {
                 if (temp.Active.Equals(true))
                 {
                     tempList.Add(temp);
                 }
             }
-            foreach (IndexedLegalEntity temp in tempList)
+            foreach (IndexedEntrepeneur temp in tempList)
             {
-                if (!IdExistsInSubEntrepeneurs(Bizz.TempEnterprise.Id, temp.Id))
+                if (!IdExistsInSubEntrepeneurs(CBZ.TempEnterprise.Id, temp.Id))
                 {
-                    LegalEntity legalEntity = new LegalEntity(temp.Id, temp.Name, temp.Address, temp.ContactInfo, temp.Url, temp.CraftGroup1, temp.CraftGroup2, temp.CraftGroup3, temp.CraftGroup4, temp.Region, temp.CountryWide, temp.Cooperative, temp.Active);
-                    IndexedLegalEntity entity = new IndexedLegalEntity(i, legalEntity);
-                    tempResult.Add(entity);
+                    Entrepeneur entrepeneur = new Entrepeneur(temp);
+                    IndexedEntrepeneur indexedEntrepeneur = new IndexedEntrepeneur(i, entrepeneur);
+                    tempResult.Add(indexedEntrepeneur);
                 }
             }
             int regionId = tempResult[1].Region.Id;
-            foreach (IndexedLegalEntity entity in tempResult)
+            foreach (IndexedEntrepeneur entity in tempResult)
             {
                 if (entity.Region.Id == regionId)
                 {
                     result.Add(entity);
                 }
             }
-            foreach (IndexedLegalEntity entity in tempResult)
+            foreach (IndexedEntrepeneur entity in tempResult)
             {
                 if (entity.Region.Id != regionId && entity.CountryWide.Equals(true))
                 {
@@ -1300,10 +1300,10 @@ namespace JudGui
         private IttLetter GetBizzTempIttLetter()
         {
             IttLetter result = new IttLetter();
-            Bizz.RefreshList("IttLetters");
-            foreach (IttLetter tempIttLetter in Bizz.IttLetters)
+            CBZ.RefreshList("IttLetters");
+            foreach (IttLetter tempIttLetter in CBZ.IttLetters)
             {
-                if (tempIttLetter.Id == Bizz.TempSubEntrepeneur.IttLetter.Id)
+                if (tempIttLetter.Id == CBZ.TempSubEntrepeneur.IttLetter.Id)
                 {
                     result = tempIttLetter;
                     break;
@@ -1315,10 +1315,10 @@ namespace JudGui
         private Offer GetBizzTempOffer()
         {
             Offer result = new Offer();
-            Bizz.RefreshList("Offers");
-            foreach (Offer tempOffer in Bizz.Offers)
+            CBZ.RefreshList("Offers");
+            foreach (Offer tempOffer in CBZ.Offers)
             {
-                if (tempOffer.Id == Bizz.TempSubEntrepeneur.Offer.Id)
+                if (tempOffer.Id == CBZ.TempSubEntrepeneur.Offer.Id)
                 {
                     result = tempOffer;
                     break;
@@ -1330,10 +1330,10 @@ namespace JudGui
         private Request GetBizzTempRequest()
         {
             Request result = new Request();
-            Bizz.RefreshList("Requests");
-            foreach (Request tempRequest in Bizz.Requests)
+            CBZ.RefreshList("Requests");
+            foreach (Request tempRequest in CBZ.Requests)
             {
-                if (tempRequest.Id == Bizz.TempSubEntrepeneur.Request.Id)
+                if (tempRequest.Id == CBZ.TempSubEntrepeneur.Request.Id)
                 {
                     result = tempRequest;
                     break;
@@ -1344,19 +1344,19 @@ namespace JudGui
 
         /// Methods, creates a list of indexable Contacts
         /// </summary>
-        /// <returns>List<IndexableContact></returns>
-        private List<IndexedContact> GetIndexableContacts()
+        /// <returns>List<IndexedContact></returns>
+        private List<IndexedContact> GetIndexedContacts()
         {
             List<IndexedContact> result = new List<IndexedContact>();
-            string id = Bizz.TempSubEntrepeneur.Entrepeneur.Id;
-            IndexedContact notSpecified = new IndexedContact(0, Bizz.Contacts[0]);
+            int id = CBZ.TempSubEntrepeneur.Entrepeneur.Id;
+            IndexedContact notSpecified = new IndexedContact(0, CBZ.Contacts[0]);
             result.Add(notSpecified);
             int i = 1;
-            Bizz.RefreshList("Contacts");
-            IndexableContacts.Clear();
-            foreach (Contact contact in Bizz.Contacts)
+            CBZ.RefreshList("Contacts");
+            IndexedContacts.Clear();
+            foreach (Contact contact in CBZ.Contacts)
             {
-                if (contact.LegalEntity.Id == id)
+                if (contact.Entity.Id == id)
                 {
                     IndexedContact temp = new IndexedContact(i, contact);
                     result.Add(temp);
@@ -1369,16 +1369,16 @@ namespace JudGui
         /// <summary>
         /// Methods, creates a list of indexable Enterprises
         /// </summary>
-        /// <returns>List<IndexableEnterprise></returns>
-        private List<Enterprise> GetIndexableEnterprises()
+        /// <returns>List<IndexedEnterprise></returns>
+        private List<Enterprise> GetIndexedEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();
-            Enterprise notSpecified = new IndexedEnterprise(0, Bizz.Enterprises[0]);
+            Enterprise notSpecified = new IndexedEnterprise(0, CBZ.Enterprises[0]);
             result.Add(notSpecified);
             int i = 1;
-            foreach (Enterprise enterprise in Bizz.Enterprises)
+            foreach (Enterprise enterprise in CBZ.Enterprises)
             {
-                if (enterprise.Project.Id == Bizz.TempProject.Id)
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
                     IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
                     result.Add(temp);
@@ -1391,36 +1391,36 @@ namespace JudGui
         /// <summary>
         /// Method that creates a list of indexable Legal Entities
         /// </summary>
-        /// <returns>List<IndexableLegalEntity></returns>
-        private List<IndexedLegalEntity> GetIndexableLegalEntities()
+        /// <returns>List<IndexedLegalEntity></returns>
+        private List<IndexedEntrepeneur> GetIndexedLegalEntities()
         {
-            List<IndexedLegalEntity> result = new List<IndexedLegalEntity>();
-            IndexedLegalEntity notSpecified = new IndexedLegalEntity(0, Bizz.LegalEntities[0]);
+            List<IndexedEntrepeneur> result = new List<IndexedEntrepeneur>();
+            IndexedEntrepeneur notSpecified = new IndexedEntrepeneur(0, CBZ.Entrepeneurs[0]);
             result.Add(notSpecified);
             int i = 1;
-            foreach (LegalEntity entity in Bizz.LegalEntities)
+            foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
             {
-                if (CheckCraftGroups(entity))
+                if (CheckCraftGroups(entrepeneur))
                 {
-                    IndexedLegalEntity temp = new IndexedLegalEntity(i, entity);
+                    IndexedEntrepeneur temp = new IndexedEntrepeneur(i, entrepeneur);
                     result.Add(temp);
                     i++;
                 }
             }
-            result = FilterIndexableLegalEntities(result);
+            result = FilterIndexedLegalEntities(result);
             return result;
         }
 
         /// <summary>
         /// Method that creates a list of indexable SubEbtrepeneurs
         /// </summary>
-        /// <returns>List<IndexableLegalEntity></returns>
-        private List<IndexedSubEntrepeneur> GetIndexableSubEntrepeneurs()
+        /// <returns>List<IndexedLegalEntity></returns>
+        private List<IndexedSubEntrepeneur> GetIndexedSubEntrepeneurs()
         {
             List<IndexedSubEntrepeneur> result = new List<IndexedSubEntrepeneur>();
             int i = 0;
-            int id = Bizz.TempEnterprise.Id;
-            foreach (SubEntrepeneur subEntrepeneur in Bizz.SubEntrepeneurs)
+            int id = CBZ.TempEnterprise.Id;
+            foreach (SubEntrepeneur subEntrepeneur in CBZ.SubEntrepeneurs)
             {
                 if (subEntrepeneur.Enterprise.Id == id)
                 {
@@ -1481,7 +1481,7 @@ namespace JudGui
         private RequestStatus GetRequestStatus(int index)
         {
             IndexedRequestStatus result = new IndexedRequestStatus();
-            foreach (IndexedRequestStatus status in Bizz.IndexedRequestStatusList)
+            foreach (IndexedRequestStatus status in CBZ.IndexedRequestStatuses)
             {
                 if (status.Index == index)
                 {
@@ -1489,7 +1489,7 @@ namespace JudGui
                 }
             }
 
-            return new RequestStatus(result.Description);
+            return new RequestStatus(result.Text);
         }
 
         /// <summary>
@@ -1500,7 +1500,7 @@ namespace JudGui
         private int GetSelectedContact(int id)
         {
             int result = 0;
-            foreach (IndexedContact temp in IndexableContacts)
+            foreach (IndexedContact temp in IndexedContacts)
             {
                 try
                 {
@@ -1526,7 +1526,7 @@ namespace JudGui
         private Request GetSelectedRequest(int id)
         {
             Request result = new Request();
-            foreach (Request temp in Bizz.Requests)
+            foreach (Request temp in CBZ.Requests)
             {
                 try
                 {
@@ -1548,10 +1548,10 @@ namespace JudGui
         /// <param name="enterprise">int</param>
         /// <param name="entrepeneur">string</param>
         /// <returns>bool</returns>
-        private bool IdExistsInSubEntrepeneurs(int enterprise, string entrepeneur)
+        private bool IdExistsInSubEntrepeneurs(int enterprise, int entrepeneur)
         {
 
-            foreach (SubEntrepeneur temp in Bizz.SubEntrepeneurs)
+            foreach (SubEntrepeneur temp in CBZ.SubEntrepeneurs)
             {
                 if (temp.Entrepeneur.Id == entrepeneur && temp.Enterprise.Id == enterprise)
                 {
@@ -1619,12 +1619,12 @@ namespace JudGui
         {
             ComboBoxContact.SelectedIndex = -1;
             ComboBoxContact.ItemsSource = null;
-            Bizz.TempContact = new Contact();
+            CBZ.TempContact = new Contact();
             ComboBoxRequest.SelectedIndex = -1;
-            ComboBoxRequest.ItemsSource = Bizz.RequestStatusList;
+            ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
             DateRequest.DisplayDate = DateTime.Now;
             DateRequest.Text = "";
-            Bizz.TempRequest = new Request();
+            CBZ.TempRequest = new Request();
         }
 
         /// <summary>
@@ -1634,7 +1634,7 @@ namespace JudGui
         {
             //SubEntrepeneur temp = Bizz.TempSubEntrepeneur;
             UpdateIttLetterSentInDb();
-            Bizz.RefreshList("IttLetters");
+            CBZ.RefreshList("IttLetters");
         }
 
         /// <summary>
@@ -1642,10 +1642,10 @@ namespace JudGui
         /// </summary>
         private void ResetOffers()
         {
-            Offer temp = Bizz.TempOffer;
+            Offer temp = CBZ.TempOffer;
             UpdateOfferReceivedInDb(temp);
-            Bizz.Offers.Clear();
-            Bizz.RefreshList("Offers");
+            CBZ.Offers.Clear();
+            CBZ.RefreshList("Offers");
         }
 
         /// <summary>
@@ -1675,7 +1675,7 @@ namespace JudGui
         /// </summary>
         private void ResetRadioButtonsIttLetterSent()
         {
-            Bizz.TempIttLetter = new IttLetter();
+            CBZ.TempIttLetter = new IttLetter();
             DateIttLetter.DisplayDate = DateTime.Now;
             DateIttLetter.Text = "";
             RadioButtonIttLetterSentYes.IsChecked = false;
@@ -1696,7 +1696,7 @@ namespace JudGui
         /// </summary>
         private void ResetRadioButtonsOfferReceived()
         {
-            Bizz.TempOffer = new Offer();
+            CBZ.TempOffer = new Offer();
             DateOffer.DisplayDate = DateTime.Now;
             DateOffer.Text = "";
             RadioButtonOfferReceivedYes.IsChecked = false;
@@ -1726,12 +1726,12 @@ namespace JudGui
         /// </summary>
         private void ResetSubEntrepeneurs()
         {
-            Bizz.TempSubEntrepeneur = new SubEntrepeneur();
-            Bizz.RefreshList("SubEntrepeneurs");
-            IndexableSubEntrepeneurs.Clear();
-            IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
+            CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+            CBZ.RefreshList("SubEntrepeneurs");
+            IndexedSubEntrepeneurs.Clear();
+            IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
             ListBoxSubEntrepeneurs.ItemsSource = null;
-            ListBoxSubEntrepeneurs.ItemsSource = IndexableSubEntrepeneurs;
+            ListBoxSubEntrepeneurs.ItemsSource = IndexedSubEntrepeneurs;
         }
 
         /// <summary>
@@ -1739,10 +1739,10 @@ namespace JudGui
         /// </summary>
         private void ResetSubEntrepeneursRadioButtons(string sender)
         {
-            DbStatus = Bizz.UpdateInDb(Bizz.TempSubEntrepeneur);
-            Bizz.RefreshList("SubEntrepeneurs");
-            IndexableSubEntrepeneurs.Clear();
-            IndexableSubEntrepeneurs = GetIndexableSubEntrepeneurs();
+            DbStatus = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur);
+            CBZ.RefreshList("SubEntrepeneurs");
+            IndexedSubEntrepeneurs.Clear();
+            IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
             if (!DbStatus)
             {
                 //Show error
@@ -1766,13 +1766,13 @@ namespace JudGui
             try
             {
                 IttLetter tempIttLetter = new IttLetter();
-                if (Bizz.TempIttLetter == tempIttLetter && Bizz.TempSubEntrepeneur.IttLetter.Id != 0)
+                if (CBZ.TempIttLetter == tempIttLetter && CBZ.TempSubEntrepeneur.IttLetter.Id != 0)
                 {
-                    foreach (IttLetter temp in Bizz.IttLetters)
+                    foreach (IttLetter temp in CBZ.IttLetters)
                     {
                         if (temp.Id == id)
                         {
-                            Bizz.TempIttLetter = temp;
+                            CBZ.TempIttLetter = temp;
                             break;
                         }
                     }
@@ -1780,7 +1780,7 @@ namespace JudGui
             }
             catch (Exception)
             {
-                Bizz.TempIttLetter = new IttLetter();
+                CBZ.TempIttLetter = new IttLetter();
             }
         }
 
@@ -1793,20 +1793,20 @@ namespace JudGui
             try
             {
                 Offer tempOffer = new Offer();
-                if (Bizz.TempOffer == tempOffer && Bizz.TempSubEntrepeneur.IttLetter.Id != 0)
+                if (CBZ.TempOffer == tempOffer && CBZ.TempSubEntrepeneur.IttLetter.Id != 0)
                 {
-                    foreach (Offer temp in Bizz.Offers)
+                    foreach (Offer temp in CBZ.Offers)
                     {
                         if (temp.Id == id)
                         {
-                            Bizz.TempOffer = temp;
+                            CBZ.TempOffer = temp;
                         }
                     }
                 }
             }
             catch (Exception)
             {
-                Bizz.TempOffer = new Offer();
+                CBZ.TempOffer = new Offer();
             }
         }
 
@@ -1815,11 +1815,11 @@ namespace JudGui
         /// </summary>
         private void SetBizzTempSubEntrepeneur(int index)
         {
-            IndexedSubEntrepeneur temp = IndexableSubEntrepeneurs[index];
-            Bizz.TempSubEntrepeneur = new SubEntrepeneur(temp.Id, temp.Enterprise, temp.Entrepeneur, temp.Contact, temp.Request, temp.IttLetter, temp.Offer, temp.Reservations, temp.Uphold, temp.AgreementConcluded, temp.Active);
-            if (!Bizz.TempSubEntrepeneur.Active)
+            IndexedSubEntrepeneur temp = IndexedSubEntrepeneurs[index];
+            CBZ.TempSubEntrepeneur = new SubEntrepeneur(temp.Id, temp.Entrepeneur, temp.Enterprise, temp.Contact, temp.Request, temp.IttLetter, temp.Offer, temp.Reservations, temp.Uphold, temp.AgreementConcluded, temp.Active);
+            if (!CBZ.TempSubEntrepeneur.Active)
             {
-                Bizz.TempSubEntrepeneur.ToggleActive();
+                CBZ.TempSubEntrepeneur.ToggleActive();
             }
         }
 
@@ -1828,16 +1828,16 @@ namespace JudGui
         /// </summary>
         private void SetComboBoxes()
         {
-            IndexableContacts = GetIndexableContacts();
-            int contactIndex = GetSelectedContact(Bizz.TempSubEntrepeneur.Contact.Id);
-            ComboBoxContact.ItemsSource = IndexableContacts;
+            IndexedContacts = GetIndexedContacts();
+            int contactIndex = GetSelectedContact(CBZ.TempSubEntrepeneur.Contact.Id);
+            ComboBoxContact.ItemsSource = IndexedContacts;
             ComboBoxContact.SelectedIndex = contactIndex;
-            Bizz.TempRequest = GetSelectedRequest(Bizz.TempSubEntrepeneur.Request.Id);
-            GetRequestDate(Bizz.TempRequest);
+            CBZ.TempRequest = GetSelectedRequest(CBZ.TempSubEntrepeneur.Request.Id);
+            GetRequestDate(CBZ.TempRequest);
             DateRequest.DisplayDate = Date;
             DateRequest.Text = Date.ToShortDateString();
-            ComboBoxRequest.ItemsSource = Bizz.RequestStatusList;
-            ComboBoxRequest.SelectedIndex = Bizz.TempRequest.Status.Id;
+            ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
+            ComboBoxRequest.SelectedIndex = CBZ.TempRequest.Status.Id;
         }
 
         /// <summary>
@@ -1845,12 +1845,12 @@ namespace JudGui
         /// </summary>
         private void SetRadioButtons()
         {
-            SetRadioButtonsIttLetterSent(Bizz.TempSubEntrepeneur.IttLetter.Id);
-            SetRadioButtonsOfferReceived(Bizz.TempSubEntrepeneur.Offer.Id);
-            SetRadioButtonsReservations(Bizz.TempSubEntrepeneur.Reservations);
-            SetRadioButtonsUphold(Bizz.TempSubEntrepeneur.Uphold);
-            SetRadioButtonsOfferChosen(Bizz.TempSubEntrepeneur.Offer.Id);
-            SetRadioButtonsAgreementConcluded(Bizz.TempSubEntrepeneur.AgreementConcluded);
+            SetRadioButtonsIttLetterSent(CBZ.TempSubEntrepeneur.IttLetter.Id);
+            SetRadioButtonsOfferReceived(CBZ.TempSubEntrepeneur.Offer.Id);
+            SetRadioButtonsReservations(CBZ.TempSubEntrepeneur.Reservations);
+            SetRadioButtonsUphold(CBZ.TempSubEntrepeneur.Uphold);
+            SetRadioButtonsOfferChosen(CBZ.TempSubEntrepeneur.Offer.Id);
+            SetRadioButtonsAgreementConcluded(CBZ.TempSubEntrepeneur.AgreementConcluded);
         }
 
         /// <summary>
@@ -1878,19 +1878,19 @@ namespace JudGui
         private void SetRadioButtonsIttLetterSent(int ittLetter)
         {
             SetBizzTempIttLetter(ittLetter);
-            if (Bizz.TempIttLetter.Sent)
+            if (CBZ.TempIttLetter.Sent)
             {
-                if (Bizz.TempIttLetter.SentDate.ToShortDateString() == "")
+                if (CBZ.TempIttLetter.SentDate.ToShortDateString() == "")
                 {
-                    Bizz.TempIttLetter.SentDate = DateTime.Now;
+                    CBZ.TempIttLetter.SentDate = DateTime.Now;
                 }
-                if (DateIttLetter.DisplayDate.ToShortDateString().Substring(0, 10) != Bizz.TempIttLetter.SentDate.ToShortDateString().Substring(0, 10))
+                if (DateIttLetter.DisplayDate.ToShortDateString().Substring(0, 10) != CBZ.TempIttLetter.SentDate.ToShortDateString().Substring(0, 10))
                 {
-                    DateIttLetter.DisplayDate = Bizz.TempIttLetter.SentDate;
+                    DateIttLetter.DisplayDate = CBZ.TempIttLetter.SentDate;
                 }
-                if (DateIttLetter.Text == "" || DateIttLetter.Text.Substring(0, 10) != Bizz.TempIttLetter.SentDate.ToShortDateString().Substring(0, 10))
+                if (DateIttLetter.Text == "" || DateIttLetter.Text.Substring(0, 10) != CBZ.TempIttLetter.SentDate.ToShortDateString().Substring(0, 10))
                 {
-                    DateIttLetter.Text = Bizz.TempIttLetter.SentDate.ToShortDateString();
+                    DateIttLetter.Text = CBZ.TempIttLetter.SentDate.ToShortDateString();
                 }
                 RadioButtonIttLetterSentYes.IsChecked = true;
                 RadioButtonIttLetterSentNo.IsChecked = false;
@@ -1898,17 +1898,17 @@ namespace JudGui
             else
             {
                 Date = Convert.ToDateTime("1932-03-17");
-                if (Bizz.TempIttLetter.SentDate.ToShortDateString().Substring(0, 10) != Date.ToShortDateString().Substring(0, 10))
+                if (CBZ.TempIttLetter.SentDate.ToShortDateString().Substring(0, 10) != Date.ToShortDateString().Substring(0, 10))
                 {
-                    Bizz.TempIttLetter.SentDate = Date;
+                    CBZ.TempIttLetter.SentDate = Date;
                 }
                 if (DateIttLetter.DisplayDate.ToShortDateString().Substring(0, 10) != Date.ToShortDateString().Substring(0, 10))
                 {
-                    DateIttLetter.DisplayDate = Bizz.TempIttLetter.SentDate;
+                    DateIttLetter.DisplayDate = CBZ.TempIttLetter.SentDate;
                 }
                 if (DateIttLetter.Text == "" || DateIttLetter.Text.Substring(0, 10) != Date.ToShortDateString().Substring(0, 10))
                 {
-                    DateIttLetter.Text = Bizz.TempIttLetter.SentDate.ToShortDateString();
+                    DateIttLetter.Text = CBZ.TempIttLetter.SentDate.ToShortDateString();
                 }
                 RadioButtonIttLetterSentYes.IsChecked = false;
                 RadioButtonIttLetterSentNo.IsChecked = true;
@@ -1922,7 +1922,7 @@ namespace JudGui
         private void SetRadioButtonsOfferChosen(int offer)
         {
             SetBizzTempOffer(offer);
-            if (Bizz.TempOffer.Chosen)
+            if (CBZ.TempOffer.Chosen)
             {
                 RadioButtonOfferChosenYes.IsChecked = true;
                 RadioButtonOfferChosenNo.IsChecked = false;
@@ -1941,33 +1941,33 @@ namespace JudGui
         private void SetRadioButtonsOfferReceived(int offer)
         {
             SetBizzTempOffer(offer);
-            if (Bizz.TempOffer.Received)
+            if (CBZ.TempOffer.Received)
             {
-                if (Bizz.TempOffer.ReceivedDate.ToShortDateString() == "" || Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10) == "1932-03-17")
+                if (CBZ.TempOffer.ReceivedDate.ToShortDateString() == "" || CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10) == "1932-03-17")
                 {
-                    Bizz.TempOffer.AddReceived(DateTime.Now);
+                    CBZ.TempOffer.SetReceived(DateTime.Now);
                 }
-                if (DateOffer.DisplayDate.ToShortDateString().Substring(0, 10) != Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
+                if (DateOffer.DisplayDate.ToShortDateString().Substring(0, 10) != CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
                 {
-                    DateOffer.DisplayDate = Bizz.TempOffer.ReceivedDate;
+                    DateOffer.DisplayDate = CBZ.TempOffer.ReceivedDate;
                 }
-                if (DateOffer.Text == "" || DateOffer.Text.Substring(0, 10) != Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
+                if (DateOffer.Text == "" || DateOffer.Text.Substring(0, 10) != CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
                 {
-                    DateOffer.Text = Bizz.TempOffer.ReceivedDate.ToShortDateString();
+                    DateOffer.Text = CBZ.TempOffer.ReceivedDate.ToShortDateString();
                 }
                 RadioButtonOfferReceivedYes.IsChecked = true;
                 RadioButtonOfferReceivedNo.IsChecked = false;
             }
             else
             {
-                Bizz.TempOffer.AddReceived(Convert.ToDateTime("1932-03-17"));
-                if (DateOffer.DisplayDate.ToShortDateString().Substring(0, 10) != Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
+                CBZ.TempOffer.SetReceived(Convert.ToDateTime("1932-03-17"));
+                if (DateOffer.DisplayDate.ToShortDateString().Substring(0, 10) != CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
                 {
-                    DateOffer.DisplayDate = Bizz.TempOffer.ReceivedDate;
+                    DateOffer.DisplayDate = CBZ.TempOffer.ReceivedDate;
                 }
-                if (DateOffer.Text == "" || DateOffer.Text.Substring(0, 10) != Bizz.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
+                if (DateOffer.Text == "" || DateOffer.Text.Substring(0, 10) != CBZ.TempOffer.ReceivedDate.ToShortDateString().Substring(0, 10))
                 {
-                    DateOffer.Text = Bizz.TempOffer.ReceivedDate.ToShortDateString();
+                    DateOffer.Text = CBZ.TempOffer.ReceivedDate.ToShortDateString();
                 }
                 RadioButtonOfferReceivedYes.IsChecked = false;
                 RadioButtonOfferReceivedNo.IsChecked = true;
@@ -2016,20 +2016,20 @@ namespace JudGui
         /// </summary>
         private void SetRequestDateCancelled()
         {
-            if (Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
+            if (CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
             {
                 if (DateRequest.Text.Substring(0, 10) != "1932-03-17")
                 {
-                    if (Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != DateRequest.Text.Substring(0, 10))
+                    if (CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != DateRequest.Text.Substring(0, 10))
                     {
-                        Bizz.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
-                        Date = Bizz.TempRequest.ReceivedDate;
+                        CBZ.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
+                        Date = CBZ.TempRequest.ReceivedDate;
                         if (!Changed)
                         {
                             Changed = true;
                         }
-                        Bizz.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
-                        Date = Bizz.TempRequest.ReceivedDate;
+                        CBZ.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
+                        Date = CBZ.TempRequest.ReceivedDate;
                         if (!Changed)
                         {
                             Changed = true;
@@ -2045,8 +2045,8 @@ namespace JudGui
             {
                 if (DateRequest.Text.Substring(0, 10) != "1932-03-17")
                 {
-                    Bizz.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
-                    Date = Bizz.TempRequest.ReceivedDate;
+                    CBZ.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
+                    Date = CBZ.TempRequest.ReceivedDate;
                     if (!Changed)
                     {
                         Changed = true;
@@ -2055,7 +2055,7 @@ namespace JudGui
                 else
                 {
                     Date = DateTime.Now;
-                    Bizz.TempRequest.ReceivedDate = Date;
+                    CBZ.TempRequest.ReceivedDate = Date;
                     DateRequest.Text = Date.ToShortDateString().Substring(0, 10);
                     if (!Changed)
                     {
@@ -2070,11 +2070,11 @@ namespace JudGui
         /// </summary>
         private void SetRequestDateNotSent()
         {
-            if (Bizz.TempRequest.SentDate.ToShortDateString().Substring(0, 10) != "1932-03-17" || Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
+            if (CBZ.TempRequest.SentDate.ToShortDateString().Substring(0, 10) != "1932-03-17" || CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
             {
                 Date = Convert.ToDateTime("1932-03-17");
-                Bizz.TempRequest.ReceivedDate = Date;
-                Bizz.TempRequest.SentDate = Date;
+                CBZ.TempRequest.ReceivedDate = Date;
+                CBZ.TempRequest.SentDate = Date;
                 Changed = true;
             }
         }
@@ -2084,14 +2084,14 @@ namespace JudGui
         /// </summary>
         private void SetRequestReceivedDate()
         {
-            if (Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
+            if (CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
             {
                 if (DateRequest.Text.Substring(0, 10) != "1932-03-17")
                 {
-                    if (DateRequest.Text.Substring(0, 10) != Bizz.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10))
+                    if (DateRequest.Text.Substring(0, 10) != CBZ.TempRequest.ReceivedDate.ToShortDateString().Substring(0, 10))
                     {
-                        Bizz.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
-                        Date = Bizz.TempRequest.ReceivedDate;
+                        CBZ.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
+                        Date = CBZ.TempRequest.ReceivedDate;
                         if (!Changed)
                         {
                             Changed = true;
@@ -2107,8 +2107,8 @@ namespace JudGui
             {
                 if (DateRequest.Text.Substring(0, 10) != "1932-03-17")
                 {
-                    Bizz.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
-                    Date = Bizz.TempRequest.ReceivedDate;
+                    CBZ.TempRequest.ReceivedDate = Convert.ToDateTime(DateRequest.Text);
+                    Date = CBZ.TempRequest.ReceivedDate;
                     if (!Changed)
                     {
                         Changed = true;
@@ -2117,7 +2117,7 @@ namespace JudGui
                 else
                 {
                     Date = DateTime.Now;
-                    Bizz.TempRequest.ReceivedDate = Date;
+                    CBZ.TempRequest.ReceivedDate = Date;
                     DateRequest.Text = Date.ToShortDateString().Substring(0, 10);
                     if (!Changed)
                     {
@@ -2132,13 +2132,13 @@ namespace JudGui
         /// </summary>
         private void SetRequestSentDate()
         {
-            if (Bizz.TempRequest.SentDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
+            if (CBZ.TempRequest.SentDate.ToShortDateString().Substring(0, 10) != "1932-03-17")
             {
-                Date = Bizz.TempRequest.SentDate;
+                Date = CBZ.TempRequest.SentDate;
                 if (DateRequest.Text.Substring(0, 10) != "1932-03-17")
                 {
-                    Bizz.TempRequest.SentDate = Convert.ToDateTime(DateRequest.Text);
-                    Date = Bizz.TempRequest.SentDate;
+                    CBZ.TempRequest.SentDate = Convert.ToDateTime(DateRequest.Text);
+                    Date = CBZ.TempRequest.SentDate;
                     if (!Changed)
                     {
                         Changed = true;
@@ -2153,8 +2153,8 @@ namespace JudGui
             {
                 if (DateRequest.Text.Substring(0, 10) != "1932-03-17")
                 {
-                    Bizz.TempRequest.SentDate = Convert.ToDateTime(DateRequest.Text);
-                    Date = Bizz.TempRequest.SentDate;
+                    CBZ.TempRequest.SentDate = Convert.ToDateTime(DateRequest.Text);
+                    Date = CBZ.TempRequest.SentDate;
                     if (!Changed)
                     {
                         Changed = true;
@@ -2163,7 +2163,7 @@ namespace JudGui
                 else
                 {
                     Date = DateTime.Now;
-                    Bizz.TempRequest.SentDate = Date;
+                    CBZ.TempRequest.SentDate = Date;
                     DateRequest.Text = Date.ToShortDateString().Substring(0, 10);
                     if (!Changed)
                     {
@@ -2182,7 +2182,7 @@ namespace JudGui
         {
             string date = DateIttLetter.DisplayDate.Year + "-" + DateIttLetter.DisplayDate.Month + "-" + DateIttLetter.DisplayDate.Day;
             // Code that save changes to the project
-            bool result = Bizz.UpdateInDb(Bizz.TempIttLetter);
+            bool result = CBZ.UpdateInDb(CBZ.TempIttLetter);
 
             if (result)
             {
@@ -2206,7 +2206,7 @@ namespace JudGui
             //string strDate = DateOffer.DisplayDate.Year + "-" + DateOffer.DisplayDate.Month + "-" + DateOffer.DisplayDate.Day;
             string strDate = offer.ReceivedDate.Year + "-" + offer.ReceivedDate.Month + "-" + offer.ReceivedDate.Day;
             // Code that save changes to the project
-            bool result = Bizz.UpdateInDb(offer);
+            bool result = CBZ.UpdateInDb(offer);
 
             if (result)
             {
@@ -2227,7 +2227,7 @@ namespace JudGui
         private void UpdateRequest(Request request)
         {
             // Code that save changes to the project
-            bool result = Bizz.UpdateInDb(request);
+            bool result = CBZ.UpdateInDb(request);
 
             if (!result)
             {
@@ -2251,7 +2251,7 @@ namespace JudGui
         {
             RequestStatus result = new RequestStatus();
 
-            foreach (RequestStatus status in Bizz.RequestStatusList)
+            foreach (RequestStatus status in CBZ.RequestStatuses)
             {
                 if (status.Id == requestStatusId)
                 {

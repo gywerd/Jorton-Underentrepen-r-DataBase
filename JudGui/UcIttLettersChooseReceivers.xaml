@@ -74,11 +74,11 @@
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
-        <ListBox x:Name="ListBoxLegalEntities" 
+        <ListBox x:Name="ListBoxEntrepeneurs" 
                  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
                  Height="470" Width="955" 
                  HorizontalAlignment="Left" 
-                 SelectionChanged="ListBoxLegalEntities_SelectionChanged"
+                 SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
                  SelectionMode="Multiple" 
                  VerticalAlignment="Top" />
         <Button x:Name="ButtonClose" Content="Luk"

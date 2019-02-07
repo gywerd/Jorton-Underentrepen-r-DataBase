@@ -34,7 +34,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding ContactPerson
+        /// Costructor to add a a new ContactPerson
         /// </summary>
         /// <param name="phone">string</param>
         /// <param name="fax">string</param>
@@ -50,7 +50,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor for adding ContactPerson from Db
+        /// Costructor to add a a ContactPerson from Db
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="phone">string</param>
@@ -67,7 +67,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor that accepts data from existing Contact
+        /// Constructor, that accepts data from an existing Contact
         /// </summary>
         /// <param name="contactInfo">Contact</param>
         public ContactInfo(ContactInfo contactInfo)
@@ -88,67 +88,6 @@ namespace JudRepository
                 mobile = "";
                 email = "";
             }
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Method, that sets id, if id == 0
-        /// </summary>
-        public void SetId(int id)
-        {
-            try
-            {
-                if (this.id == 0 && id >= 1)
-                {
-                    this.id = id;
-                }
-            }
-            catch (Exception)
-            {
-                this.id = 0;
-            }
-        }
-
-        /// <summary>
-        /// Method, that returns main info as string
-        /// </summary>
-        /// <returns>string</returns>
-        public override string ToString()
-        {
-            string tempName = "Tlf: " + phone + " / Fax:" + fax + " / Mobil:" + mobile + " / Email:" + email;
-            return tempName;
-        }
-
-        /// <summary>
-        /// Method, that returns main info as string with multiple lines
-        /// </summary>
-        /// <returns>string</returns>
-        public string ToLongString()
-        {
-            string tempName = "";
-            if (phone != null && phone != "")
-            {
-                tempName += "Tlf: " + phone + "\n";
-            }
-            if (fax != null && fax != "")
-            {
-                tempName += "Fax:" + fax + "\n";
-            }
-            if (mobile != null && mobile != "")
-            {
-                tempName += "Mobil:" + mobile + "\n";
-            }
-            if (email != null && email != "")
-            {
-                tempName += "Email:" + email;
-            }
-            if (tempName == "")
-            {
-                tempName = "Ingen Kontaktinfo";
-            }
-            return tempName;
         }
 
         #endregion
@@ -218,6 +157,67 @@ namespace JudRepository
                     email = "";
                 }
             }
+        }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
+        /// Method, that returns main info as string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            string tempName = "Tlf: " + phone + " / Fax:" + fax + " / Mobil:" + mobile + " / Email:" + email;
+            return tempName;
+        }
+
+        /// <summary>
+        /// Method, that returns main info as string with multiple lines
+        /// </summary>
+        /// <returns>string</returns>
+        public string ToLongString()
+        {
+            string tempName = "";
+            if (phone != null && phone != "")
+            {
+                tempName += "Tlf: " + phone + "\n";
+            }
+            if (fax != null && fax != "")
+            {
+                tempName += "Fax:" + fax + "\n";
+            }
+            if (mobile != null && mobile != "")
+            {
+                tempName += "Mobil:" + mobile + "\n";
+            }
+            if (email != null && email != "")
+            {
+                tempName += "Email:" + email;
+            }
+            if (tempName == "")
+            {
+                tempName = "Ingen Kontaktinfo";
+            }
+            return tempName;
         }
 
         #endregion

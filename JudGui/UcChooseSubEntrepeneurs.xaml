@@ -89,11 +89,11 @@
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxEnterprise_SelectionChanged" 
                   VerticalAlignment="Top" />
-        <ListBox x:Name="ListBoxLegalEntities" 
+        <ListBox x:Name="ListBoxEntrepeneurs" 
                  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="6" 
                  Height="290" Width="955" 
                  HorizontalAlignment="Left" 
-                 SelectionChanged="ListBoxLegalEntities_SelectionChanged"
+                 SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
                  SelectionMode="Multiple" 
                  VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxContact" 

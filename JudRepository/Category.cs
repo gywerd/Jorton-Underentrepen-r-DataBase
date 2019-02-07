@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string name;
+        private string text;
 
 
         #endregion
@@ -23,32 +23,32 @@ namespace JudRepository
         public Category()
         {
             this.id = 0;
-            this.name = "";
+            this.text = "";
         }
 
         /// <summary>
-        /// Constructor to add new Category 
+        /// Constructor to add a new Category 
         /// </summary>
-        /// <param name="name">string</param>
-        public Category(string name)
+        /// <param name="text">string</param>
+        public Category(string text)
         {
             this.id = 0;
-            this.name = name;
+            this.text = text;
         }
 
         /// <summary>
-        /// Constructor to add craft group from Db to list
+        /// Constructor to add a Category from Db
         /// </summary>
         /// <param name="id">int</param>
-        /// <param name="name">string</param>
-        public Category(int id, string name)
+        /// <param name="text">string</param>
+        public Category(int id, string text)
         {
             this.id = id;
-            this.name = name;
+            this.text = text;
         }
 
         /// <summary>
-        /// Constructor, that accepts an existing Category
+        /// Constructor, that accepts data from an existing Category
         /// </summary>
         /// <param name="category">Category</param>
         public Category(Category category)
@@ -56,12 +56,12 @@ namespace JudRepository
             if (category != null)
             {
                 this.id = category.Id;
-                this.name = category.Name;
+                this.text = category.Text;
             }
             else
             {
                 this.id = 0;
-                this.name = "";
+                this.text = "";
             }
         }
 
@@ -69,12 +69,30 @@ namespace JudRepository
 
         #region Methods
         /// <summary>
+        /// Method, that sets id, if id == 0
+        /// </summary>
+        public void SetId(int id)
+        {
+            try
+            {
+                if (this.id == 0 && id >= 1)
+                {
+                    this.id = id;
+                }
+            }
+            catch (Exception)
+            {
+                this.id = 0;
+            }
+        }
+
+        /// <summary>
         /// Method, that returns main info as string
         /// </summary>
         /// <returns>string</returns>
         public override string ToString()
         {
-            return name;
+            return text;
         }
 
         #endregion
@@ -82,18 +100,18 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public string Name
+        public string Text
         {
-            get => name;
+            get => text;
             set
             {
                 try
                 {
-                    name = value;
+                    text = value;
                 }
                 catch (Exception)
                 {
-                    name = "";
+                    text = "";
                 }
             }
         }
