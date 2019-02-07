@@ -23,28 +23,28 @@ namespace JudGui
     public partial class UcZipList : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcRight;
 
         #endregion
 
-        public UcZipList(Bizz bizz, UserControl ucRight)
+        public UcZipList(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcRight = ucRight;
-            ListBoxZipList.ItemsSource = Bizz.ZipTownList;
+            ListBoxZipList.ItemsSource = CBZ.ZipTowns;
         }
 
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             //Update lists and fields
-            Bizz.TempZipTown = new ZipTown();
-            Bizz.RefreshList("ZipTownList");
+            CBZ.TempZipTown = new ZipTown();
+            CBZ.RefreshList("ZipTowns");
 
             //Close right UserControl
-            Bizz.UcRightActive = false;
+            CBZ.UcRightActive = false;
             UcRight.Content = new UserControl();
 
         }
@@ -53,7 +53,7 @@ namespace JudGui
         {
             //Code that creates a new project
             bool result = false;
-            int id = Bizz.CreateInDb(Bizz.TempZipTown);
+            int id = CBZ.CreateInDb(CBZ.TempZipTown);
             if (id >= 1)
             {
                 result = true;
@@ -65,11 +65,11 @@ namespace JudGui
                 MessageBox.Show("Postnummeret blev oprettet", "Opret Postnummer", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update lists and fields
-                Bizz.TempZipTown = new ZipTown();
-                Bizz.RefreshList("ZipTownList");
+                CBZ.TempZipTown = new ZipTown();
+                CBZ.RefreshList("ZipTowns");
 
                 //Close right UserControl
-                Bizz.UcRightActive = false;
+                CBZ.UcRightActive = false;
                 UcRight.Content = new UserControl();
 
             }
@@ -96,9 +96,9 @@ namespace JudGui
         #region Events
         private void ListBoxZipList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempZipTown = new ZipTown((ZipTown)ListBoxZipList.SelectedItem);
-            TextBoxZip.Text = Bizz.TempZipTown.Zip;
-            TextBoxTown.Text = Bizz.TempZipTown.Town;
+            CBZ.TempZipTown = new ZipTown((ZipTown)ListBoxZipList.SelectedItem);
+            TextBoxZip.Text = CBZ.TempZipTown.Zip;
+            TextBoxTown.Text = CBZ.TempZipTown.Town;
         }
 
         private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
@@ -126,7 +126,7 @@ namespace JudGui
         private void CheckBoxAddNewZipCode_Checked(object sender, RoutedEventArgs e)
         {
             ListBoxZipList.SelectedIndex = -1;
-            Bizz.TempZipTown = new ZipTown();
+            CBZ.TempZipTown = new ZipTown();
             TextBoxZip.Text = "";
             TextBoxTown.Text = "";
             ButtonCreate.Visibility = Visibility.Visible;
@@ -141,7 +141,7 @@ namespace JudGui
         private void CheckBoxAddNewZipCode_Unchecked(object sender, RoutedEventArgs e)
         {
             ListBoxZipList.SelectedIndex = -1;
-            Bizz.TempZipTown = new ZipTown();
+            CBZ.TempZipTown = new ZipTown();
             TextBoxZip.Text = "";
             TextBoxTown.Text = "";
             ButtonCreate.Visibility = Visibility.Hidden;
@@ -174,7 +174,7 @@ namespace JudGui
         private void CheckBoxDeleteZipCode_Unchecked(object sender, RoutedEventArgs e)
         {
             ListBoxZipList.SelectedIndex = -1;
-            Bizz.TempZipTown = new ZipTown();
+            CBZ.TempZipTown = new ZipTown();
             TextBoxZip.Text = "";
             TextBoxTown.Text = "";
             ButtonCreate.Visibility = Visibility.Hidden;
@@ -207,7 +207,7 @@ namespace JudGui
         private void CheckBoxEditZipCode_Unchecked(object sender, RoutedEventArgs e)
         {
             ListBoxZipList.SelectedIndex = -1;
-            Bizz.TempZipTown = new ZipTown();
+            CBZ.TempZipTown = new ZipTown();
             TextBoxZip.Text = "";
             TextBoxTown.Text = "";
             ButtonCreate.Visibility = Visibility.Hidden;

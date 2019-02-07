@@ -59,7 +59,7 @@ namespace JudGui
             {
                 TabOffer.IsEnabled = true;
                 TabAdministration.IsEnabled = true;
-                if (Bizz.CurrentUser.Administrator)
+                if (Bizz.CurrentUser.Authentication.UserLevel.Id == 4)
                 {
                     HelpData.IsEnabled = true;
                 }

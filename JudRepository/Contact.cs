@@ -53,11 +53,11 @@ namespace JudRepository
         /// <param name="person">Person</param>
         /// <param name="entrepeneur">Entrepeneur</param>
         /// <param name="area">string</param>
-        public Contact(int id, Person person, Entrepeneur entity, string area)
+        public Contact(int id, Person person, Entrepeneur entrepeneur, string area)
         {
             this.id = id;
             this.person = person;
-            this.entrepeneur = entity;
+            this.entrepeneur = entrepeneur;
             this.area = area;
         }
 

@@ -266,7 +266,7 @@ namespace JudBizz
                             result = UserLevels[count - 1].Id;
                             break;
                         case "ZipTown":
-                            RefreshList("ZipTownList");
+                            RefreshList("ZipTowns");
                             count = ZipTowns.Count;
                             result = ZipTowns[count - 1].Id;
                             break;
@@ -769,7 +769,7 @@ namespace JudBizz
                         result = contactInfo;
                         break;
                     case "Contacts":
-                        Contact contact = new Contact(Convert.ToInt32(resultArray[0]), new Person((Person)GetObject("Persons", Convert.ToInt32(resultArray[1]))), new Entrepeneur((Entrepeneur)GetObject("Entrepeneurs", Convert.ToInt32(resultArray[2]))), resultArray[3], new ContactInfo((ContactInfo)GetObject("ContactInfoList", Convert.ToInt32(resultArray[4]))));
+                        Contact contact = new Contact(Convert.ToInt32(resultArray[0]), new Person((Person)GetObject("Persons", Convert.ToInt32(resultArray[1]))), new Entrepeneur((Entrepeneur)GetObject("Entrepeneurs", Convert.ToInt32(resultArray[2]))), resultArray[3]);
                         result = contact;
                         break;
                     case "CraftGroups":
@@ -857,10 +857,10 @@ namespace JudBizz
                         result = userLevel;
                         break;
                     case "Users":
-                        User user = new User(Convert.ToInt32(resultArray[0]), new Person((Person)GetObject("Persons", Convert.ToInt32(resultArray[1]))), resultArray[2], new Authentication((Authentication)GetObject("Authentications", Convert.ToInt32(resultArray[3]))), new JobDescription((JobDescription)GetObject("JobDescriptions", Convert.ToInt32(resultArray[4]))), Convert.ToBoolean(resultArray[5]));
+                        User user = new User(Convert.ToInt32(resultArray[0]), new Person((Person)GetObject("Persons", Convert.ToInt32(resultArray[1]))), resultArray[2], new JobDescription((JobDescription)GetObject("JobDescriptions", Convert.ToInt32(resultArray[3]))), new Authentication((Authentication)GetObject("Authentications", Convert.ToInt32(resultArray[4]))));
                         result = user;
                         break;
-                    case "ZipTownList":
+                    case "ZipTowns":
                         ZipTown zipTown = new ZipTown(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2]);
                         result = zipTown;
                         break;
@@ -1325,24 +1325,25 @@ namespace JudBizz
             RefreshZipTowns(); //
 
             //Second level Lists
-            RefreshAddresses();
-            RefreshAuthentications();
-            RefreshCraftGroups();
-            RefreshPersons();
-            RefreshRequests();
+            RefreshAddresses(); //
+            RefreshAuthentications(); //
+            RefreshCraftGroups(); //
+            RefreshPersons(); //
+            RefreshRequests(); //
 
             //Third level list
-            RefreshLegalEntities();
-            RefreshUsers();
+            RefreshLegalEntities(); //
+            RefreshUsers(); //
 
             //Fourth Level List
-            RefreshBuilders();
-            RefreshContacts();
-            RefreshEntrepeneurs();
+            RefreshBuilders(); //
+            RefreshEntrepeneurs(); //
 
             //Fifth level Lists
-            RefreshProjects();
-            RefreshActiveProjects();
+            RefreshContacts(); //
+            RefreshProjects(); //
+            RefreshActiveProjects(); //
+            RefreshInactiveProjects(); //
 
             //Sixth level Lists
             RefreshEnterprises();
@@ -1402,6 +1403,9 @@ namespace JudBizz
                 case "Entrepeneurs":
                     RefreshEntrepeneurs();
                     break;
+                case "InactiveProjects":
+                    RefreshInactiveProjects();
+                    break;
                 case "IttLetters":
                     RefreshIttLetters();
                     break;
@@ -1456,7 +1460,7 @@ namespace JudBizz
                 case "UserLevels":
                     RefreshUserLevels();
                     break;
-                case "ZipTownList":
+                case "ZipTowns":
                     RefreshZipTowns();
                     break;
             }
@@ -1667,6 +1671,23 @@ namespace JudBizz
             foreach (object obj in tempList)
             {
                 Entrepeneurs.Add((Entrepeneur)obj);
+            }
+        }
+
+        /// <summary>
+        /// Method, that refreshes the Projects list
+        /// </summary>
+        private void RefreshInactiveProjects()
+        {
+            if (Projects != null)
+            {
+                InactiveProjects.Clear();
+            }
+            List<object> tempList = ReadListFromDb("InactiveProjects");
+
+            foreach (object _object in tempList)
+            {
+                InactiveProjects.Add((Project)_object);
             }
         }
 
@@ -1985,7 +2006,7 @@ namespace JudBizz
             {
                 ZipTowns.Clear();
             }
-            List<object> tempList = ReadListFromDb("ZipTownList");
+            List<object> tempList = ReadListFromDb("ZipTowns");
 
             foreach (object obj in tempList)
             {
