@@ -45,7 +45,7 @@
                                                ImageSource="images/logout.png" />
                     <RibbonApplicationMenuItem x:Name="ButtonChangePassWord" 
                                                Click="ButtonChangePassWord_Click"
-                                               Header = "Ændre password" 
+                                               Header = "Ændr Password" 
                                                ImageSource="images/logout.png" />
                     <RibbonApplicationMenuItem x:Name="ButtonQuit" 
                                                Click="ButtonQuit_Click"

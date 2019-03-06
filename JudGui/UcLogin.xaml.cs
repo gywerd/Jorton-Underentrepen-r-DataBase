@@ -109,7 +109,7 @@ namespace JudGui
             }
             else
             {
-                MessageBox.Show("Initialer eller password er forkert.");
+                MessageBox.Show("Initialer eller password er forkert.", "Login",MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
