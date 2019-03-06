@@ -1,0 +1,212 @@
+﻿<UserControl x:Class="JudGui.UcContactsEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JudGui"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="840" d:DesignWidth="1560">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="120*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="75*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="140*" />
+            <RowDefinition Height="140*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Label x:Name="LabelEditContacts"
+               Content="Rediger Kontakter"
+               FontSize="48"
+               FontWeight="Bold"
+               Grid.Column="1" Grid.Row="1"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelEntrepeneur"
+               Content="Søg Entrepenør:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="2"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelEntrepeneurs"
+               Content="Entrepenører*:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="3"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelContacts"
+               Content="Kontakter*:"
+               FontSize="30"
+               Grid.Column="1"
+               Grid.Row="4"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelName"
+               Content="Navn*:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="5"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelContactInfo"
+               Content="Kont.info:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="6"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelArea"
+               Content="Område:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="7"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxEntrepeneurSearch"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="2"
+                               Grid.ColumnSpan="2"
+                               Height="50" Width="250"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               TextChanged="TextBoxEntrepeneursSearch_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Jor" />
+        <Button x:Name="ButtonSearchEntrepeneur"
+                FontSize="24"
+                FontWeight="Bold"
+                Grid.Column="4"
+                Grid.Row="2"
+                Height="50" Width="50"
+                HorizontalAlignment="Right"
+                ToolTip="Indtast de tre første bogsstaver i firmanavnet"
+                VerticalAlignment="Top">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/help.png" />
+            </Button.Background>
+        </Button>
+        <ListBox x:Name="ListBoxEntrepeneurs"
+                 Grid.Column="3" Grid.Row="3"
+                 Grid.ColumnSpan="6"
+                 Height="125" Width="955"
+                 HorizontalAlignment="Left"
+                 SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
+                 VerticalAlignment="Top" />
+        <ListBox x:Name="ListBoxContacts"
+                 Grid.Column="3" Grid.Row="4"
+                 Grid.ColumnSpan="6"
+                 Height="125" Width="955"
+                 HorizontalAlignment="Left"
+                 SelectionChanged="ListBoxContacts_SelectionChanged"
+                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxName"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="5" 
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               TextChanged="TextBoxName_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Jorton A/S" />
+        <xctk:WatermarkTextBox x:Name="TextBoxPhone"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="6"
+                               Height="50" Width="150"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxPhone_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Tlf.nr." />
+        <xctk:WatermarkTextBox x:Name="TextBoxFax"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="6"
+                               Height="50" Width="150"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxFax_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Faxnr." />
+        <xctk:WatermarkTextBox x:Name="TextBoxMobile"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="5" Grid.Row="6"
+                               Height="50" Width="150"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxMobile_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Mobilnr." />
+        <xctk:WatermarkTextBox x:Name="TextBoxEmail"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="6" Grid.Row="6"
+                               Grid.ColumnSpan="3"
+                               Height="50" Width="450"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxEmail_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Emailadresse" />
+        <xctk:WatermarkTextBox x:Name="TextBoxArea"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="7"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               TextChanged="TextBoxArea_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Nordjylland / Tilbud" />
+        <Button x:Name="ButtonClose"
+                Content="Luk"
+                Click="ButtonClose_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="1" Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Height="90" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonSave"
+                Content="Gem"
+                Click="ButtonSave_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="7" Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
+    </Grid>
+
+</UserControl>

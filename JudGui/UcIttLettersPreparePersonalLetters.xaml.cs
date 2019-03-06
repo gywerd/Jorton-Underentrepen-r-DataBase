@@ -24,7 +24,7 @@ namespace JudGui
     {
         #region Fields
         public Bizz CBZ;
-        public UserControl UcRight;
+        public UserControl UcMain;
         public Shipping Shipping = new Shipping();
         public PdfCreator PdfCreator;
         public static string macAddress;
@@ -37,12 +37,12 @@ namespace JudGui
 
         #endregion
 
-        public UcIttLettersPreparePersonalLetters(Bizz cbz, UserControl ucRight)
+        public UcIttLettersPreparePersonalLetters(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            macAddress = GetMacAddress();
-            this.UcRight = ucRight;
+            macAddress = CBZ.MacAddress;
+            this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
             ComboBoxCaseId.SelectedIndex = 0;
         }
@@ -54,15 +54,15 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev ?", "Luk Klargør Udbudsbrev", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
             {
                 //Close right UserControl
-                UcRight.Content = new UserControl();
-                CBZ.UcRightActive = false;
+                UcMain.Content = new UserControl();
+                CBZ.UcMainActive = false;
             }
         }
 
         private void ButtonPrepare_Click(object sender, RoutedEventArgs e)
         {
             //Code, that prepares 
-            CBZ.TempLetterData = new LetterData(CBZ.TempProject.Name, CBZ.TempBuilder.Entity.Name, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, TextBoxPassword.Text);
+            CBZ.TempLetterData = new LetterData(CBZ.TempProject.Name, CBZ.TempBuilder.Entity.Name, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, TextBoxConditionDate.Text, TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxPassword.Text);
 
             try
             {
@@ -331,15 +331,6 @@ namespace JudGui
                 CheckBoxReceiverListExist.IsChecked = false;
             }
 
-        }
-
-        /// <summary>
-        /// Method, that retrieves the MacAddress
-        /// </summary>
-        /// <returns></returns>
-        private string GetMacAddress()
-        {
-            return CBZ.GetMacAddress();
         }
 
         /// <summary>

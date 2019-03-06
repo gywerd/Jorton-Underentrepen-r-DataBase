@@ -24,7 +24,7 @@ namespace JudGui
     {
         #region Fields
         public Bizz CBZ;
-        public UserControl UcRight;
+        public UserControl UcMain;
         public PdfCreator PdfCreator;
         public List<Shipping> Shippings = new List<Shipping>();
         public List<Contact> ProjectContacts = new List<Contact>();
@@ -44,9 +44,9 @@ namespace JudGui
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcRight = ucRight;
+            this.UcMain = ucRight;
             GenerateComboBoxCaseIdItems();
-            PdfCreator = new PdfCreator(CBZ.MEFW.ObtainStrConnection());
+            PdfCreator = new PdfCreator(CBZ.StrConnection);
         }
 
         #endregion
@@ -179,8 +179,8 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev?", "Luk Klargør Udbudsbrev", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcRightActive = false;
-                UcRight.Content = new UserControl();
+                CBZ.UcMainActive = false;
+                UcMain.Content = new UserControl();
             }
         }
 

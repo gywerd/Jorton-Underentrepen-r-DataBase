@@ -1,5 +1,4 @@
-﻿using JudDataAccess;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,10 +36,11 @@ namespace JudRepository
             this.answerDate = "";
             this.questionDate = "";
             this.correctionDate = "";
-            this.timeSpan = 0;
+            this.conditionDate = "";
             this.materialUrl = "";
             this.conditionUrl = "";
             this.passWord = "";
+            this.timeSpan = 0;
         }
 
         /// <summary>
@@ -55,16 +55,17 @@ namespace JudRepository
         /// <param name="materialUrl">string</param>
         /// <param name="conditionUrl">string</param>
         /// <param name="passWord">string</param>
-        public LetterData(string projectName, string builder, string answerDate, string questionDate, string correctionSheetDate, int timeSpan, string materialUrl, string conditionUrl, string passWord)
+        public LetterData(string projectName, string builder, string answerDate, string questionDate, string correctionSheetDate, string conditionDate, string materialUrl, string conditionUrl, int timeSpan, string passWord)
         {
             this.id = 0;
             this.builder = builder;
             this.answerDate = answerDate;
             this.questionDate = questionDate;
             this.correctionDate = correctionSheetDate;
-            this.timeSpan = timeSpan;
+            this.conditionDate = conditionDate;
             this.materialUrl = materialUrl;
             this.conditionUrl = conditionUrl;
+            this.timeSpan = timeSpan;
             this.passWord = passWord;
         }
 
@@ -81,16 +82,17 @@ namespace JudRepository
         /// <param name="materialUrl">string</param>
         /// <param name="conditionUrl">string</param>
         /// <param name="passWord">string</param>
-        public LetterData(int id, string projectName, string builder, string answerDate, string questionDate, string correctionSheetDate, int timeSpan, string materialUrl, string conditionUrl, string passWord)
+        public LetterData(int id, string projectName, string builder, string answerDate, string questionDate, string correctionSheetDate, string conditionDate, string materialUrl, string conditionUrl, int timeSpan, string passWord)
         {
             this.id = 0;
             this.builder = builder;
             this.answerDate = answerDate;
             this.questionDate = questionDate;
             this.correctionDate = correctionSheetDate;
-            this.timeSpan = timeSpan;
+            this.conditionDate = conditionDate;
             this.materialUrl = materialUrl;
             this.conditionUrl = conditionUrl;
+            this.timeSpan = timeSpan;
             this.passWord = passWord;
         }
 

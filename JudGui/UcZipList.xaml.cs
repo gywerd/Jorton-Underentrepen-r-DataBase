@@ -24,7 +24,7 @@ namespace JudGui
     {
         #region Fields
         public Bizz CBZ;
-        public UserControl UcRight;
+        public UserControl UcMain;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace JudGui
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcRight = ucRight;
+            this.UcMain = ucRight;
             ListBoxZipList.ItemsSource = CBZ.ZipTowns;
         }
 
@@ -44,8 +44,8 @@ namespace JudGui
             CBZ.RefreshList("ZipTowns");
 
             //Close right UserControl
-            CBZ.UcRightActive = false;
-            UcRight.Content = new UserControl();
+            CBZ.UcMainActive = false;
+            UcMain.Content = new UserControl();
 
         }
 
@@ -69,8 +69,8 @@ namespace JudGui
                 CBZ.RefreshList("ZipTowns");
 
                 //Close right UserControl
-                CBZ.UcRightActive = false;
-                UcRight.Content = new UserControl();
+                CBZ.UcMainActive = false;
+                UcMain.Content = new UserControl();
 
             }
             else

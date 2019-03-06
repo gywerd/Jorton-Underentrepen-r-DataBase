@@ -12,6 +12,7 @@ namespace JudRepository
         private int id;
         private string cvr;
         private string name;
+        private string coName;
         private Address address;
         private ContactInfo contactInfo;
         private string url;
@@ -27,6 +28,7 @@ namespace JudRepository
             this.id = 0;
             this.cvr = "";
             this.name = "";
+            this.coName = "";
             this.address = new Address();
             this.contactInfo = new ContactInfo();
             this.url = "";
@@ -37,14 +39,16 @@ namespace JudRepository
         /// </summary>
         /// <param name="cvr">string</param>
         /// <param name="name">string</param>
+        /// <param name="coName">string</param>
         /// <param name="address">string</param>
         /// <param name="contactInfo">int</param>
         /// <param name="url">string</param>
-        public LegalEntity(string cvr, string name, Address address, ContactInfo contactInfo, string url)
+        public LegalEntity(string cvr, string name, string coName, Address address, ContactInfo contactInfo, string url)
         {
             this.id = 0;
             this.cvr = cvr;
             this.name = name;
+            this.coName = coName;
             this.address = address;
             this.contactInfo = contactInfo;
             this.url = url;
@@ -55,14 +59,16 @@ namespace JudRepository
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="name">string</param>
+        /// <param name="coName">string</param>
         /// <param name="address">Address</param>
         /// <param name="contactInfo">ContactInfo</param>
         /// <param name="url">string</param>
-        public LegalEntity(int id, string cvr, string name, Address address, ContactInfo contactInfo, string url)
+        public LegalEntity(int id, string cvr, string name, string coName, Address address, ContactInfo contactInfo, string url)
         {
             this.id = id;
             this.cvr = cvr;
             this.name = name;
+            this.coName = coName;
             this.address = address;
             this.contactInfo = contactInfo;
             this.url = url;
@@ -77,6 +83,7 @@ namespace JudRepository
             this.id = entity.Id;
             this.cvr = entity.Cvr;
             this.name = entity.Name;
+            this.coName = entity.CoName;
             this.address = entity.Address;
             this.contactInfo = entity.ContactInfo;
             this.url = entity.Url;
@@ -119,7 +126,24 @@ namespace JudRepository
             }
         }
 
+        public string CoName
+        {
+            get => coName;
+            set
+            {
+                try
+                {
+                    coName = value;
+                }
+                catch (Exception)
+                {
+                    coName = "";
+                }
+            }
+        }
+
         public Address Address { get => address; set => address = value; }
+
         public ContactInfo ContactInfo { get => contactInfo; set => contactInfo = value; }
 
         public string Url

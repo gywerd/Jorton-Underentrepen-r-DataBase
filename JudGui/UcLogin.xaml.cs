@@ -24,53 +24,88 @@ namespace JudGui
     public partial class UcLogin : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public RibbonTab TabOffer;
+        public RibbonTab TabMaintenance;
         public RibbonTab TabAdministration;
-        public RibbonGroup HelpData;
-        public RibbonGroup Information;
-        public RibbonApplicationMenuItem MenuItemChangePassWord;
-        public RibbonApplicationMenuItem MenuItemLogOut;
+        public RibbonGroup Data;
+        public RibbonGroup Users;
+        public RibbonApplicationMenuItem ButtonChangePassWord;
+        public RibbonApplicationMenuItem ButtonLogOut;
         public TextBlock UserName;
-        public UserControl UcLeft;
-        public UserControl UcRight;
+        public UserControl UcMain;
 
-        public static Bizz CBZ = new Bizz();
         #endregion
 
-        public UcLogin(Bizz bizz, RibbonTab tabOffer, RibbonTab tabAdministration, RibbonGroup information, RibbonGroup helpData, RibbonApplicationMenuItem menuitemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, TextBlock userName, UserControl ucLeft, UserControl ucRight)
+        public UcLogin(Bizz cbz, RibbonTab tabOffer, RibbonTab tabMaintenance, RibbonTab tabAdministration, RibbonGroup data, RibbonGroup users, RibbonApplicationMenuItem buttonChangePassWord, RibbonApplicationMenuItem buttonLogOut, TextBlock userName, UserControl ucMain)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.TabOffer = tabOffer;
+            this.TabMaintenance = tabMaintenance;
             this.TabAdministration = tabAdministration;
-            this.HelpData = helpData;
-            this.Information = information;
-            this.MenuItemChangePassWord = menuitemChangePassWord;
-            this.MenuItemLogOut = menuItemLogOut;
+            this.Data = data;
+            this.Users = users;
+            this.ButtonChangePassWord = buttonChangePassWord;
+            this.ButtonLogOut = buttonLogOut;
             this.UserName = userName;
-            this.UcLeft = ucLeft;
-            this.UcRight = ucRight;
+            this.UcMain = ucMain;
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.CheckCredentials(UserName, MenuItemChangePassWord, MenuItemLogOut, TextBoxInitials.Text, TextBoxPassword.Password))
+            if (CBZ.CheckCredentials(UserName, ButtonChangePassWord, ButtonLogOut, TextBoxInitials.Text, TextBoxPassword.Password))
             {
-                TabOffer.IsEnabled = true;
-                TabAdministration.IsEnabled = true;
-                if (Bizz.CurrentUser.Authentication.UserLevel.Id == 4)
+                switch (CBZ.CurrentUser.Authentication.UserLevel.Id)
                 {
-                    HelpData.IsEnabled = true;
+                    case 1:
+                        ButtonChangePassWord.IsEnabled = true;
+                        ButtonLogOut.IsEnabled = true;
+                        TabOffer.IsEnabled = true;
+                        TabMaintenance.IsEnabled = false;
+                        TabAdministration.IsEnabled = false;
+                        Data.IsEnabled = false;
+                        Users.IsEnabled = false;
+                        break;
+                    case 2:
+                        ButtonChangePassWord.IsEnabled = true;
+                        ButtonLogOut.IsEnabled = true;
+                        TabOffer.IsEnabled = true;
+                        TabMaintenance.IsEnabled = true;
+                        TabAdministration.IsEnabled = false;
+                        Data.IsEnabled = false;
+                        Users.IsEnabled = false;
+                        break;
+                    case 3:
+                        ButtonChangePassWord.IsEnabled = true;
+                        ButtonLogOut.IsEnabled = true;
+                        TabOffer.IsEnabled = true;
+                        TabMaintenance.IsEnabled = true;
+                        TabAdministration.IsEnabled = true;
+                        Data.IsEnabled = true;
+                        Users.IsEnabled = false;
+                        break;
+                    case 4:
+                        ButtonChangePassWord.IsEnabled = true;
+                        ButtonLogOut.IsEnabled = true;
+                        TabOffer.IsEnabled = true;
+                        TabMaintenance.IsEnabled = true;
+                        TabAdministration.IsEnabled = true;
+                        Data.IsEnabled = true;
+                        Users.IsEnabled = true;
+                        break;
+                    default:
+                        ButtonChangePassWord.IsEnabled = true;
+                        ButtonLogOut.IsEnabled = true;
+                        TabOffer.IsEnabled = false;
+                        TabMaintenance.IsEnabled = false;
+                        TabAdministration.IsEnabled = false;
+                        Data.IsEnabled = false;
+                        Users.IsEnabled = false;
+                        break;
                 }
-                else
-                {
-                    HelpData.IsEnabled = false;
-                }
-                Information.IsEnabled = true;
-                UcLeft.Content = new UserControl();
-                UcRight.Content = new UserControl();
-                Bizz.UcRightActive = false;
+                UcMain.Content = new UserControl();
+                CBZ.UcMainActive = false;
             }
             else
             {

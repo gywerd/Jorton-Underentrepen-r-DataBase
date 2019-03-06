@@ -23,7 +23,7 @@ namespace JudGui
     {
         #region Fields
         public Bizz Bizz;
-        public UserControl UcRight;
+        public UserControl UcMain;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace JudGui
         {
             InitializeComponent();
             this.Bizz = bizz;
-            this.UcRight = ucRight;
+            this.UcMain = ucRight;
         }
     }
 }

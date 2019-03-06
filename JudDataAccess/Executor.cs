@@ -63,14 +63,11 @@ namespace JudDataAccess
 
             switch (table)
             {
-                case "ActiveProjects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'true', ORDER BY [Cooperative] DESC, [Name] ASC");
-                    break;
-                case "InactiveProjects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'false', ORDER BY [Name] ASC");
+                case "Entrepeneurs":
+                    result = DbReturnDataTable(@"SELECT * FROM [Entrepeneurs] ORDER BY [Cooperative] DESC, [Id] ASC");
                     break;
                 case "Projects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities],  ORDER BY [Name] ASC");
+                    result = DbReturnDataTable(@"SELECT * FROM [Projects] ORDER BY [Name] ASC");
                     break;
                 default:
                     result = DbReturnDataTable("SELECT * FROM " + table);
@@ -78,17 +75,6 @@ namespace JudDataAccess
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Method, that retrieves a post from Db
-        /// </summary>
-        /// <param name="table">string</param>
-        /// <param name="id">int</param>
-        /// <returns>string</returns>
-        public string ReadPostFromDataBase(string table, int id)
-        {
-            return GetPostDataTable(table, id).Rows.Find(0).ToString();
         }
 
         /// <summary>
@@ -104,20 +90,45 @@ namespace JudDataAccess
             switch (table)
             {
                 case "ActiveProjects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'true', [Id] = " + id + @", ORDER BY [Cooperative] DESC, [Name] ASC");
+                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'true', [Id] = " + id + @" ORDER BY [Cooperative] DESC, [Name] ASC");
                     break;
                 case "InactiveProjects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'false', [Id] = " + id + @", ORDER BY [Name] ASC");
+                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'false', [Id] = " + id + @" ORDER BY [Name] ASC");
                     break;
                 case "Projects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Id] = " + id + @",  ORDER BY [Name] ASC");
+                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Id] = " + id + @"  ORDER BY [Name] ASC");
                     break;
                 default:
-                    result = DbReturnDataTable(@"SELECT * FROM " + table + @"WHERE [Id] = " + id);
+                    result = DbReturnDataTable(@"SELECT * FROM " + table + @" WHERE [Id] = " + id);
                     break;
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves a post from Db
+        /// </summary>
+        /// <param name="table">string</param>
+        /// <param name="id">int</param>
+        /// <returns>string</returns>
+        public string ReadPostFromDataBase(string table, int id)
+        {
+            List<string> listResult = new List<string>();
+            DataTable dm = GetPostDataTable(table, id);
+            
+            foreach (DataRow row in dm.Rows)
+            {
+                string rowString = "";
+
+                for (int i = 0; i < row.Table.Columns.Count; i++)
+                {
+                    rowString += row[i] + ";";
+                }
+                rowString = rowString.Remove(rowString.Length - 1);
+                listResult.Add(rowString);
+            }
+            return listResult[0];
         }
 
         /// <summary>

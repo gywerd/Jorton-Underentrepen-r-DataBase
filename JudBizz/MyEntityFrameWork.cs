@@ -13,13 +13,39 @@ namespace JudBizz
     public class MyEntityFrameWork
     {
         #region Fields
-        public static string strConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JortonSubEnt;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private static string strConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JortonSubEnt;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public PdfLists PdfLists;
         private Executor executor = new Executor(strConnection);
         private MacAddress macAddress = new MacAddress();
 
+        public User CurrentUser = new User();
+        public Address TempAddress = new Address();
+        public Builder TempBuilder = new Builder();
+        public Bullet TempBullet = new Bullet();
+        public Contact TempContact = new Contact();
+        public ContactInfo TempContactInfo = new ContactInfo();
+        public Enterprise TempEnterprise = new Enterprise();
+        public Entrepeneur TempEntrepeneur = new Entrepeneur();
+        public IttLetter TempIttLetter = new IttLetter();
+        public LegalEntity TempLegalEntity = new LegalEntity();
+        public LetterData TempLetterData = new LetterData();
+        public Offer TempOffer = new Offer();
+        public Paragraph TempParagraph = new Paragraph();
+        public Project TempProject = new Project();
+        public Receiver TempReceiver = new Receiver();
+        public Request TempRequest = new Request();
+        public Shipping TempShipping = new Shipping();
+        public SubEntrepeneur TempSubEntrepeneur;
+        public User TempUser = new User();
+        public ZipTown TempZipTown = new ZipTown();
+
+
+
         #region Lists
+        public List<Builder> ActiveBuilders = new List<Builder>();
+            public List<Entrepeneur> ActiveEntrepeneurs = new List<Entrepeneur>();
             public List<Project> ActiveProjects = new List<Project>();
+            public List<User> ActiveUsers = new List<User>();
             public List<Address> Addresses = new List<Address>();
             public List<Authentication> Authentications = new List<Authentication>();
             public List<Builder> Builders = new List<Builder>();
@@ -31,7 +57,10 @@ namespace JudBizz
             public List<EnterpriseForm> EnterpriseForms = new List<EnterpriseForm>();
             public List<Enterprise> Enterprises = new List<Enterprise>();
             public List<Entrepeneur> Entrepeneurs = new List<Entrepeneur>();
+            public List<Builder> InactiveBuilders = new List<Builder>();
+            public List<Entrepeneur> InactiveEntrepeneurs = new List<Entrepeneur>();
             public List<Project> InactiveProjects = new List<Project>();
+            public List<User> InactiveUsers = new List<User>();
             public List<IttLetter> IttLetters = new List<IttLetter>();
             public List<JobDescription> JobDescriptions = new List<JobDescription>();
             public List<LegalEntity> LegalEntities = new List<LegalEntity>();
@@ -65,28 +94,11 @@ namespace JudBizz
         #endregion
 
         #region Properties
-
+        public string MacAddress { get => macAddress.ToString(); }
+        public string StrConnection { get => strConnection.ToString(); }
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Method, that retrieves a MacAddress
-        /// </summary>
-        /// <returns></returns>
-        public string ObtainMacAddress()
-        {
-            return macAddress.ToString();
-        }
-
-        /// <summary>
-        /// Method, that returns the MacAddress
-        /// </summary>
-        /// <returns></returns>
-        public string ObtainStrConnection()
-        {
-            return strConnection.ToString();
-        }
 
         #region DataBase
 
@@ -100,9 +112,6 @@ namespace JudBizz
             #region Create
             /// <summary>
             /// Method, that creates a new entity in Db
-            /// Accepts the following entityTypes: Address, BluePrintContact, 
-            /// ContactInfo, CraftGroup, Enterprise, IttLetter, PdfData, 
-            /// Project, Request
             /// </summary>
             /// <param name="entity">Object</param>
             /// <returns>int</returns>
@@ -324,7 +333,7 @@ namespace JudBizz
                         result = "Legal Person";
                         break;
                     case "LetterData":
-                        result = "Udbudbrevs data";
+                        result = "Udbudbrevsdata";
                         break;
                     case "Offer":
                         result = "Tilbud";
@@ -445,7 +454,7 @@ namespace JudBizz
                         result = "Projects";
                         break;
                     case "ProjectStatus":
-                        result = "ProjectStatusList";
+                        result = "ProjectStatuses";
                         break;
                     case "Receiver":
                         result = "Receivers";
@@ -457,7 +466,7 @@ namespace JudBizz
                         result = "Requests";
                         break;
                     case "RequestStatus":
-                        result = "RequestStatusList";
+                        result = "RequestStatuses";
                         break;
                     case "Shipping":
                         result = "ShippingList";
@@ -475,7 +484,7 @@ namespace JudBizz
                         result = "UserLevels";
                         break;
                     case "ZipTown":
-                        result = "ZipTown";
+                        result = "ZipTowns";
                         break;
                 }
 
@@ -518,7 +527,7 @@ namespace JudBizz
                         break;
                     case "Contacts":
                         Contact contact = new Contact((Contact)entity);
-                        result = "INSERT INTO [dbo].[Contacts]([Person], [Entrepeneur], [Area]) VALUES(" + contact.Person.Id + ", " + contact.Entity.Id + ", '" + contact.Area + "')";
+                        result = "INSERT INTO [dbo].[Contacts]([Person], [Entrepeneur], [Area]) VALUES(" + contact.Person.Id + ", " + contact.Entrepeneur.Id + ", '" + contact.Area + "')";
                         break;
                     case "ContactInfoList":
                         ContactInfo info = new ContactInfo((ContactInfo)entity);
@@ -544,9 +553,13 @@ namespace JudBizz
                         IttLetter ittLetter = new IttLetter((IttLetter)entity);
                         result = "INSERT INTO[dbo].[IttLetters]([Sent], [SentDate]) VALUES('" + ittLetter.Sent + "', " + ittLetter.SentDate.ToShortDateString() + "')";
                         break;
+                    case "LegalEntities":
+                        LegalEntity legalEntity = new LegalEntity((LegalEntity)entity);
+                        result = "INSERT INTO [dbo].[LegalEntities]([Cvr], [Name], [CoName], [Address], [ContactInfo], [Url]) VALUES(" + legalEntity.Cvr + ", " + legalEntity.Name + ", '" + legalEntity.CoName + "', " + legalEntity.Address.Id + ", " + legalEntity.ContactInfo.Id + ", '" + legalEntity.Url + "')";
+                        break;
                     case "LetterDataList":
                         LetterData letterData = new LetterData((LetterData)entity);
-                        result = "INSERT INTO [dbo].[LetterDataList]([ProjectName], [Builder], [AnswerDate], [QuestionDate], [CorrectionDate], [ConditionDate], [MaterialUrl], [ConditionUrl], [TimeSpan], [Password]) VALUES(" + letterData.ProjectName + ", " + letterData.Builder + ", '" + letterData.AnswerDate + "', '" + letterData.QuestionDate + "', '" + letterData.CorrectionDate + "', '" + letterData.ConditionDate + "', '" + letterData.MaterialUrl + "', '" + letterData.ConditionUrl + "', '" + "', '" + letterData.TimeSpan + letterData.PassWord + "')";
+                        result = "INSERT INTO [dbo].[LetterDataList]([ProjectName], [Builder], [AnswerDate], [QuestionDate], [CorrectionDate], [ConditionDate], [MaterialUrl], [ConditionUrl], [TimeSpan], [Password]) VALUES(" + letterData.ProjectName + ", " + letterData.Builder + ", '" + letterData.AnswerDate + "', '" + letterData.QuestionDate + "', '" + letterData.CorrectionDate + "', '" + letterData.ConditionDate + "', '" + letterData.MaterialUrl + "', '" + letterData.ConditionUrl + "', '" + letterData.TimeSpan + letterData.PassWord + "')";
                         break;
                     case "Offers":
                         Offer offer = new Offer((Offer)entity);
@@ -617,6 +630,151 @@ namespace JudBizz
 
             #region Read
             /// <summary>
+            /// Method, that converts an string array into an object of the correct type
+            /// </summary>
+            /// <param name="list"></param>
+            /// <param name="resultArray"></param>
+            /// <returns></returns>
+            private object ConvertObject(string list, string[] resultArray)
+            {
+                object result = new object();
+
+                switch (list)
+                {
+                    case "ActiveProjects":
+                        Project activeProjects = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        result = activeProjects;
+                        break;
+                    case "Addresses":
+                        Address address = new Address(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], GetZipTown(Convert.ToInt32(resultArray[3])));
+                        result = address;
+                        break;
+                    case "Authentications":
+                        Authentication authentication = new Authentication(Convert.ToInt32(resultArray[0]), GetUserLevel(Convert.ToInt32(resultArray[1])), resultArray[2]);
+                        result = authentication;
+                        break;
+                    case "Builders":
+                        Builder builder = new Builder(Convert.ToInt32(resultArray[0]), GetLegalEntity(Convert.ToInt32(resultArray[1])), Convert.ToBoolean(resultArray[2]));
+                        result = builder;
+                        break;
+                    case "Bullets":
+                        Bullet bullet = new Bullet(Convert.ToInt32(resultArray[0]), GetParagraph(Convert.ToInt32(resultArray[1])), resultArray[2]);
+                        result = bullet;
+                        break;
+                    case "Categories":
+                        Category cat = new Category(Convert.ToInt32(resultArray[0]), resultArray[1]);
+                        result = cat;
+                        break;
+                    case "ContactInfoList":
+                        ContactInfo contactInfo = new ContactInfo(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], resultArray[4]);
+                        result = contactInfo;
+                        break;
+                    case "Contacts":
+                        Contact contact = new Contact(Convert.ToInt32(resultArray[0]), GetPerson(Convert.ToInt32(resultArray[1])), GetEntrepeneur(Convert.ToInt32(resultArray[2])), resultArray[3]);
+                        result = contact;
+                        break;
+                    case "CraftGroups":
+                        CraftGroup craftGroup = new CraftGroup(Convert.ToInt32(resultArray[0]), GetCategory(Convert.ToInt32(resultArray[1])), resultArray[2], resultArray[3], Convert.ToBoolean(resultArray[4]));
+                        result = craftGroup;
+                        break;
+                    case "EnterpriseForms":
+                        EnterpriseForm enterpriseForm = new EnterpriseForm(Convert.ToInt32(resultArray[0]), resultArray[1]);
+                        result = enterpriseForm;
+                        break;
+                    case "Enterprises":
+                        Enterprise enterprise = new Enterprise(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), resultArray[2], resultArray[3], resultArray[4], GetCraftGroup(Convert.ToInt32(resultArray[5])), GetCraftGroup(Convert.ToInt32(resultArray[6])), GetCraftGroup(Convert.ToInt32(resultArray[7])), GetCraftGroup(Convert.ToInt32(resultArray[8])));
+                        result = enterprise;
+                        break;
+                    case "Entrepeneurs":
+                        Entrepeneur entrepeneur = new Entrepeneur(Convert.ToInt32(resultArray[0]), GetLegalEntity(Convert.ToInt32(resultArray[1])), GetCraftGroup(Convert.ToInt32(resultArray[2])), GetCraftGroup(Convert.ToInt32(resultArray[3])), GetCraftGroup(Convert.ToInt32(resultArray[4])), GetCraftGroup(Convert.ToInt32(resultArray[5])), GetRegion(Convert.ToInt32(resultArray[6])), Convert.ToBoolean(resultArray[7]), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        result = entrepeneur;
+                        break;
+                    case "InactiveProjects":
+                        Project inactiveproject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        result = inactiveproject;
+                        break;
+                    case "IttLetters":
+                        IttLetter ittLetter = new IttLetter(Convert.ToInt32(resultArray[0]), Convert.ToBoolean(resultArray[1]), Convert.ToDateTime(resultArray[2]));
+                        result = ittLetter;
+                        break;
+                    case "JobDescriptions":
+                        JobDescription jobDescription = new JobDescription(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], Convert.ToBoolean(resultArray[3]));
+                        result = jobDescription;
+                        break;
+                    case "LegalEntities":
+                        LegalEntity legalEntity = new LegalEntity(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], GetAddress(Convert.ToInt32(resultArray[4])), GetContactInfo(Convert.ToInt32(resultArray[5])), resultArray[6]);
+                        result = legalEntity;
+                        break;
+                    case "LetterDataList":
+                        LetterData letterData = new LetterData(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], resultArray[4], resultArray[5], resultArray[6], resultArray[7], resultArray[8], Convert.ToInt32(resultArray[9]), resultArray[10]);
+                        result = letterData;
+                        break;
+                    case "Offers":
+                        Offer offer = new Offer(Convert.ToInt32(resultArray[0]), Convert.ToBoolean(resultArray[1]), Convert.ToDateTime(resultArray[2]), Convert.ToDouble(resultArray[3]), Convert.ToBoolean(resultArray[4]));
+                        result = offer;
+                        break;
+                    case "Paragraphs":
+                        Paragraph paragraph = new Paragraph(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), resultArray[2]);
+                        result = paragraph;
+                        break;
+                    case "Persons":
+                        Person person = new Person(Convert.ToInt32(resultArray[0]), resultArray[1], GetContactInfo(Convert.ToInt32(resultArray[2])));
+                        result = person;
+                        break;
+                    case "Projects":
+                        Project project = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        result = project;
+                        break;
+                    case "ProjectStatuses":
+                        ProjectStatus projectStatus = new ProjectStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
+                        result = projectStatus;
+                        break;
+                    case "Receivers":
+                        Receiver receiver = new Receiver(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], resultArray[4], resultArray[5], resultArray[6], resultArray[7]);
+                        result = receiver;
+                        break;
+                    case "Regions":
+                        Region region = new Region(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2]);
+                        result = region;
+                        break;
+                    case "Requests":
+                        Request request = new Request(Convert.ToInt32(resultArray[0]), GetRequestStatus(Convert.ToInt32(resultArray[1])), Convert.ToDateTime(resultArray[2]), Convert.ToDateTime(resultArray[3]));
+                        result = request;
+                        break;
+                    case "RequestStatuses":
+                        RequestStatus requestStatus = new RequestStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
+                        result = requestStatus;
+                        break;
+                    case "Shippings":
+                        Shipping shipping = new Shipping(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), GetSubEntrepeneur(Convert.ToInt32(resultArray[3])), GetLetterData(Convert.ToInt32(resultArray[4])), resultArray[5], resultArray[6]);
+                        result = shipping;
+                        break;
+                    case "SubEntrepeneurs":
+                        SubEntrepeneur subEntrepeneur = new SubEntrepeneur(Convert.ToInt32(resultArray[0]), GetEntrepeneur(Convert.ToInt32(resultArray[2])), GetEnterprise(Convert.ToInt32(resultArray[1])), GetContact(Convert.ToInt32(resultArray[3])), GetRequest(Convert.ToInt32(resultArray[4])), GetIttLetter(Convert.ToInt32(resultArray[5])), GetOffer(Convert.ToInt32(resultArray[6])), Convert.ToBoolean(resultArray[7]), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]), Convert.ToBoolean(resultArray[10]));
+                        result = subEntrepeneur;
+                        break;
+                    case "TenderForms":
+                        TenderForm tenderForm = new TenderForm(Convert.ToInt32(resultArray[0]), resultArray[1]);
+                        result = tenderForm;
+                        break;
+                    case "UserLevels":
+                    UserLevel userLevel = new UserLevel(Convert.ToInt32(resultArray[0]), resultArray[1]);
+                        result = userLevel;
+                        break;
+                    case "Users":
+                        User user = new User(Convert.ToInt32(resultArray[0]), GetPerson(Convert.ToInt32(resultArray[1])), resultArray[2], GetJobDescription(Convert.ToInt32(resultArray[3])), GetAuthentication(Convert.ToInt32(resultArray[4])));
+                        result = user;
+                        break;
+                    case "ZipTowns":
+                        ZipTown zipTown = new ZipTown(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2]);
+                        result = zipTown;
+                        break;
+                }
+
+                return result;
+            }
+
+            /// <summary>
             /// Method, that return the amount of fields
             /// </summary>
             /// <param name="list"></param>
@@ -625,12 +783,12 @@ namespace JudBizz
             {
                 int result = 0;
 
-            switch (list)
+                switch (list)
                 {
                     case "ActiveProjects":
                         result = 10;
                         break;
-                    case "Adresses":
+                    case "Addresses":
                         result = 4;
                         break;
                     case "Authentications":
@@ -673,7 +831,7 @@ namespace JudBizz
                         result = 4;
                         break;
                     case "LegalEntities":
-                        result = 6;
+                        result = 7;
                         break;
                     case "LetterDataList":
                         result = 11;
@@ -729,153 +887,12 @@ namespace JudBizz
             }
 
             /// <summary>
-            /// Method, that converts an string array into an object of the correct type
-            /// </summary>
-            /// <param name="list"></param>
-            /// <param name="resultArray"></param>
-            /// <returns></returns>
-            private object ConvertObject(string list, string[] resultArray)
-            {
-                object result = new object();
-
-                switch (list)
-                {
-                    case "ActiveProjects":
-                        Project activeProjects = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], new Builder((Builder)GetObject("Builders", Convert.ToInt32(resultArray[3]))), new ProjectStatus((ProjectStatus)GetObject("ProjectStatuses", Convert.ToInt32(resultArray[4]))), new TenderForm((TenderForm)GetObject("TenderForms", Convert.ToInt32(resultArray[5]))), new EnterpriseForm((EnterpriseForm)GetObject("EnterpriseForms", Convert.ToInt32(resultArray[6]))), new User((User)GetObject("Users", Convert.ToInt32(resultArray[7]))), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
-                        result = activeProjects;
-                        break;
-                    case "Addresses":
-                        Address address = new Address(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], new ZipTown((ZipTown)GetObject("ZipTowns", Convert.ToInt32(resultArray[3]))));
-                        result = address;
-                        break;
-                    case "Authentications":
-                        Authentication authentication = new Authentication(Convert.ToInt32(resultArray[0]), new UserLevel((UserLevel)GetObject("UserLevels", Convert.ToInt32(resultArray[1]))), resultArray[2]);
-                        result = authentication;
-                        break;
-                    case "Builders":
-                        Builder builder = new Builder(Convert.ToInt32(resultArray[0]), new LegalEntity((LegalEntity)GetObject("LegalEntities", Convert.ToInt32(resultArray[1]))), Convert.ToBoolean(resultArray[2]));
-                        result = builder;
-                        break;
-                    case "Bullets":
-                        Bullet bullet = new Bullet(Convert.ToInt32(resultArray[0]), new Paragraph((Paragraph)GetObject("Paragraphs", Convert.ToInt32(resultArray[1]))), resultArray[2]);
-                        result = bullet;
-                        break;
-                    case "Categories":
-                        Category cat = new Category(Convert.ToInt32(resultArray[0]), resultArray[1]);
-                        result = cat;
-                        break;
-                    case "ContactInfoList":
-                        ContactInfo contactInfo = new ContactInfo(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], resultArray[4]);
-                        result = contactInfo;
-                        break;
-                    case "Contacts":
-                        Contact contact = new Contact(Convert.ToInt32(resultArray[0]), new Person((Person)GetObject("Persons", Convert.ToInt32(resultArray[1]))), new Entrepeneur((Entrepeneur)GetObject("Entrepeneurs", Convert.ToInt32(resultArray[2]))), resultArray[3]);
-                        result = contact;
-                        break;
-                    case "CraftGroups":
-                        CraftGroup craftGroup = new CraftGroup(Convert.ToInt32(resultArray[0]), new Category((Category)GetObject("Categories", Convert.ToInt32(resultArray[1]))), resultArray[2], resultArray[3], Convert.ToBoolean(resultArray[4]));
-                        result = craftGroup;
-                        break;
-                    case "EnterpriseForms":
-                        EnterpriseForm enterpriseForm = new EnterpriseForm(Convert.ToInt32(resultArray[0]), resultArray[1]);
-                        result = enterpriseForm;
-                        break;
-                    case "Enterprises":
-                        Enterprise enterprise = new Enterprise(Convert.ToInt32(resultArray[0]), new Project((Project)GetObject("Projects", Convert.ToInt32(resultArray[1]))), resultArray[2], resultArray[3], resultArray[4], new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[5]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[6]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[7]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[8]))));
-                        result = enterprise;
-                        break;
-                    case "Entrepeneurs":
-                        Entrepeneur entrepeneur = new Entrepeneur(Convert.ToInt32(resultArray[0]), new LegalEntity((LegalEntity)GetObject("LegalEntities", Convert.ToInt32(resultArray[1]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[2]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[3]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[4]))), new CraftGroup((CraftGroup)GetObject("CraftGroups", Convert.ToInt32(resultArray[5]))), new Region((Region)GetObject("Regions", Convert.ToInt32(resultArray[6]))), Convert.ToBoolean(resultArray[7]), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
-                        result = entrepeneur;
-                        break;
-                    case "InactiveProjects":
-                        Project inactiveproject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], new Builder((Builder)GetObject("Builders", Convert.ToInt32(resultArray[3]))), new ProjectStatus((ProjectStatus)GetObject("ProjectStatuses", Convert.ToInt32(resultArray[4]))), new TenderForm((TenderForm)GetObject("TenderForms", Convert.ToInt32(resultArray[5]))), new EnterpriseForm((EnterpriseForm)GetObject("EnterpriseForms", Convert.ToInt32(resultArray[6]))), new User((User)GetObject("Users", Convert.ToInt32(resultArray[7]))), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
-                        result = inactiveproject;
-                        break;
-                    case "IttLetters":
-                        IttLetter ittLetter = new IttLetter(Convert.ToInt32(resultArray[0]), Convert.ToBoolean(resultArray[1]), Convert.ToDateTime(resultArray[2]));
-                        result = ittLetter;
-                        break;
-                    case "JobDescriptions":
-                        JobDescription jobDescription = new JobDescription(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], Convert.ToBoolean(resultArray[3]));
-                        result = jobDescription;
-                        break;
-                    case "LegalEntities":
-                        LegalEntity legalEntity = new LegalEntity(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], new Address((Address)GetObject("Addresses", Convert.ToInt32(resultArray[3]))), new ContactInfo((ContactInfo)GetObject("ContactInfoList", Convert.ToInt32(resultArray[4]))), resultArray[5]);
-                        result = legalEntity;
-                        break;
-                    case "LetterDataList":
-                        LetterData pdfData = new LetterData(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], resultArray[4], resultArray[5], Convert.ToInt32(resultArray[6]), resultArray[7], resultArray[8], resultArray[9]);
-                        result = pdfData;
-                        break;
-                    case "Offers":
-                        Offer offer = new Offer(Convert.ToInt32(resultArray[0]), Convert.ToBoolean(resultArray[1]), Convert.ToDateTime(resultArray[2]), Convert.ToDouble(resultArray[3]), Convert.ToBoolean(resultArray[4]));
-                        result = offer;
-                        break;
-                    case "Paragraphs":
-                        Paragraph paragraph = new Paragraph(Convert.ToInt32(resultArray[0]), new Project((Project)GetObject("Projects", Convert.ToInt32(resultArray[1]))), resultArray[2]);
-                        result = paragraph;
-                        break;
-                    case "Projects":
-                        Project project = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], new Builder((Builder)GetObject("Builders", Convert.ToInt32(resultArray[3]))), new ProjectStatus((ProjectStatus)GetObject("ProjectStatuses", Convert.ToInt32(resultArray[4]))), new TenderForm((TenderForm)GetObject("TenderForms", Convert.ToInt32(resultArray[5]))), new EnterpriseForm((EnterpriseForm)GetObject("EnterpriseForms", Convert.ToInt32(resultArray[6]))), new User((User)GetObject("Users", Convert.ToInt32(resultArray[7]))), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
-                        result = project;
-                        break;
-                    case "ProjectStatuses":
-                        ProjectStatus projectStatus = new ProjectStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
-                        result = projectStatus;
-                        break;
-                    case "Receivers":
-                        Receiver receiver = new Receiver(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], resultArray[3], resultArray[4], resultArray[5], resultArray[6], resultArray[7]);
-                        result = receiver;
-                        break;
-                    case "Regions":
-                        Region region = new Region(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2]);
-                        result = region;
-                        break;
-                    case "Requests":
-                        Request request = new Request(Convert.ToInt32(resultArray[0]), new RequestStatus((RequestStatus)GetObject("RequestStatuses", Convert.ToInt32(resultArray[1]))), Convert.ToDateTime(resultArray[2]), Convert.ToDateTime(resultArray[3]));
-                        result = request;
-                        break;
-                    case "RequestStatuses":
-                        RequestStatus requestStatus = new RequestStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
-                        result = requestStatus;
-                        break;
-                    case "Shippings":
-                        Shipping shipping = new Shipping(Convert.ToInt32(resultArray[0]), new Project((Project)GetObject("Projects", Convert.ToInt32(resultArray[1]))), new Receiver((Receiver)GetObject("Receivers", Convert.ToInt32(resultArray[2]))), new SubEntrepeneur((SubEntrepeneur)GetObject("SubEntrepeneurs", Convert.ToInt32(resultArray[3]))), new LetterData((LetterData)GetObject("LetterDataList", Convert.ToInt32(resultArray[4]))), resultArray[5], resultArray[6]);
-                        result = shipping;
-                        break;
-                    case "SubEntrepeneurs":
-                        SubEntrepeneur subEntrepeneur = new SubEntrepeneur(Convert.ToInt32(resultArray[0]), new Entrepeneur((Entrepeneur)GetObject("Entrepeneurs", Convert.ToInt32(resultArray[2]))), new Enterprise((Enterprise)GetObject("Enterprises", Convert.ToInt32(resultArray[1]))), new Contact((Contact)GetObject("Contacts", Convert.ToInt32(resultArray[3]))), new Request((Request)GetObject("Requests", Convert.ToInt32(resultArray[4]))), new IttLetter((IttLetter)GetObject("IttLetters", Convert.ToInt32(resultArray[5]))), new Offer((Offer)GetObject("Offers", Convert.ToInt32(resultArray[6]))), Convert.ToBoolean(resultArray[7]), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]), Convert.ToBoolean(resultArray[10]));
-                        result = subEntrepeneur;
-                        break;
-                    case "TenderForms":
-                        TenderForm tenderForm = new TenderForm(Convert.ToInt32(resultArray[0]), resultArray[1]);
-                        result = tenderForm;
-                        break;
-                    case "UserLevels":
-                    UserLevel userLevel = new UserLevel(Convert.ToInt32(resultArray[0]), resultArray[1]);
-                        result = userLevel;
-                        break;
-                    case "Users":
-                        User user = new User(Convert.ToInt32(resultArray[0]), new Person((Person)GetObject("Persons", Convert.ToInt32(resultArray[1]))), resultArray[2], new JobDescription((JobDescription)GetObject("JobDescriptions", Convert.ToInt32(resultArray[3]))), new Authentication((Authentication)GetObject("Authentications", Convert.ToInt32(resultArray[4]))));
-                        result = user;
-                        break;
-                    case "ZipTowns":
-                        ZipTown zipTown = new ZipTown(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2]);
-                        result = zipTown;
-                        break;
-                }
-
-                return result;
-            }
-
-            /// <summary>
             /// Method, that reads a List from Db
             /// </summary>
             /// <param name="list">string</param>
             /// <returns>List<object></returns>
             public List<object> ReadListFromDb(string list)
-            {
+                {
                 List<object> result = new List<object>();
 
 
@@ -948,111 +965,7 @@ namespace JudBizz
 
             #region Update
             /// <summary>
-            /// Method, that updates an entity in Db
-            /// </summary>
-            /// <param name="_object">object</param>
-            /// <returns>bool</returns>
-            public bool UpdateInDb(object _object)
-                {
-                    bool result = false;
-                    string entityType = _object.GetType().ToString();
-
-                    switch (entityType)
-                    {
-                        case "Address":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new Address((Address)_object)));
-                            break;
-                        case "Authentication":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Authentications", new Authentication((Authentication)_object)));
-                            break;
-                        case "Builder":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", new Builder((Builder)_object)));
-                            break;
-                        case "Bullet":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", new Bullet((Bullet)_object)));
-                            break;
-                        case "Category":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Categories", new Category((Category)_object)));
-                            break;
-                        case "Contact":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", new Contact((Contact)_object)));
-                            break;
-                        case "ContactInfo":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("ContactInfoList", new ContactInfo((ContactInfo)_object)));
-                            break;
-                        case "CraftGroup":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", new CraftGroup((CraftGroup)_object)));
-                            break;
-                        case "Enterprise":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", new Enterprise((Enterprise)_object)));
-                            break;
-                        case "EnterpriseForm":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("EnterpriseForms", new EnterpriseForm((EnterpriseForm)_object)));
-                            break;
-                        case "IttLetter":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetters", new Enterprise((Enterprise)_object)));
-                            break;
-                        case "JobDescription":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("JobDescriptions", new JobDescription((JobDescription)_object)));
-                            break;
-                        case "LegalEntity":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("LegalEntities", new LegalEntity((LegalEntity)_object)));
-                            break;
-                        case "LetterData":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("LetterDataList", new LetterData((LetterData)_object)));
-                            break;
-                        case "Offer":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Offers", new Offer((Offer)_object)));
-                            break;
-                        case "Paragraph":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Paragraphs", new Paragraph((Paragraph)_object)));
-                            break;
-                        case "Person":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", new Person((Person)_object)));
-                            break;
-                        case "Shipping":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Shippings", new Shipping((Shipping)_object)));
-                            break;
-                        case "Project":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", new Project((Project)_object)));
-                            break;
-                        case "ProjectStatus":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatuses", new ProjectStatus((ProjectStatus)_object)));
-                            break;
-                        case "Region":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Regions", new Region((Region)_object)));
-                            break;
-                        case "Request":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
-                            break;
-                        case "RequestStatus":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
-                            break;
-                        case "SubEntrepeneur":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("SubEntrepeneurs", new SubEntrepeneur((SubEntrepeneur)_object)));
-                            break;
-                        case "TenderForm":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("TenderForms", new TenderForm((TenderForm)_object)));
-                            break;
-                        case "User":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("Users", new User((User)_object)));
-                            break;
-                        case "UserLevel":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("UserLevels", new UserLevel((UserLevel)_object)));
-                            break;
-                        case "ZipTown":
-                            result = ProcesSqlQuery(GetSQLQueryUpdate("ZipTowns", new ZipTown((ZipTown)_object)));
-                            break;
-                        default:
-                            break;
-                    }
-
-                    return result;
-                }
-
-            /// <summary>
             /// Method, that returns a SQL-query
-            /// Accepted lists:  Addresses, BluePrints, Contacts, ContactInfoList, CraftGroups, EnterpriseForms, EnterprisList, IttLetters, PdfDataList, Project, Ziptown
             /// </summary>
             /// <param name="list">string</param>
             /// <param name="Object">object</param>
@@ -1090,7 +1003,7 @@ namespace JudBizz
                         break;
                     case "Contacts":
                         Contact contact = new Contact((Contact)_object);
-                        result = @"UPDATE [dbo].[Contacts] SET [Person] = " + contact.Person.Id + ", [Entrepeneur] = " + contact.Entity.Id + ", [Area] = '" + contact.Area + "' WHERE [Id] = " + contact.Id;
+                        result = @"UPDATE [dbo].[Contacts] SET [Person] = " + contact.Person.Id + ", [Entrepeneur] = " + contact.Entrepeneur.Id + ", [Area] = '" + contact.Area + "' WHERE [Id] = " + contact.Id;
                         break;
                     case "CraftGroups":
                         CraftGroup craftGroup = new CraftGroup((CraftGroup)_object);
@@ -1118,7 +1031,7 @@ namespace JudBizz
                         break;
                     case "LegalEntities":
                         LegalEntity legalEntity = new LegalEntity((LegalEntity)_object);
-                        result = @"UPDATE [dbo].[LegalEntities] SET [Cvr] = '" + legalEntity.Cvr + @"', [Name] = '" + legalEntity.Name + @"', [Address] = " + legalEntity.Address.Id + @", [ContactInfo] = " + legalEntity.ContactInfo.Id + @", [Url] = '" + legalEntity.Url + @"' WHERE [Id] = " + legalEntity.Id;
+                        result = @"UPDATE [dbo].[LegalEntities] SET [Cvr] = '" + legalEntity.Cvr + @"', [Name] = '" + legalEntity.Name + @"', [CoName] = '" + legalEntity.CoName + @"', [Address] = " + legalEntity.Address.Id + @", [ContactInfo] = " + legalEntity.ContactInfo.Id + @", [Url] = '" + legalEntity.Url + @"' WHERE [Id] = " + legalEntity.Id;
                         break;
                     case "LetterDataList":
                         LetterData letterData = new LetterData((LetterData)_object);
@@ -1188,7 +1101,110 @@ namespace JudBizz
                 return result;
             }
 
-            #endregion
+            /// <summary>
+            /// Method, that updates an entity in Db
+            /// </summary>
+            /// <param name="_object">object</param>
+            /// <returns>bool</returns>
+            public bool UpdateInDb(object _object)
+            {
+            bool result = false;
+            string entityType = _object.GetType().ToString();
+
+            switch (entityType)
+            {
+                case "Address":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new Address((Address)_object)));
+                    break;
+                case "Authentication":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Authentications", new Authentication((Authentication)_object)));
+                    break;
+                case "Builder":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", new Builder((Builder)_object)));
+                    break;
+                case "Bullet":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", new Bullet((Bullet)_object)));
+                    break;
+                case "Category":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Categories", new Category((Category)_object)));
+                    break;
+                case "Contact":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", new Contact((Contact)_object)));
+                    break;
+                case "ContactInfo":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("ContactInfoList", new ContactInfo((ContactInfo)_object)));
+                    break;
+                case "CraftGroup":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", new CraftGroup((CraftGroup)_object)));
+                    break;
+                case "Enterprise":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", new Enterprise((Enterprise)_object)));
+                    break;
+                case "EnterpriseForm":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("EnterpriseForms", new EnterpriseForm((EnterpriseForm)_object)));
+                    break;
+                case "IttLetter":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetters", new Enterprise((Enterprise)_object)));
+                    break;
+                case "JobDescription":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("JobDescriptions", new JobDescription((JobDescription)_object)));
+                    break;
+                case "LegalEntity":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("LegalEntities", new LegalEntity((LegalEntity)_object)));
+                    break;
+                case "LetterData":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("LetterDataList", new LetterData((LetterData)_object)));
+                    break;
+                case "Offer":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Offers", new Offer((Offer)_object)));
+                    break;
+                case "Paragraph":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Paragraphs", new Paragraph((Paragraph)_object)));
+                    break;
+                case "Person":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", new Person((Person)_object)));
+                    break;
+                case "Shipping":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Shippings", new Shipping((Shipping)_object)));
+                    break;
+                case "Project":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", new Project((Project)_object)));
+                    break;
+                case "ProjectStatus":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatuses", new ProjectStatus((ProjectStatus)_object)));
+                    break;
+                case "Region":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Regions", new Region((Region)_object)));
+                    break;
+                case "Request":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
+                    break;
+                case "RequestStatus":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
+                    break;
+                case "SubEntrepeneur":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("SubEntrepeneurs", new SubEntrepeneur((SubEntrepeneur)_object)));
+                    break;
+                case "TenderForm":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("TenderForms", new TenderForm((TenderForm)_object)));
+                    break;
+                case "User":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("Users", new User((User)_object)));
+                    break;
+                case "UserLevel":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("UserLevels", new UserLevel((UserLevel)_object)));
+                    break;
+                case "ZipTown":
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("ZipTowns", new ZipTown((ZipTown)_object)));
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        #endregion
 
             #region Delete
             /// <summary>
@@ -1219,16 +1235,6 @@ namespace JudBizz
         #endregion
 
         #region Get Lists for a project
-        /// <summary>
-        /// Method, that refreshes Lists for Itt Letter
-        /// </summary>
-        /// <param name="projectId">int</param>
-        /// <returns>List<object></returns>
-        public void RefreshIttLetterLists(int projectId)
-        {
-            PdfLists = new PdfLists(GetEnterprises(projectId), GetSubEntrepeneurs(projectId), GetShippings(projectId));
-        }
-
         /// <summary>
         /// Method, that retrieves an Enterprise List for a Project
         /// </summary>
@@ -1291,6 +1297,7 @@ namespace JudBizz
 
         #endregion
 
+        #region Get Object
         /// <summary>
         /// Method, that fetches an entity from Id
         /// </summary>
@@ -1298,9 +1305,626 @@ namespace JudBizz
         /// <returns>object</returns>
         public object GetObject(string list, int id)
         {
-            return ReadPostFromDb(list, id);
+            object obj = new object();
+            switch (list)
+            {
+                case "ActiveProjects":
+                    obj = GetActiveProject(id);
+                    break;
+                case "Addresses":
+                    obj = GetAddress(id);
+                    break;
+                case "Authentications":
+                    obj = GetAuthentication(id);
+                    break;
+                case "Builders":
+                    obj = GetBuilder(id);
+                    break;
+                case "Bullets":
+                    obj = GetBullet(id);
+                    break;
+                case "Categories":
+                    obj = GetCategory(id);
+                    break;
+                case "ContactInfoList":
+                    obj = GetContactInfo(id);
+                    break;
+                case "Contacts":
+                    obj = GetContact(id);
+                    break;
+                case "CraftGroups":
+                    obj = GetCraftGroup(id);
+                    break;
+                case "EnterpriseForms":
+                    obj = GetEnterpriseForm(id);
+                    break;
+                case "Enterprises":
+                    GetEnterprise(id);
+                    break;
+                case "Entrepeneurs":
+                    obj = GetEntrepeneur(id);
+                    break;
+                case "InactiveProjects":
+                    obj = GetInactiveProject(id);
+                    break;
+                case "IttLetters":
+                    obj = GetIttLetter(id);
+                    break;
+                case "JobDescriptions":
+                    obj = GetJobDescription(id);
+                    break;
+                case "LegalEntities":
+                    obj = GetLegalEntity(id);
+                    break;
+                case "LetterDataList":
+                    obj = GetLetterData(id);
+                    break;
+                case "Offers":
+                    obj = GetOffer(id);
+                    break;
+                case "Paragraphs":
+                    obj = GetParagraph(id);
+                    break;
+                case "Persons":
+                    obj = GetPerson(id);
+                    break;
+                case "Projects":
+                    obj = GetProject(id);
+                    break;
+                case "ProjectStatuses":
+                    obj = GetProjectStatus(id);
+                    break;
+                case "Receivers":
+                    obj = GetReceiver(id);
+                    break;
+                case "Regions":
+                    obj = GetRegion(id);
+                    break;
+                case "Requests":
+                    obj = GetRequest(id);
+                    break;
+                case "RequestStatuses":
+                    obj = GetRequestStatus(id);
+                    break;
+                case "RefreshTenderForms":
+                    obj = GetRegion(id);
+                    break;
+                case "SubEntrepeneurs":
+                    obj = GetSubEntrepeneur(id);
+                    break;
+                case "Shippings":
+                    obj = GetShipping(id);
+                    break;
+                case "TenderForms":
+                    obj = GetTenderForm(id);
+                    break;
+                case "UserLevels":
+                    obj = GetUserLevel(id);
+                    break;
+                case "Users":
+                    obj = GetUser(id);
+                    break;
+                case "ZipTowns":
+                    obj = GetZipTown(id);
+                    break;
+            }
+
+            return obj;
         }
 
+        private Project GetActiveProject(int id)
+        {
+            Project result = new Project();
+
+            foreach (Project project in ActiveProjects)
+            {
+                if (project.Id == id)
+                {
+                    result = project;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Address GetAddress(int id)
+        {
+            Address result = new Address();
+
+            foreach (Address address in Addresses)
+            {
+                if (address.Id == id)
+                {
+                    result = address;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Authentication GetAuthentication(int id)
+        {
+            Authentication result = new Authentication();
+
+            foreach (Authentication authentication in Authentications)
+            {
+                if (authentication.Id == id)
+                {
+                    result = authentication;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Builder GetBuilder(int id)
+        {
+            Builder result = new Builder();
+
+            foreach (Builder builder in Builders)
+            {
+                if (builder.Id == id)
+                {
+                    result = builder;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Bullet GetBullet(int id)
+        {
+            Bullet result = new Bullet();
+
+            foreach (Bullet bullet in Bullets)
+            {
+                if (bullet.Id == id)
+                {
+                    result = bullet;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Category GetCategory(int id)
+        {
+            Category result = new Category();
+
+            foreach (Category category in Categories)
+            {
+                if (category.Id == id)
+                {
+                    result = category;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Contact GetContact(int id)
+        {
+            Contact result = new Contact();
+
+            foreach (Contact contact in Contacts)
+            {
+                if (contact.Id == id)
+                {
+                    result = contact;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private ContactInfo GetContactInfo(int id)
+        {
+            ContactInfo result = new ContactInfo();
+
+            foreach (ContactInfo info in ContactInfoList)
+            {
+                if (info.Id == id)
+                {
+                    result = info;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private CraftGroup GetCraftGroup(int id)
+        {
+            CraftGroup result = new CraftGroup();
+
+            foreach (CraftGroup craftGroup in CraftGroups)
+            {
+                if (craftGroup.Id == id)
+                {
+                    result = craftGroup;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Enterprise GetEnterprise(int id)
+        {
+            Enterprise result = new Enterprise();
+
+            foreach (Enterprise enterprise in Enterprises)
+            {
+                if (enterprise.Id == id)
+                {
+                    result = enterprise;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private EnterpriseForm GetEnterpriseForm(int id)
+        {
+            EnterpriseForm result = new EnterpriseForm();
+
+            foreach (EnterpriseForm form in EnterpriseForms)
+            {
+                if (form.Id == id)
+                {
+                    result = form;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Entrepeneur GetEntrepeneur(int id)
+        {
+            Entrepeneur result = new Entrepeneur();
+
+            foreach (Entrepeneur entrepeneur in Entrepeneurs)
+            {
+                if (entrepeneur.Id == id)
+                {
+                    result = entrepeneur;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Project GetInactiveProject(int id)
+        {
+            Project result = new Project();
+
+            foreach (Project project in InactiveProjects)
+            {
+                if (project.Id == id)
+                {
+                    result = project;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private IttLetter GetIttLetter(int id)
+        {
+            IttLetter result = new IttLetter();
+
+            foreach (IttLetter letter in IttLetters)
+            {
+                if (letter.Id == id)
+                {
+                    result = letter;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private JobDescription GetJobDescription(int id)
+        {
+            JobDescription result = new JobDescription();
+
+            foreach (JobDescription description in JobDescriptions)
+            {
+                if (description.Id == id)
+                {
+                    result = description;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private LegalEntity GetLegalEntity(int id)
+        {
+            LegalEntity result = new LegalEntity();
+
+            foreach (LegalEntity entity in LegalEntities)
+            {
+                if (entity.Id == id)
+                {
+                    result = entity;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private LetterData GetLetterData(int id)
+        {
+            LetterData result = new LetterData();
+
+            foreach (LetterData letterData in LetterDataList)
+            {
+                if (letterData.Id == id)
+                {
+                    result = letterData;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Offer GetOffer(int id)
+        {
+            Offer result = new Offer();
+
+            foreach (Offer offer in Offers)
+            {
+                if (offer.Id == id)
+                {
+                    result = offer;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Paragraph GetParagraph(int id)
+        {
+            Paragraph result = new Paragraph();
+
+            foreach (Paragraph paragraph in Paragraphs)
+            {
+                if (paragraph.Id == id)
+                {
+                    result = paragraph;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Person GetPerson(int id)
+        {
+            Person result = new Person();
+
+            foreach (Person person in Persons)
+            {
+                if (person.Id == id)
+                {
+                    result = person;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Project GetProject(int id)
+        {
+            Project result = new Project();
+
+            foreach (Project project in Projects)
+            {
+                if (project.Id == id)
+                {
+                    result = project;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private ProjectStatus GetProjectStatus(int id)
+        {
+            ProjectStatus result = new ProjectStatus();
+
+            foreach (ProjectStatus status in ProjectStatuses)
+            {
+                if (status.Id == id)
+                {
+                    result = status;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Receiver GetReceiver(int id)
+        {
+            Receiver result = new Receiver();
+
+            foreach (Receiver receiver in Receivers)
+            {
+                if (receiver.Id == id)
+                {
+                    result = receiver;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Request GetRequest(int id)
+        {
+            Request result = new Request();
+
+            foreach (Request request in Requests)
+            {
+                if (request.Id == id)
+                {
+                    result = request;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private RequestStatus GetRequestStatus(int id)
+        {
+            RequestStatus result = new RequestStatus();
+
+            foreach (RequestStatus status in RequestStatuses)
+            {
+                if (status.Id == id)
+                {
+                    result = status;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Region GetRegion(int id)
+        {
+            Region result = new Region();
+
+            foreach (Region region in Regions)
+            {
+                if (region.Id == id)
+                {
+                    result = region;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private SubEntrepeneur GetSubEntrepeneur(int id)
+        {
+            SubEntrepeneur result = new SubEntrepeneur();
+
+            foreach (SubEntrepeneur subEntrepeneur in SubEntrepeneurs)
+            {
+                if (subEntrepeneur.Id == id)
+                {
+                    result = subEntrepeneur;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private Shipping GetShipping(int id)
+        {
+            Shipping result = new Shipping();
+
+            foreach (Shipping shipping in Shippings)
+            {
+                if (shipping.Id == id)
+                {
+                    result = shipping;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private TenderForm GetTenderForm(int id)
+        {
+            TenderForm result = new TenderForm();
+
+            foreach (TenderForm form in TenderForms)
+            {
+                if (form.Id == id)
+                {
+                    result = form;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private User GetUser(int id)
+        {
+            User result = new User();
+
+            foreach (User user in Users)
+            {
+                if (user.Id == id)
+                {
+                    result = user;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private UserLevel GetUserLevel(int id)
+        {
+            UserLevel result = new UserLevel();
+
+            foreach (UserLevel userLevel in UserLevels)
+            {
+                if (userLevel.Id == id)
+                {
+                    result = userLevel;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private ZipTown GetZipTown(int id)
+        {
+            ZipTown result = new ZipTown();
+
+            foreach (ZipTown zipTown in ZipTowns)
+            {
+                if (zipTown.Id == id)
+                {
+                    result = zipTown;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
 
         #region Refresh Lists
         /// <summary>
@@ -1342,8 +1966,6 @@ namespace JudBizz
             //Fifth level Lists
             RefreshContacts(); //
             RefreshProjects(); //
-            RefreshActiveProjects(); //
-            RefreshInactiveProjects(); //
 
             //Sixth level Lists
             RefreshEnterprises();
@@ -1357,130 +1979,6 @@ namespace JudBizz
             RefreshShippings();
 
 
-        }
-
-        /// <summary>
-        /// Method, that refreshes a list
-        /// </summary>
-        /// <param name="list">string</param>
-        public void RefreshList(string list)
-        {
-            switch (list)
-            {
-                case "ActiveProjects":
-                    RefreshActiveProjects();
-                    break;
-                case "Addresses":
-                    RefreshAddresses();
-                    break;
-                case "Authentications":
-                    RefreshAuthentications();
-                    break;
-                case "Builders":
-                    RefreshBuilders();
-                    break;
-                case "Bullets":
-                    RefreshBullets();
-                    break;
-                case "Categories":
-                    RefreshCategories();
-                    break;
-                case "ContactInfoList":
-                    RefreshContactInfoList();
-                    break;
-                case "Contacts":
-                    RefreshContacts();
-                    break;
-                case "CraftGroups":
-                    RefreshCraftGroups();
-                    break;
-                case "EnterpriseForms":
-                    RefreshEnterpriseForms();
-                    break;
-                case "Enterprises":
-                    RefreshEnterprises();
-                    break;
-                case "Entrepeneurs":
-                    RefreshEntrepeneurs();
-                    break;
-                case "InactiveProjects":
-                    RefreshInactiveProjects();
-                    break;
-                case "IttLetters":
-                    RefreshIttLetters();
-                    break;
-                case "JobDescriptions":
-                    RefreshJobDescriptions();
-                    break;
-                case "LegalEntities":
-                    RefreshLegalEntities();
-                    break;
-                case "LetterDataList":
-                    RefreshLetterDataList();
-                    break;
-                case "Offers":
-                    RefreshOffers();
-                    break;
-                case "Paragraphs":
-                    RefreshParagraphs();
-                    break;
-                case "Persons":
-                    RefreshPersons();
-                    break;
-                case "Projects":
-                    RefreshProjects();
-                    break;
-                case "ProjectStatuses":
-                    RefreshProjectStatuses();
-                    break;
-                case "Receivers":
-                    RefreshReceivers();
-                    break;
-                case "Regions":
-                    RefreshRegions();
-                    break;
-                case "Requests":
-                    RefreshRequests();
-                    break;
-                case "RequestStatuses":
-                    RefreshRequestStatuses();
-                    break;
-                case "Shippings":
-                    RefreshShippings();
-                    break;
-                case "SubEntrepeneurs":
-                    RefreshSubEntrepeneurs();
-                    break;
-                case "TenderForms":
-                    RefreshTenderforms();
-                    break;
-                case "Users":
-                    RefreshUsers();
-                    break;
-                case "UserLevels":
-                    RefreshUserLevels();
-                    break;
-                case "ZipTowns":
-                    RefreshZipTowns();
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Method, that refreshes the Projects list
-        /// </summary>
-        private void RefreshActiveProjects()
-        {
-            if (Projects != null)
-            {
-                ActiveProjects.Clear();
-            }
-            List<object> tempList = ReadListFromDb("ActiveProjects");
-
-            foreach (object _object in tempList)
-            {
-                ActiveProjects.Add((Project)_object);
-            }
         }
 
         /// <summary>
@@ -1518,7 +2016,7 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the Builders list
+        /// Method, that refreshes the Builders lists
         /// </summary>
         private void RefreshBuilders()
         {
@@ -1526,11 +2024,32 @@ namespace JudBizz
             {
                 Builders.Clear();
             }
+            if (ActiveBuilders != null)
+            {
+                ActiveBuilders.Clear();
+            }
+            if (InactiveBuilders != null)
+            {
+                InactiveBuilders.Clear();
+            }
             List<object> tempList = ReadListFromDb("Builders");
 
             foreach (object obj in tempList)
             {
                 Builders.Add((Builder)obj);
+            }
+
+            foreach (Builder builder in Builders)
+            {
+                switch (builder.Active.ToString())
+                {
+                    case "true":
+                        ActiveBuilders.Add(builder);
+                        break;
+                    default:
+                        InactiveBuilders.Add(builder);
+                        break;
+                }
             }
         }
 
@@ -1543,7 +2062,7 @@ namespace JudBizz
             {
                 Bullets.Clear();
             }
-            List<object> tempList = ReadListFromDb("BluePrints");
+            List<object> tempList = ReadListFromDb("Bullets");
 
             foreach (object obj in tempList)
             {
@@ -1598,9 +2117,9 @@ namespace JudBizz
             {
                 Contacts.Clear();
             }
-            List<object> tempBluePrints = ReadListFromDb("Contacts");
+            List<object> tempContacts = ReadListFromDb("Contacts");
 
-            foreach (object obj in tempBluePrints)
+            foreach (object obj in tempContacts)
             {
                 Contacts.Add((Contact)obj);
             }
@@ -1658,7 +2177,7 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the Entrepeneurs List
+        /// Method, that refreshes the Entrepeneurs lists
         /// </summary>
         private void RefreshEntrepeneurs()
         {
@@ -1666,29 +2185,44 @@ namespace JudBizz
             {
                 Entrepeneurs.Clear();
             }
+            if (ActiveEntrepeneurs != null)
+            {
+                ActiveEntrepeneurs.Clear();
+            }
+            if (InactiveEntrepeneurs != null)
+            {
+                InactiveEntrepeneurs.Clear();
+            }
+
             List<object> tempList = ReadListFromDb("Entrepeneurs");
 
             foreach (object obj in tempList)
             {
                 Entrepeneurs.Add((Entrepeneur)obj);
             }
+
+            foreach (Entrepeneur entrepeneur in Entrepeneurs)
+            {
+                switch (entrepeneur.Active.ToString())
+                {
+                    case "true":
+                        ActiveEntrepeneurs.Add(entrepeneur);
+                        break;
+                    default:
+                        InactiveEntrepeneurs.Add(entrepeneur);
+                        break;
+                }
+            }
         }
 
         /// <summary>
-        /// Method, that refreshes the Projects list
+        /// Method, that refreshes Lists for Itt Letter
         /// </summary>
-        private void RefreshInactiveProjects()
+        /// <param name="projectId">int</param>
+        /// <returns>List<object></returns>
+        public void RefreshIttLetterLists(int projectId)
         {
-            if (Projects != null)
-            {
-                InactiveProjects.Clear();
-            }
-            List<object> tempList = ReadListFromDb("InactiveProjects");
-
-            foreach (object _object in tempList)
-            {
-                InactiveProjects.Add((Project)_object);
-            }
+            PdfLists = new PdfLists(GetEnterprises(projectId), GetSubEntrepeneurs(projectId), GetShippings(projectId));
         }
 
         /// <summary>
@@ -1760,6 +2294,107 @@ namespace JudBizz
         }
 
         /// <summary>
+        /// Method, that refreshes a list
+        /// </summary>
+        /// <param name="list">string</param>
+        public void RefreshList(string list)
+        {
+            switch (list)
+            {
+                case "Addresses":
+                    RefreshAddresses();
+                    break;
+                case "Authentications":
+                    RefreshAuthentications();
+                    break;
+                case "Builders":
+                    RefreshBuilders();
+                    break;
+                case "Bullets":
+                    RefreshBullets();
+                    break;
+                case "Categories":
+                    RefreshCategories();
+                    break;
+                case "ContactInfoList":
+                    RefreshContactInfoList();
+                    break;
+                case "Contacts":
+                    RefreshContacts();
+                    break;
+                case "CraftGroups":
+                    RefreshCraftGroups();
+                    break;
+                case "EnterpriseForms":
+                    RefreshEnterpriseForms();
+                    break;
+                case "Enterprises":
+                    RefreshEnterprises();
+                    break;
+                case "Entrepeneurs":
+                    RefreshEntrepeneurs();
+                    break;
+                case "IttLetters":
+                    RefreshIttLetters();
+                    break;
+                case "JobDescriptions":
+                    RefreshJobDescriptions();
+                    break;
+                case "LegalEntities":
+                    RefreshLegalEntities();
+                    break;
+                case "LetterDataList":
+                    RefreshLetterDataList();
+                    break;
+                case "Offers":
+                    RefreshOffers();
+                    break;
+                case "Paragraphs":
+                    RefreshParagraphs();
+                    break;
+                case "Persons":
+                    RefreshPersons();
+                    break;
+                case "Projects":
+                    RefreshProjects();
+                    break;
+                case "ProjectStatuses":
+                    RefreshProjectStatuses();
+                    break;
+                case "Receivers":
+                    RefreshReceivers();
+                    break;
+                case "Regions":
+                    RefreshRegions();
+                    break;
+                case "Requests":
+                    RefreshRequests();
+                    break;
+                case "RequestStatuses":
+                    RefreshRequestStatuses();
+                    break;
+                case "Shippings":
+                    RefreshShippings();
+                    break;
+                case "SubEntrepeneurs":
+                    RefreshSubEntrepeneurs();
+                    break;
+                case "TenderForms":
+                    RefreshTenderforms();
+                    break;
+                case "Users":
+                    RefreshUsers();
+                    break;
+                case "UserLevels":
+                    RefreshUserLevels();
+                    break;
+                case "ZipTowns":
+                    RefreshZipTowns();
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Method, that refreshes the Offers list
         /// </summary>
         private void RefreshOffers()
@@ -1806,12 +2441,13 @@ namespace JudBizz
 
             foreach (object obj in tempList)
             {
-                Persons.Add((Person)obj);
+                Person person = new Person((Person)obj);
+                Persons.Add(person);
             }
         }
 
         /// <summary>
-        /// Method, that refreshes the Projects list
+        /// Method, that refreshes the Projects lists
         /// </summary>
         private void RefreshProjects()
         {
@@ -1819,11 +2455,33 @@ namespace JudBizz
             {
                 Projects.Clear();
             }
+            if (ActiveProjects != null)
+            {
+                ActiveProjects.Clear();
+            }
+            if (InactiveProjects != null)
+            {
+                InactiveProjects.Clear();
+            }
+
             List<object> tempList = ReadListFromDb("Projects");
 
             foreach (object obj in tempList)
             {
                 Projects.Add((Project)obj);
+            }
+
+            foreach (Project project in Projects)
+            {
+                switch (project.Status.Id)
+                {
+                    case 1:
+                        ActiveProjects.Add(project);
+                        break;
+                    default:
+                        InactiveProjects.Add(project);
+                        break;
+                }
             }
         }
 
@@ -1972,16 +2630,39 @@ namespace JudBizz
             {
                 Users.Clear();
             }
+            if (ActiveUsers != null)
+            {
+                ActiveUsers.Clear();
+            }
+            if (InactiveUsers != null)
+            {
+                InactiveUsers.Clear();
+            }
+
             List<object> tempList = ReadListFromDb("Users");
 
             foreach (object obj in tempList)
             {
                 Users.Add((User)obj);
             }
+
+            foreach (User user in Users)
+            {
+                switch (user.Authentication.UserLevel.Id)
+                {
+                    case 0:
+                        InactiveUsers.Add(user);
+                        break;
+                    default:
+                        ActiveUsers.Add(user);
+                        break;
+                }
+            }
+
         }
 
         /// <summary>
-        /// Method, that refreshes the Users lists
+        /// Method, that refreshes the User Level list
         /// </summary>
         private void RefreshUserLevels()
         {

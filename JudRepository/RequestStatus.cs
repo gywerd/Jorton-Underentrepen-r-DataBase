@@ -10,8 +10,8 @@ namespace JudRepository
     public class RequestStatus
     {
         #region Fields
-        private int id;
-        private string text;
+        private int id = 0;
+        private string text = "";
 
         #endregion
 
@@ -21,8 +21,6 @@ namespace JudRepository
         /// </summary>
         public RequestStatus()
         {
-            this.id = 0;
-            this.text = "";
         }
 
         /// <summary>
@@ -31,7 +29,6 @@ namespace JudRepository
         /// <param name="text">string</param>
         public RequestStatus(string text)
         {
-            this.id = 0;
             this.text = text;
         }
 
@@ -73,7 +70,7 @@ namespace JudRepository
 
         public string Text
         {
-            get => Text;
+            get => text;
             set
             {
                 try

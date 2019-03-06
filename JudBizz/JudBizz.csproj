@@ -103,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CvrApi\CvrApiServices\CvrApiServices.csproj">
+      <Project>{a590f0e4-8598-4f55-926d-0e545be2738e}</Project>
+      <Name>CvrApiServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JudDataAccess\JudDataAccess.csproj">
       <Project>{aa780e01-092b-442c-a9b7-82a3593bbf76}</Project>
       <Name>JudDataAccess</Name>

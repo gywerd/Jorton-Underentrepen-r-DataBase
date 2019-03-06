@@ -69,7 +69,7 @@ namespace JudRepository
         {
                 this.id = contact.Id;
                 this.person = contact.Person;
-                this.entrepeneur = contact.Entity;
+                this.entrepeneur = contact.Entrepeneur;
                 this.area = contact.Area;
         }
 
@@ -81,7 +81,7 @@ namespace JudRepository
         {
             this.id = contact.Id;
             this.person = contact.Person;
-            this.entrepeneur = contact.Entity;
+            this.entrepeneur = contact.Entrepeneur;
             this.area = contact.Area;
         }
 
@@ -122,7 +122,7 @@ namespace JudRepository
 
         public Person Person { get => person; set => person = value; }
 
-        public Entrepeneur Entity { get => entrepeneur; set => entrepeneur = value; }
+        public Entrepeneur Entrepeneur { get => entrepeneur; set => entrepeneur = value; }
 
         public string Area
         {

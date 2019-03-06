@@ -26,7 +26,7 @@ namespace JudRepository
         /// Constructor to add a new Indexed Legal Entity
         /// </summary>
         /// <param name="index">int</param>
-        /// <param name="entrepeneur">LegalEntity</param>
+        /// <param name="entrepeneur">Entrepeneur</param>
         public IndexedEntrepeneur(int index, Entrepeneur entrepeneur) : base(entrepeneur)
         {
             this.index = index;

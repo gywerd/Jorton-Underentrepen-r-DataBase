@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JudBizz;
+using JudRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,12 +23,16 @@ namespace JudGui
     public partial class UcIttLettersSendLetters : UserControl
     {
         #region Fields
+        public Bizz CBZ;
+        public UserControl UcMain;
 
         #endregion
 
-        public UcIttLettersSendLetters()
+        public UcIttLettersSendLetters(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
+            this.CBZ = cbz;
+            this.UcMain = ucMain;
         }
 
         #region Buttons

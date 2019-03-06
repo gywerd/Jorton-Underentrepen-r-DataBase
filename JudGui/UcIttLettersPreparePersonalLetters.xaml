@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d"
-             Background="Light"
+             Background="Transparent"
              d:DesignHeight="840"
              d:DesignWidth="1560">
     <Grid>
@@ -142,13 +142,13 @@
                  IsEnabled="False"
                  Text="" TextWrapping="Wrap"
                  VerticalAlignment="Top" />
-        <Label x:Name="LabelExecutionPeriod"
-               Content="Udførelsesperiode:"
+        <Label x:Name="LabelConditionDate"
+               Content="Betingelsesdato:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="8"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxExecutionPeriod"
+        <TextBox x:Name="TextBoxConditionDate"
                  FontSize="30"
                  Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="8"
                  Height="50" Width="795"

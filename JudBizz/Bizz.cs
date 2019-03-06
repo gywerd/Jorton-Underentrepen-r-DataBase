@@ -1,4 +1,5 @@
-﻿using JudRepository;
+﻿using CvrApiServices;
+using JudRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,53 +13,29 @@ using System.Windows.Controls.Ribbon;
 
 namespace JudBizz
 {
-    public class Bizz
+    public class Bizz : MyEntityFrameWork
     {
         #region Fields
 
-            #region Ordinary Fields
-            public MyEntityFrameWork MEFW = new MyEntityFrameWork();
-            public MacAddress macAddress = new MacAddress();
-            public bool UcRightActive = false;
+        public CvrAPI CvrApi;
+        public bool UcMainActive = false;
 
-
-            public User CurrentUser = new User();
-            public Address TempAddress => new Address();
-            public Builder TempBuilder = new Builder();
-            public Bullet TempBullet = new Bullet();
-            public Contact TempContact = new Contact();
-            public ContactInfo TempContactInfo = new ContactInfo();
-            public Enterprise TempEnterprise = new Enterprise();
-            public Entrepeneur TempEntrepeneur = new Entrepeneur();
-            public IttLetter TempIttLetter = new IttLetter();
-            public LegalEntity TempLegalEntity = new LegalEntity();
-            public LetterData TempLetterData = new LetterData();
-            public Offer TempOffer = new Offer();
-            public Paragraph TempParagraph = new Paragraph();
-            public Project TempProject = new Project();
-            public Receiver TempReceiver = new Receiver();
-            public Request TempRequest = new Request();
-            public Shipping TempShipping = new Shipping();
-            public SubEntrepeneur TempSubEntrepeneur;
-            public User TempUser = new User();
-            public ZipTown TempZipTown = new ZipTown();
-
-        #endregion
-
-            #region Indexed Lists
-            public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
-            public List<IndexedEnterpriseForm> IndexedEnterpriseForms = new List<IndexedEnterpriseForm>();
-            public List<IndexedEnterprise> IndexedEnterprises = new List<IndexedEnterprise>();
-            public List<IndexedEntrepeneur> IndexedEntrepeneurs = new List<IndexedEntrepeneur>();
-            public List<IndexedParagraph> IndexedParagraphs = new List<IndexedParagraph>();
-            public List<IndexedProject> IndexedProjects = new List<IndexedProject>();
-            public List<IndexedProjectStatus> IndexedProjectStatuses = new List<IndexedProjectStatus>();
-            public List<IndexedRequest> IndexedRequests = new List<IndexedRequest>();
-            public List<IndexedRequestStatus> IndexedRequestStatuses = new List<IndexedRequestStatus>();
-            public List<SubEntrepeneur> IndexedSubEntrepeneurs = new List<SubEntrepeneur>();
-            public List<IndexedTenderForm> IndexedTenderForms = new List<IndexedTenderForm>();
-            public List<IndexedUser> IndexedUsers = new List<IndexedUser>();
-            #endregion
+        public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
+        public List<IndexedBuilder> IndexedBuilders = new List<IndexedBuilder>();
+        public List<IndexedCraftGroup> IndexedCraftGroups = new List<IndexedCraftGroup>();
+        public List<IndexedContact> IndexedContacts = new List<IndexedContact>();
+        public List<IndexedEnterpriseForm> IndexedEnterpriseForms = new List<IndexedEnterpriseForm>();
+        public List<IndexedEnterprise> IndexedEnterprises = new List<IndexedEnterprise>();
+        public List<IndexedEntrepeneur> IndexedEntrepeneurs = new List<IndexedEntrepeneur>();
+        public List<IndexedParagraph> IndexedParagraphs = new List<IndexedParagraph>();
+        public List<IndexedProject> IndexedProjects = new List<IndexedProject>();
+        public List<IndexedProjectStatus> IndexedProjectStatuses = new List<IndexedProjectStatus>();
+        public List<IndexedRegion> IndexedRegions = new List<IndexedRegion>();
+        public List<IndexedRequest> IndexedRequests = new List<IndexedRequest>();
+        public List<IndexedRequestStatus> IndexedRequestStatuses = new List<IndexedRequestStatus>();
+        public List<SubEntrepeneur> IndexedSubEntrepeneurs = new List<SubEntrepeneur>();
+        public List<IndexedTenderForm> IndexedTenderForms = new List<IndexedTenderForm>();
+        public List<IndexedUser> IndexedUsers = new List<IndexedUser>();
 
         #endregion
 
@@ -69,13 +46,16 @@ namespace JudBizz
         public Bizz()
         {
             RefreshAllInitialIndexedLists();
+            CvrApi = new CvrAPI(ZipTowns);
         }
 
         #endregion
 
+        #region Properties
+        #endregion
+
         #region Methods
 
-        #region Credentials
         /// <summary>
         /// Method, that checks credentials
         /// </summary>
@@ -89,7 +69,7 @@ namespace JudBizz
         {
             foreach (User user in Users)
             {
-                if (user.Initials == initials && user.Authentication.PassWord == passWord)
+                if (user.Initials == initials && user.Authentication.PassWord == passWord && user.Authentication.UserLevel.Id >= 1)
                 {
                     CurrentUser = user;
                     userName.Text = user.Person.Name;
@@ -102,62 +82,13 @@ namespace JudBizz
             return false;
         }
 
-        #endregion
-
-        #region Database
-
-        /// <summary>
-        /// Method, that creates a new entity in Db
-        /// Accepts the following entityTypes: Address, BluePrintContact, 
-        /// ContactInfo, CraftGroup, Enterprise, IttLetter, PdfData, 
-        /// Project, Request
-        /// </summary>
-        /// <param name="entity">Object</param>
-        /// <returns>int</returns>
-        public int CreateInDb(object entity) => MEFW.CreateInDb(entity);
-
-
-        /// <summary>
-        /// Method, that reads a List from Db
-        /// </summary>
-        /// <param name="list">string</param>
-        /// <returns>List<object></returns>
-        public List<object> ReadListFromDb(string list) => MEFW.ReadListFromDb(list);
-
-        /// <summary>
-        /// Method, that updates an entity in Db
-        /// </summary>
-        /// <param name="entity">object</param>
-        /// <returns>bool</returns>
-        public bool UpdateInDb(object entity) => MEFW.UpdateInDb(entity);
-
-        /// <summary>
-        /// Method, that Deletes an entity from Db
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool DeleteFromDb(string list, string id) => MEFW.DeleteFromDb(list, id);
-
-        #endregion
-
-
-        #region Get
-        /// <summary>
-        /// Method, that fetches an entity from Id
-        /// </summary>
-        /// <param name="list">string</param>
-        /// <param name="id">int</param>
-        /// <returns>object</returns>
-        public object GetObject(string list, int id) => MEFW.GetObject(list, id);
-
-        #region Get Indexed Entrepeneurs
+        #region Refresh Indexed Lists
         /// <summary>
         /// Method, that checks, whether a Entrepeneur exists in Receivers list
         /// </summary>
         /// <param name="entrepeneur">IndexedEntrepeneur</param>
         /// <returns>bool</returns>
-        private bool CheckEntrepeneurReceivers(IndexedEntrepeneur entrepeneur)
+        private bool CheckEntrepeneurReceivers(Entrepeneur entrepeneur)
         {
             bool result = false;
             foreach (Receiver receiver in Receivers)
@@ -178,7 +109,7 @@ namespace JudBizz
         /// <param name="sub">SubEntrepeneur</param>
         /// <param name="List<LegalEntity>"></param>
         /// <returns></returns>
-        private bool CheckEntrepeneurTempResult(IndexedEntrepeneur tempEntrepeneur, List<IndexedEntrepeneur> tempResult)
+        private bool CheckEntrepeneurTempResult(Entrepeneur tempEntrepeneur, List<Entrepeneur> tempResult)
         {
             bool exist = false;
             foreach (IndexedEntrepeneur entrepeneur in tempResult)
@@ -193,98 +124,36 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method that creates a list of Indexed Entrepeneurs
-        /// </summary>
-        /// <returns>List<IndexedEntrepeneur></returns>
-        public void GetIndexedEntrepeneurs()
-        {
-            List<IndexedEntrepeneur> tempResult = new List<IndexedEntrepeneur>();
-            RefreshList("Receivers");
-
-            foreach (SubEntrepeneur sub in MEFW.PdfLists.SubEntrepeneurs)
-            {
-                foreach (IndexedEntrepeneur tempEntrepeneur in IndexedEntrepeneurs)
-                {
-                    if (tempEntrepeneur.Id == sub.Entrepeneur.Id)
-                    {
-                        bool exist = CheckEntrepeneurTempResult(tempEntrepeneur, tempResult);
-                        if (!exist)
-                        {
-                            tempResult.Add(tempEntrepeneur);
-                        }
-                    }
-                }
-            }
-
-            int i = 0;
-            IndexedEntrepeneurs.Clear();
-
-            foreach (IndexedEntrepeneur entrepeneur in tempResult)
-            {
-                bool exist = CheckEntrepeneurReceivers(entrepeneur);
-                if (!exist)
-                {
-                    IndexedEntrepeneurs.Add(new IndexedEntrepeneur(i, entrepeneur));
-                    i++;
-                }
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Method, that retrieves the MacAddress
-        /// </summary>
-        /// <returns></returns>
-        public string GetMacAddress() => MEFW.ObtainMacAddress();
-
-        /// <summary>
-        /// Method, that retrieves the MacAddress
-        /// </summary>
-        /// <returns></returns>
-        public string GetStrConnection() => MEFW.ObtainStrConnection();
-
-        #endregion
-
-        #region Refresh Indexed Lists
-        /// <summary>
         /// Method, that refreshes all Indexed lists
         /// </summary>
         public void RefreshAllInitialIndexedLists()
         {
             RefreshIndexedActiveProjects();
+            RefreshIndexedCraftGroups();
             RefreshIndexedProjects();
             RefreshIndexedEnterpriseForms();
-            RefreshIndexedProjectStatusList();
-            RefreshIndexedRequestStatusList();
+            RefreshIndexedProjectStatuses();
+            RefreshIndexedRegions();
+            RefreshIndexedRequestStatuses();
             RefreshIndexedTenderForms();
         }
 
         /// <summary>
-        /// Method, that refreshes an Indexed list
+        /// Method, that refreshes active Indexed  Builders list
         /// </summary>
-        public void RefreshIndexedList(string list)
+        private void RefreshIndexedActiveBuilders()
         {
-            switch (list)
+            IndexedBuilders.Clear();
+            RefreshList("Builders");
+
+            int i = 0;
+            foreach (Builder builder in Builders)
             {
-                case "IndexedActiveProjects":
-                    RefreshIndexedActiveProjects();
-                    break;
-                case "IndexedEnterpriseForms":
-                    RefreshIndexedEnterpriseForms();
-                    break;
-                case "IndexedProjects":
-                    RefreshIndexedProjects();
-                    break;
-                case "IndexedProjectStatusList":
-                    RefreshIndexedProjectStatusList();
-                    break;
-                case "IndexedRequestStatusList":
-                    RefreshIndexedRequestStatusList();
-                    break;
-                case "IndexedTenderForms":
-                    RefreshIndexedTenderForms();
-                    break;
+                if (builder.Active)
+                {
+                    IndexedBuilders.Add(new IndexedBuilder(i, builder));
+                    i++;
+                }
             }
         }
 
@@ -305,6 +174,56 @@ namespace JudBizz
         }
 
         /// <summary>
+        /// Method, that refreshes Indexed  Builders list
+        /// </summary>
+        private void RefreshIndexedBuilders()
+        {
+            IndexedBuilders.Clear();
+            RefreshList("Builders");
+
+            int i = 0;
+            foreach (Builder builder in Builders)
+            {
+                IndexedBuilders.Add(new IndexedBuilder(i, builder));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed CraftGroups
+        /// </summary>
+        private void RefreshIndexedContacts()
+        {
+            RefreshList("Contacts");
+
+            int i = 0;
+            IndexedContacts.Clear();
+
+            foreach (Contact contact in Contacts)
+            {
+                IndexedContacts.Add(new IndexedContact(i, contact));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed CraftGroups
+        /// </summary>
+        private void RefreshIndexedCraftGroups()
+        {
+            RefreshList("CraftGroups");
+
+            int i = 0;
+            IndexedCraftGroups.Clear();
+
+            foreach (CraftGroup craftGroup in CraftGroups)
+            {
+                IndexedCraftGroups.Add(new IndexedCraftGroup(i, craftGroup));
+                i++;
+            }
+        }
+
+        /// <summary>
         /// Method, that refreshes Indexed Enterprise Forms list
         /// </summary>
         private void RefreshIndexedEnterpriseForms()
@@ -319,16 +238,109 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes Indexed Project Status list
+        /// Method that refreshes a list of Indexed Entrepeneurs
         /// </summary>
-        private void RefreshIndexedProjectStatusList()
+        /// <returns>List<IndexedEntrepeneur></returns>
+        private void RefreshIndexedEntrepeneurs()
         {
-            IndexedProjectStatuses.Clear();
+            RefreshList("ActiveEntrepeneurs");
+
             int i = 0;
-            foreach (ProjectStatus status in ProjectStatuses)
+            IndexedEntrepeneurs.Clear();
+
+            foreach (Entrepeneur entrepeneur in ActiveEntrepeneurs)
             {
-                IndexedProjectStatuses.Add(new IndexedProjectStatus(i, status));
+                IndexedEntrepeneurs.Add(new IndexedEntrepeneur(i, entrepeneur));
                 i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed Entrepeneurs
+        /// </summary>
+        /// <returns>List<IndexedEntrepeneur></returns>
+        private void RefreshIndexedEntrepeneursFromSubEntrepeneurs()
+        {
+            List<Entrepeneur> tempResult = new List<Entrepeneur>();
+            RefreshList("ActiveEntrepeneurs");
+
+            //Fill temporary Entrepeneur list
+            foreach (SubEntrepeneur sub in PdfLists.SubEntrepeneurs)
+            {
+                foreach (Entrepeneur tempEntrepeneur in ActiveEntrepeneurs)
+                {
+                    if (tempEntrepeneur.Id == sub.Entrepeneur.Id)
+                    {
+                        bool exist = CheckEntrepeneurTempResult(tempEntrepeneur, tempResult);
+                        if (!exist)
+                        {
+                            tempResult.Add(tempEntrepeneur);
+                        }
+                    }
+                }
+            }
+
+            //Refresh Indexed Entrepeneurs
+            int i = 0;
+            IndexedEntrepeneurs.Clear();
+
+            foreach (Entrepeneur entrepeneur in tempResult)
+            {
+                bool exist = CheckEntrepeneurReceivers(entrepeneur);
+                if (!exist)
+                {
+                    IndexedEntrepeneurs.Add(new IndexedEntrepeneur(i, entrepeneur));
+                    i++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method, that refreshes an Indexed list
+        /// </summary>
+        public void RefreshIndexedList(string list)
+        {
+            switch (list)
+            {
+                case "IndexedActiveBuilders":
+                    RefreshIndexedActiveBuilders();
+                    break;
+                case "IndexedActiveProjects":
+                    RefreshIndexedActiveProjects();
+                    break;
+                case "IndexedBuilders":
+                    RefreshIndexedBuilders();
+                    break;
+                case "IndexedContacts":
+                    RefreshIndexedContacts();
+                    break;
+                case "IndexedCraftGroups":
+                    RefreshIndexedCraftGroups();
+                    break;
+                case "IndexedEnterpriseForms":
+                    RefreshIndexedEnterpriseForms();
+                    break;
+                case "IndexedEntrepeneurs":
+                    RefreshIndexedEntrepeneurs();
+                    break;
+                case "IndexedEntrepeneursFromSubEntrepeneurs":
+                    RefreshIndexedEntrepeneursFromSubEntrepeneurs();
+                    break;
+                case "IndexedProjects":
+                    RefreshIndexedProjects();
+                    break;
+                case "IndexedProjectStatuses":
+                    RefreshIndexedProjectStatuses();
+                    break;
+                case "IndexedRegions":
+                    RefreshIndexedRegions();
+                    break;
+                case "IndexedRequestStatuses":
+                    RefreshIndexedRequestStatuses();
+                    break;
+                case "IndexedTenderForms":
+                    RefreshIndexedTenderForms();
+                    break;
             }
         }
 
@@ -347,9 +359,40 @@ namespace JudBizz
         }
 
         /// <summary>
+        /// Method, that refreshes Indexed Project Status list
+        /// </summary>
+        private void RefreshIndexedProjectStatuses()
+        {
+            IndexedProjectStatuses.Clear();
+            int i = 0;
+            foreach (ProjectStatus status in ProjectStatuses)
+            {
+                IndexedProjectStatuses.Add(new IndexedProjectStatus(i, status));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed Regions
+        /// </summary>
+        private void RefreshIndexedRegions()
+        {
+            RefreshList("Regions");
+
+            int i = 0;
+            IndexedRegions.Clear();
+
+            foreach (Region region in Regions)
+            {
+                IndexedRegions.Add(new IndexedRegion(i, region));
+                i++;
+            }
+        }
+
+        /// <summary>
         /// Method, that refreshes Indexed Request Status list
         /// </summary>
-        private void RefreshIndexedRequestStatusList()
+        private void RefreshIndexedRequestStatuses()
         {
             IndexedRequestStatuses.Clear();
             int i = 0;
@@ -376,60 +419,52 @@ namespace JudBizz
 
         #endregion
 
-        #region Refresh Ordinary Lists
-        /// <summary>
-        /// Method, that refreshes all Lists
-        /// </summary>
-        public void RefreshAllLists() => MEFW.RefreshAllLists();
-
-        /// <summary>
-        /// Method, that refreshes IttLetters list
-        /// </summary>
-        public void RefreshList(string list) => MEFW.RefreshList(list);
-
-        #endregion
-
-        public void RefreshLetterLists()
+        public string RetrieveTownFromZip(string zip)
         {
-            MEFW.RefreshIttLetterLists(TempProject.Id);
+            RetrieveZipTownFromZip(zip);
+            return TempZipTown.Town;
+        }
+
+        public void RetrieveZipTownFromZip(string zip)
+        {
+            TempZipTown = new ZipTown();
+            int intZip;
+            bool zipFound = false;
+            try
+            {
+                intZip = Convert.ToInt32(zip);
+            }
+            catch (Exception)
+            {
+                intZip = -1;
+            }
+
+            if (intZip > 0 && intZip < 900)
+            {
+                TempZipTown = new ZipTown((ZipTown)GetObject("ZipTowns", 1100));
+                zipFound = true;
+            }
+            else if (intZip <= 0 || intZip >= 900)
+            {
+                foreach (ZipTown zipTown in ZipTowns)
+                {
+                    if (zipTown.Zip == zip)
+                    {
+                        TempZipTown = zipTown;
+                        zipFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!zipFound)
+            {
+                TempZipTown = ZipTowns[0];
+            }
+
         }
 
         #endregion
 
-        #region Properties
-        public List<Project> ActiveProjects => MEFW.ActiveProjects;
-        public List<Address> Addresses => MEFW.Addresses;
-        public List<Builder> Builders => MEFW.Builders;
-        public List<Bullet> Bullets => MEFW.Bullets;
-        public List<Category> Categories => MEFW.Categories;
-        public List<Contact> Contacts => MEFW.Contacts;
-        public List<ContactInfo> ContactInfoList => MEFW.ContactInfoList;
-        public List<CraftGroup> CraftGroups => MEFW.CraftGroups;
-        public List<EnterpriseForm> EnterpriseForms => MEFW.EnterpriseForms;
-        public List<Enterprise> Enterprises => MEFW.Enterprises;
-        public List<Entrepeneur> Entrepeneurs => MEFW.Entrepeneurs;
-        public List<Project> InactiveProjects => MEFW.InactiveProjects;
-        public List<IttLetter> IttLetters => MEFW.IttLetters;
-        public List<JobDescription> JobDescriptions => MEFW.JobDescriptions;
-        public List<LegalEntity> LegalEntities => MEFW.LegalEntities;
-        public List<LetterData> LetterDataList => MEFW.LetterDataList;
-        public List<Offer> Offers => MEFW.Offers;
-        public List<Paragraph> Paragraphs => MEFW.Paragraphs;
-        public List<Person> Persons => MEFW.Persons;
-        public List<Project> Projects => MEFW.Projects;
-        public List<ProjectStatus> ProjectStatuses => MEFW.ProjectStatuses;
-        public List<Region> Regions => MEFW.Regions;
-        public List<Request> Requests => MEFW.Requests;
-        public List<RequestStatus> RequestStatuses => MEFW.RequestStatuses;
-        public List<Receiver> Receivers => MEFW.Receivers;
-        public List<Shipping> Shippings => MEFW.Shippings;
-        public List<SubEntrepeneur> SubEntrepeneurs => MEFW.SubEntrepeneurs;
-        public List<TenderForm> TenderForms => MEFW.TenderForms;
-        public List<UserLevel> UserLevels => MEFW.UserLevels;
-        public List<User> Users => MEFW.Users;
-        public List<ZipTown> ZipTowns => MEFW.ZipTowns;
-
-
-        #endregion
     }
 }

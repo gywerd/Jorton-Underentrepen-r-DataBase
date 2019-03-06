@@ -107,53 +107,68 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UcBuilders.xaml.cs">
-      <DependentUpon>UcBuilders.xaml</DependentUpon>
+    <Compile Include="UcBuilderCreate.xaml.cs">
+      <DependentUpon>UcBuilderCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcChooseSubEntrepeneurs.xaml.cs">
-      <DependentUpon>UcChooseSubEntrepeneurs.xaml</DependentUpon>
+    <Compile Include="UcBuildersStatusChange.xaml.cs">
+      <DependentUpon>UcBuildersStatusChange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcCommunication.xaml.cs">
-      <DependentUpon>UcCommunication.xaml</DependentUpon>
+    <Compile Include="UcBuildersEdit.xaml.cs">
+      <DependentUpon>UcBuildersEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcContacts.xaml.cs">
-      <DependentUpon>UcContacts.xaml</DependentUpon>
+    <Compile Include="UcContactsDelete.xaml.cs">
+      <DependentUpon>UcContactsDelete.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcCopyProject.xaml.cs">
-      <DependentUpon>UcCopyProject.xaml</DependentUpon>
+    <Compile Include="UcContactsEdit.xaml.cs">
+      <DependentUpon>UcContactsEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcCraftCategories.xaml.cs">
-      <DependentUpon>UcCraftCategories.xaml</DependentUpon>
+    <Compile Include="UcEntrepeneursStatusChange.xaml.cs">
+      <DependentUpon>UcEntrepeneursStatusChange.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcEntrepeneurEdit.xaml.cs">
+      <DependentUpon>UcEntrepeneurEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcRequestPrepare.xaml.cs">
+      <DependentUpon>UcRequestPrepare.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcRequestSend.xaml.cs">
+      <DependentUpon>UcRequestSend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcSubEntrepeneursChoose.xaml.cs">
+      <DependentUpon>UcSubEntrepeneursChoose.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcContactCreate.xaml.cs">
+      <DependentUpon>UcContactCreate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcProjectCopy.xaml.cs">
+      <DependentUpon>UcProjectCopy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcCraftGroupCategories.xaml.cs">
+      <DependentUpon>UcCraftGroupCategories.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcCraftGroups.xaml.cs">
       <DependentUpon>UcCraftGroups.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcCreateEnterpriseList.xaml.cs">
-      <DependentUpon>UcCreateEnterpriseList.xaml</DependentUpon>
+    <Compile Include="UcEnterpriseCreate.xaml.cs">
+      <DependentUpon>UcEnterpriseCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcCreateProject.xaml.cs">
-      <DependentUpon>UcCreateProject.xaml</DependentUpon>
+    <Compile Include="UcProjectCreate.xaml.cs">
+      <DependentUpon>UcProjectCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcChangeCaseId.xaml.cs">
-      <DependentUpon>UcChangeCaseId.xaml</DependentUpon>
+    <Compile Include="UcProjectCaseIdChange.xaml.cs">
+      <DependentUpon>UcProjectCaseIdChange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcEditEnterpriseList.xaml.cs">
-      <DependentUpon>UcEditEnterpriseList.xaml</DependentUpon>
+    <Compile Include="UcEnterprisesEdit.xaml.cs">
+      <DependentUpon>UcEnterprisesEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcEditProject.xaml.cs">
-      <DependentUpon>UcEditProject.xaml</DependentUpon>
+    <Compile Include="UcProjectsEdit.xaml.cs">
+      <DependentUpon>UcProjectsEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcEditSubEntrepeneurs.xaml.cs">
-      <DependentUpon>UcEditSubEntrepeneurs.xaml</DependentUpon>
+    <Compile Include="UcSubEntrepeneursEdit.xaml.cs">
+      <DependentUpon>UcSubEntrepeneursEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcEnterpriseForms.xaml.cs">
       <DependentUpon>UcEnterpriseForms.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcEnterprises.xaml.cs">
-      <DependentUpon>UcEnterprises.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcIttLetters.xaml.cs">
-      <DependentUpon>UcIttLetters.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcIttLettersChooseReceivers.xaml.cs">
       <DependentUpon>UcIttLettersChooseReceivers.xaml</DependentUpon>
@@ -176,44 +191,41 @@
     <Compile Include="UcLoginHelp.xaml.cs">
       <DependentUpon>UcLoginHelp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcProject.xaml.cs">
-      <DependentUpon>UcProject.xaml</DependentUpon>
+    <Compile Include="UcProjectStatusChange.xaml.cs">
+      <DependentUpon>UcProjectStatusChange.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcChangeProjectStatus.xaml.cs">
-      <DependentUpon>UcChangeProjectStatus.xaml</DependentUpon>
+    <Compile Include="UcProjectDelete.xaml.cs">
+      <DependentUpon>UcProjectDelete.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcDeleteProject.xaml.cs">
-      <DependentUpon>UcDeleteProject.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcProjectStatusList.xaml.cs">
-      <DependentUpon>UcProjectStatusList.xaml</DependentUpon>
+    <Compile Include="UcProjectStatuses.xaml.cs">
+      <DependentUpon>UcProjectStatuses.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcRegions.xaml.cs">
       <DependentUpon>UcRegions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcRequests.xaml.cs">
-      <DependentUpon>UcRequests.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UcRequestsChooseReceivers.xaml.cs">
       <DependentUpon>UcRequestsChooseReceivers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcSubEntrepeneurList.xaml.cs">
-      <DependentUpon>UcSubEntrepeneurList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcSubEntrepeneurs.xaml.cs">
-      <DependentUpon>UcSubEntrepeneurs.xaml</DependentUpon>
+    <Compile Include="UcEntrepeneurCreate.xaml.cs">
+      <DependentUpon>UcEntrepeneurCreate.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcTenderForms.xaml.cs">
       <DependentUpon>UcTenderForms.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcUsers.xaml.cs">
-      <DependentUpon>UcUsers.xaml</DependentUpon>
+    <Compile Include="UcUserCreate.xaml.cs">
+      <DependentUpon>UcUserCreate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcViewEnterpriseList.xaml.cs">
-      <DependentUpon>UcViewEnterpriseList.xaml</DependentUpon>
+    <Compile Include="UcUsersEdit.xaml.cs">
+      <DependentUpon>UcUsersEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcViewSubEntrepeneurs.xaml.cs">
-      <DependentUpon>UcViewSubEntrepeneurs.xaml</DependentUpon>
+    <Compile Include="UcUsersStatusChange.xaml.cs">
+      <DependentUpon>UcUsersStatusChange.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcEnterprisesView.xaml.cs">
+      <DependentUpon>UcEnterprisesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UcSubEntrepeneursView.xaml.cs">
+      <DependentUpon>UcSubEntrepeneursView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -265,6 +277,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CvrApi\CvrApiServices\CvrApiServices.csproj">
+      <Project>{a590f0e4-8598-4f55-926d-0e545be2738e}</Project>
+      <Name>CvrApiServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JudBizz\JudBizz.csproj">
       <Project>{a55a0c27-c72d-46e4-9476-9bada2f38ca4}</Project>
       <Name>JudBizz</Name>
@@ -279,27 +295,55 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcBuilders.xaml">
+    <Page Include="UcBuilderCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcChooseSubEntrepeneurs.xaml">
+    <Page Include="UcBuildersStatusChange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcCommunication.xaml">
+    <Page Include="UcBuildersEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcContacts.xaml">
+    <Page Include="UcContactsDelete.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcCopyProject.xaml">
+    <Page Include="UcContactsEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcCraftCategories.xaml">
+    <Page Include="UcEntrepeneursStatusChange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcEntrepeneurEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcRequestPrepare.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UcRequestSend.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcSubEntrepeneursChoose.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcContactCreate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcProjectCopy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcCraftGroupCategories.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -307,39 +351,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcCreateEnterpriseList.xaml">
+    <Page Include="UcEnterpriseCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcCreateProject.xaml">
+    <Page Include="UcProjectCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcChangeCaseId.xaml">
+    <Page Include="UcProjectCaseIdChange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcEditEnterpriseList.xaml">
+    <Page Include="UcEnterprisesEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcEditProject.xaml">
+    <Page Include="UcProjectsEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcEditSubEntrepeneurs.xaml">
+    <Page Include="UcSubEntrepeneursEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UcEnterpriseForms.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UcEnterprises.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UcIttLetters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -371,19 +407,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcProject.xaml">
+    <Page Include="UcProjectStatusChange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcChangeProjectStatus.xaml">
+    <Page Include="UcProjectDelete.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcDeleteProject.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UcProjectStatusList.xaml">
+    <Page Include="UcProjectStatuses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -391,19 +423,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcRequests.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UcRequestsChooseReceivers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcSubEntrepeneurList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UcSubEntrepeneurs.xaml">
+    <Page Include="UcEntrepeneurCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -411,15 +435,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcUsers.xaml">
+    <Page Include="UcUserCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcViewEnterpriseList.xaml">
+    <Page Include="UcUsersEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcViewSubEntrepeneurs.xaml">
+    <Page Include="UcUsersStatusChange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcEnterprisesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UcSubEntrepeneursView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -433,7 +465,6 @@
     <Resource Include="Images\add.png" />
     <Resource Include="Images\calculation.png" />
     <Resource Include="Images\copy.png" />
-    <Resource Include="Images\craft.png" />
     <Resource Include="Images\cut.png" />
     <Resource Include="Images\enterprise-form.png" />
     <Resource Include="Images\enterprise.png" />
@@ -445,7 +476,6 @@
     <Resource Include="Images\options.png" />
     <Resource Include="Images\paste.png" />
     <Resource Include="Images\password.png" />
-    <Resource Include="Images\personal.png" />
     <Resource Include="Images\project.png" />
     <Resource Include="Images\quit.png" />
     <Resource Include="Images\redo.png" />
@@ -468,9 +498,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\communication.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\category.png" />
   </ItemGroup>
   <ItemGroup>
@@ -485,9 +512,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\vcard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\ceo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\jorton-logo.png">
@@ -527,7 +551,42 @@
   <ItemGroup>
     <Resource Include="Images\subentrepeneur-edit-small.png" />
     <Resource Include="Images\subentrepeneur-show-small.png" />
-    <Resource Include="Images\subentrepeneur-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\user-add-small.png" />
+    <Resource Include="Images\user-delete-small.png" />
+    <Resource Include="Images\user-edit-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\builder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\builder-add-small.png" />
+    <Resource Include="Images\builder-edit-small.png" />
+    <Resource Include="Images\builder-status-change-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\entrepeneur-add-small.png" />
+    <Resource Include="Images\entrepeneur-edit-small.png" />
+    <Resource Include="Images\entrepeneur-status-change-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\craftGroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\subentrepeneur-create-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enterprise-show-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\project-status-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\project-copy-small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

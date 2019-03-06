@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28010.0
+VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudDataAccess", "JudDataAccess\JudDataAccess.csproj", "{AA780E01-092B-442C-A9B7-82A3593BBF76}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudRepository", "JudRepository\JudRepository.csproj", "{E1D9B59F-506B-428E-9A6C-52BE7691DF15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JudBizz", "JudBizz\JudBizz.csproj", "{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CvrApiRepository", "CvrApi\CvrApiRepository\CvrApiRepository.csproj", "{3533039F-DE05-492B-A849-AFE194571B93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CvrApi", "CvrApi", "{6A802D3F-8614-4043-B9A6-91B9E6F80691}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CvrApiServices", "CvrApi\CvrApiServices\CvrApiServices.csproj", "{A590F0E4-8598-4F55-926D-0E545BE2738E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,11 +39,23 @@ Global
 		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A55A0C27-C72D-46E4-9476-9BADA2F38CA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3533039F-DE05-492B-A849-AFE194571B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3533039F-DE05-492B-A849-AFE194571B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3533039F-DE05-492B-A849-AFE194571B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3533039F-DE05-492B-A849-AFE194571B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A590F0E4-8598-4F55-926D-0E545BE2738E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A590F0E4-8598-4F55-926D-0E545BE2738E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A590F0E4-8598-4F55-926D-0E545BE2738E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A590F0E4-8598-4F55-926D-0E545BE2738E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3533039F-DE05-492B-A849-AFE194571B93} = {6A802D3F-8614-4043-B9A6-91B9E6F80691}
+		{A590F0E4-8598-4F55-926D-0E545BE2738E} = {6A802D3F-8614-4043-B9A6-91B9E6F80691}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8318F130-4494-4E30-BFAD-B6FB53E46322}
+		SolutionGuid = {F2032D4E-2C7F-47CA-8812-37D92DF7D6AB}
 	EndGlobalSection
 EndGlobal

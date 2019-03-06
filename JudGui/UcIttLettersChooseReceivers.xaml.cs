@@ -25,7 +25,7 @@ namespace JudGui
         #region Fields
         public Bizz CBZ = new Bizz();
         public bool result;
-        public UserControl UcRight;
+        public UserControl UcMain;
         public static string macAddress;
 
         public Shipping Shipping = new Shipping();
@@ -43,8 +43,8 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             IndexedLegalEntities = cbz.IndexedEntrepeneurs;
-            macAddress = GetMacAddress();
-            this.UcRight = ucRight;
+            macAddress = CBZ.MacAddress;
+            this.UcMain = ucRight;
             GenerateComboBoxCaseIdItems();
         }
 
@@ -102,8 +102,8 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcRightActive = false;
-                UcRight.Content = new UserControl();
+                CBZ.UcMainActive = false;
+                UcMain.Content = new UserControl();
             }
         }
 
@@ -125,7 +125,7 @@ namespace JudGui
                 }
                 TextBoxName.Text = CBZ.TempProject.Name;
                 GetProjectSubEntrepeneurs();
-                CBZ.RefreshLetterLists();
+                CBZ.RefreshIttLetterLists(CBZ.TempProject.Id);
                 GetIndexedEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
                 ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
@@ -304,14 +304,9 @@ namespace JudGui
         /// <returns>List<IndexedLegalEntity></returns>
         private void GetIndexedEntrepeneurs()
         {
-            CBZ.GetIndexedEntrepeneurs();
+            CBZ.RefreshIndexedList("IndexedEntrepeneursFromSubEntrepeneurs");
             ListBoxEntrepeneurs.ItemsSource = "";
             ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
-        }
-
-        private string GetMacAddress()
-        {
-            return CBZ.GetMacAddress();
         }
 
         /// <summary>
