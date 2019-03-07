@@ -27,11 +27,31 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcTenderForms(Bizz bizz, UserControl ucRight)
         {
             InitializeComponent();
             this.Bizz = bizz;
             this.UcMain = ucRight;
         }
+
+        #endregion
+
+        #region Buttons
+
+        #endregion
+
+        #region Events
+
+        //Set CBZ.UcMainEdited
+        //if (!CBZ.UcMainEdited)
+        //{
+        //    CBZ.UcMainEdited = true;
+        //}
+        #endregion
+
+        #region Methods
+
+        #endregion
     }
 }

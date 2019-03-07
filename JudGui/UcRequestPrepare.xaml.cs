@@ -23,16 +23,36 @@ namespace JudGui
     public partial class UcRequestPrepare : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
-        public UcRequestPrepare(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcRequestPrepare(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
         }
+
+        #endregion
+
+        #region Buttons
+
+        #endregion
+
+        #region Events
+
+        //Set CBZ.UcMainEdited
+        //if (!CBZ.UcMainEdited)
+        //{
+        //    CBZ.UcMainEdited = true;
+        //}
+        #endregion
+
+        #region Methods
+
+        #endregion
     }
 }

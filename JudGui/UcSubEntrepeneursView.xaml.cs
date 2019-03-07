@@ -51,7 +51,7 @@ namespace JudGui
         {
             //Close right UserControl
             MessageBox.Show("Visning af Underentrepenører lukkes.", "Luk Underentrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
-            CBZ.UcMainActive = false;
+            CBZ.UcMainEdited = false;
             UcMain.Content = new UserControl();
         }
 
@@ -104,6 +104,13 @@ namespace JudGui
             IndexedEnterprises = GetIndexedEnterprises();
             IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
             RadioButtonShowAll.IsChecked = true;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonShowAll_Checked(object sender, RoutedEventArgs e)
@@ -114,6 +121,13 @@ namespace JudGui
             RadioButtonShowYesReceivedChosen.IsChecked = false;
             RadioButtonShowAgreement.IsChecked = false;
             UpdateIndexedLists();
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonShowOpen_Checked(object sender, RoutedEventArgs e)
@@ -126,6 +140,13 @@ namespace JudGui
             UpdateIndexedLists();
             OpenIndexedSubEntrepeneurs.Clear();
             OpenIndexedSubEntrepeneurs = FilterOpen();
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonShowChosen_Checked(object sender, RoutedEventArgs e)
@@ -138,6 +159,13 @@ namespace JudGui
             UpdateIndexedLists();
             ChosenIndexedSubEntrepeneurs.Clear();
             ChosenIndexedSubEntrepeneurs = FilterChosen();
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonShowYesReceivedChosen_Checked(object sender, RoutedEventArgs e)
@@ -150,6 +178,13 @@ namespace JudGui
             UpdateIndexedLists();
             YesReceivedChosenIndexedSubEntrepeneurs.Clear();
             YesReceivedChosenIndexedSubEntrepeneurs = FilterYesReceivedChosen();
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonShowAgreement_Checked(object sender, RoutedEventArgs e)
@@ -162,6 +197,13 @@ namespace JudGui
             UpdateIndexedLists();
             ChosenIndexedSubEntrepeneurs.Clear();
             ChosenIndexedSubEntrepeneurs = FilterChosen();
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
         #endregion
 

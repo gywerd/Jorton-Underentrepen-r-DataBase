@@ -28,14 +28,17 @@ namespace JudGui
 
         #endregion
 
-        public UcProjectCopy(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcProjectCopy(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.CBZ = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
 
             GenerateComboBoxCaseIdItems();
         }
+
+        #endregion
 
         #region Buttons
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -44,7 +47,7 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcMain.Content = new UserControl();
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
         }
 
@@ -70,7 +73,7 @@ namespace JudGui
                 CBZ.RefreshIndexedList("IndexedProjects");
 
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
             else
@@ -94,6 +97,12 @@ namespace JudGui
                 }
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxCaseId_TextChanged(object sender, TextChangedEventArgs e)
@@ -106,6 +115,12 @@ namespace JudGui
                 TextBoxCaseId.Select(TextBoxCaseId.Text.Length, 0);
             }
             CBZ.TempProject.Case = Convert.ToInt32(TextBoxCaseId.Text);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
@@ -118,6 +133,12 @@ namespace JudGui
                 TextBoxCaseName.Select(TextBoxCaseName.Text.Length, 0);
             }
             CBZ.TempProject.Name = TextBoxCaseName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion

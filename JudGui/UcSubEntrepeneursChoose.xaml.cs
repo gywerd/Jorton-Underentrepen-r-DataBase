@@ -101,7 +101,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke Vælg Underentrepenør?", "Luk Vælg Underentrepenør", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -122,11 +122,24 @@ namespace JudGui
             TextBoxName.Text = CBZ.TempProject.Name;
             IndexedEnterprises = GetIndexedEnterprises();
             ComboBoxEnterprise.ItemsSource = IndexedEnterprises;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxContact_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxEnterprise_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -148,6 +161,13 @@ namespace JudGui
             IndexedLegalEntities.Clear();
             IndexedLegalEntities = GetIndexedEntrepeneurs();
             ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ListBoxEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -175,6 +195,13 @@ namespace JudGui
                 //ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
                 ComboBoxContact.ItemsSource = IndexedContacts;
                 ComboBoxContact.SelectedIndex = 0;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+
             }
         }
 

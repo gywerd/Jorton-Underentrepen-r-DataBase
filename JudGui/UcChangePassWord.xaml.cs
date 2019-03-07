@@ -51,20 +51,20 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
                 if (MessageBox.Show("Passwordet er ikke ændret. Vil du lukke alligevel?", "Password", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //Close right UserControl
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcMain.Content = new UserControl();
                 }
             }
             else
             {
                 //Close main UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -131,10 +131,10 @@ namespace JudGui
             //Check if new Password is correct length
             CheckNewPassWordLength();
 
-            //Set CBZ.UcMainActive
-            if (!CBZ.UcMainActive)
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
             {
-                CBZ.UcMainActive = true;
+                CBZ.UcMainEdited = true;
             }
         }
 
@@ -148,10 +148,10 @@ namespace JudGui
             //Check if new Password repeat matches
             CheckNewPassWordRepeat();
 
-            //Set CBZ.UcMainActive
-            if (!CBZ.UcMainActive)
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
             {
-                CBZ.UcMainActive = true;
+                CBZ.UcMainEdited = true;
             }
         }
 
@@ -165,10 +165,10 @@ namespace JudGui
             //Check if old Password is correct
             CheckOldPassWordCorrect();
 
-            //Set CBZ.UcMainActive
-            if (!CBZ.UcMainActive)
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
             {
-                CBZ.UcMainActive = true;
+                CBZ.UcMainEdited = true;
             }
         }
 

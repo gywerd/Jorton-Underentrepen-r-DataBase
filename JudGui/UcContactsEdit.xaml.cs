@@ -57,7 +57,7 @@ namespace JudGui
                     CBZ.TempEntrepeneur = new Entrepeneur();
 
                     //Close right UserControl
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcMain.Content = new UserControl();
                 }
             }
@@ -69,7 +69,7 @@ namespace JudGui
                 CBZ.TempEntrepeneur = new Entrepeneur();
 
                 //Close main UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -126,6 +126,12 @@ namespace JudGui
                 ListBoxContacts.ItemsSource = FilteredContacts;
             }
 
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ListBoxContacts_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -140,17 +146,35 @@ namespace JudGui
                 TextBoxPhone.Text = CBZ.TempContact.Person.ContactInfo.Phone;
             }
 
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
 
         private void TextBoxArea_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempContact.Area = TextBoxArea.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempContact.Person.ContactInfo.Email = TextBoxEmail.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxEntrepeneursSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -163,26 +187,56 @@ namespace JudGui
                 ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
             }
 
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void TextBoxFax_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempContact.Person.ContactInfo.Fax = TextBoxFax.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxMobile_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempContact.Person.ContactInfo.Mobile = TextBoxMobile.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempContact.Person.Name = TextBoxName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxPhone_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempContact.Person.ContactInfo.Phone = TextBoxPhone.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion
@@ -223,7 +277,7 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates an Builder in Db
+        /// Method, that updates a Contact in Db
         /// </summary>
         /// <returns>bool</returns>
         private bool UpdateContactInDb()
@@ -253,7 +307,7 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates Contact Info in Db
+        /// Method, that updates Contact Info in Db
         /// </summary>
         /// <returns>bool</returns>
         private bool UpdateContactInfo()
@@ -269,7 +323,7 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates an Address in Db
+        /// Method, that updates an Address in Db
         /// </summary>
         /// <returns>bool</returns>
         private bool UpdatePersonInDb()

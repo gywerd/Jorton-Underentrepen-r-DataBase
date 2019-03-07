@@ -28,12 +28,15 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcIttLettersSendLetters(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
         }
+
+        #endregion
 
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -52,6 +55,12 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion

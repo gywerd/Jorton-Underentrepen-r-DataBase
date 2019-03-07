@@ -28,6 +28,7 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcZipList(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
@@ -35,6 +36,8 @@ namespace JudGui
             this.UcMain = ucRight;
             ListBoxZipList.ItemsSource = CBZ.ZipTowns;
         }
+
+        #endregion
 
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -44,7 +47,7 @@ namespace JudGui
             CBZ.RefreshList("ZipTowns");
 
             //Close right UserControl
-            CBZ.UcMainActive = false;
+            CBZ.UcMainEdited = false;
             UcMain.Content = new UserControl();
 
         }
@@ -69,7 +72,7 @@ namespace JudGui
                 CBZ.RefreshList("ZipTowns");
 
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
 
             }
@@ -99,6 +102,12 @@ namespace JudGui
             CBZ.TempZipTown = new ZipTown((ZipTown)ListBoxZipList.SelectedItem);
             TextBoxZip.Text = CBZ.TempZipTown.Zip;
             TextBoxTown.Text = CBZ.TempZipTown.Town;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
@@ -110,6 +119,12 @@ namespace JudGui
                 TextBoxZip.Text = id;
                 TextBoxZip.Select(TextBoxZip.Text.Length, 0);
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxTown_TextChanged(object sender, TextChangedEventArgs e)
@@ -120,6 +135,12 @@ namespace JudGui
                 id = id.Remove(id.Length - 1);
                 TextBoxTown.Text = id;
                 TextBoxTown.Select(TextBoxTown.Text.Length, 0);
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
             }
         }
 
@@ -136,6 +157,13 @@ namespace JudGui
             CheckBoxDeleteZipCode.IsEnabled = false;
             CheckBoxEditZipCode.IsEnabled = false;
             TextBoxZip.IsEnabled = true;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void CheckBoxAddNewZipCode_Unchecked(object sender, RoutedEventArgs e)
@@ -151,6 +179,13 @@ namespace JudGui
             CheckBoxDeleteZipCode.IsEnabled = true;
             CheckBoxEditZipCode.IsEnabled = true;
             TextBoxZip.IsEnabled = false;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void CheckBoxDeleteZipCode_Checked(object sender, RoutedEventArgs e)
@@ -169,6 +204,13 @@ namespace JudGui
             {
                 CheckBoxDeleteZipCode.IsChecked = false;
             }
+
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void CheckBoxDeleteZipCode_Unchecked(object sender, RoutedEventArgs e)
@@ -184,6 +226,13 @@ namespace JudGui
             CheckBoxDeleteZipCode.IsEnabled = true;
             CheckBoxEditZipCode.IsEnabled = true;
             TextBoxZip.IsEnabled = false;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void CheckBoxEditZipCode_Checked(object sender, RoutedEventArgs e)
@@ -202,6 +251,13 @@ namespace JudGui
             {
                 CheckBoxEditZipCode.IsChecked = false;
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void CheckBoxEditZipCode_Unchecked(object sender, RoutedEventArgs e)
@@ -217,6 +273,13 @@ namespace JudGui
             CheckBoxDeleteZipCode.IsEnabled = true;
             CheckBoxEditZipCode.IsEnabled = true;
             TextBoxZip.IsEnabled = false;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         #endregion

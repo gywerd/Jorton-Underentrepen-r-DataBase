@@ -37,6 +37,7 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcLogin(Bizz cbz, RibbonTab tabOffer, RibbonTab tabMaintenance, RibbonTab tabAdministration, RibbonGroup data, RibbonGroup users, RibbonApplicationMenuItem buttonChangePassWord, RibbonApplicationMenuItem buttonLogOut, TextBlock userName, UserControl ucMain)
         {
             InitializeComponent();
@@ -52,6 +53,9 @@ namespace JudGui
             this.UcMain = ucMain;
         }
 
+        #endregion
+
+        #region Buttons
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.CheckCredentials(UserName, ButtonChangePassWord, ButtonLogOut, TextBoxInitials.Text, TextBoxPassword.Password))
@@ -105,12 +109,28 @@ namespace JudGui
                         break;
                 }
                 UcMain.Content = new UserControl();
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
             else
             {
                 MessageBox.Show("Initialer eller password er forkert.", "Login",MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        #endregion
+
+        #region Events
+
+
+        //Set CBZ.UcMainEdited
+        //if (!CBZ.UcMainEdited)
+        //{
+        //    CBZ.UcMainEdited = true;
+        //}
+        #endregion
+
+        #region Methods
+
+        #endregion
     }
 }

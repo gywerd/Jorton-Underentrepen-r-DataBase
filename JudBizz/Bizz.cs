@@ -18,7 +18,7 @@ namespace JudBizz
         #region Fields
 
         public CvrAPI CvrApi;
-        public bool UcMainActive = false;
+        public bool UcMainEdited = false;
 
         public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
         public List<IndexedBuilder> IndexedBuilders = new List<IndexedBuilder>();

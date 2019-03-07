@@ -23,16 +23,38 @@ namespace JudGui
     public partial class UcUsersEdit : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
-        public UcUsersEdit(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcUsersEdit(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
         }
+
+        #endregion
+
+        #region Buttons
+
+        #endregion
+
+        #region Events
+
+        //Set CBZ.UcMainEdited
+        //if (!CBZ.UcMainEdited)
+        //{
+        //    CBZ.UcMainEdited = true;
+        //}
+        #endregion
+
+        #region Methods
+
+        #endregion
+
+
     }
 }

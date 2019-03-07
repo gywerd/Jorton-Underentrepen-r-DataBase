@@ -22,16 +22,32 @@ namespace JudGui
     public partial class UcCraftGroupCategories : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
-        public UcCraftGroupCategories(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcCraftGroupCategories(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
         }
+
+        #endregion
+
+        #region Events
+        //Set CBZ.UcMainEdited
+        //if (!CBZ.UcMainEdited)
+        //{
+        //    CBZ.UcMainEdited = true;
+        //}
+
+        #endregion
+
+        #region Methods
+
+        #endregion
     }
 }

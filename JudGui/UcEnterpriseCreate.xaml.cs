@@ -50,7 +50,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du annullere oprettelse af EntrepriseLister?", "Luk Projekt", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -83,7 +83,7 @@ namespace JudGui
                 CBZ.TempEnterprise = new Enterprise();
 
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
             else
@@ -168,26 +168,57 @@ namespace JudGui
             CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
             CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
             CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
@@ -200,6 +231,12 @@ namespace JudGui
                 TextBoxName.Select(TextBoxName.Text.Length, 0);
             }
             CBZ.TempEnterprise.Name = TextBoxName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxElaboration_TextChanged(object sender, TextChangedEventArgs e)
@@ -212,6 +249,12 @@ namespace JudGui
                 TextBoxElaboration.Select(TextBoxElaboration.Text.Length, 0);
             }
             CBZ.TempEnterprise.Elaboration = TextBoxElaboration.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxOfferList_TextChanged(object sender, TextChangedEventArgs e)
@@ -224,6 +267,12 @@ namespace JudGui
                 TextBoxOfferList.Select(TextBoxOfferList.Text.Length, 0);
             }
             CBZ.TempEnterprise.OfferList = TextBoxOfferList.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion

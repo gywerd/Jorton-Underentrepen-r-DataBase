@@ -28,6 +28,7 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcProjectsEdit(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
@@ -40,6 +41,8 @@ namespace JudGui
             ComboBoxExecutive.ItemsSource = CBZ.ActiveUsers;
         }
 
+        #endregion
+
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
@@ -48,7 +51,7 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcMain.Content = new UserControl();
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
         }
 
@@ -69,7 +72,7 @@ namespace JudGui
 
                 //Close right UserControl
                 UcMain.Content = new UserControl();
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
             else
             {
@@ -98,36 +101,79 @@ namespace JudGui
             ComboBoxTenderForm.SelectedIndex = CBZ.TempProject.TenderForm.Id;
             ComboBoxEnterpriseForm.SelectedIndex = GetEnterPriseFormIndex(CBZ.TempProject.EnterpriseForm);
             ComboBoxExecutive.SelectedIndex = CBZ.TempProject.Executive.Id;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxBuilder_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempProject.Builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxProjectStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempProject.Status = new ProjectStatus((ProjectStatus)ComboBoxProjectStatus.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxTenderForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempProject.TenderForm = new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxEnterpriseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempProject.EnterpriseForm = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxExecutive_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempProject.Executive = new User((User)ComboBoxExecutive.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempProject.Name = TextBoxCaseName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion

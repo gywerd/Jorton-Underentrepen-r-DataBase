@@ -23,19 +23,22 @@ namespace JudGui
     public partial class UcProjectDelete : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
-        public UcProjectDelete(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcProjectDelete(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
 
             GenerateComboBoxCaseIdItems();
         }
+
+        #endregion
 
         #region Buttons
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -44,7 +47,7 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcMain.Content = new UserControl();
-                Bizz.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
         }
 
@@ -55,25 +58,25 @@ namespace JudGui
                 if (MessageBox.Show("Er du sikker på, at du vil slette projektet? Alle data vil gå tabt!", "Slet Projekt", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     // Code that changes project status
-                    bool result = Bizz.DeleteFromDb("Projects", Bizz.TempProject.Id.ToString());
+                    bool result = CBZ.DeleteFromDb("Projects", CBZ.TempProject.Id.ToString());
 
                     if (result)
                     {
-                        foreach (Enterprise enterprise in Bizz.Enterprises)
+                        foreach (Enterprise enterprise in CBZ.Enterprises)
                         {
-                            if (enterprise.Project.Id == Bizz.TempProject.Case)
+                            if (enterprise.Project.Id == CBZ.TempProject.Case)
                             {
-                                foreach (SubEntrepeneur subEntrepeneur in Bizz.SubEntrepeneurs)
+                                foreach (SubEntrepeneur subEntrepeneur in CBZ.SubEntrepeneurs)
                                 {
                                     if (subEntrepeneur.Enterprise.Id == enterprise.Id)
                                     {
-                                        Bizz.DeleteFromDb("Requests", subEntrepeneur.Request.Id.ToString());
-                                        Bizz.DeleteFromDb("IttLetters", subEntrepeneur.IttLetter.Id.ToString());
-                                        Bizz.DeleteFromDb("Offers", subEntrepeneur.Offer.Id.ToString());
-                                        Bizz.DeleteFromDb("SubEntrepeneurs", subEntrepeneur.Id.ToString());
+                                        CBZ.DeleteFromDb("Requests", subEntrepeneur.Request.Id.ToString());
+                                        CBZ.DeleteFromDb("IttLetters", subEntrepeneur.IttLetter.Id.ToString());
+                                        CBZ.DeleteFromDb("Offers", subEntrepeneur.Offer.Id.ToString());
+                                        CBZ.DeleteFromDb("SubEntrepeneurs", subEntrepeneur.Id.ToString());
                                     }
                                 }
-                                Bizz.DeleteFromDb("Enterprises", enterprise.Id.ToString());
+                                CBZ.DeleteFromDb("Enterprises", enterprise.Id.ToString());
                             }
                         }
 
@@ -81,12 +84,12 @@ namespace JudGui
                         MessageBox.Show("Projektet blev slettet", "Slet Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         //Update list of projects
-                        Bizz.RefreshList("Projects");
-                        Bizz.RefreshIndexedList("IndexedActiveProjects");
-                        Bizz.RefreshIndexedList("IndexedProjects");
+                        CBZ.RefreshList("Projects");
+                        CBZ.RefreshIndexedList("IndexedActiveProjects");
+                        CBZ.RefreshIndexedList("IndexedProjects");
 
                         //Close right UserControl
-                        Bizz.UcMainActive = false;
+                        CBZ.UcMainEdited = false;
                         UcMain.Content = new UserControl();
                     }
                     else
@@ -109,12 +112,18 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedProjects)
+            foreach (IndexedProject temp in CBZ.IndexedProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
             }
         }
 
@@ -124,7 +133,7 @@ namespace JudGui
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedProjects)
+            foreach (IndexedProject temp in CBZ.IndexedProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }

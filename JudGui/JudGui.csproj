@@ -191,17 +191,14 @@
     <Compile Include="UcLogin.xaml.cs">
       <DependentUpon>UcLogin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcLoginHelp.xaml.cs">
-      <DependentUpon>UcLoginHelp.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UcProjectStatusChange.xaml.cs">
       <DependentUpon>UcProjectStatusChange.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcProjectDelete.xaml.cs">
       <DependentUpon>UcProjectDelete.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcProjectStatuses.xaml.cs">
-      <DependentUpon>UcProjectStatuses.xaml</DependentUpon>
+    <Compile Include="UcProjectStatusCreate.xaml.cs">
+      <DependentUpon>UcProjectStatusCreate.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcRegions.xaml.cs">
       <DependentUpon>UcRegions.xaml</DependentUpon>
@@ -410,10 +407,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcLoginHelp.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UcProjectStatusChange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -422,7 +415,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcProjectStatuses.xaml">
+    <Page Include="UcProjectStatusCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

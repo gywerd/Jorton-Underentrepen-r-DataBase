@@ -23,20 +23,23 @@ namespace JudGui
     public partial class UcProjectCreate : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
         #endregion
 
-        public UcProjectCreate(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcProjectCreate(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
             GenerateComboBoxBuilderItems();
             GenerateComboBoxTenderFormItems();
             GenerateComboBoxEnterpriseFormItems();
             GenerateComboBoxExecutiveItems();
         }
+
+        #endregion
 
         #region Buttons
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -45,7 +48,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du annullere oprettelse af projektet?", "Luk Projekt", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                Bizz.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -55,8 +58,8 @@ namespace JudGui
             bool result = false;
 
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
-            int id = Bizz.CreateInDb(project);
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)CBZ.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            int id = CBZ.CreateInDb(project);
             if (id >= 1)
             {
                 result = true;
@@ -68,12 +71,12 @@ namespace JudGui
                 MessageBox.Show("Projektet blev oprettet", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.RefreshList("Projects");
-                Bizz.RefreshIndexedList("IndexedActiveProjects");
-                Bizz.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshList("Projects");
+                CBZ.RefreshIndexedList("IndexedActiveProjects");
+                CBZ.RefreshIndexedList("IndexedProjects");
 
                 //Close right UserControl
-                Bizz.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
             else
@@ -88,8 +91,8 @@ namespace JudGui
             bool result = false;
 
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)Bizz.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
-            int id = Bizz.CreateInDb(project);
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)CBZ.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            int id = CBZ.CreateInDb(project);
             if (id >= 1)
             {
                 result = true;
@@ -109,9 +112,9 @@ namespace JudGui
                 ComboBoxExecutive.SelectedIndex = -1;
 
                 //Update list of projects
-                Bizz.RefreshList("Projects");
-                Bizz.RefreshIndexedList("IndexedActiveProjects");
-                Bizz.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshList("Projects");
+                CBZ.RefreshIndexedList("IndexedActiveProjects");
+                CBZ.RefreshIndexedList("IndexedProjects");
             }
             else
             {
@@ -132,6 +135,12 @@ namespace JudGui
                 TextBoxCaseId.Text = id;
                 TextBoxCaseId.Select(TextBoxCaseId.Text.Length, 0);
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
@@ -143,6 +152,12 @@ namespace JudGui
                 TextBoxCaseName.Text = id;
                 TextBoxCaseName.Select(TextBoxCaseName.Text.Length, 0);
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion
@@ -151,7 +166,7 @@ namespace JudGui
         private void GenerateComboBoxBuilderItems()
         {
             ComboBoxBuilder.Items.Clear();
-            foreach (Builder temp in Bizz.Builders)
+            foreach (Builder temp in CBZ.Builders)
             {
                 ComboBoxBuilder.Items.Add(temp);
             }
@@ -160,7 +175,7 @@ namespace JudGui
         private void GenerateComboBoxTenderFormItems()
         {
             ComboBoxTenderForm.Items.Clear();
-            foreach (TenderForm temp in Bizz.TenderForms)
+            foreach (TenderForm temp in CBZ.TenderForms)
             {
                 ComboBoxTenderForm.Items.Add(temp);
             }
@@ -169,7 +184,7 @@ namespace JudGui
         private void GenerateComboBoxEnterpriseFormItems()
         {
             ComboBoxEnterpriseForm.Items.Clear();
-            foreach (EnterpriseForm temp in Bizz.EnterpriseForms)
+            foreach (EnterpriseForm temp in CBZ.EnterpriseForms)
             {
                 ComboBoxEnterpriseForm.Items.Add(temp);
             }
@@ -178,7 +193,7 @@ namespace JudGui
         private void GenerateComboBoxExecutiveItems()
         {
             ComboBoxExecutive.Items.Clear();
-            foreach (User temp in Bizz.Users)
+            foreach (User temp in CBZ.Users)
             {
                 ComboBoxExecutive.Items.Add(temp);
             }

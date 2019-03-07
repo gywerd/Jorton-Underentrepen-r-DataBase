@@ -59,7 +59,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke redigering af Underentrepenører?", "Luk Rediger Underentrepenør", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -91,6 +91,13 @@ namespace JudGui
             ResetComboBoxes();
             ResetRadioButtons();
             OverrideControl = false;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxContact_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -127,6 +134,13 @@ namespace JudGui
             {
                 CBZ.TempContact = new Contact();
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxEnterprise_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,6 +173,13 @@ namespace JudGui
                     ListBoxSubEntrepeneurs.ItemsSource = IndexedSubEntrepeneurs;
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxRequest_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -192,6 +213,7 @@ namespace JudGui
                     DateRequest.Text = "";
                 }
             }
+
         }
 
         private void DateIttLetter_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -233,6 +255,13 @@ namespace JudGui
             //        }
             //    }
             //}
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void DateOffer_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -273,6 +302,13 @@ namespace JudGui
             //        }
             //    }
             //}
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void DateRequest_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -355,6 +391,13 @@ namespace JudGui
             //        }
             //    }
             //}
+
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ListBoxSubEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -393,6 +436,13 @@ namespace JudGui
                     TextBoxOfferPrice.Text = CBZ.TempOffer.Price.ToString();
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonAgreementConcludedYes_Checked(object sender, RoutedEventArgs e)
@@ -421,6 +471,13 @@ namespace JudGui
                     RadioButtonAgreementConcludedNo.IsChecked = false;
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonAgreementConcludedNo_Checked(object sender, RoutedEventArgs e)
@@ -449,6 +506,13 @@ namespace JudGui
                     RadioButtonAgreementConcludedNo.IsChecked = false;
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonIttLetterSentYes_Checked(object sender, RoutedEventArgs e)
@@ -484,6 +548,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonIttLetterSentNo_Checked(object sender, RoutedEventArgs e)
@@ -521,6 +592,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonOfferChosenYes_Checked(object sender, RoutedEventArgs e)
@@ -555,6 +633,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonOfferChosenNo_Checked(object sender, RoutedEventArgs e)
@@ -589,6 +674,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonOfferReceivedYes_Checked(object sender, RoutedEventArgs e)
@@ -627,6 +719,12 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void RadioButtonOfferReceivedNo_Checked(object sender, RoutedEventArgs e)
@@ -664,6 +762,12 @@ namespace JudGui
                         TextBoxOfferPrice.Text = "0,00";
                     }
                 }
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
             }
         }
 
@@ -707,6 +811,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonReservationsNo_Checked(object sender, RoutedEventArgs e)
@@ -749,6 +860,12 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void RadioButtonUpholdYes_Checked(object sender, RoutedEventArgs e)
@@ -780,6 +897,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonUpholdNo_Checked(object sender, RoutedEventArgs e)
@@ -811,6 +935,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void TextBoxOfferPrice_TextChanged(object sender, TextChangedEventArgs e)
@@ -842,6 +973,13 @@ namespace JudGui
                     }
                 }
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         #endregion

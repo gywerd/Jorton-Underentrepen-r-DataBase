@@ -37,6 +37,7 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcIttLettersPreparePersonalLetters(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
@@ -47,6 +48,8 @@ namespace JudGui
             ComboBoxCaseId.SelectedIndex = 0;
         }
 
+        #endregion
+
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
@@ -55,7 +58,7 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcMain.Content = new UserControl();
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
         }
 
@@ -147,6 +150,13 @@ namespace JudGui
                 ProjectSubEntrepeneurs.Clear();
                 ProjectEnterprises.Clear();
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         #endregion

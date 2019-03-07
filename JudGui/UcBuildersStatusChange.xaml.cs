@@ -48,14 +48,14 @@ namespace JudGui
                 if (MessageBox.Show("Vil du lukke redigering af Entrepenører? Ikke gemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //Close right UserControl
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcMain.Content = new UserControl();
                 }
             }
             else
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
 
             }
@@ -101,6 +101,12 @@ namespace JudGui
                 CBZ.TempBuilder.ToggleActive();
             }
 
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ListBoxBuilders_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -115,6 +121,12 @@ namespace JudGui
                 CheckBoxActive.IsChecked = false;
             }
 
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion

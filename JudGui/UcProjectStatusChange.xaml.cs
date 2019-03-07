@@ -23,20 +23,23 @@ namespace JudGui
     public partial class UcProjectStatusChange : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
-        public UcProjectStatusChange(Bizz bizz, UserControl ucRight)
+        #region Constructors
+        public UcProjectStatusChange(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucRight;
 
             GenerateComboBoxCaseIdItems();
             GenerateComboBoxProjectStatusItems();
         }
+
+        #endregion
 
         #region Buttons
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -45,14 +48,14 @@ namespace JudGui
             {
                 //Close right UserControl
                 UcMain.Content = new UserControl();
-                Bizz.UcMainActive = false;
+                CBZ.UcMainEdited = false;
             }
         }
 
         private void ButtonExecute_Click(object sender, RoutedEventArgs e)
         {
             // Code that changes project status
-            bool result = Bizz.UpdateInDb(Bizz.TempProject);
+            bool result = CBZ.UpdateInDb(CBZ.TempProject);
 
             if (result)
             {
@@ -60,12 +63,12 @@ namespace JudGui
                 MessageBox.Show("Projekstatus blev ændret", "Ændr Projektstatus", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                Bizz.RefreshList("Projects");
-                Bizz.RefreshIndexedList("IndexedActiveProjects");
-                Bizz.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshList("Projects");
+                CBZ.RefreshIndexedList("IndexedActiveProjects");
+                CBZ.RefreshIndexedList("IndexedProjects");
 
                 //Close right UserControl
-                Bizz.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
             else
@@ -81,20 +84,33 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in Bizz.IndexedProjects)
+            foreach (IndexedProject temp in CBZ.IndexedProjects)
             {
                 if (temp.Index == selectedIndex)
                 {
-                    Bizz.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
                 }
             }
-            ComboBoxProjectStatus.SelectedIndex = Bizz.TempProject.Status.Id;
-            TextBoxCaseName.Content = Bizz.TempProject.Name;
+            ComboBoxProjectStatus.SelectedIndex = CBZ.TempProject.Status.Id;
+            TextBoxCaseName.Content = CBZ.TempProject.Name;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxProjectStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Bizz.TempProject.Status = new ProjectStatus((ProjectStatus)ComboBoxProjectStatus.SelectedItem);
+            CBZ.TempProject.Status = new ProjectStatus((ProjectStatus)ComboBoxProjectStatus.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion
@@ -103,7 +119,7 @@ namespace JudGui
         private void GenerateComboBoxCaseIdItems()
         {
             ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in Bizz.IndexedProjects)
+            foreach (IndexedProject temp in CBZ.IndexedProjects)
             {
                 ComboBoxCaseId.Items.Add(temp);
             }
@@ -112,7 +128,7 @@ namespace JudGui
         private void GenerateComboBoxProjectStatusItems()
         {
             ComboBoxProjectStatus.Items.Clear();
-            foreach (ProjectStatus temp in Bizz.ProjectStatuses)
+            foreach (ProjectStatus temp in CBZ.ProjectStatuses)
             {
                 ComboBoxProjectStatus.Items.Add(temp);
             }
@@ -123,14 +139,14 @@ namespace JudGui
         /// </summary>
         private void ReloadListActiveProjects()
         {
-            Bizz.IndexedActiveProjects.Clear();
+            CBZ.IndexedActiveProjects.Clear();
             int i = 0;
-            foreach (Project tempProject in Bizz.ActiveProjects)
+            foreach (Project tempProject in CBZ.ActiveProjects)
             {
                 if (tempProject.Status.Id == 1)
                 {
                     IndexedProject result = new IndexedProject(i, tempProject);
-                    Bizz.IndexedActiveProjects.Add(result);
+                    CBZ.IndexedActiveProjects.Add(result);
                     i++;
                 }
             }
@@ -141,12 +157,12 @@ namespace JudGui
         /// </summary>
         private void ReloadListIndexedProjects()
         {
-            Bizz.IndexedProjects.Clear();
+            CBZ.IndexedProjects.Clear();
             int i = 0;
-            foreach (Project temp in Bizz.ActiveProjects)
+            foreach (Project temp in CBZ.ActiveProjects)
             {
                 IndexedProject result = new IndexedProject(i, temp);
-                Bizz.IndexedProjects.Add(result);
+                CBZ.IndexedProjects.Add(result);
                 i++;
             }
         }

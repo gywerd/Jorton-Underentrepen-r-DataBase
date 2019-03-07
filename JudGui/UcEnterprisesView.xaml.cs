@@ -29,6 +29,7 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcEnterprisesView(Bizz cbz, UserControl ucRight)
         {
             InitializeComponent();
@@ -37,12 +38,14 @@ namespace JudGui
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
+        #endregion
+
         #region Buttons
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             //Close right UserControl
             MessageBox.Show("Visning af Entrepriselisten lukkes.", "Luk Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
-            CBZ.UcMainActive = false;
+            CBZ.UcMainEdited = false;
             UcMain.Content = new UserControl();
         }
 
@@ -68,20 +71,17 @@ namespace JudGui
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
             IndexedEnterprises = GetIndexedEnterprises();
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion
 
         #region Methods
-        //private void GenerateComboBoxCaseIdItems()
-        //{
-        //    ComboBoxCaseId.Items.Clear();
-        //    foreach (IndexedProject temp in Bizz.ActiveProjects)
-        //    {
-        //        ComboBoxCaseId.Items.Add(temp);
-        //    }
-        //}
-
         private List<Enterprise> GetIndexedEnterprises()
         {
             List<Enterprise> result = new List<Enterprise>();

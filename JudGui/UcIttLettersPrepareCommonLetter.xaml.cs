@@ -179,7 +179,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev?", "Luk Klargør Udbudsbrev", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -202,6 +202,13 @@ namespace JudGui
             SetCheckBoxReceiversListExist();
             ComboBoxParagraphs.ItemsSource = IndexedParagraphs;
             ComboBoxParagraphs.SelectedIndex = 0;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxParagraphs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -224,11 +231,23 @@ namespace JudGui
             GetIndexedBullets();
             ListBoxBullets.ItemsSource = IndexedBullets;
             ListBoxBullets.SelectedIndex = 0;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ListBoxBullets_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
         #endregion
 

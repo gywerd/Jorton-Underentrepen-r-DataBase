@@ -44,26 +44,56 @@ namespace JudGui
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxRegion_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Region = new Region((Region)ComboBoxRegion.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void RadioButtonCountryWideYes_Checked(object sender, RoutedEventArgs e)
@@ -75,6 +105,13 @@ namespace JudGui
             {
                 CBZ.TempEntrepeneur.ToggleCountryWide();
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void RadioButtonCountryWideNo_Checked(object sender, RoutedEventArgs e)
@@ -86,51 +123,112 @@ namespace JudGui
             {
                 CBZ.TempEntrepeneur.ToggleCountryWide();
             }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void TextBoxCvr_TextChanged(object sender, TextChangedEventArgs e)
         {
                 CBZ.TempEntrepeneur.Entity.Cvr = TextBoxCvr.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.Name = TextBoxName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxCoName_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.CoName = TextBoxCoName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.ContactInfo.Email = TextBoxEmail.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxFax_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.ContactInfo.Fax = TextBoxFax.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxMobile_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.ContactInfo.Mobile = TextBoxMobile.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxPhone_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.ContactInfo.Phone = TextBoxPhone.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxPlace_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.Address.Place = TextBoxPlace.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxStreet_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempEntrepeneur.Entity.Address.Street = TextBoxStreet.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
@@ -141,6 +239,12 @@ namespace JudGui
                 CBZ.TempEntrepeneur.Entity.Address.ZipTown = CBZ.TempZipTown;
             }
             TextBoxTown.Text = CBZ.RetrieveTownFromZip(TextBoxZip.Text);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion
@@ -158,7 +262,7 @@ namespace JudGui
                     CBZ.TempEnterprise = new Enterprise();
 
                     //Close right UserControl
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcMain.Content = new UserControl();
                 }
             }
@@ -169,7 +273,7 @@ namespace JudGui
                 CBZ.TempEnterprise = new Enterprise();
 
                 //Close main UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
 
@@ -191,7 +295,7 @@ namespace JudGui
                 CBZ.TempEnterprise = new Enterprise();
 
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
             else

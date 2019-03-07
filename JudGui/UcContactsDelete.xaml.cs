@@ -60,7 +60,7 @@ namespace JudGui
                     CBZ.TempContact = new Contact();
 
                     //Close right UserControl
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcMain.Content = new UserControl();
                 }
             }
@@ -71,7 +71,7 @@ namespace JudGui
                 CBZ.TempContact = new Contact();
 
                 //Close main UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -97,7 +97,7 @@ namespace JudGui
                 CBZ.TempContact = new Contact();
 
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
 
@@ -139,6 +139,12 @@ namespace JudGui
                 ListBoxContacts.ItemsSource = FilteredContacts;
             }
 
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ListBoxContacts_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -146,6 +152,12 @@ namespace JudGui
             if (ListBoxContacts.SelectedItems.Count == 1)
             {
                 CBZ.TempContact = new Contact((Contact)ListBoxContacts.SelectedItem);
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
             }
 
         }

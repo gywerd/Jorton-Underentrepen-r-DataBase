@@ -31,6 +31,7 @@ namespace JudGui
 
         #endregion
 
+        #region Constructors
         public UcEnterprisesEdit(Bizz bizz, UserControl ucMain)
         {
             InitializeComponent();
@@ -40,6 +41,8 @@ namespace JudGui
             GenerateCraftGroupItems();
         }
 
+        #endregion
+
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
@@ -47,7 +50,7 @@ namespace JudGui
             if (MessageBox.Show("Vil du lukke Redigering af Entrepriselisten?", "Luk Entrepriseliste", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
             }
         }
@@ -131,26 +134,57 @@ namespace JudGui
             }
             IndexedEnterprises = GetIndexedEnterprises();
             ListBoxEnterprises.ItemsSource = IndexedEnterprises;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         private void ListBoxEnterprises_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -164,6 +198,13 @@ namespace JudGui
             ComboBoxCraftGroup2.SelectedIndex = temp.CraftGroup2.Id;
             ComboBoxCraftGroup3.SelectedIndex = temp.CraftGroup3.Id;
             ComboBoxCraftGroup4.SelectedIndex = temp.CraftGroup4.Id;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
@@ -176,6 +217,13 @@ namespace JudGui
                 TextBoxName.Select(TextBoxName.Text.Length, 0);
             }
             CBZ.TempEnterprise.Name = TextBoxName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void TextBoxElaboration_TextChanged(object sender, TextChangedEventArgs e)
@@ -188,6 +236,13 @@ namespace JudGui
                 TextBoxElaboration.Select(TextBoxElaboration.Text.Length, 0);
             }
             CBZ.TempEnterprise.Elaboration = TextBoxElaboration.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
         }
 
         private void TextBoxOfferList_TextChanged(object sender, TextChangedEventArgs e)
@@ -200,6 +255,12 @@ namespace JudGui
                 TextBoxOfferList.Select(TextBoxOfferList.Text.Length, 0);
             }
             CBZ.TempEnterprise.OfferList = TextBoxOfferList.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
         }
 
         #endregion

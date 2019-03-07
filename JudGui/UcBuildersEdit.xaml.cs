@@ -42,66 +42,6 @@ namespace JudGui
 
         #endregion
 
-        #region Events
-        private void ListBoxBuilders_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CBZ.TempBuilder = new Builder((Builder)ListBoxBuilders.SelectedItem);
-            TextBoxName.Text = CBZ.TempBuilder.Entity.Name;
-            TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
-            TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
-            TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
-            TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
-
-        }
-        private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.Name = TextBoxName.Text;
-        }
-
-        private void TextBoxCoName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.CoName = TextBoxCoName.Text;
-        }
-
-        private void TextBoxStreet_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.Address.Street = TextBoxStreet.Text;
-        }
-
-        private void TextBoxPlace_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.Address.Place = TextBoxPlace.Text;
-        }
-
-        private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempZipTown = GetZipTown(TextBoxZip.Text);
-            CBZ.TempBuilder.Entity.Address.ZipTown = CBZ.TempZipTown;
-            TextBoxTown.Text = CBZ.TempZipTown.Town;
-        }
-
-        private void TextBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.ContactInfo.Email = TextBoxEmail.Text;
-        }
-
-        private void TextBoxFax_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.ContactInfo.Fax = TextBoxFax.Text;
-        }
-
-        private void TextBoxMobile_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.ContactInfo.Mobile = TextBoxMobile.Text;
-        }
-
-        private void TextBoxPhone_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempBuilder.Entity.ContactInfo.Phone = TextBoxPhone.Text;
-        }
-
-        #endregion
-
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
@@ -111,14 +51,14 @@ namespace JudGui
                 if (MessageBox.Show("Vil du lukke redigering af Entrepenører? Ikke gemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //Close right UserControl
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcMain.Content = new UserControl();
                 }
             }
             else
             {
                 //Close right UserControl
-                CBZ.UcMainActive = false;
+                CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
 
             }
@@ -173,6 +113,132 @@ namespace JudGui
                 TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
                 TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
                 TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
+            }
+        }
+
+        #endregion
+
+        #region Events
+        private void ListBoxBuilders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CBZ.TempBuilder = new Builder((Builder)ListBoxBuilders.SelectedItem);
+            TextBoxName.Text = CBZ.TempBuilder.Entity.Name;
+            TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
+            TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
+            TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
+            TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.Name = TextBoxName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxCoName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.CoName = TextBoxCoName.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxStreet_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.Address.Street = TextBoxStreet.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxPlace_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.Address.Place = TextBoxPlace.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempZipTown = GetZipTown(TextBoxZip.Text);
+            CBZ.TempBuilder.Entity.Address.ZipTown = CBZ.TempZipTown;
+            TextBoxTown.Text = CBZ.TempZipTown.Town;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.ContactInfo.Email = TextBoxEmail.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+        }
+
+        private void TextBoxFax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.ContactInfo.Fax = TextBoxFax.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+        }
+
+        private void TextBoxMobile_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.ContactInfo.Mobile = TextBoxMobile.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+        }
+
+        private void TextBoxPhone_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempBuilder.Entity.ContactInfo.Phone = TextBoxPhone.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
             }
         }
 

@@ -45,13 +45,12 @@ namespace JudGui
         public UcIttLettersSendLetters UcIttLettersSendLetters;
         public UcJobDescritions UcJobDescritions;
         public UcLogin UcLogin;
-        public UcLoginHelp UcLoginHelp;
         public UcProjectCreate UcProjectCreate;
         public UcProjectCaseIdChange UcProjectCaseIdChange;
         public UcProjectCopy UcProjectCopy;
         public UcProjectsEdit UcProjectsEdit;
         public UcProjectStatusChange UcProjectStatusChange;
-        public UcProjectStatuses UcProjectStatuses;
+        public UcProjectStatusCreate UcProjectStatusCreate;
         public UcRequestsChooseReceivers UcRequestsChooseReceivers;
         public UcRequestPrepare UcRequestPrepare;
         public UcRequestSend UcRequestSend;
@@ -109,11 +108,11 @@ namespace JudGui
 
         private void ButtonBuilderCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Opret Bygherre'. Alt, der ikke er gemt vil blive mistet!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcBuilderCreate = new UcBuilderCreate(CBZ, UcMain);
                     this.UcMain.Content = UcBuilderCreate;
                 }
@@ -127,11 +126,11 @@ namespace JudGui
 
         private void ButtonBuildersEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Bygherrer'. Alt, der ikke er gemt vil blive mistet!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcBuildersEdit = new UcBuildersEdit(CBZ, UcMain);
                     this.UcMain.Content = UcBuildersEdit;
                 }
@@ -145,11 +144,11 @@ namespace JudGui
 
         private void ButtonBuildersStatusChange_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Status for Bygherrer'. Alt, der ikke er gemt vil blive mistet!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcBuildersStatusChange = new UcBuildersStatusChange(CBZ, UcMain);
                     this.UcMain.Content = UcBuildersStatusChange;
                 }
@@ -163,11 +162,11 @@ namespace JudGui
 
         private void ButtonChangePassWord_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Ændr Password'. Alt, der ikke er gemt vil blive mistet!", "Password", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcChangePassWord = new UcChangePassWord(CBZ, UcMain);
                     this.UcMain.Content = UcChangePassWord;
                 }
@@ -181,11 +180,11 @@ namespace JudGui
 
         private void ButtonContactCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Opret Kontakt'. Alt, der ikke er gemt vil blive mistet!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcContactCreate = new UcContactCreate(CBZ, UcMain);
                     UcMain.Content = UcContactCreate;
                 }
@@ -199,11 +198,11 @@ namespace JudGui
 
         private void ButtonContactsDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Slet Kontakt'. Alt, der ikke er gemt vil blive mistet!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcContactsDelete = new UcContactsDelete(CBZ, UcMain);
                     UcMain.Content = UcContactsDelete;
                 }
@@ -217,11 +216,11 @@ namespace JudGui
 
         private void ButtonContactsEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Kontakt'. Alt, der ikke er gemt vil blive mistet!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcContactsEdit = new UcContactsEdit(CBZ, UcMain);
                     UcMain.Content = UcContactsEdit;
                 }
@@ -235,11 +234,11 @@ namespace JudGui
 
         private void ButtonCraftCategories_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Fagkategorier'. Alt, der ikke er gemt vil blive mistet!", "Fagkategorier", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcCraftGroupCategories = new UcCraftGroupCategories(CBZ, UcMain);
                     UcMain.Content = UcCraftGroupCategories;
                 }
@@ -253,11 +252,11 @@ namespace JudGui
 
         private void ButtonUcCraftGroups_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Faggrupper'. Alt, der ikke er gemt vil blive mistet!", "Faggrupper", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcCraftGroups = new UcCraftGroups(CBZ, UcMain);
                     UcMain.Content = UcCraftGroups;
                 }
@@ -271,11 +270,11 @@ namespace JudGui
 
         private void ButtonEnterprisesCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Opret Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEnterpriseCreate = new UcEnterpriseCreate(CBZ, UcMain);
                     UcMain.Content = UcEnterpriseCreate;
                 }
@@ -289,11 +288,11 @@ namespace JudGui
 
         private void ButtonEnterprisesEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEnterprisesEdit = new UcEnterprisesEdit(CBZ, UcMain);
                     UcMain.Content = UcEnterprisesEdit;
                 }
@@ -307,11 +306,11 @@ namespace JudGui
 
         private void ButtonEnterprisesView_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Vis Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEnterprisesView = new UcEnterprisesView(CBZ, UcMain);
                     UcMain.Content = UcEnterprisesView;
                 }
@@ -325,11 +324,11 @@ namespace JudGui
 
         private void ButtonEnterpriseForms_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Entrepriseformer'. Alt, der ikke er gemt vil blive mistet!", "Entrepriseformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
                     UcMain.Content = UcEnterpriseForms;
                 }
@@ -343,11 +342,11 @@ namespace JudGui
 
         private void ButtonEntrepeneurCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Opret Entrepenør'. Alt, der ikke er gemt vil blive mistet!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEntrepeneurCreate = new UcEntrepeneurCreate(CBZ, UcMain);
                     UcMain.Content = UcEntrepeneurCreate;
                 }
@@ -361,11 +360,11 @@ namespace JudGui
 
         private void ButtonEntrepeneursEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Entrepenører'. Alt, der ikke er gemt vil blive mistet!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEntrepeneurEdit = new UcEntrepeneurEdit(CBZ, UcMain);
                     UcMain.Content = UcEntrepeneurEdit;
                 }
@@ -379,11 +378,11 @@ namespace JudGui
 
         private void ButtonEntrepeneursStatusChange_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Status for Entrepenører'. Alt, der ikke er gemt vil blive mistet!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcEntrepeneursStatusChange = new UcEntrepeneursStatusChange(CBZ, UcMain);
                     UcMain.Content = UcEntrepeneursStatusChange;
                 }
@@ -407,11 +406,11 @@ namespace JudGui
 
         private void ButtonIttLetterChooseReceivers_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcIttLettersChooseReceivers = new UcIttLettersChooseReceivers(CBZ, UcMain);
                     UcMain.Content = UcIttLettersChooseReceivers;
                 }
@@ -425,11 +424,11 @@ namespace JudGui
 
         private void ButtonIttLetterPrepareCommon_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Klargør Fælles Brevdel'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcIttLettersPrepareCommonLetter = new UcIttLettersPrepareCommonLetter(CBZ, UcMain);
                     UcMain.Content = UcIttLettersPrepareCommonLetter;
                 }
@@ -443,11 +442,11 @@ namespace JudGui
 
         private void ButtonIttLetterPreparePersonal_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Klargør Personlig Brevdel'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcIttLettersPreparePersonalLetters = new UcIttLettersPreparePersonalLetters(CBZ, UcMain);
                     UcMain.Content = UcIttLettersPreparePersonalLetters;
                 }
@@ -461,11 +460,11 @@ namespace JudGui
 
         private void ButtonIttLetterSend_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Afsend'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcIttLettersSendLetters = new UcIttLettersSendLetters(CBZ, UcMain);
                     UcMain.Content = UcIttLettersSendLetters;
                 }
@@ -485,11 +484,11 @@ namespace JudGui
 
         private void ButtonJobDescritions_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Jobbeskrivelser'. Alt, der ikke er gemt vil blive mistet!", "Jobbeskrivelser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcJobDescritions = new UcJobDescritions(CBZ, UcMain);
                     UcMain.Content = UcJobDescritions;
                 }
@@ -526,11 +525,11 @@ namespace JudGui
 
         private void ButtonProjectCopy_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Kopier Projekt'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcProjectCopy = new UcProjectCopy(CBZ, UcMain);
                     UcMain.Content = UcProjectCopy;
                 }
@@ -545,11 +544,11 @@ namespace JudGui
 
         private void ButtonProjectCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Opret Projekt'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcProjectCreate = new UcProjectCreate(CBZ, UcMain);
                     UcMain.Content = new UserControl();
                 }
@@ -563,11 +562,11 @@ namespace JudGui
 
         private void ButtonProjectEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Projekter'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcProjectsEdit = new UcProjectsEdit(CBZ, UcMain);
                     UcMain.Content = UcProjectsEdit;
                 }
@@ -582,11 +581,11 @@ namespace JudGui
 
         private void ButtonProjectChangeCaseId_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Skift Sagsnummer'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcProjectCaseIdChange = new UcProjectCaseIdChange(CBZ, UcMain);
                     UcMain.Content = UcProjectCaseIdChange;
                 }
@@ -601,11 +600,11 @@ namespace JudGui
 
         private void ButtonProjectStatusChange_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Skift Status'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcProjectStatusChange = new UcProjectStatusChange(CBZ, UcMain);
                     UcMain.Content = UcProjectStatusChange;
                 }
@@ -620,19 +619,19 @@ namespace JudGui
 
         private void ButtonProjectStatuses_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Projektstatusliste'. Alt, der ikke er gemt vil blive mistet!", "Projektstatusliste", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Projektstatuser'. Alt, der ikke er gemt vil blive mistet!", "Projektstatuser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
-                    UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
-                    UcMain.Content = UcProjectStatuses;
+                    CBZ.UcMainEdited = false;
+                    UcProjectStatusCreate = new UcProjectStatusCreate(CBZ, UcMain);
+                    UcMain.Content = UcProjectStatusCreate;
                 }
             }
             else
             {
-                UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
-                UcMain.Content = UcProjectStatuses;
+                UcProjectStatusCreate = new UcProjectStatusCreate(CBZ, UcMain);
+                UcMain.Content = UcProjectStatusCreate;
             }
         }
 
@@ -643,13 +642,13 @@ namespace JudGui
 
         private void ButtonRequestChooseReceivers_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcRequestsChooseReceivers = new UcRequestsChooseReceivers(CBZ, UcMain);
-                    UcMain.Content = UcProjectStatuses;
+                    UcMain.Content = UcRequestsChooseReceivers;
                 }
             }
             else
@@ -661,11 +660,11 @@ namespace JudGui
 
         private void ButtonRequestPrepare_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Klargør forespørgsel'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcRequestPrepare = new UcRequestPrepare(CBZ, UcMain);
                     UcMain.Content = UcRequestPrepare;
                 }
@@ -679,11 +678,11 @@ namespace JudGui
 
         private void ButtonRequestSend_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Afsend'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcRequestSend = new UcRequestSend(CBZ, UcMain);
                     UcMain.Content = UcRequestSend;
                 }
@@ -697,11 +696,11 @@ namespace JudGui
 
         private void ButtonRegions_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Regioner'. Alt, der ikke er gemt vil blive mistet!", "Regioner", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcRegions = new UcRegions(CBZ, UcMain);
                     UcMain.Content = UcRegions;
                 }
@@ -715,11 +714,11 @@ namespace JudGui
 
         private void ButtonSubEntrepeneursChoose_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Vælg Underentrepenører'. Alt, der ikke er gemt vil blive mistet!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcSubEntrepeneursChoose = new UcSubEntrepeneursChoose(CBZ, UcMain);
                     UcMain.Content = UcSubEntrepeneursChoose;
                 }
@@ -733,11 +732,11 @@ namespace JudGui
         
         private void ButtonSubEntrepeneursEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Underentrepenører'. Alt, der ikke er gemt vil blive mistet!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcSubEntrepeneursEdit = new UcSubEntrepeneursEdit(CBZ, UcMain);
                     UcMain.Content = UcSubEntrepeneursEdit;
                 }
@@ -752,11 +751,11 @@ namespace JudGui
         
         private void ButtonSubEntrepeneursView_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Vis Underentrepenører'. Alt, der ikke er gemt vil blive mistet!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcSubEntrepeneursView = new UcSubEntrepeneursView(CBZ, UcMain);
                     UcMain.Content = UcSubEntrepeneursView;
                 }
@@ -770,11 +769,11 @@ namespace JudGui
 
         private void ButtonTenderForms_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Udbudsformer'. Alt, der ikke er gemt vil blive mistet!", "Udbudsformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcTenderForms = new UcTenderForms(CBZ, UcMain);
                     UcMain.Content = UcTenderForms;
                 }
@@ -788,11 +787,11 @@ namespace JudGui
 
         private void ButtonUserCreate_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Opret Bruger'. Alt, der ikke er gemt vil blive mistet!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcUserCreate = new UcUserCreate(CBZ, UcMain);
                     UcMain.Content = UcUserCreate;
                 }
@@ -806,11 +805,11 @@ namespace JudGui
 
         private void ButtonUsersEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Brugere'. Alt, der ikke er gemt vil blive mistet!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcUsersEdit = new UcUsersEdit(CBZ, UcMain);
                     UcMain.Content = UcUsersEdit;
                 }
@@ -824,11 +823,11 @@ namespace JudGui
 
         private void ButtonUsersStatusChange_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Rediger Status for Brugere'. Alt, der ikke er gemt vil blive mistet!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcUsersStatusChange = new UcUsersStatusChange(CBZ, UcMain);
                     UcMain.Content = UcUsersStatusChange;
                 }
@@ -842,11 +841,11 @@ namespace JudGui
 
         private void ButtonZipList_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainActive)
+            if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Postnummerliste'. Alt, der ikke er gemt vil blive mistet!", "Postnummerliste", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    CBZ.UcMainActive = false;
+                    CBZ.UcMainEdited = false;
                     UcZipList = new UcZipList(CBZ, UcMain);
                     UcMain.Content = UcZipList;
                 }
@@ -863,7 +862,7 @@ namespace JudGui
         #region Methods
         private void OpenUcLogin()
         {
-            CBZ.UcMainActive = true;
+            CBZ.UcMainEdited = true;
             UcLogin = new UcLogin(CBZ, TabOffer, TabMaintenance, TabAdministration, Data, Users, ButtonChangePassWord, ButtonLogOut, UserName, UcMain);
             UcMain.Content = UcLogin;
         }
