@@ -35,12 +35,12 @@ namespace JudGui
         /// Constructor with GUI for deleting contacts
         /// </summary>
         /// <param name="cbz">Bizz</param>
-        /// <param name="ucRight">UserControl</param>
-        public UcContactsDelete(Bizz cbz, UserControl ucRight)
+        /// <param name="ucMain">UserControl</param>
+        public UcContactsDelete(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
 
             CBZ.TempContact = new Contact();
         }

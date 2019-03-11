@@ -30,11 +30,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcEntrepeneurCreate(Bizz cbz, UserControl ucRight)
+        public UcEntrepeneurCreate(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             CBZ.TempEntrepeneur = new Entrepeneur();
         }
 

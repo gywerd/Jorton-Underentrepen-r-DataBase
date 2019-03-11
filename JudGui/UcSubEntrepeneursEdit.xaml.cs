@@ -41,11 +41,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcSubEntrepeneursEdit(Bizz cbz, UserControl ucRight)
+        public UcSubEntrepeneursEdit(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
             ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
         }
@@ -1619,7 +1619,7 @@ namespace JudGui
         private RequestStatus GetRequestStatus(int index)
         {
             IndexedRequestStatus result = new IndexedRequestStatus();
-            foreach (IndexedRequestStatus status in CBZ.IndexedRequestStatuses)
+            foreach (IndexedRequestStatus status in CBZ.IndexedRequestStatusses)
             {
                 if (status.Index == index)
                 {

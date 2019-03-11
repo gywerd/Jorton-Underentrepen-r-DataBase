@@ -38,13 +38,13 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcIttLettersChooseReceivers(Bizz cbz, UserControl ucRight)
+        public UcIttLettersChooseReceivers(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
             IndexedLegalEntities = cbz.IndexedEntrepeneurs;
             macAddress = CBZ.MacAddress;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
         }
 

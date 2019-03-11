@@ -29,11 +29,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcUsersStatusChange(Bizz bizz, UserControl ucRight)
+        public UcUsersStatusChange(Bizz bizz, UserControl ucMain)
         {
             InitializeComponent();
             this.Bizz = bizz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
         }
 
         #endregion

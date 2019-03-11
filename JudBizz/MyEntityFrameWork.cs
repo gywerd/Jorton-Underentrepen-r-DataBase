@@ -22,6 +22,8 @@ namespace JudBizz
         public Address TempAddress = new Address();
         public Builder TempBuilder = new Builder();
         public Bullet TempBullet = new Bullet();
+        public Category TempCategory = new Category();
+        public CraftGroup TempCraftGroup = new CraftGroup();
         public Contact TempContact = new Contact();
         public ContactInfo TempContactInfo = new ContactInfo();
         public Enterprise TempEnterprise = new Enterprise();
@@ -32,6 +34,7 @@ namespace JudBizz
         public Offer TempOffer = new Offer();
         public Paragraph TempParagraph = new Paragraph();
         public Project TempProject = new Project();
+        public ProjectStatus TempProjectStatus = new ProjectStatus();
         public Receiver TempReceiver = new Receiver();
         public Request TempRequest = new Request();
         public Shipping TempShipping = new Shipping();

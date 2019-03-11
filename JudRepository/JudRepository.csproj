@@ -58,11 +58,13 @@
     <Compile Include="EnterpriseForm.cs" />
     <Compile Include="Entrepeneur.cs" />
     <Compile Include="IndexedBuilder.cs" />
+    <Compile Include="IndexedCategory.cs" />
     <Compile Include="IndexedContact.cs" />
     <Compile Include="IndexedCraftGroup.cs" />
     <Compile Include="IndexedEnterprise.cs" />
     <Compile Include="IndexedEnterpriseForm.cs" />
     <Compile Include="IndexedBullet.cs" />
+    <Compile Include="IndexedJobDescription.cs" />
     <Compile Include="IndexedParagraph.cs" />
     <Compile Include="IndexedEntrepeneur.cs" />
     <Compile Include="IndexedProject.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="IndexedTenderForm.cs" />
     <Compile Include="IndexedUser.cs" />
     <Compile Include="IndexedProjectStatus.cs" />
+    <Compile Include="IndexedUserLevel.cs" />
     <Compile Include="IttLetter.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Paragraph.cs" />

@@ -32,11 +32,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcSubEntrepeneursChoose(Bizz bizz, UserControl ucRight)
+        public UcSubEntrepeneursChoose(Bizz bizz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = bizz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
             ComboBoxArea.ItemsSource = CBZ.Regions;
         }

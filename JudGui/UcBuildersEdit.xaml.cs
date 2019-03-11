@@ -29,11 +29,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcBuildersEdit(Bizz cbz, UserControl ucRight)
+        public UcBuildersEdit(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
 
             CBZ.RefreshIndexedList("IndexedBuilders");
             ListBoxBuilders.ItemsSource = CBZ.IndexedBuilders;
@@ -48,7 +48,7 @@ namespace JudGui
             if (CBZ.TempBuilder != new Builder())
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke redigering af Entrepenører? Ikke gemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke redigering af Bygherrer? Ikke gemte data mistes.", "Bygherrer", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //Close right UserControl
                     CBZ.UcMainEdited = false;

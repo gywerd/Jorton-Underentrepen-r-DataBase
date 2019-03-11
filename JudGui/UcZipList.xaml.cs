@@ -29,11 +29,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcZipList(Bizz cbz, UserControl ucRight)
+        public UcZipList(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             ListBoxZipList.ItemsSource = CBZ.ZipTowns;
         }
 

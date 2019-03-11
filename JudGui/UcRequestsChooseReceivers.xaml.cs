@@ -28,11 +28,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcRequestsChooseReceivers(Bizz cbz, UserControl ucRight)
+        public UcRequestsChooseReceivers(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
         }
 
         #endregion

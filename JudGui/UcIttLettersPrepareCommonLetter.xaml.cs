@@ -40,11 +40,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcIttLettersPrepareCommonLetter(Bizz cbz, UserControl ucRight)
+        public UcIttLettersPrepareCommonLetter(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
             PdfCreator = new PdfCreator(CBZ.StrConnection);
         }

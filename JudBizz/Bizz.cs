@@ -22,20 +22,23 @@ namespace JudBizz
 
         public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
         public List<IndexedBuilder> IndexedBuilders = new List<IndexedBuilder>();
+        public List<IndexedCategory> IndexedCategories = new List<IndexedCategory>();
         public List<IndexedCraftGroup> IndexedCraftGroups = new List<IndexedCraftGroup>();
         public List<IndexedContact> IndexedContacts = new List<IndexedContact>();
         public List<IndexedEnterpriseForm> IndexedEnterpriseForms = new List<IndexedEnterpriseForm>();
         public List<IndexedEnterprise> IndexedEnterprises = new List<IndexedEnterprise>();
         public List<IndexedEntrepeneur> IndexedEntrepeneurs = new List<IndexedEntrepeneur>();
+        public List<IndexedJobDescription> IndexedJobDescriptions = new List<IndexedJobDescription>();
         public List<IndexedParagraph> IndexedParagraphs = new List<IndexedParagraph>();
         public List<IndexedProject> IndexedProjects = new List<IndexedProject>();
-        public List<IndexedProjectStatus> IndexedProjectStatuses = new List<IndexedProjectStatus>();
+        public List<IndexedProjectStatus> IndexedProjectStatusses = new List<IndexedProjectStatus>();
         public List<IndexedRegion> IndexedRegions = new List<IndexedRegion>();
         public List<IndexedRequest> IndexedRequests = new List<IndexedRequest>();
-        public List<IndexedRequestStatus> IndexedRequestStatuses = new List<IndexedRequestStatus>();
+        public List<IndexedRequestStatus> IndexedRequestStatusses = new List<IndexedRequestStatus>();
         public List<SubEntrepeneur> IndexedSubEntrepeneurs = new List<SubEntrepeneur>();
         public List<IndexedTenderForm> IndexedTenderForms = new List<IndexedTenderForm>();
         public List<IndexedUser> IndexedUsers = new List<IndexedUser>();
+        public List<IndexedUserLevel> IndexedUserLevels = new List<IndexedUserLevel>();
 
         #endregion
 
@@ -190,7 +193,25 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method that refreshes a list of Indexed CraftGroups
+        /// Method that refreshes a list of Indexed Categories
+        /// </summary>
+        private void RefreshIndexedCategories()
+        {
+            RefreshList("Categories");
+
+            int i = 0;
+            IndexedCategories.Clear();
+
+            foreach (Category contact in Categories)
+            {
+                IndexedCategories.Add(new IndexedCategory(i, contact));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// <summary>
+        /// Method that refreshes a list of Indexed Contacts
         /// </summary>
         private void RefreshIndexedContacts()
         {
@@ -311,6 +332,9 @@ namespace JudBizz
                 case "IndexedBuilders":
                     RefreshIndexedBuilders();
                     break;
+                case "IndexedCategories":
+                    RefreshIndexedCategories();
+                    break;
                 case "IndexedContacts":
                     RefreshIndexedContacts();
                     break;
@@ -325,6 +349,9 @@ namespace JudBizz
                     break;
                 case "IndexedEntrepeneursFromSubEntrepeneurs":
                     RefreshIndexedEntrepeneursFromSubEntrepeneurs();
+                    break;
+                case "IndexedJobDescriptions":
+                    RefreshIndexedJobDescriptions();
                     break;
                 case "IndexedProjects":
                     RefreshIndexedProjects();
@@ -341,6 +368,29 @@ namespace JudBizz
                 case "IndexedTenderForms":
                     RefreshIndexedTenderForms();
                     break;
+                case "IndexedUsers":
+                    RefreshIndexedUsers();
+                    break;
+                case "IndexedUserLevels":
+                    RefreshIndexedUserLevels();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed Job Descriptions
+        /// </summary>
+        private void RefreshIndexedJobDescriptions()
+        {
+            RefreshList("JobDescriptions");
+
+            int i = 0;
+            IndexedEntrepeneurs.Clear();
+
+            foreach (JobDescription description in JobDescriptions)
+            {
+                IndexedJobDescriptions.Add(new IndexedJobDescription(i, description));
+                i++;
             }
         }
 
@@ -363,11 +413,11 @@ namespace JudBizz
         /// </summary>
         private void RefreshIndexedProjectStatuses()
         {
-            IndexedProjectStatuses.Clear();
+            IndexedProjectStatusses.Clear();
             int i = 0;
             foreach (ProjectStatus status in ProjectStatuses)
             {
-                IndexedProjectStatuses.Add(new IndexedProjectStatus(i, status));
+                IndexedProjectStatusses.Add(new IndexedProjectStatus(i, status));
                 i++;
             }
         }
@@ -394,11 +444,11 @@ namespace JudBizz
         /// </summary>
         private void RefreshIndexedRequestStatuses()
         {
-            IndexedRequestStatuses.Clear();
+            IndexedRequestStatusses.Clear();
             int i = 0;
             foreach (RequestStatus status in RequestStatuses)
             {
-                IndexedRequestStatuses.Add(new IndexedRequestStatus(i, status));
+                IndexedRequestStatusses.Add(new IndexedRequestStatus(i, status));
                 i++;
             }
         }
@@ -413,6 +463,40 @@ namespace JudBizz
             foreach (TenderForm status in TenderForms)
             {
                 IndexedTenderForms.Add(new IndexedTenderForm(i, status));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed Users
+        /// </summary>
+        private void RefreshIndexedUsers()
+        {
+            RefreshList("ActiveUsers");
+
+            int i = 0;
+            IndexedUsers.Clear();
+
+            foreach (User user in ActiveUsers)
+            {
+                IndexedUsers.Add(new IndexedUser(i, user));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed User Levels
+        /// </summary>
+        private void RefreshIndexedUserLevels()
+        {
+            RefreshList("UserLevels");
+
+            int i = 0;
+            IndexedUserLevels.Clear();
+
+            foreach (UserLevel userLevel in UserLevels)
+            {
+                IndexedUserLevels.Add(new IndexedUserLevel(i, userLevel));
                 i++;
             }
         }

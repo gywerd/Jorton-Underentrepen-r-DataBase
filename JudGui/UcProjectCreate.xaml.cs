@@ -28,11 +28,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcProjectCreate(Bizz cbz, UserControl ucRight)
+        public UcProjectCreate(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             GenerateComboBoxBuilderItems();
             GenerateComboBoxTenderFormItems();
             GenerateComboBoxEnterpriseFormItems();

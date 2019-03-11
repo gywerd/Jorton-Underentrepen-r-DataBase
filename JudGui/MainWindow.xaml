@@ -176,21 +176,21 @@
 
             <!-- Ribbon Tab #3: Nyheder-->
             <RibbonTab x:Name="TabNews" Header="Nyheder">
-                <RibbonGroup x:Name="Newz"
+                <RibbonGroup x:Name="News"
                              Header="Nyheder">
-                    <RibbonSplitButton
-                        Click="ButtonJortonSubEntrepeneurDatabaseV10_Click"
-                                   LargeImageSource="images/news.png"
-                                   Label="Aktuelt">
+                    <RibbonSplitButton x:Name="ButtonNews" 
+                                       Click="ButtonJortonSubEntrepeneurDatabaseV10_Click"
+                                       LargeImageSource="images/news.png"
+                                       Label="Aktuelle nyheder">
                     <RibbonButton x:Name="ButtonJortonSubEntrepeneurDatabaseV10"
                                   Click="ButtonJortonSubEntrepeneurDatabaseV10_Click"
                                   Label="JORTON Underentrepenørdatabase V. 1.0"
                                   SmallImageSource="images/news-small.png" />
                     </RibbonSplitButton>
-                    <RibbonSplitButton
-                            Click="ButtonBicV117_Click"
+                    <RibbonSplitButton x:Name="ButtonOldNews" 
+                                       Click="ButtonBicV117_Click"
                                        LargeImageSource="images/news.png"
-                                       Label="Ældre">
+                                       Label="Ældre nyheder">
                         <RibbonButton x:Name="ButtonBicV117"
                                       Click="ButtonBicV117_Click"
                                       Label="BeInControl V. 1.1.7"
@@ -272,8 +272,8 @@
                                        LargeImageSource="images/user.png"
                                        Label="Brugere">
                         <RibbonButton x:Name="ButtonUserCreate"
-                                  Click="ButtonUserCreate_Click"
-                                  Label="Opret Bruger"
+                                      Click="ButtonUserCreate_Click"
+                                      Label="Opret Bruger"
                                       LargeImageSource="images/user-add-small.png" />
                         <RibbonButton x:Name="ButtonUserEdit"
                                       Click="ButtonUsersEdit_Click"

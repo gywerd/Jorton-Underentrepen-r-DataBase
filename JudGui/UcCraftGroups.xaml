@@ -4,29 +4,213 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="840" d:DesignWidth="1560">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
             <ColumnDefinition Width="120*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="435*"/>
-            <RowDefinition Height="110*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="75*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="95*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        <Label x:Name="LabelCraftGroupsHeader"
+               Content="Faggrupper"
+               FontSize="48"
+               FontWeight="Bold"
+               Grid.Column="1" Grid.Row="1"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelCraftGroupSearch"
+               Content="Søg:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="2"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelCraftGroupsBox"
+               Content="Faggrupper:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="3"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelDesignation"
+               Content="Betegnelse:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="4"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelDescription"
+               Content="Beskrivelse:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="5"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelCategory"
+               Content="Kategori:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="6"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Separator Grid.Column="1" Grid.Row="6"
+                   Grid.ColumnSpan="8"
+                   HorizontalAlignment="Center"
+                   Height="20" Width="1260"
+                   VerticalAlignment="Bottom" />
+        <Label x:Name="LabelNewCraftGroup"
+               Content="Ny Betegnelse:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="7"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewDesignation"
+               Content="Ny Beskrivelse:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="8"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewDescription"
+               Content="Ny Kategori:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="9"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxCraftGroupSearch"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="2"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxCraftGroupSearch_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Jen" />
+        <ListBox x:Name="ListBoxCraftGroups"
+                 Grid.Column="3" Grid.Row="3"
+                 Grid.ColumnSpan="6"
+                 Height="80" Width="955"
+                 HorizontalAlignment="Left"
+                 SelectionChanged="ListBoxCraftGroups_SelectionChanged"
+                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxDesignation"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="4"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxDesignation_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Containerleverandør" />
+        <xctk:WatermarkTextBox x:Name="TextBoxDescription"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="5"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxDescription_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Leverandør afContainere" />
+        <ComboBox x:Name="ComboBoxCategory"
+                  FontSize="30"
+                  Grid.Column="3" Grid.Row="6"
+                  Grid.ColumnSpan="2"
+                  Height="50" Width="290"
+                  HorizontalAlignment="Left"
+                  SelectionChanged="ComboBoxCategory_SelectionChanged"
+                  VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxNewDesignation"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="7"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxNewDesignation_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Containerleverandør" />
+        <xctk:WatermarkTextBox x:Name="TextBoxNewDescription"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="8"
+                               Grid.ColumnSpan="6"
+                               Height="50"
+                               Width="955"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxNewDescription_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Leverandør af Containere" />
+        <ComboBox x:Name="ComboBoxNewCategory"
+                  FontSize="30"
+                  Grid.Column="3" Grid.Row="9"
+                  Grid.ColumnSpan="2"
+                  Height="50" Width="290"
+                  HorizontalAlignment="Left"
+                  SelectionChanged="ComboBoxNewCategory_SelectionChanged"
+                  VerticalAlignment="Top" />
+        <Button x:Name="ButtonAddCraftGroup"
+                Content="Tilføj"
+                Click="ButtonAddCraftGroup_Click"
+                FontSize="30"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="9"
+                Height="50" Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" />
+        <Button x:Name="ButtonClose"
+                Content="Luk"
+                Click="ButtonClose_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="1" Grid.Row="10"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonUpdate"
+                Content="Gem"
+                Click="ButtonUpdate_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="7" Grid.Row="10"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
     </Grid>
+
 </UserControl>

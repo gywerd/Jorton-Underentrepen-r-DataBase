@@ -117,7 +117,7 @@
                                Text=""
                                TextWrapping="Wrap"
                                TextChanged="TextBoxName_TextChanged"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Top" 
                                Watermark="JBH Gruppen A/S" />
         <xctk:WatermarkTextBox x:Name="TextBoxCoName"
                                FontSize="30"

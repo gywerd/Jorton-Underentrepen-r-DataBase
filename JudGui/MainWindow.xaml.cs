@@ -50,7 +50,7 @@ namespace JudGui
         public UcProjectCopy UcProjectCopy;
         public UcProjectsEdit UcProjectsEdit;
         public UcProjectStatusChange UcProjectStatusChange;
-        public UcProjectStatusCreate UcProjectStatusCreate;
+        public UcProjectStatuses UcProjectStatuses;
         public UcRequestsChooseReceivers UcRequestsChooseReceivers;
         public UcRequestPrepare UcRequestPrepare;
         public UcRequestSend UcRequestSend;
@@ -624,14 +624,14 @@ namespace JudGui
                 if (MessageBox.Show("Vil du åbne 'Projektstatuser'. Alt, der ikke er gemt vil blive mistet!", "Projektstatuser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcProjectStatusCreate = new UcProjectStatusCreate(CBZ, UcMain);
-                    UcMain.Content = UcProjectStatusCreate;
+                    UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
+                    UcMain.Content = UcProjectStatuses;
                 }
             }
             else
             {
-                UcProjectStatusCreate = new UcProjectStatusCreate(CBZ, UcMain);
-                UcMain.Content = UcProjectStatusCreate;
+                UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
+                UcMain.Content = UcProjectStatuses;
             }
         }
 

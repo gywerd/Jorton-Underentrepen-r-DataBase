@@ -197,8 +197,8 @@
     <Compile Include="UcProjectDelete.xaml.cs">
       <DependentUpon>UcProjectDelete.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcProjectStatusCreate.xaml.cs">
-      <DependentUpon>UcProjectStatusCreate.xaml</DependentUpon>
+    <Compile Include="UcProjectStatuses.xaml.cs">
+      <DependentUpon>UcProjectStatuses.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcRegions.xaml.cs">
       <DependentUpon>UcRegions.xaml</DependentUpon>
@@ -415,7 +415,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcProjectStatusCreate.xaml">
+    <Page Include="UcProjectStatuses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

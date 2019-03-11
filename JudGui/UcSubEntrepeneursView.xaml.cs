@@ -36,11 +36,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcSubEntrepeneursView(Bizz cbz, UserControl ucRight)
+        public UcSubEntrepeneursView(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 

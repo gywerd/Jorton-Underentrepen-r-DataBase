@@ -234,18 +234,17 @@ namespace JudGui
 
         #region Methods
         /// <summary>
-        /// Method, that creates an Builder in Db
+        /// Method, that creates an Contact in Db
         /// </summary>
         /// <returns>bool</returns>
         private bool CreateContactInDb()
         {
-            //Code that creates a new Builder
             bool result = false;
 
             //Create ContactInfo in Db
             bool contactInfoExist = CreateContactInfo();
 
-            //Create Address in Db
+            //Create Person in Db
             bool personExist = false;
 
             if (contactInfoExist)
@@ -259,7 +258,7 @@ namespace JudGui
 
             if (personExist)
             {
-                contactId = CBZ.CreateInDb(CBZ.TempBuilder);
+                contactId = CBZ.CreateInDb(CBZ.TempContact);
             }
 
             //Check result

@@ -32,11 +32,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcContactsEdit(Bizz cbz, UserControl ucRight)
+        public UcContactsEdit(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
 
             CBZ.TempContact = new Contact();
         }

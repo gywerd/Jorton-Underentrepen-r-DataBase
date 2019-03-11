@@ -28,11 +28,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcTenderForms(Bizz bizz, UserControl ucRight)
+        public UcTenderForms(Bizz bizz, UserControl ucMain)
         {
             InitializeComponent();
             this.Bizz = bizz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
         }
 
         #endregion

@@ -29,11 +29,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcBuilderCreate(Bizz cbz, UserControl ucRight)
+        public UcBuilderCreate(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             CBZ.TempBuilder = new Builder();
         }
 

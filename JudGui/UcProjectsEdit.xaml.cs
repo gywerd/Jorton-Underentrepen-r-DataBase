@@ -29,11 +29,11 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcProjectsEdit(Bizz cbz, UserControl ucRight)
+        public UcProjectsEdit(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            this.UcMain = ucRight;
+            this.UcMain = ucMain;
             ComboBoxCaseId.ItemsSource = CBZ.ActiveProjects;
             ComboBoxBuilder.ItemsSource = CBZ.ActiveBuilders;
             ComboBoxTenderForm.ItemsSource = CBZ.IndexedTenderForms;
@@ -199,7 +199,7 @@ namespace JudGui
         {
             int result = 0;
 
-            foreach (IndexedProjectStatus indexProjectStatus in CBZ.IndexedProjectStatuses)
+            foreach (IndexedProjectStatus indexProjectStatus in CBZ.IndexedProjectStatusses)
             {
                 if (indexProjectStatus.Id == id)
                 {
