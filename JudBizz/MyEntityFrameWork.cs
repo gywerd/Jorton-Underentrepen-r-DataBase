@@ -72,11 +72,11 @@ namespace JudBizz
             public List<Paragraph> Paragraphs = new List<Paragraph>();
             public List<Person> Persons = new List<Person>();
             public List<Project> Projects = new List<Project>();
-            public List<ProjectStatus> ProjectStatuses = new List<ProjectStatus>();
+            public List<ProjectStatus> ProjectStatusses = new List<ProjectStatus>();
             public List<Receiver> Receivers = new List<Receiver>();
             public List<Region> Regions = new List<Region>();
             public List<Request> Requests = new List<Request>();
-            public List<RequestStatus> RequestStatuses = new List<RequestStatus>();
+            public List<RequestStatus> RequestStatusses = new List<RequestStatus>();
             public List<Shipping> Shippings = new List<Shipping>();
             public List<SubEntrepeneur> SubEntrepeneurs = new List<SubEntrepeneur>();
             public List<TenderForm> TenderForms = new List<TenderForm>();
@@ -228,9 +228,9 @@ namespace JudBizz
                             result = Projects[count - 1].Id;
                             break;
                         case "ProjectStatus":
-                            RefreshList("ProjectStatuses");
-                            count = ProjectStatuses.Count;
-                            result = ProjectStatuses[count - 1].Id;
+                            RefreshList("ProjectStatusses");
+                            count = ProjectStatusses.Count;
+                            result = ProjectStatusses[count - 1].Id;
                             break;
                         case "Receiver":
                             RefreshList("Receivers");
@@ -248,9 +248,9 @@ namespace JudBizz
                             result = Requests[count - 1].Id;
                             break;
                         case "RequestStatus":
-                            RefreshList("RequestStatuses");
-                            count = RequestStatuses.Count;
-                            result = RequestStatuses[count - 1].Id;
+                            RefreshList("RequestStatusses");
+                            count = RequestStatusses.Count;
+                            result = RequestStatusses[count - 1].Id;
                             break;
                         case "Shipping":
                             RefreshList("ShippingList");
@@ -457,7 +457,7 @@ namespace JudBizz
                         result = "Projects";
                         break;
                     case "ProjectStatus":
-                        result = "ProjectStatuses";
+                        result = "ProjectStatusses";
                         break;
                     case "Receiver":
                         result = "Receivers";
@@ -469,7 +469,7 @@ namespace JudBizz
                         result = "Requests";
                         break;
                     case "RequestStatus":
-                        result = "RequestStatuses";
+                        result = "RequestStatusses";
                         break;
                     case "Shipping":
                         result = "ShippingList";
@@ -580,9 +580,9 @@ namespace JudBizz
                         Project project = new Project((Project)entity);
                         result = @"INSERT INTO [dbo].[Projects](CaseId, Name, Builder, Status, TenderForm, EnterpriseForm, Executive, Enterprises, Copy) VALUES(" + project.Case + @", '" + project.Name + @"', " + project.Builder + @", " + project.Status + @", " + project.TenderForm + @", " + project.EnterpriseForm + @", " + project.Executive + @", '" + project.EnterprisesList.ToString() + "', '" + project.Copy.ToString() + "')";
                         break;
-                    case "ProjectStatuses":
+                    case "ProjectStatusses":
                         ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)entity);
-                        result = "INSERT INTO [dbo].[ProjectStatuses]([Description]) VALUES('" + projectStatus.Text + @"')";
+                        result = "INSERT INTO [dbo].[ProjectStatusses]([Description]) VALUES('" + projectStatus.Text + @"')";
                         break;
                     case "Receivers":
                         Receiver receiver = new Receiver((Receiver)entity);
@@ -596,9 +596,9 @@ namespace JudBizz
                         Request request = new Request((Request)entity);
                         result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToShortDateString() + @"', '" + request.ReceivedDate.ToShortDateString() + @"')";
                         break;
-                    case "RequestStatuses":
+                    case "RequestStatusses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)entity);
-                        result = "INSERT INTO [dbo].[RequestStatuses]([Description]) VALUES('" + requestStatus.Text + @"')";
+                        result = "INSERT INTO [dbo].[RequestStatusses]([Description]) VALUES('" + requestStatus.Text + @"')";
                         break;
                     case "Shippings":
                         Shipping shipping = new Shipping((Shipping)entity);
@@ -728,7 +728,7 @@ namespace JudBizz
                         Project project = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
                         result = project;
                         break;
-                    case "ProjectStatuses":
+                    case "ProjectStatusses":
                         ProjectStatus projectStatus = new ProjectStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
                         result = projectStatus;
                         break;
@@ -744,7 +744,7 @@ namespace JudBizz
                         Request request = new Request(Convert.ToInt32(resultArray[0]), GetRequestStatus(Convert.ToInt32(resultArray[1])), Convert.ToDateTime(resultArray[2]), Convert.ToDateTime(resultArray[3]));
                         result = request;
                         break;
-                    case "RequestStatuses":
+                    case "RequestStatusses":
                         RequestStatus requestStatus = new RequestStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
                         result = requestStatus;
                         break;
@@ -851,7 +851,7 @@ namespace JudBizz
                     case "Projects":
                         result = 10;
                         break;
-                    case "ProjectStatuses":
+                    case "ProjectStatusses":
                         result = 2;
                         break;
                     case "Regions":
@@ -860,7 +860,7 @@ namespace JudBizz
                     case "Requests":
                         result = 4;
                         break;
-                    case "RequestStatuses":
+                    case "RequestStatusses":
                         result = 2;
                         break;
                     case "Receivers":
@@ -1056,9 +1056,9 @@ namespace JudBizz
                         Project project = new Project((Project)_object);
                         result = @"UPDATE dbo.[Projects] SET [CaseId] = " + project.Case + ", [Name] = '" + project.Name + "', [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Enterprises] = '" + project.EnterprisesList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
                         break;
-                    case "ProjectStatuses":
+                    case "ProjectStatusses":
                         ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)_object);
-                        result = @"UPDATE dbo.[ProjectStatuses] SET [Description] = '" + projectStatus.Text + "' WHERE Id = " + projectStatus.Id;
+                        result = @"UPDATE dbo.[ProjectStatusses] SET [Description] = '" + projectStatus.Text + "' WHERE Id = " + projectStatus.Id;
                         break;
                     case "Regions":
                         Region region = new Region((Region)_object);
@@ -1174,7 +1174,7 @@ namespace JudBizz
                     result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", new Project((Project)_object)));
                     break;
                 case "ProjectStatus":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatuses", new ProjectStatus((ProjectStatus)_object)));
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatusses", new ProjectStatus((ProjectStatus)_object)));
                     break;
                 case "Region":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("Regions", new Region((Region)_object)));
@@ -1183,7 +1183,7 @@ namespace JudBizz
                     result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
                     break;
                 case "RequestStatus":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatusses", new RequestStatus((RequestStatus)_object)));
                     break;
                 case "SubEntrepeneur":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("SubEntrepeneurs", new SubEntrepeneur((SubEntrepeneur)_object)));
@@ -1374,7 +1374,7 @@ namespace JudBizz
                 case "Projects":
                     obj = GetProject(id);
                     break;
-                case "ProjectStatuses":
+                case "ProjectStatusses":
                     obj = GetProjectStatus(id);
                     break;
                 case "Receivers":
@@ -1386,7 +1386,7 @@ namespace JudBizz
                 case "Requests":
                     obj = GetRequest(id);
                     break;
-                case "RequestStatuses":
+                case "RequestStatusses":
                     obj = GetRequestStatus(id);
                     break;
                 case "RefreshTenderForms":
@@ -1755,7 +1755,7 @@ namespace JudBizz
         {
             ProjectStatus result = new ProjectStatus();
 
-            foreach (ProjectStatus status in ProjectStatuses)
+            foreach (ProjectStatus status in ProjectStatusses)
             {
                 if (status.Id == id)
                 {
@@ -1803,7 +1803,7 @@ namespace JudBizz
         {
             RequestStatus result = new RequestStatus();
 
-            foreach (RequestStatus status in RequestStatuses)
+            foreach (RequestStatus status in RequestStatusses)
             {
                 if (status.Id == id)
                 {
@@ -1943,10 +1943,10 @@ namespace JudBizz
             RefreshJobDescriptions(); //
             RefreshLetterDataList(); //
             RefreshOffers(); //
-            RefreshProjectStatuses(); //
+            RefreshProjectStatusses(); //
             RefreshReceivers(); //
             RefreshRegions(); //
-            RefreshRequestStatuses(); //
+            RefreshRequestStatusses(); //
             RefreshTenderforms(); //
             RefreshUserLevels(); //
             RefreshZipTowns(); //
@@ -2361,8 +2361,8 @@ namespace JudBizz
                 case "Projects":
                     RefreshProjects();
                     break;
-                case "ProjectStatuses":
-                    RefreshProjectStatuses();
+                case "ProjectStatusses":
+                    RefreshProjectStatusses();
                     break;
                 case "Receivers":
                     RefreshReceivers();
@@ -2373,8 +2373,8 @@ namespace JudBizz
                 case "Requests":
                     RefreshRequests();
                     break;
-                case "RequestStatuses":
-                    RefreshRequestStatuses();
+                case "RequestStatusses":
+                    RefreshRequestStatusses();
                     break;
                 case "Shippings":
                     RefreshShippings();
@@ -2489,19 +2489,19 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the ProjectStatuses list
+        /// Method, that refreshes the ProjectStatusses list
         /// </summary>
-        private void RefreshProjectStatuses()
+        private void RefreshProjectStatusses()
         {
-            if (ProjectStatuses != null)
+            if (ProjectStatusses != null)
             {
-                ProjectStatuses.Clear();
+                ProjectStatusses.Clear();
             }
-            List<object> tempList = ReadListFromDb("ProjectStatuses");
+            List<object> tempList = ReadListFromDb("ProjectStatusses");
 
             foreach (object obj in tempList)
             {
-                ProjectStatuses.Add((ProjectStatus)obj);
+                ProjectStatusses.Add((ProjectStatus)obj);
             }
         }
 
@@ -2559,17 +2559,17 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Request Status List
         /// </summary>
-        private void RefreshRequestStatuses()
+        private void RefreshRequestStatusses()
         {
-            if (RequestStatuses != null)
+            if (RequestStatusses != null)
             {
-                RequestStatuses.Clear();
+                RequestStatusses.Clear();
             }
-            List<object> tempList = ReadListFromDb("RequestStatuses");
+            List<object> tempList = ReadListFromDb("RequestStatusses");
 
             foreach (object obj in tempList)
             {
-                RequestStatuses.Add((RequestStatus)obj);
+                RequestStatusses.Add((RequestStatus)obj);
             }
         }
 

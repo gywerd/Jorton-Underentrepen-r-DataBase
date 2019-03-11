@@ -201,9 +201,9 @@
                 Height="100" Width="315"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonUpdate"
+        <Button x:Name="ButtonSave"
                 Content="Gem"
-                Click="ButtonUpdate_Click"
+                Click="ButtonSave_Click"
                 FontSize="48"
                 FontWeight="Bold"
                 Grid.Column="7" Grid.Row="10"

@@ -146,8 +146,8 @@
     <Compile Include="UcProjectCopy.xaml.cs">
       <DependentUpon>UcProjectCopy.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcCraftGroupCategories.xaml.cs">
-      <DependentUpon>UcCraftGroupCategories.xaml</DependentUpon>
+    <Compile Include="UcCraftCategories.xaml.cs">
+      <DependentUpon>UcCraftCategories.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcCraftGroups.xaml.cs">
       <DependentUpon>UcCraftGroups.xaml</DependentUpon>
@@ -197,8 +197,8 @@
     <Compile Include="UcProjectDelete.xaml.cs">
       <DependentUpon>UcProjectDelete.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcProjectStatuses.xaml.cs">
-      <DependentUpon>UcProjectStatuses.xaml</DependentUpon>
+    <Compile Include="UcProjectStatusses.xaml.cs">
+      <DependentUpon>UcProjectStatusses.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcRegions.xaml.cs">
       <DependentUpon>UcRegions.xaml</DependentUpon>
@@ -347,7 +347,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcCraftGroupCategories.xaml">
+    <Page Include="UcCraftCategories.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -415,7 +415,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcProjectStatuses.xaml">
+    <Page Include="UcProjectStatusses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

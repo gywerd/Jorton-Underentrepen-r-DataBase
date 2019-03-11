@@ -296,8 +296,8 @@
                                   Click="ButtonCraftCategories_Click"
                                   Label="Fagkategorier"
                                   LargeImageSource="images/category.png" />
-                    <RibbonButton x:Name="ButtonProjectStatuses"
-                                  Click="ButtonProjectStatuses_Click"
+                    <RibbonButton x:Name="ButtonProjectStatusses"
+                                  Click="ButtonProjectStatusses_Click"
                                   Label="Projekstatustatusliste"
                                   LargeImageSource="images/status.png" />
                     <RibbonButton x:Name="ButtonJobDescritions"

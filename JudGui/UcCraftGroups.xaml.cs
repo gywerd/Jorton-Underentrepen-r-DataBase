@@ -81,10 +81,10 @@ namespace JudGui
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.TempCraftGroup != new CraftGroup())
+            if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke redigering af Brugere? Ikke gemte data mistes.", "Brugere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Faggrupper? Ikke gemte data mistes.", "Faggrupper", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //Close right UserControl
                     CBZ.UcMainEdited = false;
@@ -100,7 +100,7 @@ namespace JudGui
             }
         }
 
-        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             bool result = UpdateCraftGroupInDb;
 
@@ -108,7 +108,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Brugeren blev opdateret", "Brugere", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Faggruppen blev opdateret", "Faggrupper", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
                 ListBoxCraftGroups.SelectedIndex = -1;
@@ -123,14 +123,14 @@ namespace JudGui
                 ComboBoxNewCategory.SelectedIndex = -1;
                 ComboBoxNewCategory.ItemsSource = "";
 
-                //Refresh Users list
-                CBZ.RefreshList("Users");
-                CBZ.TempUser = new User();
+                //Refresh CraftGroups list
+                CBZ.RefreshList("CraftGroups");
+                CBZ.TempCraftGroup = new CraftGroup();
             }
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Bygherren blev ikke opdateret. Prøv igen.", "Bygherrer", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Databasen returnerede en fejl. Faggruppen blev ikke opdateret. Prøv igen.", "Faggrupper", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -287,7 +287,7 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that retrieves a list of filtered Entrepeneurs for ListBoxEntrepeneurs
+        /// Method, that retrieves a list of filtered CraftGroups for ListBoxCraftGroups
         /// </summary>
         private void GetFilteredCraftGroups()
         {

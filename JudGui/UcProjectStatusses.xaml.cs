@@ -18,9 +18,9 @@ using System.Windows.Shapes;
 namespace JudGui
 {
     /// <summary>
-    /// Interaction logic for UcProjectStatuses.xaml
+    /// Interaction logic for UcProjectStatusses.xaml
     /// </summary>
-    public partial class UcProjectStatuses : UserControl
+    public partial class UcProjectStatusses : UserControl
     {
         #region Fields
         public Bizz CBZ;
@@ -31,7 +31,7 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcProjectStatuses(Bizz cbz, UserControl ucMain)
+        public UcProjectStatusses(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
@@ -41,19 +41,85 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonAddCraftGroup_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddProjectStatus_Click(object sender, RoutedEventArgs e)
         {
+            bool result = CreateProjectStatusInDb();
+
+            //Display result
+            if (result)
+            {
+                //Show Confirmation
+                MessageBox.Show("Projektstatussen blev tilføjet", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Reset Boxes
+                ListBoxProjectStatusses.SelectedIndex = -1;
+                ListBoxProjectStatusses.ItemsSource = "";
+                CBZ.RefreshIndexedList("IndexedProjectStatusses");
+                ListBoxProjectStatusses.ItemsSource = CBZ.IndexedCraftGroups;
+                TextBoxProjectStatusSearch.Text = "";
+                TextBoxText.Text = "";
+                TextBoxNewText.Text = "";
+
+                //Refresh Users list
+                CBZ.RefreshList("ProjectStatusses");
+                CBZ.TempProjectStatus = new ProjectStatus();
+            }
+            else
+            {
+                //Show error
+                MessageBox.Show("Databasen returnerede en fejl. Projektstatussen blev ikke tilføjet. Prøv igen.", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
 
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke Projektstatusser? Ikke gemte data mistes.", "Projektstatusser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    //Close right UserControl
+                    CBZ.UcMainEdited = false;
+                    UcMain.Content = new UserControl();
+                }
+            }
+            else
+            {
+                //Close right UserControl
+                CBZ.UcMainEdited = false;
+                UcMain.Content = new UserControl();
 
+            }
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            bool result = UpdateProjectStatusInDb;
 
+            //Display result
+            if (result)
+            {
+                //Show Confirmation
+                MessageBox.Show("Projektstatussen blev opdateret", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Reset Boxes
+                ListBoxProjectStatusses.SelectedIndex = -1;
+                ListBoxProjectStatusses.ItemsSource = "";
+                TextBoxProjectStatusSearch.Text = "";
+                TextBoxText.Text = "";
+                TextBoxNewText.Text = "";
+
+                //Refresh Users list
+                CBZ.RefreshList("ProjectStatusses");
+                CBZ.TempProjectStatus = new ProjectStatus();
+            }
+            else
+            {
+                //Show error
+                MessageBox.Show("Databasen returnerede en fejl. Projektstatussen blev ikke opdateret. Prøv igen.", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         #endregion
@@ -136,6 +202,9 @@ namespace JudGui
 
         }
 
+        /// <summary>
+        /// Method, that retrieves a list of filtered Project Statusses for ListBoxProjectStatusses
+        /// </summary>
         private void GetFilteredProjectStatusses()
         {
             CBZ.RefreshIndexedList("IndexedProjectStatusses");

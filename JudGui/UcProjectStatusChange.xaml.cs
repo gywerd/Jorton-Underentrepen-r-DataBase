@@ -128,7 +128,7 @@ namespace JudGui
         private void GenerateComboBoxProjectStatusItems()
         {
             ComboBoxProjectStatus.Items.Clear();
-            foreach (ProjectStatus temp in CBZ.ProjectStatuses)
+            foreach (ProjectStatus temp in CBZ.ProjectStatusses)
             {
                 ComboBoxProjectStatus.Items.Add(temp);
             }

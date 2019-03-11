@@ -135,9 +135,9 @@ namespace JudBizz
             RefreshIndexedCraftGroups();
             RefreshIndexedProjects();
             RefreshIndexedEnterpriseForms();
-            RefreshIndexedProjectStatuses();
+            RefreshIndexedProjectStatusses();
             RefreshIndexedRegions();
-            RefreshIndexedRequestStatuses();
+            RefreshIndexedRequestStatusses();
             RefreshIndexedTenderForms();
         }
 
@@ -356,14 +356,14 @@ namespace JudBizz
                 case "IndexedProjects":
                     RefreshIndexedProjects();
                     break;
-                case "IndexedProjectStatuses":
-                    RefreshIndexedProjectStatuses();
+                case "IndexedProjectStatusses":
+                    RefreshIndexedProjectStatusses();
                     break;
                 case "IndexedRegions":
                     RefreshIndexedRegions();
                     break;
-                case "IndexedRequestStatuses":
-                    RefreshIndexedRequestStatuses();
+                case "IndexedRequestStatusses":
+                    RefreshIndexedRequestStatusses();
                     break;
                 case "IndexedTenderForms":
                     RefreshIndexedTenderForms();
@@ -411,11 +411,11 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes Indexed Project Status list
         /// </summary>
-        private void RefreshIndexedProjectStatuses()
+        private void RefreshIndexedProjectStatusses()
         {
             IndexedProjectStatusses.Clear();
             int i = 0;
-            foreach (ProjectStatus status in ProjectStatuses)
+            foreach (ProjectStatus status in ProjectStatusses)
             {
                 IndexedProjectStatusses.Add(new IndexedProjectStatus(i, status));
                 i++;
@@ -442,11 +442,11 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes Indexed Request Status list
         /// </summary>
-        private void RefreshIndexedRequestStatuses()
+        private void RefreshIndexedRequestStatusses()
         {
             IndexedRequestStatusses.Clear();
             int i = 0;
-            foreach (RequestStatus status in RequestStatuses)
+            foreach (RequestStatus status in RequestStatusses)
             {
                 IndexedRequestStatusses.Add(new IndexedRequestStatus(i, status));
                 i++;

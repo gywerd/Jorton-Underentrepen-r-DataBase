@@ -30,7 +30,7 @@ namespace JudGui
         public UcContactCreate UcContactCreate;
         public UcContactsDelete UcContactsDelete;
         public UcContactsEdit UcContactsEdit;
-        public UcCraftGroupCategories UcCraftGroupCategories;
+        public UcCraftCategories UcCraftCategories;
         public UcCraftGroups UcCraftGroups;
         public UcEnterpriseCreate UcEnterpriseCreate;
         public UcEnterpriseForms UcEnterpriseForms;
@@ -50,7 +50,7 @@ namespace JudGui
         public UcProjectCopy UcProjectCopy;
         public UcProjectsEdit UcProjectsEdit;
         public UcProjectStatusChange UcProjectStatusChange;
-        public UcProjectStatuses UcProjectStatuses;
+        public UcProjectStatusses UcProjectStatusses;
         public UcRequestsChooseReceivers UcRequestsChooseReceivers;
         public UcRequestPrepare UcRequestPrepare;
         public UcRequestSend UcRequestSend;
@@ -239,14 +239,14 @@ namespace JudGui
                 if (MessageBox.Show("Vil du åbne 'Fagkategorier'. Alt, der ikke er gemt vil blive mistet!", "Fagkategorier", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcCraftGroupCategories = new UcCraftGroupCategories(CBZ, UcMain);
-                    UcMain.Content = UcCraftGroupCategories;
+                    UcCraftCategories = new UcCraftCategories(CBZ, UcMain);
+                    UcMain.Content = UcCraftCategories;
                 }
             }
             else
             {
-                UcCraftGroupCategories = new UcCraftGroupCategories(CBZ, UcMain);
-                UcMain.Content = UcCraftGroupCategories;
+                UcCraftCategories = new UcCraftCategories(CBZ, UcMain);
+                UcMain.Content = UcCraftCategories;
             }
         }
 
@@ -617,21 +617,21 @@ namespace JudGui
 
         }
 
-        private void ButtonProjectStatuses_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectStatusses_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Projektstatuser'. Alt, der ikke er gemt vil blive mistet!", "Projektstatuser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
-                    UcMain.Content = UcProjectStatuses;
+                    UcProjectStatusses = new UcProjectStatusses(CBZ, UcMain);
+                    UcMain.Content = UcProjectStatusses;
                 }
             }
             else
             {
-                UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
-                UcMain.Content = UcProjectStatuses;
+                UcProjectStatusses = new UcProjectStatusses(CBZ, UcMain);
+                UcMain.Content = UcProjectStatusses;
             }
         }
 
