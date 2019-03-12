@@ -42,6 +42,7 @@ namespace JudBizz
         public Request TempRequest = new Request();
         public Shipping TempShipping = new Shipping();
         public SubEntrepeneur TempSubEntrepeneur;
+        public TenderForm TempTenderForm = new TenderForm();
         public User TempUser = new User();
         public ZipTown TempZipTown = new ZipTown();
 

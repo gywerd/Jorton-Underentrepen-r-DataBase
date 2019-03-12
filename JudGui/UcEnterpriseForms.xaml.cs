@@ -96,6 +96,7 @@ namespace JudGui
                 UcMain.Content = new UserControl();
 
             }
+
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -130,6 +131,23 @@ namespace JudGui
         #endregion
 
         #region Events
+        private void ListBoxEnterpriseForms_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CBZ.TempEnterpriseForm = new EnterpriseForm((EnterpriseForm)ListBoxEnterpriseForms.SelectedItem);
+
+            TextBoxText.Text = CBZ.TempEnterpriseForm.Text;
+
+            this.TempNewEnterpriseForm = new IndexedEnterpriseForm();
+            TextBoxNewText.Text = "";
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
         private void TextBoxEnterpriseFormSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             GetFilteredEnterpriseForms();
@@ -170,6 +188,10 @@ namespace JudGui
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that creates an Enterprise Form in Db
+        /// </summary>
+        /// <returns>bool</returns>
         private bool CreateEnterpriseFormInDb()
         {
             bool result = false;
@@ -185,6 +207,9 @@ namespace JudGui
 
         }
 
+        /// <summary>
+        /// Method, that retrieves a filtered Enterprise Form list
+        /// </summary>
         private void GetFilteredEnterpriseForms()
         {
             CBZ.RefreshIndexedList("IndexedEnterpriseForms");
