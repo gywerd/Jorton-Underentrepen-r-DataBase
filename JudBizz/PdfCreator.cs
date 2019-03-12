@@ -539,7 +539,7 @@ namespace JudBizz
 
         }
 
-        public string GenerateSubEntrepeneursPdf(Bizz bizz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
+        public string GenerateSubEntrepeneursPdf(Bizz cbz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
             this.CBZ = bizz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
@@ -567,7 +567,7 @@ namespace JudBizz
 
         }
 
-        public string GenerateSubEntrepeneursPdfForAgreement(Bizz bizz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
+        public string GenerateSubEntrepeneursPdfForAgreement(Bizz cbz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
             this.CBZ = bizz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");

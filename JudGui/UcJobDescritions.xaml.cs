@@ -22,13 +22,13 @@ namespace JudGui
     public partial class UcJobDescritions : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
         #region Constructors
-        public UcJobDescritions(Bizz bizz, UserControl ucMain)
+        public UcJobDescritions(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.Bizz = bizz;

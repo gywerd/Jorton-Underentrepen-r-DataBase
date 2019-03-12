@@ -38,6 +38,10 @@ namespace JudGui
             this.UcMain = ucMain;
 
             CBZ.TempContact = new Contact();
+
+            GetFilteredEntrepeneurs();
+            ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
+            ListBoxEntrepeneurs.SelectedIndex = -1;
         }
 
         #endregion
@@ -170,13 +174,10 @@ namespace JudGui
 
         private void TextBoxEntrepeneursSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxEntrepeneurSearch.Text.Length >= 3)
-            {
-                GetFilteredEntrepeneurs();
-                ListBoxEntrepeneurs.ItemsSource = "";
-                ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
-                ListBoxEntrepeneurs.SelectedIndex = -1;
-            }
+            GetFilteredEntrepeneurs();
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
+            ListBoxEntrepeneurs.SelectedIndex = -1;
 
 
             //Set CBZ.UcMainEdited
@@ -321,10 +322,11 @@ namespace JudGui
         {
             CBZ.RefreshIndexedList("IndexedEntrepeneurs");
             this.FilteredEntrepeneurs = new List<IndexedEntrepeneur>();
+            int length = TextBoxEntrepeneurSearch.Text.Length;
 
             foreach (IndexedEntrepeneur entrepeneur in CBZ.IndexedEntrepeneurs)
             {
-                if (entrepeneur.Entity.Name.Remove(3) == TextBoxEntrepeneurSearch.Text.Remove(3) || entrepeneur.Entity.Name.Remove(7) == "A/S " + TextBoxEntrepeneurSearch.Text.Remove(3))
+                if (entrepeneur.Entity.Name.Remove(length) == TextBoxEntrepeneurSearch.Text.Remove(length) || entrepeneur.Entity.Name.Remove(length + 4) == "A/S " + TextBoxEntrepeneurSearch.Text.Remove(length))
                 {
                     this.FilteredEntrepeneurs.Add(entrepeneur);
                 }

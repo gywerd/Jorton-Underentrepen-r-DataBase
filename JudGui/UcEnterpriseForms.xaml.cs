@@ -22,13 +22,13 @@ namespace JudGui
     public partial class UcEnterpriseForms : UserControl
     {
         #region Fields
-        public Bizz Bizz;
+        public Bizz CBZ;
         public UserControl UcMain;
 
         #endregion
 
         #region Constructors
-        public UcEnterpriseForms(Bizz bizz, UserControl ucMain)
+        public UcEnterpriseForms(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.Bizz = bizz;

@@ -32,7 +32,7 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcEnterpriseCreate(Bizz bizz, UserControl ucMain)
+        public UcEnterpriseCreate(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = bizz;

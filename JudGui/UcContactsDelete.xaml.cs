@@ -43,6 +43,10 @@ namespace JudGui
             this.UcMain = ucMain;
 
             CBZ.TempContact = new Contact();
+
+            GetFilteredContacts();
+            ListBoxContacts.ItemsSource = FilteredContacts;
+
         }
 
         #endregion
@@ -131,13 +135,10 @@ namespace JudGui
         #region Events
         private void TextBoxContactSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxContactSearch.Text.Length >= 3)
-            {
-                GetFilteredContacts();
-                ListBoxContacts.SelectedIndex = -1;
-                ListBoxContacts.ItemsSource = "";
-                ListBoxContacts.ItemsSource = FilteredContacts;
-            }
+            GetFilteredContacts();
+            ListBoxContacts.SelectedIndex = -1;
+            ListBoxContacts.ItemsSource = "";
+            ListBoxContacts.ItemsSource = FilteredContacts;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -261,10 +262,11 @@ namespace JudGui
         {
             CBZ.RefreshIndexedList("IndexedContacts");
             this.FilteredContacts = new List<IndexedContact>();
+            int length = TextBoxContactSearch.Text.Length;
 
             foreach (IndexedContact contact in CBZ.IndexedContacts)
             {
-                if (contact.Person.Name.Remove(3) == TextBoxContactSearch.Text.Remove(3))
+                if (contact.Person.Name.Remove(length) == TextBoxContactSearch.Text.Remove(length))
                 {
                     this.FilteredContacts.Add(contact);
                 }

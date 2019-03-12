@@ -279,7 +279,7 @@
                                       Click="ButtonUsersEdit_Click"
                                       Label="Rdiger Brugere"
                                       LargeImageSource="images/user-edit-small.png" />
-                        <RibbonButton x:Name="ButtonUsersDelete"
+                        <RibbonButton x:Name="ButtonUsersStatusChange"
                                       Click="ButtonUsersStatusChange_Click"
                                       Label="Rediger Status for Brugere"
                                       LargeImageSource="images/user-delete-small.png" />

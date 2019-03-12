@@ -36,6 +36,9 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
+
+            GetFilteredCategories();
+            ListBoxCraftCategories.ItemsSource = FilteredCategories;
         }
 
         #endregion
@@ -145,13 +148,10 @@ namespace JudGui
 
         private void TextBoxCraftCategorySearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxCraftCategorySearch.Text.Length >= 3)
-            {
-                GetFilteredCategories();
-                ListBoxCraftCategories.SelectedIndex = -1;
-                ListBoxCraftCategories.ItemsSource = "";
-                ListBoxCraftCategories.ItemsSource = this.FilteredCategories;
-            }
+            GetFilteredCategories();
+            ListBoxCraftCategories.SelectedIndex = -1;
+            ListBoxCraftCategories.ItemsSource = "";
+            ListBoxCraftCategories.ItemsSource = this.FilteredCategories;
 
 
             //Set CBZ.UcMainEdited
@@ -212,10 +212,11 @@ namespace JudGui
         {
             CBZ.RefreshIndexedList("IndexedCategories");
             this.FilteredCategories = new List<IndexedCategory>();
+            int length = TextBoxCraftCategorySearch.Text.Length;
 
             foreach (IndexedCategory category in CBZ.IndexedCategories)
             {
-                if (category.Text.Remove(3) == TextBoxCraftCategorySearch.Text.Remove(3))
+                if (category.Text.Remove(length) == TextBoxCraftCategorySearch.Text.Remove(length))
                 {
                     this.FilteredCategories.Add(category);
                 }
@@ -223,7 +224,7 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that updates an Craft Group in Db
+        /// Method, that updates an Category in Db
         /// </summary>
         /// <returns>bool</returns>
         private bool UpdateCategoryInDb => CBZ.UpdateInDb(CBZ.TempCategory);

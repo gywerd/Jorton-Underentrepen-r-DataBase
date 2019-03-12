@@ -37,6 +37,16 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
+
+            CBZ.TempCraftGroup = new CraftGroup();
+
+            GetFilteredCraftGroups();
+            ListBoxCraftGroups.ItemsSource = FilteredCraftGroups;
+            ListBoxCraftGroups.SelectedIndex = -1;
+
+            CBZ.RefreshIndexedList("IndexedCategories");
+            ComboBoxCategory.ItemsSource = CBZ.IndexedCategories;
+            ComboBoxCategory.SelectedIndex = -1;
         }
 
         #endregion
@@ -183,13 +193,10 @@ namespace JudGui
 
         private void TextBoxCraftGroupSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxCraftGroupSearch.Text.Length >= 3)
-            {
-                GetFilteredCraftGroups();
-                ListBoxCraftGroups.SelectedIndex = -1;
-                ListBoxCraftGroups.ItemsSource = "";
-                ListBoxCraftGroups.ItemsSource = this.FilteredCraftGroups;
-            }
+            GetFilteredCraftGroups();
+            ListBoxCraftGroups.SelectedIndex = -1;
+            ListBoxCraftGroups.ItemsSource = "";
+            ListBoxCraftGroups.ItemsSource = this.FilteredCraftGroups;
 
 
             //Set CBZ.UcMainEdited
@@ -293,10 +300,11 @@ namespace JudGui
         {
             CBZ.RefreshIndexedList("IndexedCraftGroups");
             this.FilteredCraftGroups = new List<IndexedCraftGroup>();
+            int length = TextBoxCraftGroupSearch.Text.Length;
 
             foreach (IndexedCraftGroup group in CBZ.IndexedCraftGroups)
             {
-                if (group.Designation.Remove(3) == TextBoxCraftGroupSearch.Text.Remove(3))
+                if (group.Designation.Remove(length) == TextBoxCraftGroupSearch.Text.Remove(length))
                 {
                     this.FilteredCraftGroups.Add(group);
                 }

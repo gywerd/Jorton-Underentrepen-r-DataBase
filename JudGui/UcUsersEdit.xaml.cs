@@ -38,6 +38,15 @@ namespace JudGui
 
             CBZ.RefreshIndexedList("IndexedJobDescriptions");
             CBZ.RefreshIndexedList("IndexedUserLevels");
+
+            GetFilteredUsers();
+            ListBoxUsers.ItemsSource = FilteredUsers;
+
+            ComboBoxJobDescription.ItemsSource = CBZ.IndexedJobDescriptions;
+            ComboBoxJobDescription.SelectedIndex = -1;
+            ComboBoxUserLevel.ItemsSource = CBZ.IndexedUserLevels;
+            ComboBoxJobDescription.SelectedIndex = -1;
+
         }
 
 
@@ -216,13 +225,10 @@ namespace JudGui
 
         private void TextBoxUserSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxUserSearch.Text.Length >= 3)
-            {
-                GetFilteredUsers();
-                ListBoxUsers.SelectedIndex = -1;
-                ListBoxUsers.ItemsSource = "";
-                ListBoxUsers.ItemsSource = this.FilteredUsers;
-            }
+            GetFilteredUsers();
+            ListBoxUsers.SelectedIndex = -1;
+            ListBoxUsers.ItemsSource = "";
+            ListBoxUsers.ItemsSource = this.FilteredUsers;
 
 
             //Set CBZ.UcMainEdited

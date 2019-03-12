@@ -36,6 +36,13 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
+
+            CBZ.TempProjectStatus = new ProjectStatus();
+
+            GetFilteredProjectStatusses();
+            ListBoxProjectStatusses.ItemsSource = FilteredProjectStatusses;
+            ListBoxProjectStatusses.SelectedIndex = -1;
+
         }
 
         #endregion
@@ -154,13 +161,10 @@ namespace JudGui
 
         private void TextBoxProjectStatusSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TextBoxProjectStatusSearch.Text.Length >= 3)
-            {
-                GetFilteredProjectStatusses();
-                ListBoxProjectStatusses.SelectedIndex = -1;
-                ListBoxProjectStatusses.ItemsSource = "";
-                ListBoxProjectStatusses.ItemsSource = this.FilteredProjectStatusses;
-            }
+            GetFilteredProjectStatusses();
+            ListBoxProjectStatusses.SelectedIndex = -1;
+            ListBoxProjectStatusses.ItemsSource = "";
+            ListBoxProjectStatusses.ItemsSource = this.FilteredProjectStatusses;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -209,10 +213,11 @@ namespace JudGui
         {
             CBZ.RefreshIndexedList("IndexedProjectStatusses");
             this.FilteredProjectStatusses = new List<IndexedProjectStatus>();
+            int length = TextBoxProjectStatusSearch.Text.Length;
 
             foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatusses)
             {
-                if (status.Text.Remove(3) == TextBoxProjectStatusSearch.Text.Remove(3))
+                if (status.Text.Remove(length) == TextBoxProjectStatusSearch.Text.Remove(length))
                 {
                     this.FilteredProjectStatusses.Add(status);
                 }
