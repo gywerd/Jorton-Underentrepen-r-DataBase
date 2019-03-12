@@ -541,7 +541,7 @@ namespace JudBizz
 
         public string GenerateSubEntrepeneursPdf(Bizz cbz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
-            this.CBZ = bizz;
+            this.CBZ = cbz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
             pdfPath = @"PDF_Documents\Projekt" + CBZ.TempProject.Case.ToString() + "_Underentrenoerer_" + date + ".pdf";
 
@@ -569,7 +569,7 @@ namespace JudBizz
 
         public string GenerateSubEntrepeneursPdfForAgreement(Bizz cbz, List<Enterprise> enterprise, List<IndexedSubEntrepeneur> entrepeneurList, List<User> users)
         {
-            this.CBZ = bizz;
+            this.CBZ = cbz;
             date = DateTime.Today.ToString(@"yyyy-MM-dd");
             pdfPath = @"PDF_Documents\Projekt_" + CBZ.TempProject.Case.ToString() + "_Underentrenoerer_" + date + ".pdf";
 

@@ -29,6 +29,7 @@ namespace JudBizz
         public Enterprise TempEnterprise = new Enterprise();
         public Entrepeneur TempEntrepeneur = new Entrepeneur();
         public IttLetter TempIttLetter = new IttLetter();
+        public JobDescription TempJobDescription = new JobDescription();
         public LegalEntity TempLegalEntity = new LegalEntity();
         public LetterData TempLetterData = new LetterData();
         public Offer TempOffer = new Offer();
@@ -36,6 +37,7 @@ namespace JudBizz
         public Project TempProject = new Project();
         public ProjectStatus TempProjectStatus = new ProjectStatus();
         public Receiver TempReceiver = new Receiver();
+        public Region TempRegion = new Region();
         public Request TempRequest = new Request();
         public Shipping TempShipping = new Shipping();
         public SubEntrepeneur TempSubEntrepeneur;

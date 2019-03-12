@@ -76,6 +76,7 @@
     <Compile Include="IndexedUser.cs" />
     <Compile Include="IndexedProjectStatus.cs" />
     <Compile Include="IndexedUserLevel.cs" />
+    <Compile Include="IndexedZipTown.cs" />
     <Compile Include="IttLetter.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Paragraph.cs" />

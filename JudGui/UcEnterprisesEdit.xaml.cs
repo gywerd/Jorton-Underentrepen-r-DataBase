@@ -35,7 +35,7 @@ namespace JudGui
         public UcEnterprisesEdit(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
-            this.CBZ = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
             GenerateCraftGroupItems();

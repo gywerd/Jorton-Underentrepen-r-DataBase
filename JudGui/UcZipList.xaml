@@ -23,54 +23,89 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="75*"/>
-            <RowDefinition Height="435*"/>
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="375*"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="110*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Label x:Name="LabelZipList" Content="Postnummerliste" 
+        <Label x:Name="LabelZipsHeader" Content="Postnumre" 
                FontSize="48" FontWeight="Bold"
                Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelZip" Content="Postnr*:" 
+        <Label x:Name="LabelZipSearch"
+               Content="Søg*:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="2"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelZips"
+               Content="Postnumre*:"
+               FontSize="30"
+               Grid.Column="1"
+               Grid.Row="3"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelZipBox" 
+               Content="Postnr*:" 
                FontSize="30" 
-               Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="4" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelTown" Content="By*:" 
+        <Label x:Name="LabelTown" 
+               Content="By*:" 
                FontSize="30" 
-               Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="5" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <ListBox x:Name="ListBoxZipList" 
-                 Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="8" 
-                 Height="425" Width="1275" 
+        <ListBox x:Name="ListBoxZipTowns" 
+                 Grid.Column="3" Grid.Row="3"
+                 Grid.ColumnSpan="6" 
+                 Height="365" Width="955" 
                  HorizontalAlignment="Left" 
-                 SelectionChanged="ListBoxZipList_SelectionChanged"
+                 SelectionChanged="ListBoxZipTowns_SelectionChanged"
                  VerticalAlignment="Top" />
-        <xctk:WatermarkTextBox x:Name="TextBoxZip" 
+        <xctk:WatermarkTextBox x:Name="TextBoxZipSearch" 
                                Background="White"  
                                FontSize="30" 
-                               Grid.Column="2" Grid.Row="3" 
+                               Grid.Column="3" Grid.Row="2" 
+                               Grid.ColumnSpan="6" 
                                IsEnabled="False"
+                               Height="50" Width="955"
                                HorizontalAlignment="Left" 
                                Text=""
-                               TextChanged="TextBoxZip_TextChanged" 
+                               TextChanged="TextBoxZipSearch_TextChanged" 
                                TextWrapping="Wrap" 
                                VerticalAlignment="Top" 
-                               Watermark="123456"
-                               Width="130" />
+                               Watermark="9999" />
+        <xctk:WatermarkTextBox x:Name="TextBoxZip"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="2" Grid.Row="4"
+                               IsEnabled="False"
+                               Height="50" Width="130"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxZip_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="9999" />
         <CheckBox x:Name="CheckBoxAddNewZipCode" Content="Tilføj nyt postnummer"  
                   Checked="CheckBoxAddNewZipCode_Checked"
                   FontSize="15" 
-                  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" 
+                  Grid.Column="3" Grid.Row="4" 
+                  Grid.ColumnSpan="3" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
                   Margin="0,0,0,0"  
                   RenderTransformOrigin="1,1" 
-                  Unchecked="CheckBoxAddNewZipCode_Unchecked"
+                  Unchecked="CheckBoxAddNewZipCode_Checked"
                   VerticalAlignment="Top" >
             <CheckBox.RenderTransform>
                 <TransformGroup>
@@ -84,12 +119,13 @@
         <CheckBox x:Name="CheckBoxDeleteZipCode" Content="Godkend sletning"  
                   Checked="CheckBoxDeleteZipCode_Checked"
                   FontSize="15" 
-                  Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="3" 
+                  Grid.Column="6" Grid.Row="4" 
+                  Grid.ColumnSpan="3" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
                   Margin="0,0,0,0"  
                   RenderTransformOrigin="1,1" 
-                  Unchecked="CheckBoxDeleteZipCode_Unchecked"
+                  Unchecked="CheckBoxDeleteZipCode_Checked"
                   VerticalAlignment="Top" >
             <CheckBox.RenderTransform>
                 <TransformGroup>
@@ -100,15 +136,28 @@
                 </TransformGroup>
             </CheckBox.RenderTransform>
         </CheckBox>
+        <xctk:WatermarkTextBox x:Name="TextBoxTown"
+                               Background="White"
+                               FontSize="30"
+                               Grid.Column="2" Grid.Row="5"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="130"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxTown_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Andeby" />
         <CheckBox x:Name="CheckBoxEditZipCode" Content="Ret postnummer"  
                   Checked="CheckBoxEditZipCode_Checked"
                   FontSize="15" 
-                  Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="3" 
+                  Grid.Column="3" Grid.Row="5" 
+                  Grid.ColumnSpan="3" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
                   Margin="0,0,0,0"  
                   RenderTransformOrigin="1,1" 
-                  Unchecked="CheckBoxEditZipCode_Unchecked"
+                  Unchecked="CheckBoxEditZipCode_Checked"
                   VerticalAlignment="Top" >
             <CheckBox.RenderTransform>
                 <TransformGroup>
@@ -119,35 +168,27 @@
                 </TransformGroup>
             </CheckBox.RenderTransform>
         </CheckBox>
-        <xctk:WatermarkTextBox x:Name="TextBoxTown" 
-                               Background="White"  
-                               FontSize="30" 
-                               Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="6" 
-                               HorizontalAlignment="Left" 
-                               Text=""
-                               TextChanged="TextBoxTown_TextChanged" 
-                               TextWrapping="Wrap" 
-                               VerticalAlignment="Top" 
-                               Watermark="123456"
-                               Width="130" />
         <Button x:Name="ButtonClose" Content="Luk"
                 Click="ButtonClose_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" 
+                Grid.Column="2" Grid.Row="6" 
+                Grid.ColumnSpan="2" 
                 Height="100"  Width="315" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonEdit" Content="Rediger"
                 Click="ButtonEdit_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" 
+                Grid.Column="6" Grid.Row="6" 
+                Grid.ColumnSpan="2" 
                 Height="100"  Width="315" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" />
         <Button x:Name="ButtonCreate" Content="Opret"
                 Click="ButtonCreate_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" 
+                Grid.Column="6" Grid.Row="6" 
+                Grid.ColumnSpan="2" 
                 Height="100"  Width="315" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
@@ -155,7 +196,8 @@
         <Button x:Name="ButtonDelete" Content="Slet"
                 Click="ButtonDelete_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" 
+                Grid.Column="6" Grid.Row="6" 
+                Grid.ColumnSpan="2" 
                 Height="100"  Width="315" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" 

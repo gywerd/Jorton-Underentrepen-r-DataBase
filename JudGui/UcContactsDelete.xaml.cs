@@ -266,7 +266,7 @@ namespace JudGui
 
             foreach (IndexedContact contact in CBZ.IndexedContacts)
             {
-                if (contact.Person.Name.Remove(length) == TextBoxContactSearch.Text.Remove(length))
+                if (contact.Person.Name.Remove(length) == TextBoxContactSearch.Text)
                 {
                     this.FilteredContacts.Add(contact);
                 }

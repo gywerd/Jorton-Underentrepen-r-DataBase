@@ -326,7 +326,7 @@ namespace JudGui
 
             foreach (IndexedEntrepeneur entrepeneur in CBZ.IndexedEntrepeneurs)
             {
-                if (entrepeneur.Entity.Name.Remove(length) == TextBoxEntrepeneurSearch.Text.Remove(length) || entrepeneur.Entity.Name.Remove(length + 4) == "A/S " + TextBoxEntrepeneurSearch.Text.Remove(length))
+                if (entrepeneur.Entity.Name.Remove(length) == TextBoxEntrepeneurSearch.Text || entrepeneur.Entity.Name.Remove(length + 4) == "A/S " + TextBoxEntrepeneurSearch.Text)
                 {
                     this.FilteredEntrepeneurs.Add(entrepeneur);
                 }

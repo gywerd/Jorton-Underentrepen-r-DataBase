@@ -31,7 +31,7 @@ namespace JudGui
         public UcEnterpriseForms(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
-            this.Bizz = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucMain;
         }
 

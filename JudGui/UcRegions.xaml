@@ -4,29 +4,190 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="840" d:DesignWidth="1560">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
             <ColumnDefinition Width="120*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="435*"/>
-            <RowDefinition Height="110*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="75*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="145*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        <Label x:Name="LabelRegionsHeader"
+               Content="Regioner"
+               FontSize="48"
+               FontWeight="Bold"
+               Grid.Column="1" Grid.Row="1"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelRegionSearch"
+               Content="Søg:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="2"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelRegionsBox"
+               Content="Regioner:"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="3"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelText"
+               Content="Tekst:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="4"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelZips"
+               Content="Postnumre:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="5"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Separator Grid.Column="1" Grid.Row="5"
+                   Grid.ColumnSpan="8"
+                   HorizontalAlignment="Center"
+                   Height="10"
+                   Width="1260"
+                   VerticalAlignment="Bottom" />
+        <Label x:Name="LabelAddRegion"
+               Content="Tilføj Region"
+               FontSize="30"
+               FontWeight="Bold"
+               Grid.Column="1" Grid.Row="6"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewText"
+               Content="Ny Tekst:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="7"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewZips"
+               Content="Nye postnumre:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="8"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxRegionSearch"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="2"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxRegionSearch_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Hov" />
+        <ListBox x:Name="ListBoxRegions"
+                 Grid.Column="3" Grid.Row="3"
+                 Grid.ColumnSpan="6"
+                 Height="135" Width="955"
+                 HorizontalAlignment="Left"
+                 SelectionChanged="ListBoxRegions_SelectionChanged"
+                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxText"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="4"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxText_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Region Midt" />
+        <xctk:WatermarkTextBox x:Name="TextBoxZips"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="5"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxZips_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="7330 - 8989" />
+        <xctk:WatermarkTextBox x:Name="TextBoxNewText"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="7"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="795"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxNewText_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Region Syddanmark" />
+        <xctk:WatermarkTextBox x:Name="TextBoxNewZips"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="8"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="795"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxNewZips_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="5000-7329" />
+        <Button x:Name="ButtonAddRegion"
+                Content="Tilføj"
+                Click="ButtonAddRegion_Click"
+                FontSize="30"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="8"
+                Height="50" Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" />
+        <Button x:Name="ButtonClose"
+                Content="Luk"
+                Click="ButtonClose_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="1" Grid.Row="9"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonSave"
+                Content="Gem"
+                Click="ButtonSave_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="7" Grid.Row="9"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
     </Grid>
+
 </UserControl>

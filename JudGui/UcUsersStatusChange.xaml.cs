@@ -155,7 +155,7 @@ namespace JudGui
 
             foreach (IndexedUser user in CBZ.IndexedUsers)
             {
-                if (user.Person.Name.Remove(length) == TextBoxUserSearch.Text.Remove(length))
+                if (user.Person.Name.Remove(length) == TextBoxUserSearch.Text)
                 {
                     this.FilteredUsers.Add(user);
                 }

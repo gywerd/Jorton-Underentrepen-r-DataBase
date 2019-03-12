@@ -4,29 +4,254 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="840" d:DesignWidth="1560">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
+            <ColumnDefinition Width="160*" />
             <ColumnDefinition Width="120*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="435*"/>
-            <RowDefinition Height="110*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="75*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="85*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        <Label x:Name="LabelJobDescriptionsHeader"
+               Content="Jobbeskrivelser"
+               FontSize="48"
+               FontWeight="Bold"
+               Grid.Column="1"
+               Grid.Row="1"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelJobDescriptionSearch"
+               Content="Søg:"
+               FontSize="30"
+               Grid.Column="1"
+               Grid.Row="2"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelJobDescriptionsBox"
+               Content="Fagkategorier:"
+               FontSize="30"
+               Grid.Column="1"
+               Grid.Row="3"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelOccupation"
+               Content="Beskæftigelse:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="4"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelArea"
+               Content="Område:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="5"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelProcuration"
+               Content="Prokuration:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="6"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Separator Grid.Column="1" Grid.Row="6"
+                   Grid.ColumnSpan="8"
+                   HorizontalAlignment="Center"
+                   Height="10" Width="1260"
+                   VerticalAlignment="Bottom" />
+        <Label x:Name="LabelAddJobDescription"
+               Content="Tilføj Jobbeskrivelse"
+               FontSize="30"
+               FontWeight="Bold"
+               Grid.Column="1" Grid.Row="7"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewOccupation"
+               Content="Ny Beskæftigelse:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="8"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewArea"
+               Content="Nyt område:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="9"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelNewProcuration"
+               Content="Ny Prokuration:*"
+               FontSize="30"
+               Grid.Column="1" Grid.Row="10"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxJobDescriptionSearch"
+                               FontSize="30"
+                               Grid.Column="3"
+                               Grid.Row="2"
+                               Grid.ColumnSpan="6"
+                               Height="50"
+                               Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxJobDescriptionSearch_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Jen" />
+        <ListBox x:Name="ListBoxJobDescriptions"
+                 Grid.Column="3"
+                 Grid.Row="3"
+                 Grid.ColumnSpan="6"
+                 Height="75"
+                 Width="955"
+                 HorizontalAlignment="Left"
+                 SelectionChanged="ListBoxJobDescriptions_SelectionChanged"
+                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxOccupation"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="4"
+                               Grid.ColumnSpan="6"
+                               Height="50"
+                               Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxOccupation_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="IT-Chef" />
+        <xctk:WatermarkTextBox x:Name="TextBoxArea"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="5"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="955"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               Text=""
+                               TextChanged="TextBoxArea_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="Nord" />
+        <CheckBox x:Name="CheckBoxProcuration"
+                  Content="Ja"
+                  Grid.Column="3"
+                  Grid.Row="6"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Checked="CheckBoxProcuration_Checked"
+                  Unchecked="CheckBoxProcuration_Checked">
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterX="-10"
+                                    CenterY="-10"
+                                    ScaleX="2"
+                                    ScaleY="2" />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
+        <xctk:WatermarkTextBox x:Name="TextBoxNewOccupation"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="8"
+                               Grid.ColumnSpan="5"
+                               Height="50"
+                               Width="795"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxNewOccupation_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Lærling" />
+        <xctk:WatermarkTextBox x:Name="TextBoxNewArea"
+                               FontSize="30"
+                               Grid.Column="3" Grid.Row="9"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="795"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextChanged="TextBoxNewArea_TextChanged"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="Nord" />
+        <CheckBox x:Name="CheckBoxNewProcuration"
+                  Content="Ja"
+                  Grid.Column="3"
+                  Grid.Row="10"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Checked="CheckBoxNewProcuration_Checked"
+                  Unchecked="CheckBoxNewProcuration_Checked">
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterX="-10"
+                                    CenterY="-10"
+                                    ScaleX="2"
+                                    ScaleY="2" />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
+        <Button x:Name="ButtonAddJobDescription"
+                Content="Tilføj"
+                Click="ButtonAddJobDescription_Click"
+                FontSize="30"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="10"
+                Height="50" Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top" />
+        <Button x:Name="ButtonClose"
+                Content="Luk"
+                Click="ButtonClose_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="1" Grid.Row="11"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonSave"
+                Content="Gem"
+                Click="ButtonSave_Click"
+                FontSize="48"
+                FontWeight="Bold"
+                Grid.Column="7" Grid.Row="11"
+                Grid.ColumnSpan="2"
+                Height="100" Width="315"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" />
     </Grid>
+
 </UserControl>

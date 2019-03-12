@@ -304,7 +304,7 @@ namespace JudGui
 
             foreach (IndexedCraftGroup group in CBZ.IndexedCraftGroups)
             {
-                if (group.Designation.Remove(length) == TextBoxCraftGroupSearch.Text.Remove(length))
+                if (group.Designation.Remove(length) == TextBoxCraftGroupSearch.Text)
                 {
                     this.FilteredCraftGroups.Add(group);
                 }

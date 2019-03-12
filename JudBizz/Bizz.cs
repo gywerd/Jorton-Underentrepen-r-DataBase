@@ -39,6 +39,7 @@ namespace JudBizz
         public List<IndexedTenderForm> IndexedTenderForms = new List<IndexedTenderForm>();
         public List<IndexedUser> IndexedUsers = new List<IndexedUser>();
         public List<IndexedUserLevel> IndexedUserLevels = new List<IndexedUserLevel>();
+        public List<IndexedZipTown> IndexedZipTowns = new List<IndexedZipTown>();
 
         #endregion
 
@@ -132,6 +133,7 @@ namespace JudBizz
         public void RefreshAllInitialIndexedLists()
         {
             RefreshIndexedActiveProjects();
+            RefreshIndexedCategories();
             RefreshIndexedCraftGroups();
             RefreshIndexedProjects();
             RefreshIndexedEnterpriseForms();
@@ -139,6 +141,7 @@ namespace JudBizz
             RefreshIndexedRegions();
             RefreshIndexedRequestStatusses();
             RefreshIndexedTenderForms();
+            RefreshIndexedZipTowns();
         }
 
         /// <summary>
@@ -374,6 +377,9 @@ namespace JudBizz
                 case "IndexedUserLevels":
                     RefreshIndexedUserLevels();
                     break;
+                case "IndexedZipTowns":
+                    RefreshIndexedZipTowns();
+                    break;
             }
         }
 
@@ -497,6 +503,23 @@ namespace JudBizz
             foreach (UserLevel userLevel in UserLevels)
             {
                 IndexedUserLevels.Add(new IndexedUserLevel(i, userLevel));
+                i++;
+            }
+        }
+
+        /// <summary>
+        /// Method that refreshes a list of Indexed ZipTowns
+        /// </summary>
+        private void RefreshIndexedZipTowns()
+        {
+            RefreshList("ZipTowns");
+
+            int i = 0;
+            IndexedZipTowns.Clear();
+
+            foreach (ZipTown zipTown in ZipTowns)
+            {
+                IndexedZipTowns.Add(new IndexedZipTown(i, zipTown));
                 i++;
             }
         }

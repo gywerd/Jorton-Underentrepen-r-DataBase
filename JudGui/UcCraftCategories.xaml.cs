@@ -73,7 +73,6 @@ namespace JudGui
                 MessageBox.Show("Databasen returnerede en fejl. Kategorien blev ikke tilføjet. Prøv igen.", "Fagkategorier", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -153,7 +152,6 @@ namespace JudGui
             ListBoxCraftCategories.ItemsSource = "";
             ListBoxCraftCategories.ItemsSource = this.FilteredCategories;
 
-
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
             {
@@ -216,7 +214,7 @@ namespace JudGui
 
             foreach (IndexedCategory category in CBZ.IndexedCategories)
             {
-                if (category.Text.Remove(length) == TextBoxCraftCategorySearch.Text.Remove(length))
+                if (category.Text == TextBoxCraftCategorySearch.Text)
                 {
                     this.FilteredCategories.Add(category);
                 }

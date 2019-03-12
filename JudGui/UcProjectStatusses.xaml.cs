@@ -217,7 +217,7 @@ namespace JudGui
 
             foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatusses)
             {
-                if (status.Text.Remove(length) == TextBoxProjectStatusSearch.Text.Remove(length))
+                if (status.Text == TextBoxProjectStatusSearch.Text)
                 {
                     this.FilteredProjectStatusses.Add(status);
                 }

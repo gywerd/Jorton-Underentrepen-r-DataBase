@@ -26,6 +26,7 @@ namespace JudGui
         public Bizz CBZ;
         public UserControl UcMain;
 
+        public List<IndexedZipTown> FilteredZipTowns = new List<IndexedZipTown>();
         #endregion
 
         #region Constructors
@@ -34,7 +35,23 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
-            ListBoxZipList.ItemsSource = CBZ.ZipTowns;
+
+            GetFilteredZipTowns();
+
+            ListBoxZipTowns.SelectedIndex = -1;
+            ListBoxZipTowns.ItemsSource = FilteredZipTowns;
+            CBZ.TempZipTown = new ZipTown();
+            TextBoxZip.Text = "";
+            TextBoxTown.Text = "";
+            ButtonCreate.Visibility = Visibility.Hidden;
+            ButtonDelete.Visibility = Visibility.Hidden;
+            ButtonEdit.Visibility = Visibility.Hidden;
+            CheckBoxAddNewZipCode.IsEnabled = true;
+            CheckBoxDeleteZipCode.IsEnabled = true;
+            CheckBoxEditZipCode.IsEnabled = true;
+            TextBoxZip.IsEnabled = false;
+            TextBoxTown.IsEnabled = false;
+
         }
 
         #endregion
@@ -97,11 +114,149 @@ namespace JudGui
         #endregion
 
         #region Events
-        private void ListBoxZipList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CheckBoxAddNewZipCode_Checked(object sender, RoutedEventArgs e)
         {
-            CBZ.TempZipTown = new ZipTown((ZipTown)ListBoxZipList.SelectedItem);
-            TextBoxZip.Text = CBZ.TempZipTown.Zip;
-            TextBoxTown.Text = CBZ.TempZipTown.Town;
+            if (CheckBoxAddNewZipCode.IsEnabled == true)
+            {
+                ListBoxZipTowns.SelectedIndex = -1;
+                CBZ.TempZipTown = new ZipTown();
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+                ButtonCreate.Visibility = Visibility.Visible;
+                ButtonDelete.Visibility = Visibility.Hidden;
+                ButtonEdit.Visibility = Visibility.Hidden;
+                CheckBoxAddNewZipCode.IsEnabled = true;
+                CheckBoxDeleteZipCode.IsEnabled = false;
+                CheckBoxEditZipCode.IsEnabled = false;
+                TextBoxZip.IsEnabled = true;
+                TextBoxTown.IsEnabled = true;
+            }
+            else
+            {
+                ListBoxZipTowns.SelectedIndex = -1;
+                CBZ.TempZipTown = new ZipTown();
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+                ButtonCreate.Visibility = Visibility.Hidden;
+                ButtonDelete.Visibility = Visibility.Hidden;
+                ButtonEdit.Visibility = Visibility.Hidden;
+                CheckBoxAddNewZipCode.IsEnabled = true;
+                CheckBoxDeleteZipCode.IsEnabled = true;
+                CheckBoxEditZipCode.IsEnabled = true;
+                TextBoxZip.IsEnabled = false;
+                TextBoxTown.IsEnabled = false;
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void CheckBoxDeleteZipCode_Checked(object sender, RoutedEventArgs e)
+        {
+            if (CheckBoxDeleteZipCode.IsEnabled == true)
+            {
+                if (ListBoxZipTowns.SelectedIndex >= 0)
+                {
+                    ButtonCreate.Visibility = Visibility.Hidden;
+                    ButtonDelete.Visibility = Visibility.Visible;
+                    ButtonEdit.Visibility = Visibility.Hidden;
+                    CheckBoxAddNewZipCode.IsEnabled = false;
+                    CheckBoxDeleteZipCode.IsEnabled = true;
+                    CheckBoxEditZipCode.IsEnabled = false;
+                    TextBoxZip.IsEnabled = false;
+                    TextBoxTown.IsEnabled = false;
+                }
+                else
+                {
+                    CheckBoxDeleteZipCode.IsChecked = false;
+                }
+            }
+            else
+            {
+                ListBoxZipTowns.SelectedIndex = -1;
+                CBZ.TempZipTown = new ZipTown();
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+                ButtonCreate.Visibility = Visibility.Hidden;
+                ButtonDelete.Visibility = Visibility.Hidden;
+                ButtonEdit.Visibility = Visibility.Hidden;
+                CheckBoxAddNewZipCode.IsEnabled = true;
+                CheckBoxDeleteZipCode.IsEnabled = true;
+                CheckBoxEditZipCode.IsEnabled = true;
+                TextBoxZip.IsEnabled = false;
+                TextBoxTown.IsEnabled = false;
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+        }
+
+        private void CheckBoxEditZipCode_Checked(object sender, RoutedEventArgs e)
+        {
+            if (CheckBoxEditZipCode.IsEnabled == true)
+            {
+                if (ListBoxZipTowns.SelectedIndex >= 0)
+                {
+                    ButtonCreate.Visibility = Visibility.Hidden;
+                    ButtonEdit.Visibility = Visibility.Visible;
+                    ButtonDelete.Visibility = Visibility.Hidden;
+                    CheckBoxAddNewZipCode.IsEnabled = false;
+                    CheckBoxDeleteZipCode.IsEnabled = false;
+                    CheckBoxEditZipCode.IsEnabled = true;
+                    TextBoxZip.IsEnabled = false;
+                    TextBoxTown.IsEnabled = true;
+                }
+                else
+                {
+                    CheckBoxEditZipCode.IsChecked = false;
+                }
+            }
+            else
+            {
+                ListBoxZipTowns.SelectedIndex = -1;
+                CBZ.TempZipTown = new ZipTown();
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+                ButtonCreate.Visibility = Visibility.Hidden;
+                ButtonDelete.Visibility = Visibility.Hidden;
+                ButtonEdit.Visibility = Visibility.Hidden;
+                CheckBoxAddNewZipCode.IsEnabled = true;
+                CheckBoxDeleteZipCode.IsEnabled = true;
+                CheckBoxEditZipCode.IsEnabled = true;
+                TextBoxZip.IsEnabled = false;
+                TextBoxTown.IsEnabled = false;
+
+            }
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void ListBoxZipTowns_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListBoxZipTowns.SelectedIndex >= 0)
+            {
+                CBZ.TempZipTown = new ZipTown((ZipTown)ListBoxZipTowns.SelectedItem);
+                TextBoxZip.Text = CBZ.TempZipTown.Zip;
+                TextBoxTown.Text = CBZ.TempZipTown.Town;
+            }
+            else
+            {
+                CBZ.TempZipTown = new ZipTown();
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+            }
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -118,6 +273,7 @@ namespace JudGui
                 id = id.Remove(id.Length - 1);
                 TextBoxZip.Text = id;
                 TextBoxZip.Select(TextBoxZip.Text.Length, 0);
+                CBZ.TempZipTown.Zip = TextBoxZip.Text;
             }
 
             //Set CBZ.UcMainEdited
@@ -135,6 +291,7 @@ namespace JudGui
                 id = id.Remove(id.Length - 1);
                 TextBoxTown.Text = id;
                 TextBoxTown.Select(TextBoxTown.Text.Length, 0);
+                CBZ.TempZipTown.Town = TextBoxTown.Text;
             }
 
             //Set CBZ.UcMainEdited
@@ -144,148 +301,47 @@ namespace JudGui
             }
         }
 
-        private void CheckBoxAddNewZipCode_Checked(object sender, RoutedEventArgs e)
+        private void TextBoxZipSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ListBoxZipList.SelectedIndex = -1;
-            CBZ.TempZipTown = new ZipTown();
-            TextBoxZip.Text = "";
-            TextBoxTown.Text = "";
-            ButtonCreate.Visibility = Visibility.Visible;
-            ButtonDelete.Visibility = Visibility.Hidden;
-            ButtonEdit.Visibility = Visibility.Hidden;
-            CheckBoxAddNewZipCode.IsEnabled = true;
-            CheckBoxDeleteZipCode.IsEnabled = false;
-            CheckBoxEditZipCode.IsEnabled = false;
-            TextBoxZip.IsEnabled = true;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-
-        }
-
-        private void CheckBoxAddNewZipCode_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ListBoxZipList.SelectedIndex = -1;
-            CBZ.TempZipTown = new ZipTown();
-            TextBoxZip.Text = "";
-            TextBoxTown.Text = "";
-            ButtonCreate.Visibility = Visibility.Hidden;
-            ButtonDelete.Visibility = Visibility.Hidden;
-            ButtonEdit.Visibility = Visibility.Visible;
-            CheckBoxAddNewZipCode.IsEnabled = true;
-            CheckBoxDeleteZipCode.IsEnabled = true;
-            CheckBoxEditZipCode.IsEnabled = true;
-            TextBoxZip.IsEnabled = false;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-
-        }
-
-        private void CheckBoxDeleteZipCode_Checked(object sender, RoutedEventArgs e)
-        {
-            if (ListBoxZipList.SelectedIndex != -1)
-            {
-                ButtonCreate.Visibility = Visibility.Hidden;
-                ButtonDelete.Visibility = Visibility.Visible;
-                ButtonEdit.Visibility = Visibility.Hidden;
-                CheckBoxAddNewZipCode.IsEnabled = false;
-                CheckBoxDeleteZipCode.IsEnabled = true;
-                CheckBoxEditZipCode.IsEnabled = false;
-                TextBoxZip.IsEnabled = false;
-            }
-            else
-            {
-                CheckBoxDeleteZipCode.IsChecked = false;
-            }
-
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-        }
-
-        private void CheckBoxDeleteZipCode_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ListBoxZipList.SelectedIndex = -1;
-            CBZ.TempZipTown = new ZipTown();
-            TextBoxZip.Text = "";
-            TextBoxTown.Text = "";
-            ButtonCreate.Visibility = Visibility.Hidden;
-            ButtonDelete.Visibility = Visibility.Hidden;
-            ButtonEdit.Visibility = Visibility.Visible;
-            CheckBoxAddNewZipCode.IsEnabled = true;
-            CheckBoxDeleteZipCode.IsEnabled = true;
-            CheckBoxEditZipCode.IsEnabled = true;
-            TextBoxZip.IsEnabled = false;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-
-        }
-
-        private void CheckBoxEditZipCode_Checked(object sender, RoutedEventArgs e)
-        {
-            if (ListBoxZipList.SelectedIndex != -1)
-            {
-                ButtonCreate.Visibility = Visibility.Hidden;
-                ButtonEdit.Visibility = Visibility.Visible;
-                ButtonDelete.Visibility = Visibility.Hidden;
-                CheckBoxAddNewZipCode.IsEnabled = false;
-                CheckBoxDeleteZipCode.IsEnabled = false;
-                CheckBoxEditZipCode.IsEnabled = true;
-                TextBoxZip.IsEnabled = true;
-            }
-            else
-            {
-                CheckBoxEditZipCode.IsChecked = false;
-            }
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-
-        }
-
-        private void CheckBoxEditZipCode_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ListBoxZipList.SelectedIndex = -1;
-            CBZ.TempZipTown = new ZipTown();
-            TextBoxZip.Text = "";
-            TextBoxTown.Text = "";
-            ButtonCreate.Visibility = Visibility.Hidden;
-            ButtonDelete.Visibility = Visibility.Hidden;
-            ButtonEdit.Visibility = Visibility.Visible;
-            CheckBoxAddNewZipCode.IsEnabled = true;
-            CheckBoxDeleteZipCode.IsEnabled = true;
-            CheckBoxEditZipCode.IsEnabled = true;
-            TextBoxZip.IsEnabled = false;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
+            GetFilteredZipTowns();
+            ListBoxZipTowns.SelectedIndex = -1;
+            ListBoxZipTowns.ItemsSource = "";
+            ListBoxZipTowns.ItemsSource = this.FilteredZipTowns;
 
         }
 
         #endregion
 
         #region Methods
+        public bool CreateZipTownInDb()
+        {
+            bool result = false;
 
+            int zipTownId = CBZ.CreateInDb(CBZ.TempZipTown);
+
+            if (zipTownId > 0)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        private void GetFilteredZipTowns()
+        {
+            CBZ.RefreshIndexedList("IndexedZipTowns");
+            this.FilteredZipTowns = new List<IndexedZipTown>();
+            int length = TextBoxZipSearch.Text.Length;
+
+            foreach (IndexedZipTown zipTown in CBZ.IndexedZipTowns)
+            {
+                if (zipTown.Zip.Remove(length) == TextBoxZipSearch.Text || zipTown.Town.Remove(length) == TextBoxZipSearch.Text)
+                {
+                    this.FilteredZipTowns.Add(zipTown);
+                }
+            }
+        }
+
+        public bool UpdateZipTownInDb => CBZ.UpdateInDb(CBZ.TempZipTown);
         #endregion
 
     }

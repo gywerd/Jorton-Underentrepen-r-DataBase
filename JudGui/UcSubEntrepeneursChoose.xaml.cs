@@ -35,7 +35,7 @@ namespace JudGui
         public UcSubEntrepeneursChoose(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
-            this.CBZ = bizz;
+            this.CBZ = cbz;
             this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
             ComboBoxArea.ItemsSource = CBZ.Regions;
