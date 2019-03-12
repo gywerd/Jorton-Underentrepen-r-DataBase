@@ -135,7 +135,7 @@
                                TextWrapping="Wrap"
                                VerticalAlignment="Top"
                                Watermark="Udsat" />
-        <Button x:Name="ButtonAddCraftGroup"
+        <Button x:Name="ButtonAddProjectStatus"
                 Content="Tilføj"
                 Click="ButtonAddProjectStatus_Click"
                 FontSize="30"

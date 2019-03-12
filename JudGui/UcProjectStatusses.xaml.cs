@@ -77,7 +77,6 @@ namespace JudGui
                 MessageBox.Show("Databasen returnerede en fejl. Projektstatussen blev ikke tilføjet. Prøv igen.", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -127,6 +126,7 @@ namespace JudGui
                 //Show error
                 MessageBox.Show("Databasen returnerede en fejl. Projektstatussen blev ikke opdateret. Prøv igen.", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
         }
 
         #endregion

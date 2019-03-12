@@ -27,6 +27,7 @@ namespace JudBizz
         public Contact TempContact = new Contact();
         public ContactInfo TempContactInfo = new ContactInfo();
         public Enterprise TempEnterprise = new Enterprise();
+        public EnterpriseForm TempEnterpriseForm = new EnterpriseForm();
         public Entrepeneur TempEntrepeneur = new Entrepeneur();
         public IttLetter TempIttLetter = new IttLetter();
         public JobDescription TempJobDescription = new JobDescription();

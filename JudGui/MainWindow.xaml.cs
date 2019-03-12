@@ -286,6 +286,24 @@ namespace JudGui
             }
         }
 
+        private void ButtonEnterpriseForms_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                if (MessageBox.Show("Vil du åbne 'Entrepriseformer'. Alt, der ikke er gemt vil blive mistet!", "Entrepriseformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcMainEdited = false;
+                    UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
+                    UcMain.Content = UcEnterpriseForms;
+                }
+            }
+            else
+            {
+                UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
+                UcMain.Content = UcEnterpriseForms;
+            }
+        }
+
         private void ButtonEnterprisesEdit_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
@@ -319,24 +337,6 @@ namespace JudGui
             {
                 UcEnterprisesView = new UcEnterprisesView(CBZ, UcMain);
                 UcMain.Content = UcEnterprisesView;
-            }
-        }
-
-        private void ButtonEnterpriseForms_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.UcMainEdited)
-            {
-                if (MessageBox.Show("Vil du åbne 'Entrepriseformer'. Alt, der ikke er gemt vil blive mistet!", "Entrepriseformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                {
-                    CBZ.UcMainEdited = false;
-                    UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
-                    UcMain.Content = UcEnterpriseForms;
-                }
-            }
-            else
-            {
-                UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
-                UcMain.Content = UcEnterpriseForms;
             }
         }
 
