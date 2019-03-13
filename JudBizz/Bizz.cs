@@ -31,10 +31,10 @@ namespace JudBizz
         public List<IndexedJobDescription> IndexedJobDescriptions = new List<IndexedJobDescription>();
         public List<IndexedParagraph> IndexedParagraphs = new List<IndexedParagraph>();
         public List<IndexedProject> IndexedProjects = new List<IndexedProject>();
-        public List<IndexedProjectStatus> IndexedProjectStatusses = new List<IndexedProjectStatus>();
+        public List<IndexedProjectStatus> IndexedProjectStatuses = new List<IndexedProjectStatus>();
         public List<IndexedRegion> IndexedRegions = new List<IndexedRegion>();
         public List<IndexedRequest> IndexedRequests = new List<IndexedRequest>();
-        public List<IndexedRequestStatus> IndexedRequestStatusses = new List<IndexedRequestStatus>();
+        public List<IndexedRequestStatus> IndexedRequestStatuses = new List<IndexedRequestStatus>();
         public List<SubEntrepeneur> IndexedSubEntrepeneurs = new List<SubEntrepeneur>();
         public List<IndexedTenderForm> IndexedTenderForms = new List<IndexedTenderForm>();
         public List<IndexedUser> IndexedUsers = new List<IndexedUser>();
@@ -69,14 +69,14 @@ namespace JudBizz
         /// <param name="initials">string</param>
         /// <param name="passWord">string</param>
         /// <returns>bool</returns>
-        public bool CheckCredentials(TextBlock userName, RibbonApplicationMenuItem menuItemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, string initials, string passWord)
+        public bool CheckCredentials(Label userName, RibbonApplicationMenuItem menuItemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, string initials, string passWord)
         {
             foreach (User user in Users)
             {
                 if (user.Initials == initials && user.Authentication.PassWord == passWord && user.Authentication.UserLevel.Id >= 1)
                 {
                     CurrentUser = user;
-                    userName.Text = user.Person.Name;
+                    userName.Content = user.Person.Name;
                     menuItemChangePassWord.IsEnabled = true;
                     menuItemLogOut.IsEnabled = true;
                     return true;
@@ -137,9 +137,9 @@ namespace JudBizz
             RefreshIndexedCraftGroups();
             RefreshIndexedProjects();
             RefreshIndexedEnterpriseForms();
-            RefreshIndexedProjectStatusses();
+            RefreshIndexedProjectStatuses();
             RefreshIndexedRegions();
-            RefreshIndexedRequestStatusses();
+            RefreshIndexedRequestStatuses();
             RefreshIndexedTenderForms();
             RefreshIndexedZipTowns();
         }
@@ -359,14 +359,14 @@ namespace JudBizz
                 case "IndexedProjects":
                     RefreshIndexedProjects();
                     break;
-                case "IndexedProjectStatusses":
-                    RefreshIndexedProjectStatusses();
+                case "IndexedProjectStatuses":
+                    RefreshIndexedProjectStatuses();
                     break;
                 case "IndexedRegions":
                     RefreshIndexedRegions();
                     break;
-                case "IndexedRequestStatusses":
-                    RefreshIndexedRequestStatusses();
+                case "IndexedRequestStatuses":
+                    RefreshIndexedRequestStatuses();
                     break;
                 case "IndexedTenderForms":
                     RefreshIndexedTenderForms();
@@ -417,13 +417,13 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes Indexed Project Status list
         /// </summary>
-        private void RefreshIndexedProjectStatusses()
+        private void RefreshIndexedProjectStatuses()
         {
-            IndexedProjectStatusses.Clear();
+            IndexedProjectStatuses.Clear();
             int i = 0;
-            foreach (ProjectStatus status in ProjectStatusses)
+            foreach (ProjectStatus status in ProjectStatuses)
             {
-                IndexedProjectStatusses.Add(new IndexedProjectStatus(i, status));
+                IndexedProjectStatuses.Add(new IndexedProjectStatus(i, status));
                 i++;
             }
         }
@@ -448,13 +448,13 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes Indexed Request Status list
         /// </summary>
-        private void RefreshIndexedRequestStatusses()
+        private void RefreshIndexedRequestStatuses()
         {
-            IndexedRequestStatusses.Clear();
+            IndexedRequestStatuses.Clear();
             int i = 0;
-            foreach (RequestStatus status in RequestStatusses)
+            foreach (RequestStatus status in RequestStatuses)
             {
-                IndexedRequestStatusses.Add(new IndexedRequestStatus(i, status));
+                IndexedRequestStatuses.Add(new IndexedRequestStatus(i, status));
                 i++;
             }
         }

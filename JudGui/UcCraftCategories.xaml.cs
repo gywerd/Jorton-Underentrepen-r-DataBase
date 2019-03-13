@@ -64,7 +64,7 @@ namespace JudGui
                 TextBoxNewText.Text = "";
 
                 //Refresh Users list
-                CBZ.RefreshList("ProjectStatusses");
+                CBZ.RefreshList("ProjectStatuses");
                 CBZ.TempProjectStatus = new ProjectStatus();
             }
             else

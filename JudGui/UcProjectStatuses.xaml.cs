@@ -18,20 +18,20 @@ using System.Windows.Shapes;
 namespace JudGui
 {
     /// <summary>
-    /// Interaction logic for UcProjectStatusses.xaml
+    /// Interaction logic for UcProjectStatuses.xaml
     /// </summary>
-    public partial class UcProjectStatusses : UserControl
+    public partial class UcProjectStatuses : UserControl
     {
         #region Fields
         public Bizz CBZ;
         public UserControl UcMain;
         public ProjectStatus TempNewProjectStatus = new ProjectStatus();
 
-        List<IndexedProjectStatus> FilteredProjectStatusses = new List<IndexedProjectStatus>();
+        List<IndexedProjectStatus> FilteredProjectStatuses = new List<IndexedProjectStatus>();
         #endregion
 
         #region Constructors
-        public UcProjectStatusses(Bizz cbz, UserControl ucMain)
+        public UcProjectStatuses(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
@@ -39,9 +39,9 @@ namespace JudGui
 
             CBZ.TempProjectStatus = new ProjectStatus();
 
-            GetFilteredProjectStatusses();
-            ListBoxProjectStatusses.ItemsSource = FilteredProjectStatusses;
-            ListBoxProjectStatusses.SelectedIndex = -1;
+            GetFilteredProjectStatuses();
+            ListBoxProjectStatuses.ItemsSource = FilteredProjectStatuses;
+            ListBoxProjectStatuses.SelectedIndex = -1;
 
         }
 
@@ -59,16 +59,16 @@ namespace JudGui
                 MessageBox.Show("Projektstatussen blev tilføjet", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
-                ListBoxProjectStatusses.SelectedIndex = -1;
-                ListBoxProjectStatusses.ItemsSource = "";
-                CBZ.RefreshIndexedList("IndexedProjectStatusses");
-                ListBoxProjectStatusses.ItemsSource = CBZ.IndexedCraftGroups;
+                ListBoxProjectStatuses.SelectedIndex = -1;
+                ListBoxProjectStatuses.ItemsSource = "";
+                CBZ.RefreshIndexedList("IndexedProjectStatuses");
+                ListBoxProjectStatuses.ItemsSource = CBZ.IndexedCraftGroups;
                 TextBoxProjectStatusSearch.Text = "";
                 TextBoxText.Text = "";
                 TextBoxNewText.Text = "";
 
                 //Refresh Users list
-                CBZ.RefreshList("ProjectStatusses");
+                CBZ.RefreshList("ProjectStatuses");
                 CBZ.TempProjectStatus = new ProjectStatus();
             }
             else
@@ -111,14 +111,14 @@ namespace JudGui
                 MessageBox.Show("Projektstatussen blev opdateret", "Projektstatusser", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
-                ListBoxProjectStatusses.SelectedIndex = -1;
-                ListBoxProjectStatusses.ItemsSource = "";
+                ListBoxProjectStatuses.SelectedIndex = -1;
+                ListBoxProjectStatuses.ItemsSource = "";
                 TextBoxProjectStatusSearch.Text = "";
                 TextBoxText.Text = "";
                 TextBoxNewText.Text = "";
 
                 //Refresh Users list
-                CBZ.RefreshList("ProjectStatusses");
+                CBZ.RefreshList("ProjectStatuses");
                 CBZ.TempProjectStatus = new ProjectStatus();
             }
             else
@@ -132,9 +132,9 @@ namespace JudGui
         #endregion
 
         #region Events
-        private void ListBoxProjectStatusses_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxProjectStatuses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProjectStatus = new ProjectStatus((ProjectStatus)ListBoxProjectStatusses.SelectedItem);
+            CBZ.TempProjectStatus = new ProjectStatus((ProjectStatus)ListBoxProjectStatuses.SelectedItem);
 
             TextBoxText.Text = CBZ.TempProjectStatus.Text;
 
@@ -161,10 +161,10 @@ namespace JudGui
 
         private void TextBoxProjectStatusSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            GetFilteredProjectStatusses();
-            ListBoxProjectStatusses.SelectedIndex = -1;
-            ListBoxProjectStatusses.ItemsSource = "";
-            ListBoxProjectStatusses.ItemsSource = this.FilteredProjectStatusses;
+            GetFilteredProjectStatuses();
+            ListBoxProjectStatuses.SelectedIndex = -1;
+            ListBoxProjectStatuses.ItemsSource = "";
+            ListBoxProjectStatuses.ItemsSource = this.FilteredProjectStatuses;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -207,19 +207,19 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that retrieves a list of filtered Project Statusses for ListBoxProjectStatusses
+        /// Method, that retrieves a list of filtered Project Statusses for ListBoxProjectStatuses
         /// </summary>
-        private void GetFilteredProjectStatusses()
+        private void GetFilteredProjectStatuses()
         {
-            CBZ.RefreshIndexedList("IndexedProjectStatusses");
-            this.FilteredProjectStatusses = new List<IndexedProjectStatus>();
+            CBZ.RefreshIndexedList("IndexedProjectStatuses");
+            this.FilteredProjectStatuses = new List<IndexedProjectStatus>();
             int length = TextBoxProjectStatusSearch.Text.Length;
 
-            foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatusses)
+            foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatuses)
             {
                 if (status.Text == TextBoxProjectStatusSearch.Text)
                 {
-                    this.FilteredProjectStatusses.Add(status);
+                    this.FilteredProjectStatuses.Add(status);
                 }
             }
         }

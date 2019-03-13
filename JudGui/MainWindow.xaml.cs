@@ -50,7 +50,7 @@ namespace JudGui
         public UcProjectCopy UcProjectCopy;
         public UcProjectsEdit UcProjectsEdit;
         public UcProjectStatusChange UcProjectStatusChange;
-        public UcProjectStatusses UcProjectStatusses;
+        public UcProjectStatuses UcProjectStatuses;
         public UcRequestsChooseReceivers UcRequestsChooseReceivers;
         public UcRequestPrepare UcRequestPrepare;
         public UcRequestSend UcRequestSend;
@@ -268,24 +268,6 @@ namespace JudGui
             }
         }
 
-        private void ButtonEnterprisesCreate_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.UcMainEdited)
-            {
-                if (MessageBox.Show("Vil du åbne 'Opret Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                {
-                    CBZ.UcMainEdited = false;
-                    UcEnterpriseCreate = new UcEnterpriseCreate(CBZ, UcMain);
-                    UcMain.Content = UcEnterpriseCreate;
-                }
-            }
-            else
-            {
-                UcEnterpriseCreate = new UcEnterpriseCreate(CBZ, UcMain);
-                UcMain.Content = UcEnterpriseCreate;
-            }
-        }
-
         private void ButtonEnterpriseForms_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
@@ -301,6 +283,24 @@ namespace JudGui
             {
                 UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
                 UcMain.Content = UcEnterpriseForms;
+            }
+        }
+
+        private void ButtonEnterprisesCreate_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                if (MessageBox.Show("Vil du åbne 'Opret Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcMainEdited = false;
+                    UcEnterpriseCreate = new UcEnterpriseCreate(CBZ, UcMain);
+                    UcMain.Content = UcEnterpriseCreate;
+                }
+            }
+            else
+            {
+                UcEnterpriseCreate = new UcEnterpriseCreate(CBZ, UcMain);
+                UcMain.Content = UcEnterpriseCreate;
             }
         }
 
@@ -514,7 +514,7 @@ namespace JudGui
             Data.IsEnabled = false;
             Users.IsEnabled = false;
             CBZ = new Bizz();
-            UserName.Text = "";
+            UserName.Content = "";
             OpenUcLogin();
         }
 
@@ -550,13 +550,13 @@ namespace JudGui
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectCreate = new UcProjectCreate(CBZ, UcMain);
-                    UcMain.Content = new UserControl();
+                    UcMain.Content = UcProjectCreate;
                 }
             }
             else
             {
                 UcProjectCreate = new UcProjectCreate(CBZ, UcMain);
-                UcMain.Content = new UserControl();
+                UcMain.Content = UcProjectCreate;
             }
         }
 
@@ -617,21 +617,21 @@ namespace JudGui
 
         }
 
-        private void ButtonProjectStatusses_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectStatuses_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Projektstatuser'. Alt, der ikke er gemt vil blive mistet!", "Projektstatuser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcProjectStatusses = new UcProjectStatusses(CBZ, UcMain);
-                    UcMain.Content = UcProjectStatusses;
+                    UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
+                    UcMain.Content = UcProjectStatuses;
                 }
             }
             else
             {
-                UcProjectStatusses = new UcProjectStatusses(CBZ, UcMain);
-                UcMain.Content = UcProjectStatusses;
+                UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
+                UcMain.Content = UcProjectStatuses;
             }
         }
 

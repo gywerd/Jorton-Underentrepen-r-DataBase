@@ -32,13 +32,13 @@ namespace JudGui
         public RibbonGroup Users;
         public RibbonApplicationMenuItem ButtonChangePassWord;
         public RibbonApplicationMenuItem ButtonLogOut;
-        public TextBlock UserName;
+        public Label UserName;
         public UserControl UcMain;
 
         #endregion
 
         #region Constructors
-        public UcLogin(Bizz cbz, RibbonTab tabOffer, RibbonTab tabMaintenance, RibbonTab tabAdministration, RibbonGroup data, RibbonGroup users, RibbonApplicationMenuItem buttonChangePassWord, RibbonApplicationMenuItem buttonLogOut, TextBlock userName, UserControl ucMain)
+        public UcLogin(Bizz cbz, RibbonTab tabOffer, RibbonTab tabMaintenance, RibbonTab tabAdministration, RibbonGroup data, RibbonGroup users, RibbonApplicationMenuItem buttonChangePassWord, RibbonApplicationMenuItem buttonLogOut, Label userName, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;

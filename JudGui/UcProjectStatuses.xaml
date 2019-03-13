@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="JudGui.UcProjectStatusses"
+﻿<UserControl x:Class="JudGui.UcProjectStatuses"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -31,7 +31,7 @@
             <RowDefinition Height="100*" /> 
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Label x:Name="LabelProjectStatussesHeader"
+        <Label x:Name="LabelProjectStatusesHeader"
                Content="Projektstatusser"
                FontSize="48"
                FontWeight="Bold"
@@ -47,7 +47,7 @@
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <Label x:Name="LabelProjectStatussesBox"
+        <Label x:Name="LabelProjectStatusesBox"
                Content="Projektstatusser:"
                FontSize="30"
                Grid.Column="1"
@@ -100,14 +100,14 @@
                                TextChanged="TextBoxProjectStatusSearch_TextChanged"
                                VerticalAlignment="Top"
                                Watermark="Jen" />
-        <ListBox x:Name="ListBoxProjectStatusses"
+        <ListBox x:Name="ListBoxProjectStatuses"
                  Grid.Column="3"
                  Grid.Row="3"
                  Grid.ColumnSpan="6"
                  Height="260"
                  Width="955"
                  HorizontalAlignment="Left"
-                 SelectionChanged="ListBoxProjectStatusses_SelectionChanged"
+                 SelectionChanged="ListBoxProjectStatuses_SelectionChanged"
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxText"
                                FontSize="30"

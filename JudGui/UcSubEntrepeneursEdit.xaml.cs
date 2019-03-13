@@ -47,7 +47,7 @@ namespace JudGui
             this.CBZ = cbz;
             this.UcMain = ucMain;
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
-            ComboBoxRequest.ItemsSource = CBZ.RequestStatusses;
+            ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
         }
 
         #endregion
@@ -1619,7 +1619,7 @@ namespace JudGui
         private RequestStatus GetRequestStatus(int index)
         {
             IndexedRequestStatus result = new IndexedRequestStatus();
-            foreach (IndexedRequestStatus status in CBZ.IndexedRequestStatusses)
+            foreach (IndexedRequestStatus status in CBZ.IndexedRequestStatuses)
             {
                 if (status.Index == index)
                 {
@@ -1759,7 +1759,7 @@ namespace JudGui
             ComboBoxContact.ItemsSource = null;
             CBZ.TempContact = new Contact();
             ComboBoxRequest.SelectedIndex = -1;
-            ComboBoxRequest.ItemsSource = CBZ.RequestStatusses;
+            ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
             DateRequest.DisplayDate = DateTime.Now;
             DateRequest.Text = "";
             CBZ.TempRequest = new Request();
@@ -1974,7 +1974,7 @@ namespace JudGui
             GetRequestDate(CBZ.TempRequest);
             DateRequest.DisplayDate = Date;
             DateRequest.Text = Date.ToShortDateString();
-            ComboBoxRequest.ItemsSource = CBZ.RequestStatusses;
+            ComboBoxRequest.ItemsSource = CBZ.RequestStatuses;
             ComboBoxRequest.SelectedIndex = CBZ.TempRequest.Status.Id;
         }
 
@@ -2389,7 +2389,7 @@ namespace JudGui
         {
             RequestStatus result = new RequestStatus();
 
-            foreach (RequestStatus status in CBZ.RequestStatusses)
+            foreach (RequestStatus status in CBZ.RequestStatuses)
             {
                 if (status.Id == requestStatusId)
                 {

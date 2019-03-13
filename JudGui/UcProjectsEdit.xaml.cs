@@ -37,7 +37,7 @@ namespace JudGui
             ComboBoxCaseId.ItemsSource = CBZ.ActiveProjects;
             ComboBoxBuilder.ItemsSource = CBZ.ActiveBuilders;
             ComboBoxTenderForm.ItemsSource = CBZ.IndexedTenderForms;
-            ComboBoxProjectStatus.ItemsSource = CBZ.IndexedEnterpriseForms;
+            ComboBoxProjectStatus.ItemsSource = CBZ.IndexedProjectStatuses;
             ComboBoxExecutive.ItemsSource = CBZ.ActiveUsers;
         }
 
@@ -184,7 +184,7 @@ namespace JudGui
         {
             int result = 0;
 
-            foreach (IndexedEnterpriseForm indexForm in ComboBoxExecutive.Items)
+            foreach (IndexedEnterpriseForm indexForm in ComboBoxEnterpriseForm.Items)
             {
                 if (indexForm.Text == enterpriseForm.Text)
                 {
@@ -199,7 +199,7 @@ namespace JudGui
         {
             int result = 0;
 
-            foreach (IndexedProjectStatus indexProjectStatus in CBZ.IndexedProjectStatusses)
+            foreach (IndexedProjectStatus indexProjectStatus in CBZ.IndexedProjectStatuses)
             {
                 if (indexProjectStatus.Id == id)
                 {
