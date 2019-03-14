@@ -35,6 +35,7 @@ namespace JudBizz
         public LetterData TempLetterData = new LetterData();
         public Offer TempOffer = new Offer();
         public Paragraph TempParagraph = new Paragraph();
+        public string TempPassWord = "";
         public Project TempProject = new Project();
         public ProjectStatus TempProjectStatus = new ProjectStatus();
         public Receiver TempReceiver = new Receiver();
@@ -48,13 +49,12 @@ namespace JudBizz
 
 
 
-        #region Lists
-        public List<Builder> ActiveBuilders = new List<Builder>();
+            #region Lists
+            public List<Builder> ActiveBuilders = new List<Builder>();
             public List<Entrepeneur> ActiveEntrepeneurs = new List<Entrepeneur>();
             public List<Project> ActiveProjects = new List<Project>();
             public List<User> ActiveUsers = new List<User>();
             public List<Address> Addresses = new List<Address>();
-            public List<Authentication> Authentications = new List<Authentication>();
             public List<Builder> Builders = new List<Builder>();
             public List<Bullet> Bullets = new List<Bullet>();
             public List<Category> Categories = new List<Category>();
@@ -118,6 +118,17 @@ namespace JudBizz
 
             #region Create
             /// <summary>
+            /// Method, that adds a User to Db
+            /// </summary>
+            /// <param name="user">User</param>
+            /// <param name="passWord">string</param>
+            /// <returns>bool</returns>
+            private bool AddUser(User user, string passWord)
+            {
+                return executor.AddUser(user.Person.Id, user.Initials, passWord, user.JobDescription.Id, user.UserLevel.Id);
+            }
+
+            /// <summary>
             /// Method, that creates a new entity in Db
             /// </summary>
             /// <param name="entity">Object</param>
@@ -130,7 +141,18 @@ namespace JudBizz
                 bool dbAnswer = false;
                 string entityType = entity.GetType().ToString();
                 string list = GetListFromEntityType(entityType);
-                dbAnswer = ProcesSqlQuery(GetSQLQueryInsert(list, entity));
+
+                switch (list)
+                {
+                    case "Users":
+                        User tempUser = new User((User)entity);
+                        dbAnswer = AddUser(tempUser, TempPassWord);
+                        break;
+                    default:
+                        dbAnswer = ProcesSqlQuery(GetSQLQueryInsert(list, entity));
+                        break;
+                }
+
                 entityTypeDk = GetDanishEntityType(entityType);
 
                 if (!dbAnswer)
@@ -145,11 +167,6 @@ namespace JudBizz
                             RefreshList("Addresses");
                             count = Addresses.Count;
                             result = Addresses[count - 1].Id;
-                            break;
-                        case "Authentication":
-                            RefreshList("Authentications");
-                            count = Authentications.Count;
-                            result = Authentications[count - 1].Id;
                             break;
                         case "Builder":
                             RefreshList("Builders");
@@ -516,10 +533,6 @@ namespace JudBizz
                         Address address = new Address((Address)entity);
                         result = @"INSERT INTO [dbo].[Addresses](Street, Place, Zip) VALUES('" + address.Street + @"', '" + address.Place + @"', " + address.ZipTown.Id + ")";
                         break;
-                    case "Authentications":
-                        Authentication authentication = new Authentication((Authentication)entity);
-                        result = @"INSERT INTO [dbo].[Authentications](UserLevel, PassWord) VALUES('" + authentication.UserLevel.Id + @"', '" + authentication.PassWord + ")";
-                        break;
                     case "Builders":
                         Builder builder = new Builder((Builder)entity);
                         result = @"INSERT INTO [dbo].[Builders]([Entity], [Active]) VALUES(" +  builder.Entity.Id +  @", '" + builder.Active.ToString() + @"')";
@@ -620,10 +633,6 @@ namespace JudBizz
                         UserLevel userLevel = new UserLevel((UserLevel)entity);
                         result = "INSERT INTO [dbo].[UserLevels](Text) VALUES('" + userLevel.Text + @"')";
                         break;
-                    case "Users":
-                        User user = new User((User)entity);
-                        result = "INSERT INTO [dbo].[Users]([Person], [Initials], [JobDescription], [Authentication]) VALUES(" + user.Person.Id + @", '" + user.Initials + @"', " + user.JobDescription.Id + @", " + user.Authentication.Id + @")";
-                        break;
                     case "ZipTown":
                         ZipTown zipTown = new ZipTown((ZipTown)entity);
                         result = @"INSERT INTO [dbo].[ZipTown](Zip, Town) VALUES('" + zipTown.Zip + @"', '" + zipTown.Town + "')";
@@ -637,6 +646,17 @@ namespace JudBizz
 
             #region Read
             /// <summary>
+            /// Method, that checks wether password is correct
+            /// </summary>
+            /// <param name="initials">string</param>
+            /// <param name="passWord">string</param>
+            /// <returns></returns>
+            public bool CheckLogin(string initials, string passWord)
+            {
+                return executor.CheckLogin(initials, passWord);
+            }
+
+            /// <summary>
             /// Method, that converts an string array into an object of the correct type
             /// </summary>
             /// <param name="list"></param>
@@ -649,16 +669,12 @@ namespace JudBizz
                 switch (list)
                 {
                     case "ActiveProjects":
-                        Project activeProjects = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
-                        result = activeProjects;
+                        Project activeProject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        result = activeProject;
                         break;
                     case "Addresses":
                         Address address = new Address(Convert.ToInt32(resultArray[0]), resultArray[1], resultArray[2], GetZipTown(Convert.ToInt32(resultArray[3])));
                         result = address;
-                        break;
-                    case "Authentications":
-                        Authentication authentication = new Authentication(Convert.ToInt32(resultArray[0]), GetUserLevel(Convert.ToInt32(resultArray[1])), resultArray[2]);
-                        result = authentication;
                         break;
                     case "Builders":
                         Builder builder = new Builder(Convert.ToInt32(resultArray[0]), GetLegalEntity(Convert.ToInt32(resultArray[1])), Convert.ToBoolean(resultArray[2]));
@@ -769,7 +785,7 @@ namespace JudBizz
                         result = userLevel;
                         break;
                     case "Users":
-                        User user = new User(Convert.ToInt32(resultArray[0]), GetPerson(Convert.ToInt32(resultArray[1])), resultArray[2], GetJobDescription(Convert.ToInt32(resultArray[3])), GetAuthentication(Convert.ToInt32(resultArray[4])));
+                        User user = new User(Convert.ToInt32(resultArray[0]), GetPerson(Convert.ToInt32(resultArray[1])), resultArray[2], GetJobDescription(Convert.ToInt32(resultArray[3])), GetUserLevel(Convert.ToInt32(resultArray[4])));
                         result = user;
                         break;
                     case "ZipTowns":
@@ -972,6 +988,17 @@ namespace JudBizz
 
             #region Update
             /// <summary>
+            /// Method, that sets new password in Db, if old password is correct
+            /// </summary>
+            /// <param name="oldPassWord">string</param>
+            /// <param name="newPassWord">string</param>
+            /// <returns></returns>
+            public bool ChangePassword(string oldPassWord, string newPassWord)
+            {
+                return executor.ChangePassword(TempUser.Id, oldPassWord, newPassWord);
+            }
+
+            /// <summary>
             /// Method, that returns a SQL-query
             /// </summary>
             /// <param name="list">string</param>
@@ -987,10 +1014,6 @@ namespace JudBizz
                     case "Addresses":
                         Address address = new Address((Address)_object);
                         result = @"UPDATE [dbo].[Addresses] SET [Street] = '" + address.Street + "', [Place] = '" + address.Place + "', [Zip] = " + address.ZipTown.Id + " WHERE [Id] = '" + address.Id + "';";
-                        break;
-                    case "Authentications":
-                        Authentication authentication = new Authentication((Authentication)_object);
-                        result = @"UPDATE [dbo].[Authentications] SET [UserLevel] = " + authentication.UserLevel.Id + ", [PassWord] = '" + authentication.PassWord + "' WHERE [Id] = '" + authentication.Id + "';";
                         break;
                     case "Builders":
                         Builder builder = new Builder((Builder)_object);
@@ -1090,7 +1113,7 @@ namespace JudBizz
                         break;
                     case "Users":
                         User user = new User((User)_object);
-                        result = @"UPDATE [dbo].[Users] SET [Person] = " + user.Person.Id + ", [Initials] = '" + user.Initials + "', [JobDescription] = " + user.JobDescription.Id + ", [Authentication] = " + user.Authentication.Id + " WHERE [Id] = " + user.Id;
+                        result = @"UPDATE [dbo].[Users] SET [Person] = " + user.Person.Id + ", [Initials] = '" + user.Initials + "', [JobDescription] = " + user.JobDescription.Id + ", [UserLevel] = " + user.UserLevel.Id + " WHERE [Id] = " + user.Id;
                         break;
                     case "UserLevels":
                         UserLevel userLevel = new UserLevel((UserLevel)_object);
@@ -1115,103 +1138,100 @@ namespace JudBizz
             /// <returns>bool</returns>
             public bool UpdateInDb(object _object)
             {
-            bool result = false;
-            string entityType = _object.GetType().ToString();
+                bool result = false;
+                string entityType = _object.GetType().ToString();
 
-            switch (entityType)
-            {
-                case "Address":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new Address((Address)_object)));
-                    break;
-                case "Authentication":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Authentications", new Authentication((Authentication)_object)));
-                    break;
-                case "Builder":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", new Builder((Builder)_object)));
-                    break;
-                case "Bullet":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", new Bullet((Bullet)_object)));
-                    break;
-                case "Category":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Categories", new Category((Category)_object)));
-                    break;
-                case "Contact":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", new Contact((Contact)_object)));
-                    break;
-                case "ContactInfo":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("ContactInfoList", new ContactInfo((ContactInfo)_object)));
-                    break;
-                case "CraftGroup":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", new CraftGroup((CraftGroup)_object)));
-                    break;
-                case "Enterprise":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", new Enterprise((Enterprise)_object)));
-                    break;
-                case "EnterpriseForm":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("EnterpriseForms", new EnterpriseForm((EnterpriseForm)_object)));
-                    break;
-                case "IttLetter":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetters", new Enterprise((Enterprise)_object)));
-                    break;
-                case "JobDescription":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("JobDescriptions", new JobDescription((JobDescription)_object)));
-                    break;
-                case "LegalEntity":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("LegalEntities", new LegalEntity((LegalEntity)_object)));
-                    break;
-                case "LetterData":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("LetterDataList", new LetterData((LetterData)_object)));
-                    break;
-                case "Offer":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Offers", new Offer((Offer)_object)));
-                    break;
-                case "Paragraph":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Paragraphs", new Paragraph((Paragraph)_object)));
-                    break;
-                case "Person":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", new Person((Person)_object)));
-                    break;
-                case "Shipping":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Shippings", new Shipping((Shipping)_object)));
-                    break;
-                case "Project":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", new Project((Project)_object)));
-                    break;
-                case "ProjectStatus":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatuses", new ProjectStatus((ProjectStatus)_object)));
-                    break;
-                case "Region":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Regions", new Region((Region)_object)));
-                    break;
-                case "Request":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
-                    break;
-                case "RequestStatus":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
-                    break;
-                case "SubEntrepeneur":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("SubEntrepeneurs", new SubEntrepeneur((SubEntrepeneur)_object)));
-                    break;
-                case "TenderForm":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("TenderForms", new TenderForm((TenderForm)_object)));
-                    break;
-                case "User":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Users", new User((User)_object)));
-                    break;
-                case "UserLevel":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("UserLevels", new UserLevel((UserLevel)_object)));
-                    break;
-                case "ZipTown":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("ZipTowns", new ZipTown((ZipTown)_object)));
-                    break;
-                default:
-                    break;
-            }
+                switch (entityType)
+                {
+                    case "Address":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new Address((Address)_object)));
+                        break;
+                    case "Builder":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", new Builder((Builder)_object)));
+                        break;
+                    case "Bullet":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", new Bullet((Bullet)_object)));
+                        break;
+                    case "Category":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Categories", new Category((Category)_object)));
+                        break;
+                    case "Contact":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", new Contact((Contact)_object)));
+                        break;
+                    case "ContactInfo":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("ContactInfoList", new ContactInfo((ContactInfo)_object)));
+                        break;
+                    case "CraftGroup":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", new CraftGroup((CraftGroup)_object)));
+                        break;
+                    case "Enterprise":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", new Enterprise((Enterprise)_object)));
+                        break;
+                    case "EnterpriseForm":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("EnterpriseForms", new EnterpriseForm((EnterpriseForm)_object)));
+                        break;
+                    case "IttLetter":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetters", new Enterprise((Enterprise)_object)));
+                        break;
+                    case "JobDescription":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("JobDescriptions", new JobDescription((JobDescription)_object)));
+                        break;
+                    case "LegalEntity":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("LegalEntities", new LegalEntity((LegalEntity)_object)));
+                        break;
+                    case "LetterData":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("LetterDataList", new LetterData((LetterData)_object)));
+                        break;
+                    case "Offer":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Offers", new Offer((Offer)_object)));
+                        break;
+                    case "Paragraph":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Paragraphs", new Paragraph((Paragraph)_object)));
+                        break;
+                    case "Person":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", new Person((Person)_object)));
+                        break;
+                    case "Shipping":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Shippings", new Shipping((Shipping)_object)));
+                        break;
+                    case "Project":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", new Project((Project)_object)));
+                        break;
+                    case "ProjectStatus":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatuses", new ProjectStatus((ProjectStatus)_object)));
+                        break;
+                    case "Region":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Regions", new Region((Region)_object)));
+                        break;
+                    case "Request":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
+                        break;
+                    case "RequestStatus":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
+                        break;
+                    case "SubEntrepeneur":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("SubEntrepeneurs", new SubEntrepeneur((SubEntrepeneur)_object)));
+                        break;
+                    case "TenderForm":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("TenderForms", new TenderForm((TenderForm)_object)));
+                        break;
+                    case "User":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Users", new User((User)_object)));
+                        break;
+                    case "UserLevel":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("UserLevels", new UserLevel((UserLevel)_object)));
+                        break;
+                    case "ZipTown":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("ZipTowns", new ZipTown((ZipTown)_object)));
+                        break;
+                    default:
+                        break;
+                }
 
             return result;
-        }
+            }
 
-        #endregion
+            #endregion
 
             #region Delete
             /// <summary>
@@ -1320,9 +1340,6 @@ namespace JudBizz
                     break;
                 case "Addresses":
                     obj = GetAddress(id);
-                    break;
-                case "Authentications":
-                    obj = GetAuthentication(id);
                     break;
                 case "Builders":
                     obj = GetBuilder(id);
@@ -1444,22 +1461,6 @@ namespace JudBizz
                 if (address.Id == id)
                 {
                     result = address;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        private Authentication GetAuthentication(int id)
-        {
-            Authentication result = new Authentication();
-
-            foreach (Authentication authentication in Authentications)
-            {
-                if (authentication.Id == id)
-                {
-                    result = authentication;
                     break;
                 }
             }
@@ -1957,7 +1958,6 @@ namespace JudBizz
 
             //Second level Lists
             RefreshAddresses(); //
-            RefreshAuthentications(); //
             RefreshCraftGroups(); //
             RefreshPersons(); //
             RefreshRequests(); //
@@ -2002,23 +2002,6 @@ namespace JudBizz
             foreach (object obj in tempList)
             {
                 Addresses.Add((Address)obj);
-            }
-        }
-
-        /// <summary>
-        /// Method, that refreshes the Authentications list
-        /// </summary>
-        private void RefreshAuthentications()
-        {
-            if (Authentications != null)
-            {
-                Authentications.Clear();
-            }
-            List<object> tempList = ReadListFromDb("Authentications");
-
-            foreach (object obj in tempList)
-            {
-                Authentications.Add((Authentication)obj);
             }
         }
 
@@ -2310,9 +2293,6 @@ namespace JudBizz
             {
                 case "Addresses":
                     RefreshAddresses();
-                    break;
-                case "Authentications":
-                    RefreshAuthentications();
                     break;
                 case "Builders":
                     RefreshBuilders();
@@ -2655,7 +2635,7 @@ namespace JudBizz
 
             foreach (User user in Users)
             {
-                switch (user.Authentication.UserLevel.Id)
+                switch (user.UserLevel.Id)
                 {
                     case 0:
                         InactiveUsers.Add(user);

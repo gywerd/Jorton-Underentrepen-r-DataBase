@@ -9,7 +9,7 @@
         Title="Jorton Underentrepenør Database" 
         Height="1050" Width="1940" 
         MaxHeight="1050" MaxWidth="1940" 
-        Background="#185074" 
+        Background="#006134" 
         WindowState="Maximized" 
         ResizeMode="CanMinimize" >
     <Grid>

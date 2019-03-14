@@ -60,7 +60,7 @@ namespace JudGui
         {
             if (CBZ.CheckCredentials(UserName, ButtonChangePassWord, ButtonLogOut, TextBoxInitials.Text, TextBoxPassword.Password))
             {
-                switch (CBZ.CurrentUser.Authentication.UserLevel.Id)
+                switch (CBZ.CurrentUser.UserLevel.Id)
                 {
                     case 1:
                         ButtonChangePassWord.IsEnabled = true;

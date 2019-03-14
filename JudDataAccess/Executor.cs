@@ -28,6 +28,44 @@ namespace JudDataAccess
 
         #region Methods
         /// <summary>
+        /// Method, that adds a User to Db
+        /// </summary>
+        /// <param name="person">int</param>
+        /// <param name="initials">string</param>
+        /// <param name="passWord">string</param>
+        /// <param name="jobDescription">int</param>
+        /// <param name="userLevel">int</param>
+        /// <returns>bool</returns>
+        public bool AddUser(int person, string initials, string passWord, int jobDescription, int userLevel)
+        {
+            return Convert.ToBoolean(DbReturnString(@"usersAddUser pPerson = " + person + ", pInitials = " + initials + @", pPassword = '" + passWord + @"', pJobDescription = " + jobDescription + @", pUserLevel = " + userLevel + @", responseMessage=responseMessage OUTPUT"));
+        }
+
+        /// <summary>
+        /// Method, that sets new password in Db, if old password is correct
+        /// </summary>
+        /// <param name="id">int</param>
+        /// <param name="oldPassWord">string</param>
+        /// <param name="newPassWord">string</param>
+        /// <returns></returns>
+        public bool ChangePassword(int id, string oldPassWord, string newPassWord)
+        {
+            return Convert.ToBoolean(DbReturnString(@"usersUpdatePassword pId = " + id + @", pOldPassword = '" + oldPassWord + @"', pNewPassword = '" + newPassWord + @"', responseMessage=responseMessage OUTPUT"));
+        }
+
+
+        /// <summary>
+        /// Method, that checks wether password is correct
+        /// </summary>
+        /// <param name="initials">string</param>
+        /// <param name="passWord">string</param>
+        /// <returns></returns>
+        public bool CheckLogin(string initials, string passWord)
+        {
+            return Convert.ToBoolean(DbReturnString(@"usersLogin pInitials = '" + initials + @"', pOldPassword = '" + passWord + @"', responseMessage=responseMessage OUTPUT"));
+        }
+
+        /// <summary>
         /// Method, that retrieves a List from Db
         /// </summary>
         /// <param name="table">string</param>
@@ -68,6 +106,9 @@ namespace JudDataAccess
                     break;
                 case "Projects":
                     result = DbReturnDataTable(@"SELECT * FROM [Projects] ORDER BY [Name] ASC");
+                    break;
+                case "Users":
+                    result = DbReturnDataTable(@"SELECT Id, Person, Initials, JobDescription, UserLevel FROM [Users]");
                     break;
                 default:
                     result = DbReturnDataTable("SELECT * FROM " + table);

@@ -25,6 +25,7 @@ namespace JudGui
         #region Fields
         public Bizz CBZ;
         public UserControl UcMain;
+        public string TempNewPassWord = "";
 
         bool oldPassWordCorrect = false;
         bool newPassWordLength = false;
@@ -92,7 +93,7 @@ namespace JudGui
 
             if (oldPassWordCorrect && newPassWordLength && newPassWordrepeatCorrect)
             {
-                CBZ.CurrentUser.ChangePassword(PasswordBoxOld.Text, PasswordBoxNew.Text);
+                CBZ.ChangePassword(PasswordBoxOld.Text, PasswordBoxNew.Text);
                 passWordChanged = true;
             }
 
@@ -114,7 +115,7 @@ namespace JudGui
             else
             {
                 MessageBox.Show("Passwordet blev ikke opdateret. Tjek, at du har tastet korrekt: Mindst 8 tegn. Forskel på store og små bogstaver. Ingen mellemrum.", "Login", MessageBoxButton.OK, MessageBoxImage.Error);
-                CBZ.CurrentUser.ChangePassword(PasswordBoxNew.Text, PasswordBoxOld.Text);
+                CBZ.ChangePassword(PasswordBoxNew.Text, PasswordBoxOld.Text);
             }
         }
 
@@ -124,9 +125,9 @@ namespace JudGui
         private void PasswordBoxNew_TextChanged(object sender, TextChangedEventArgs e)
         {
             //Remove spaces
-            string tempPassWord = PasswordBoxNew.Text;
-            tempPassWord.Replace(" ", "");
-            PasswordBoxNew.Text = tempPassWord;
+            TempNewPassWord = PasswordBoxNew.Text;
+            TempNewPassWord.Replace(" ", "");
+            PasswordBoxNew.Text = TempNewPassWord;
 
             //Check if new Password is correct length
             CheckNewPassWordLength();
@@ -209,7 +210,7 @@ namespace JudGui
         private void CheckOldPassWordCorrect()
         {
 
-            if (PasswordBoxOld.Text == CBZ.CurrentUser.Authentication.PassWord)
+            if (CBZ.CheckLogin(CBZ.CurrentUser.Initials, PasswordBoxOld.Text))
             {
                 oldPassWordCorrect = true;
                 OldIndicatorBackGround = greenIndicator;

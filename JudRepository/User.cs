@@ -1,5 +1,4 @@
-﻿using JudDataAccess;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +14,7 @@ namespace JudRepository
         private Person person;
         private string initials;
         private JobDescription jobDescription;
-        private Authentication authentication;
+        private UserLevel userLevel;
 
         #endregion
 
@@ -29,7 +28,7 @@ namespace JudRepository
             this.person = new Person();
             this.initials = "";
             this.jobDescription = new JobDescription();
-            this.authentication = new Authentication();
+            this.userLevel = new UserLevel();
         }
 
         /// <summary>
@@ -38,14 +37,14 @@ namespace JudRepository
         /// <param name="person">Person</param>
         /// <param name="initials">string</param>
         /// <param name="jobDescription">JobDescription</param>
-        /// <param name="authentication">Authentication</param>
-        public User(Person person, string initials, JobDescription jobDescription, Authentication authentication)
+        /// <param name="userLevel">UserLevel</param>
+        public User(Person person, string initials, JobDescription jobDescription, UserLevel userLevel)
         {
             this.id = 0;
             this.person = person;
             this.initials = initials;
             this.jobDescription = jobDescription;
-            this.authentication = authentication;
+            this.userLevel = userLevel;
         }
 
         /// <summary>
@@ -55,14 +54,14 @@ namespace JudRepository
         /// <param name="person">Person</param>
         /// <param name="initials">string</param>
         /// <param name="jobDescription">JobDescription</param>
-        /// <param name="authentication">Authentication</param>
-        public User(int id, Person person, string initials, JobDescription jobDescription, Authentication authentication)
+        /// <param name="userLevel">UserLevel</param>
+        public User(int id, Person person, string initials, JobDescription jobDescription, UserLevel userLevel)
         {
             this.id = id;
             this.person = person;
             this.initials = initials;
             this.jobDescription = jobDescription;
-            this.authentication = authentication;
+            this.userLevel = userLevel;
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace JudRepository
             this.person = user.Person;
             this.initials = user.Initials;
             this.jobDescription = user.JobDescription;
-            this.authentication = user.Authentication;
+            this.userLevel = user.UserLevel;
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace JudRepository
             this.person = user.Person;
             this.initials = user.Initials;
             this.jobDescription = user.JobDescription;
-            this.authentication = user.Authentication;
+            this.userLevel = user.UserLevel;
         }
 
         #endregion
@@ -116,30 +115,11 @@ namespace JudRepository
 
         public JobDescription JobDescription { get => jobDescription; set => jobDescription = value; }
 
-        public Authentication Authentication { get => authentication; set => authentication = value; }
+        public UserLevel UserLevel { get => userLevel; set => userLevel = value; }
 
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Method, that changes password, if eligible
-        /// </summary>
-        /// <param name="oldPassWord"></param>
-        /// <param name="newPassWord"></param>
-        /// <returns></returns>
-        public bool ChangePassword(string oldPassWord, string newPassWord)
-        {
-            bool result = false;
-
-            if (authentication.PassWord == oldPassWord)
-            {
-                authentication.PassWord = newPassWord;
-                result = true;
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Method, that sets id, if id == 0
         /// </summary>

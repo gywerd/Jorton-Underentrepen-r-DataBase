@@ -71,19 +71,23 @@ namespace JudBizz
         /// <returns>bool</returns>
         public bool CheckCredentials(Label userName, RibbonApplicationMenuItem menuItemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, string initials, string passWord)
         {
-            foreach (User user in Users)
+            bool result = false;
+            if (CheckLogin(initials, passWord))
             {
-                if (user.Initials == initials && user.Authentication.PassWord == passWord && user.Authentication.UserLevel.Id >= 1)
+                foreach (User user in Users)
                 {
-                    CurrentUser = user;
-                    userName.Content = user.Person.Name;
-                    menuItemChangePassWord.IsEnabled = true;
-                    menuItemLogOut.IsEnabled = true;
-                    return true;
+                    if (user.Initials == initials && user.UserLevel.Id >= 1)
+                    {
+                        CurrentUser = user;
+                        userName.Content = user.Person.Name;
+                        menuItemChangePassWord.IsEnabled = true;
+                        menuItemLogOut.IsEnabled = true;
+                        result = true;
+                        break;
+                    }
                 }
             }
-
-            return false;
+            return result;
         }
 
         #region Refresh Indexed Lists
@@ -526,12 +530,21 @@ namespace JudBizz
 
         #endregion
 
+        /// <summary>
+        /// Method, that retrieves a town based on the zip
+        /// </summary>
+        /// <param name="zip">string</param>
+        /// <returns>string</returns>
         public string RetrieveTownFromZip(string zip)
         {
             RetrieveZipTownFromZip(zip);
             return TempZipTown.Town;
         }
 
+        /// <summary>
+        /// Method, that retrieves a zip & town based on the zip, and places it in TempZipTown
+        /// </summary>
+        /// <param name="zip">string</param>
         public void RetrieveZipTownFromZip(string zip)
         {
             TempZipTown = new ZipTown();

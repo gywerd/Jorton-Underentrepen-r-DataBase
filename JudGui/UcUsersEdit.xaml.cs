@@ -126,7 +126,7 @@ namespace JudGui
 
         private void ComboBoxUserLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempUser.Authentication.UserLevel = new UserLevel((UserLevel)ComboBoxJobDescription.SelectedItem);
+            CBZ.TempUser.UserLevel = new UserLevel((UserLevel)ComboBoxJobDescription.SelectedItem);
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -290,7 +290,7 @@ namespace JudGui
 
             foreach (IndexedUserLevel level in CBZ.IndexedUserLevels)
             {
-                if (CBZ.TempUser.Authentication.UserLevel.Id == level.Id)
+                if (CBZ.TempUser.UserLevel.Id == level.Id)
                 {
                     result = level.Index;
 

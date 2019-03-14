@@ -157,9 +157,10 @@ namespace JudGui
             UserLevel level = new UserLevel((UserLevel)ComboBoxUserLevel.SelectedItem);
             if (ComboBoxUserLevel.SelectedIndex >= 0)
             {
-                if (level.Id != CBZ.TempUser.Authentication.UserLevel.Id)
+                if (level.Id != CBZ.TempUser.
+UserLevel.Id)
                 {
-                    CBZ.TempUser.Authentication.UserLevel = new UserLevel((UserLevel)ComboBoxUserLevel.SelectedItem);
+                    CBZ.TempUser.UserLevel = new UserLevel((UserLevel)ComboBoxUserLevel.SelectedItem);
 
                     //Set CBZ.UcMainEdited
                     if (!CBZ.UcMainEdited)
@@ -170,6 +171,7 @@ namespace JudGui
             }
 
         }
+
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
             CBZ.TempUser.Person.Name = TextBoxName.Text;
@@ -239,26 +241,6 @@ namespace JudGui
         #endregion
 
         #region Methods
-        /// Method, that creates an Authentication in Db
-        /// </summary>
-        /// <returns>bool</returns>
-        private bool CreateAuthenticationInDb()
-        {
-            bool result = false;
-
-            try
-            {
-                int authenticationId = CBZ.CreateInDb(CBZ.TempUser.Authentication);
-                CBZ.TempUser.Authentication.SetId(authenticationId);
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Brugerrettigheder blev ikke gemt\n" + ex, "Brugere", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            return result;
-        }
 
         /// Method, that creates a User in Db
         /// </summary>
@@ -278,18 +260,10 @@ namespace JudGui
                 personExist = CreatePersonInDb();
             }
 
-            //Create Authentication in Db
-            bool authenticationExist = false;
-
-            if (personExist)
-            {
-                authenticationExist = CreateAuthenticationInDb();
-            }
-
             //Create User in Db
             int userId = 0;
 
-            if (authenticationExist)
+            if (personExist)
             {
                 userId = CBZ.CreateInDb(CBZ.TempUser);
             }

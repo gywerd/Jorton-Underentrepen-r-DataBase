@@ -73,7 +73,7 @@ namespace JudGui
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            bool result = UpdateAuthenticationInDb;
+            bool result = UpdateUserInDb;
 
             //Display result
             if (result)
@@ -104,7 +104,7 @@ namespace JudGui
         #region Events
         private void ComboBoxUserAccess_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempUser.Authentication = new Authentication((Authentication)ComboBoxUserAccess.SelectedItem);
+            CBZ.TempUser.UserLevel = new UserLevel((UserLevel)ComboBoxUserAccess.SelectedItem);
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -172,7 +172,7 @@ namespace JudGui
 
             foreach (IndexedUserLevel level in CBZ.IndexedUserLevels)
             {
-                if (CBZ.TempUser.Authentication.UserLevel.Id == level.Id)
+                if (CBZ.TempUser.UserLevel.Id == level.Id)
                 {
                     result = level.Index;
                     break;
@@ -186,7 +186,7 @@ namespace JudGui
         /// Method, that updates an Authentication in Db
         /// </summary>
         /// <returns>bool</returns>
-        private bool UpdateAuthenticationInDb => CBZ.UpdateInDb(CBZ.TempUser.Authentication);
+        private bool UpdateUserInDb => CBZ.UpdateInDb(CBZ.TempUser);
 
 
         #endregion
