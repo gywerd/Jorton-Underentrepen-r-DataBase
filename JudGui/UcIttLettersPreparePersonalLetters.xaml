@@ -4,22 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:JudGui"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d"
              Background="Transparent"
              d:DesignHeight="840"
-             d:DesignWidth="1560">
+             d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -58,6 +59,7 @@
                   VerticalAlignment="Top"
                   Width="130" />
         <TextBox x:Name="TextBoxName"
+                 Background="GhostWhite"
                  FontSize="30"
                  Grid.Column="4" Grid.ColumnSpan="5" Grid.Row="2"
                  Height="50" Width="795"
@@ -91,119 +93,135 @@
                Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxAnswerDate"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="4"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text=""
-                 TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxAnswerDate"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="4"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="01-01-2019" />
         <Label x:Name="LabelQuestionDate"
                Content="Seneste spørgsmålsdato:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxQuestionDate"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="5"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxQuestionDate"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="5"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="01-01-2019" />
         <Label x:Name="LabelTimeSpan"
-               Content="Tilbuddets antal gyldighedsdage:"
+               Content="Tilbuddets gyldighed:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="6"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxTimeSpan"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="6"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxTimeSpan"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="6"
+                               Grid.ColumnSpan="4"
+                               Height="50" Width="710"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="90" />
+        <Label x:Name="LabelDays"
+               Content="dage"
+               FontSize="30"
+               Grid.Column="8" Grid.Row="6"
+               Grid.ColumnSpan="3"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
         <Label x:Name="LabelCorrectionSheetDate"
                Content="Dato for seneste rettelsesbrev:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxCorrectionSheetDate"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="7"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxCorrectionSheetDate"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="7"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="01-01-2019" />
         <Label x:Name="LabelConditionDate"
                Content="Betingelsesdato:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="8"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxConditionDate"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="8"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxConditionDate"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="8"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="01-01-2019" />
         <Label x:Name="LabelMaterialUrl"
                Content="Link til udbudsmateriale:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxMaterialUrl"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="9"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxMaterialUrl"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="9"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="https://jorton.dk/udbudsmateriale/" />
         <Label x:Name="LabelConditionUrl"
                Content="Link til betingelser:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="10"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxConditionUrl"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="10"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxConditionUrl"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="10"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="https://jorton.dk/betingelser/" />
         <Label x:Name="LabelPassword"
                Content="Adgangskode:"
                FontSize="30"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="11"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxPassword"
-                 FontSize="30"
-                 Grid.Column="4" Grid.ColumnSpan="6" Grid.Row="11"
-                 Height="50" Width="795"
-                 HorizontalAlignment="Left"
-                 IsEnabled="False"
-                 Text="" TextWrapping="Wrap"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxPassword"
+                               FontSize="30"
+                               Grid.Column="4" Grid.Row="11"
+                               Grid.ColumnSpan="5"
+                               Height="50" Width="890"
+                               HorizontalAlignment="Left"
+                               Text="" TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               Watermark="P@ssW0rd" />
         <Button x:Name="ButtonClose"
                 Content="Luk"
                 Click="ButtonClose_Click"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="12"
+                Grid.Column="2" Grid.Row="12"
+                Grid.ColumnSpan="2"
                 Height="100" Width="315"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
@@ -212,7 +230,8 @@
                 Click="ButtonPrepare_Click"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="12"
+                Grid.Column="6" Grid.Row="12"
+                Grid.ColumnSpan="2"
                 Height="100" Width="315"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />

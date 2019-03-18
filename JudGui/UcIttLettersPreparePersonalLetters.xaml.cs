@@ -53,8 +53,17 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev ?", "Luk Klargør Udbudsbrev", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev ?", "Udbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    //Close right UserControl
+                    UcMain.Content = new UserControl();
+                    CBZ.UcMainEdited = false;
+                }
+            }
+            else
             {
                 //Close right UserControl
                 UcMain.Content = new UserControl();
@@ -84,7 +93,7 @@ namespace JudGui
                     }
 
                     //Show Confirmation
-                    MessageBox.Show("Personlig del af Udbudsbrevet blev oprettet", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Personlig del af Udbudsbrevet blev oprettet", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     //Update PdfData List
                     CBZ.RefreshList("PdfDataList");
@@ -114,7 +123,7 @@ namespace JudGui
             catch (OperationCanceledException)
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Personlig del af Tilbudsbrev blev ikke oprettet. Prøv igen.", "Forbered UdbudsBrev", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Personlig del af Tilbudsbrev blev ikke oprettet. Prøv igen.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
