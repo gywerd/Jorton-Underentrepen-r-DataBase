@@ -21,6 +21,7 @@ namespace JudBizz
         public bool UcMainEdited = false;
 
         public List<IndexedProject> IndexedActiveProjects = new List<IndexedProject>();
+        public List<IndexedBullet> IndexedBullets = new List<IndexedBullet>();
         public List<IndexedBuilder> IndexedBuilders = new List<IndexedBuilder>();
         public List<IndexedCategory> IndexedCategories = new List<IndexedCategory>();
         public List<IndexedCraftGroup> IndexedCraftGroups = new List<IndexedCraftGroup>();
@@ -29,7 +30,7 @@ namespace JudBizz
         public List<IndexedEnterprise> IndexedEnterprises = new List<IndexedEnterprise>();
         public List<IndexedEntrepeneur> IndexedEntrepeneurs = new List<IndexedEntrepeneur>();
         public List<IndexedJobDescription> IndexedJobDescriptions = new List<IndexedJobDescription>();
-        public List<IndexedParagraph> IndexedParagraphs = new List<IndexedParagraph>();
+        public List<IndexedParagraf> IndexedParagrafs = new List<IndexedParagraf>();
         public List<IndexedProject> IndexedProjects = new List<IndexedProject>();
         public List<IndexedProjectStatus> IndexedProjectStatuses = new List<IndexedProjectStatus>();
         public List<IndexedRegion> IndexedRegions = new List<IndexedRegion>();

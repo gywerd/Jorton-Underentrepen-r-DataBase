@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JudRepository
 {
-    public class IndexedParagraph : Paragraph
+    public class IndexedParagraf : Paragraf
     {
         #region Fields
         int index;
@@ -17,17 +17,17 @@ namespace JudRepository
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public IndexedParagraph() : base(new Paragraph())
+        public IndexedParagraf() : base(new Paragraf())
         {
             this.index = 0;
         }
 
         /// <summary>
-        /// Constructor to add a new Indexed Paragraph
+        /// Constructor to add a new Indexed Paragraf
         /// </summary>
         /// <param name="index">int</param>
-        /// <param name="paragraph">Paragraph</param>
-        public IndexedParagraph(int index, Paragraph paragraph) : base(paragraph)
+        /// <param name="paragraph">Paragraf</param>
+        public IndexedParagraf(int index, Paragraf paragraph) : base(paragraph)
         {
             this.index = index;
         }

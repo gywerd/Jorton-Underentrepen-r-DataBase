@@ -64,7 +64,7 @@
     <Compile Include="IndexedEnterpriseForm.cs" />
     <Compile Include="IndexedBullet.cs" />
     <Compile Include="IndexedJobDescription.cs" />
-    <Compile Include="IndexedParagraph.cs" />
+    <Compile Include="IndexedParagraf.cs" />
     <Compile Include="IndexedEntrepeneur.cs" />
     <Compile Include="IndexedProject.cs" />
     <Compile Include="IndexedRegion.cs" />
@@ -78,7 +78,7 @@
     <Compile Include="IndexedZipTown.cs" />
     <Compile Include="IttLetter.cs" />
     <Compile Include="Bullet.cs" />
-    <Compile Include="Paragraph.cs" />
+    <Compile Include="Paragraf.cs" />
     <Compile Include="LetterData.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Receiver.cs" />

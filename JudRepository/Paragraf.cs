@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JudRepository
 {
-    public class Paragraph
+    public class Paragraf
     {
         #region Fields
         protected int id;
@@ -20,7 +20,7 @@ namespace JudRepository
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public Paragraph()
+        public Paragraf()
         {
             this.id = 0;
             project = new Project();
@@ -28,11 +28,11 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Costructor to add a a new Paragraph
+        /// Costructor to add a a new Paragraf
         /// </summary>
         /// <param name="project">int</param>
         /// <param name="text">string</param>
-        public Paragraph(Project project, string text)
+        public Paragraf(Project project, string text)
         {
             this.id = 0;
             this.project = project;
@@ -40,12 +40,12 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Costructor to add a a Paragraph from Db
+        /// Costructor to add a a Paragraf from Db
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="project">int</param>
         /// <param name="text">string</param>
-        public Paragraph(int id, Project project, string text)
+        public Paragraf(int id, Project project, string text)
         {
             this.id = id;
             this.project = project;
@@ -53,10 +53,10 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, that accepts data from an existing Paragraph
+        /// Constructor, that accepts data from an existing Paragraf
         /// </summary>
-        /// <param name="paragraph">Paragraph</param>
-        public Paragraph(Paragraph paragraph)
+        /// <param name="paragraph">Paragraf</param>
+        public Paragraf(Paragraf paragraph)
         {
             this.id = paragraph.id;
             this.project = paragraph.Project;
@@ -64,10 +64,10 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, that accepts data from an existing Indexed Paragraph
+        /// Constructor, that accepts data from an existing Indexed Paragraf
         /// </summary>
-        /// <param name="paragraph">IndexedParagraph</param>
-        public Paragraph(IndexedParagraph paragraph)
+        /// <param name="paragraph">IndexedParagraf</param>
+        public Paragraf(IndexedParagraf paragraph)
         {
             this.id = paragraph.id;
             this.project = paragraph.Project;

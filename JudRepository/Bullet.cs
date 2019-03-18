@@ -11,7 +11,7 @@ namespace JudRepository
     {
         #region Fields
         protected int id;
-        protected Paragraph paragraph;
+        protected Paragraf paragraph;
         protected string text;
 
         #endregion
@@ -23,7 +23,7 @@ namespace JudRepository
         public Bullet()
         {
             this.id = 0;
-            paragraph = new Paragraph();
+            paragraph = new Paragraf();
             text = "";
         }
 
@@ -32,7 +32,7 @@ namespace JudRepository
         /// </summary>
         /// <param name="paragraph">int</param>
         /// <param name="text">string</param>
-        public Bullet(Paragraph paragraph, string text)
+        public Bullet(Paragraf paragraph, string text)
         {
             this.id = 0;
             this.paragraph = paragraph;
@@ -45,7 +45,7 @@ namespace JudRepository
         /// <param name="id">int</param>
         /// <param name="paragraph">int</param>
         /// <param name="text">string</param>
-        public Bullet(int id, Paragraph paragraph, string text)
+        public Bullet(int id, Paragraf paragraph, string text)
         {
             this.id = id;
             this.paragraph = paragraph;
@@ -59,7 +59,7 @@ namespace JudRepository
         public Bullet(Bullet bullet)
         {
             this.id = bullet.id;
-            this.paragraph = bullet.Paragraph;
+            this.paragraph = bullet.Paragraf;
             this.text = bullet.Text;
         }
 
@@ -70,7 +70,7 @@ namespace JudRepository
         public Bullet(IndexedBullet bullet)
         {
             this.id = bullet.id;
-            this.paragraph = bullet.Paragraph;
+            this.paragraph = bullet.Paragraf;
             this.text = bullet.Text;
         }
 
@@ -79,7 +79,7 @@ namespace JudRepository
         #region Properties
         public int Id { get => id; }
 
-        public Paragraph Paragraph { get => paragraph; set => paragraph = value; }
+        public Paragraf Paragraf { get => paragraph; set => paragraph = value; }
 
         public string Text
         {

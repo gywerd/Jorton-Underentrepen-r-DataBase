@@ -34,7 +34,7 @@ namespace JudBizz
         public LegalEntity TempLegalEntity = new LegalEntity();
         public LetterData TempLetterData = new LetterData();
         public Offer TempOffer = new Offer();
-        public Paragraph TempParagraph = new Paragraph();
+        public Paragraf TempParagraf = new Paragraf();
         public string TempPassWord = "";
         public Project TempProject = new Project();
         public ProjectStatus TempProjectStatus = new ProjectStatus();
@@ -73,7 +73,7 @@ namespace JudBizz
             public List<LegalEntity> LegalEntities = new List<LegalEntity>();
             public List<LetterData> LetterDataList = new List<LetterData>();
             public List<Offer> Offers = new List<Offer>();
-            public List<Paragraph> Paragraphs = new List<Paragraph>();
+            public List<Paragraf> Paragrafs = new List<Paragraf>();
             public List<Person> Persons = new List<Person>();
             public List<Project> Projects = new List<Project>();
             public List<ProjectStatus> ProjectStatuses = new List<ProjectStatus>();
@@ -238,10 +238,10 @@ namespace JudBizz
                             count = Offers.Count;
                             result = Offers[count - 1].Id;
                             break;
-                        case "Paragraph":
-                            RefreshList("Paragraphs");
-                            count = Paragraphs.Count;
-                            result = Paragraphs[count - 1].Id;
+                        case "Paragraf":
+                            RefreshList("Paragrafs");
+                            count = Paragrafs.Count;
+                            result = Paragrafs[count - 1].Id;
                             break;
                         case "Project":
                             RefreshList("Projects");
@@ -362,7 +362,7 @@ namespace JudBizz
                     case "Offer":
                         result = "Tilbud";
                         break;
-                    case "Paragraph":
+                    case "Paragraf":
                         result = "Afsnit";
                         break;
                     case "Person":
@@ -468,8 +468,8 @@ namespace JudBizz
                     case "Offer":
                         result = "Offers";
                         break;
-                    case "Paragraph":
-                        result = "Paragraphs";
+                    case "Paragraf":
+                        result = "Paragrafs";
                         break;
                     case "Person":
                         result = "Persons";
@@ -539,7 +539,7 @@ namespace JudBizz
                         break;
                     case "Bullets":
                         Bullet bullet = new Bullet((Bullet)entity);
-                        result = @"INSERT INTO [dbo].[Bullets]([Paragraph], [Text]) VALUES(" + bullet.Paragraph.Id + @", '" + bullet.Text + @"')";
+                        result = @"INSERT INTO [dbo].[Bullets]([Paragraf], [Text]) VALUES(" + bullet.Paragraf.Id + @", '" + bullet.Text + @"')";
                         break;
                     case "Categories":
                         Category category = new Category((Category)entity);
@@ -585,9 +585,9 @@ namespace JudBizz
                         Offer offer = new Offer((Offer)entity);
                         result = "INSERT INTO [dbo].[Offers]([Received], [ReceivedDate], [Price], [Chosen]) VALUES('" + offer.Received.ToString() + @"', '" + offer.ReceivedDate.ToShortDateString() + @"', " + offer.Price.ToString() + @", '" + offer.Chosen.ToString() + @"')";
                         break;
-                    case "Paragraphs":
-                        Paragraph paragraph = new Paragraph((Paragraph)entity);
-                        result = @"INSERT INTO [dbo].[Paragraphs](Project, Name) VALUES(" + paragraph.Project.Id.ToString() + @", '" + paragraph.Text + @"')";
+                    case "Paragrafs":
+                        Paragraf paragraph = new Paragraf((Paragraf)entity);
+                        result = @"INSERT INTO [dbo].[Paragrafs](Project, Name) VALUES(" + paragraph.Project.Id.ToString() + @", '" + paragraph.Text + @"')";
                         break;
                     case "Persons":
                         Person person = new Person((Person)entity);
@@ -681,7 +681,7 @@ namespace JudBizz
                         result = builder;
                         break;
                     case "Bullets":
-                        Bullet bullet = new Bullet(Convert.ToInt32(resultArray[0]), GetParagraph(Convert.ToInt32(resultArray[1])), resultArray[2]);
+                        Bullet bullet = new Bullet(Convert.ToInt32(resultArray[0]), GetParagraf(Convert.ToInt32(resultArray[1])), resultArray[2]);
                         result = bullet;
                         break;
                     case "Categories":
@@ -736,8 +736,8 @@ namespace JudBizz
                         Offer offer = new Offer(Convert.ToInt32(resultArray[0]), Convert.ToBoolean(resultArray[1]), Convert.ToDateTime(resultArray[2]), Convert.ToDouble(resultArray[3]), Convert.ToBoolean(resultArray[4]));
                         result = offer;
                         break;
-                    case "Paragraphs":
-                        Paragraph paragraph = new Paragraph(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), resultArray[2]);
+                    case "Paragrafs":
+                        Paragraf paragraph = new Paragraf(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), resultArray[2]);
                         result = paragraph;
                         break;
                     case "Persons":
@@ -862,7 +862,7 @@ namespace JudBizz
                     case "Offers":
                         result = 5;
                         break;
-                    case "Paragraphs":
+                    case "Paragrafs":
                         result = 3;
                         break;
                     case "Persons":
@@ -1021,7 +1021,7 @@ namespace JudBizz
                         break;
                     case "Bullets":
                         Bullet bullet = new Bullet((Bullet)_object);
-                        result = @"UPDATE[dbo].[Bullets] SET [Paragraph] = " + bullet.Paragraph.Id + @", [Text] = '" + bullet.Text + @"' WHERE [Id] = " + bullet.Id;
+                        result = @"UPDATE[dbo].[Bullets] SET [Paragraf] = " + bullet.Paragraf.Id + @", [Text] = '" + bullet.Text + @"' WHERE [Id] = " + bullet.Id;
                         break;
                     case "Categories":
                         Category category = new Category((Category)_object);
@@ -1071,9 +1071,9 @@ namespace JudBizz
                         Offer offer = new Offer((Offer)_object);
                         result = @"UPDATE [dbo].[Offers] SET [Received] = " + offer.Received.ToString() + @", [ReceivedDate] = " + offer.ReceivedDate.ToShortDateString() + @", [Price] = " + offer.Price + @", [Chosen] = '" + offer.Chosen.ToString() + @"' WHERE [Id] = " + offer.Id;
                         break;
-                    case "Paragraphs":
-                        Paragraph paragraph = new Paragraph((Paragraph)_object);
-                        result = @"UPDATE [dbo].[Paragraphs] SET [Project] = " + paragraph.Project.Id + @", [Name] = '" + paragraph.Text + @"' WHERE[Id] = " + paragraph.Id;
+                    case "Paragrafs":
+                        Paragraf paragraph = new Paragraf((Paragraf)_object);
+                        result = @"UPDATE [dbo].[Paragrafs] SET [Project] = " + paragraph.Project.Id + @", [Name] = '" + paragraph.Text + @"' WHERE[Id] = " + paragraph.Id;
                         break;
                     case "Persons":
                         Person person = new Person((Person)_object);
@@ -1185,8 +1185,8 @@ namespace JudBizz
                     case "Offer":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Offers", new Offer((Offer)_object)));
                         break;
-                    case "Paragraph":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Paragraphs", new Paragraph((Paragraph)_object)));
+                    case "Paragraf":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Paragrafs", new Paragraf((Paragraf)_object)));
                         break;
                     case "Person":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", new Person((Person)_object)));
@@ -1386,8 +1386,8 @@ namespace JudBizz
                 case "Offers":
                     obj = GetOffer(id);
                     break;
-                case "Paragraphs":
-                    obj = GetParagraph(id);
+                case "Paragrafs":
+                    obj = GetParagraf(id);
                     break;
                 case "Persons":
                     obj = GetPerson(id);
@@ -1708,11 +1708,11 @@ namespace JudBizz
             return result;
         }
 
-        private Paragraph GetParagraph(int id)
+        private Paragraf GetParagraf(int id)
         {
-            Paragraph result = new Paragraph();
+            Paragraf result = new Paragraf();
 
-            foreach (Paragraph paragraph in Paragraphs)
+            foreach (Paragraf paragraph in Paragrafs)
             {
                 if (paragraph.Id == id)
                 {
@@ -1976,7 +1976,7 @@ namespace JudBizz
 
             //Sixth level Lists
             RefreshEnterprises();
-            RefreshParagraphs();
+            RefreshParagrafs();
 
             //Seventh level Lists
             RefreshBullets();
@@ -2336,8 +2336,8 @@ namespace JudBizz
                 case "Offers":
                     RefreshOffers();
                     break;
-                case "Paragraphs":
-                    RefreshParagraphs();
+                case "Paragrafs":
+                    RefreshParagrafs();
                     break;
                 case "Persons":
                     RefreshPersons();
@@ -2399,19 +2399,19 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the Paragraph List
+        /// Method, that refreshes the Paragraf List
         /// </summary>
-        private void RefreshParagraphs()
+        private void RefreshParagrafs()
         {
-            if (Paragraphs != null)
+            if (Paragrafs != null)
             {
-                Paragraphs.Clear();
+                Paragrafs.Clear();
             }
-            List<object> tempList = ReadListFromDb("Paragraphs");
+            List<object> tempList = ReadListFromDb("Paragrafs");
 
             foreach (object obj in tempList)
             {
-                Paragraphs.Add((Paragraph)obj);
+                Paragrafs.Add((Paragraf)obj);
             }
         }
 

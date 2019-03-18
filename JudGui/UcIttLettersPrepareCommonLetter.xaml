@@ -5,28 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="75*"/>
             <RowDefinition Height="60*"/>
+            <RowDefinition Height="90*"/>
             <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*" />
-            <RowDefinition Height="255*"/>
+            <RowDefinition Height="90*" />
+            <RowDefinition Height="195*"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="110*"/>
             <RowDefinition Height="50"/>
@@ -51,7 +51,7 @@
         <TextBox x:Name="TextBoxName" 
                  FontSize="30" 
                  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
-                 Height="50" Width="795" 
+                 Height="50" Width="890" 
                  HorizontalAlignment="Left" 
                  IsEnabled="False" 
                  Text="" 
@@ -74,54 +74,55 @@
                 </TransformGroup>
             </CheckBox.RenderTransform>
         </CheckBox>
-        <Label x:Name="LabelParagraphs" Content="Afsnit:" 
+        <Label x:Name="LabelParagrafs" Content="Afsnit:" 
                FontSize="30" 
                Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <ComboBox x:Name="ComboBoxParagraphs" 
+        <ComboBox x:Name="ComboBoxParagrafs" 
                   FontSize="30" 
                   Grid.Column="3" Grid.Row="4" 
+                  Grid.ColumnSpan="6"
+                  Height="50" Width="1075"
                   HorizontalAlignment="Left" 
-                  SelectionChanged="ComboBoxParagraphs_SelectionChanged" 
-                  VerticalAlignment="Top" 
-                  Width="130" />
-        <TextBox x:Name="TextBoxParagraph" 
-                 FontSize="30" 
-                 Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="5" 
-                 Height="50" Width="795" 
-                 HorizontalAlignment="Left" 
-                 IsEnabled="False" 
-                 Text="" 
-                 TextWrapping="Wrap" 
-                 VerticalAlignment="Top" />
-        <Label x:Name="LabelNewParagraph"
+                  SelectionChanged="ComboBoxParagrafs_SelectionChanged" 
+                  VerticalAlignment="Top" />
+        <Separator Grid.Column="1" Grid.Row="3"
+                   Grid.ColumnSpan="8"
+                   HorizontalAlignment="Center"
+                   Height="20" Width="1450"
+                   VerticalAlignment="Bottom" />
+        <Label x:Name="LabelNewParagraf"
                Content="Nyt Afsnit:"
                FontSize="30"
                Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxNewParagraph"
+        <TextBox x:Name="TextBoxNewParagraf"
                  FontSize="30"
                  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="5"
                  Height="50"
-                 Width="795"
+                 Width="890"
                  HorizontalAlignment="Left"
-                 IsEnabled="False"
                  Text=""
                  TextWrapping="Wrap"
                  VerticalAlignment="Top" />
-        <Button x:Name="ButtonAddParagraph"
+        <Button x:Name="ButtonAddParagraf"
                 Content="Tilføj"
-                Click="ButtonAddParagraph_Click"
+                Click="ButtonAddParagraf_Click"
                 FontSize="30" FontWeight="Bold"
                 Grid.Column="8" Grid.Row="5" Grid.ColumnSpan="1"
-                Height="50" Width="150"
+                Height="50" Width="170"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top" />
+        <Separator Grid.Column="1" Grid.Row="5"
+                   Grid.ColumnSpan="8"
+                   HorizontalAlignment="Center"
+                   Height="30" Width="1450"
+                   VerticalAlignment="Bottom" />
         <ListBox x:Name="ListBoxBullets" 
                  Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6" 
-                 Height="240" Width="955" 
+                 Height="180" Width="1055" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxBullets_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -133,9 +134,8 @@
         <TextBox x:Name="TextBoxNewBullet" 
                  FontSize="30" 
                  Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="5" 
-                 Height="50" Width="795" 
+                 Height="50" Width="890" 
                  HorizontalAlignment="Left" 
-                 IsEnabled="False" 
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
@@ -143,21 +143,21 @@
                 Click="ButtonAddBullet_Click" 
                 FontSize="30" FontWeight="Bold" 
                 Grid.Column="8" Grid.Row="7" Grid.ColumnSpan="1" 
-                Height="50"  Width="150" 
+                Height="50"  Width="170" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top" />
         <Button x:Name="ButtonClose" Content="Luk"
                 Click="ButtonClose_Click" 
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonPrepare" Content="Klargør"
                 Click="ButtonPrepare_Click" 
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="8" Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
     </Grid>
