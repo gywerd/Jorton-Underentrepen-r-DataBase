@@ -44,7 +44,7 @@ namespace JudGui
             this.CBZ = cbz;
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
-            GenerateComboBoxCaseIdItems();
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
             ComboBoxCaseId.SelectedIndex = 0;
         }
 
@@ -73,9 +73,6 @@ namespace JudGui
 
         private void ButtonPrepare_Click(object sender, RoutedEventArgs e)
         {
-            //Code, that prepares 
-            CBZ.TempLetterData = new LetterData(CBZ.TempProject.Name, CBZ.TempBuilder.Entity.Name, TextBoxAnswerDate.Text, TextBoxQuestionDate.Text, TextBoxCorrectionSheetDate.Text, TextBoxConditionDate.Text, TextBoxMaterialUrl.Text, TextBoxConditionUrl.Text, Convert.ToInt32(TextBoxTimeSpan.Text), TextBoxPassword.Text);
-
             try
             {
                 // Code that save changes to the PdfData
@@ -101,7 +98,7 @@ namespace JudGui
                     //Reset UcIttLetterPreparePersonal
                     ComboBoxCaseId.SelectedIndex = 0;
                     CBZ.RefreshList("ShippingList");
-                    RefreshShippingList();
+                    RefreshProjectShippings();
                     CBZ.TempProject = new Project();
                     CBZ.TempBuilder = new Builder();
                     CBZ.TempLetterData = new LetterData();
@@ -112,18 +109,14 @@ namespace JudGui
                     TextBoxMaterialUrl.Text = "";
                     TextBoxConditionUrl.Text = "";
                     TextBoxPassword.Text = "";
+                    CBZ.UcMainEdited = false;
 
                 }
                 else
                 {
-                    throw new OperationCanceledException();
+                    MessageBox.Show("Personlig del af Udbudsbrevet blev ikke oprettet. Prøv igen", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
-            }
-            catch (OperationCanceledException)
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Personlig del af Tilbudsbrev blev ikke oprettet. Prøv igen.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -139,7 +132,7 @@ namespace JudGui
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            if (selectedIndex >= 0)
+            if (selectedIndex != 1)
             {
                 foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
                 {
@@ -150,8 +143,8 @@ namespace JudGui
                     }
                 }
                 TextBoxName.Text = CBZ.TempProject.Name;
-                GetProjectSubEntrepeneurs();
-                GetProjectReceivers();
+                RefreshProjectSubEntrepeneurs();
+                RefreshProjectReceivers();
             }
             else
             {
@@ -168,30 +161,115 @@ namespace JudGui
 
         }
 
+        private void TextBoxAnswerDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.AnswerDate = TextBoxAnswerDate.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxConditionDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.ConditionDate = TextBoxConditionDate.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxConditionUrl_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.ConditionUrl = TextBoxConditionUrl.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxCorrectionSheetDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.CorrectionDate = TextBoxCorrectionSheetDate.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxMaterialUrl_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.MaterialUrl = TextBoxMaterialUrl.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxPassword_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.PassWord = TextBoxPassword.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+        private void TextBoxQuestionDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.QuestionDate = TextBoxQuestionDate.Text;
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
+        private void TextBoxTimeSpan_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempLetterData.TimeSpan = Convert.ToInt32(TextBoxTimeSpan.Text);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+
+        }
+
         #endregion
 
         #region Methods
         /// <summary>
-        /// Method that adds a Shipping to Project Shipping List
-        /// </summary>
-        /// <param name="id">int</param>
-        private void AddShipping(int id)
-        {
-            Shipping shipping = GetShipping(id);
-            ProjectShippings.Add(shipping);
-        }
-
-        /// <summary>
         /// Method, that checks, whether a LegalEntity exists in Receivers list
         /// </summary>
-        /// <param name="entity">LegalEntity</param>
+        /// <param name="entrepeneur">LegalEntity</param>
         /// <returns>bool</returns>
-        private bool CheckEntityReceivers(LegalEntity entity)
+        private bool CheckEntityReceivers(Entrepeneur entrepeneur)
         {
             bool result = false;
             foreach (Receiver receiver in CBZ.Receivers)
             {
-                if (receiver.Cvr == entity.Cvr)
+                if (receiver.Cvr == entrepeneur.Entity.Cvr)
                 {
                     result = true;
                     break;
@@ -203,16 +281,15 @@ namespace JudGui
         /// <summary>
         /// Method, that checks, whether a LegalEntity exists in tempResult list
         /// </summary>
-        /// <param name="tempEntity">LegalEntity</param>
-        /// <param name="sub">SubEntrepeneur</param>
-        /// <param name="List<LegalEntity>"></param>
+        /// <param name="entrepeneur">Entrepeneur</param>
+        /// <param name="List<Entrepeneur>"></param>
         /// <returns></returns>
-        private bool CheckEntityTempResult(LegalEntity tempEntity, List<LegalEntity> tempResult)
+        private bool CheckEntrepeneurTempResult(Entrepeneur entrepeneur, List<Entrepeneur> entrepeneurs)
         {
             bool exist = false;
-            foreach (LegalEntity entity in tempResult)
+            foreach (Entrepeneur entity in entrepeneurs)
             {
-                if (entity.Id == tempEntity.Id)
+                if (entity.Id == entrepeneur.Id)
                 {
                     exist = true;
                     break;
@@ -222,31 +299,18 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that generate content of ComboBoxCaseId
-        /// </summary>
-        private void GenerateComboBoxCaseIdItems()
-        {
-            ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                ComboBoxCaseId.Items.Add(temp);
-            }
-        }
-
-
-        /// <summary>
         /// 
         /// </summary>
-        /// <param name="id">int</param>
+        /// <param name="addressId">int</param>
         /// <returns>Address</returns>
-        private Address GetAddress(int id)
+        private Address GetAddress(int addressId)
         {
             Address result = new Address();
-            foreach (Address temp in CBZ.Addresses)
+            foreach (Address address in CBZ.Addresses)
             {
-                if (temp.Id == id)
+                if (address.Id == addressId)
                 {
-                    result = temp;
+                    result = address;
                     break;
                 }
             }
@@ -266,14 +330,15 @@ namespace JudGui
         /// <summary>
         /// Method, that retrieves a Contact from Contact List
         /// </summary>
-        /// <param name="sub">int</param>
+        /// <param name="contactId">int</param>
         /// <returns>Contact</returns>
-        private Contact GetContactFromList(int id)
+        private Contact GetContactFromList(int contactId)
         {
             Contact result = new Contact();
+
             foreach (Contact contact in CBZ.Contacts)
             {
-                if (contact.Id == id)
+                if (contact.Id == contactId)
                 {
                     result = contact;
                     break;
@@ -286,13 +351,15 @@ namespace JudGui
         /// <summary>
         /// Method, that finds an email address in list
         /// </summary>
+        /// <param name="contactInfoId">int</param>
         /// <returns>string</returns>
-        private string GetContactEmail(int id)
+        private string GetContactEmail(int contactInfoId)
         {
             string result = "";
+
             foreach (ContactInfo info in CBZ.ContactInfoList)
             {
-                if (info.Id == id)
+                if (info.Id == contactInfoId)
                 {
                     result = info.Email;
                     break;
@@ -323,21 +390,54 @@ namespace JudGui
         }
 
         /// <summary>
+        /// Method, that retrieves a SubEntrepeneur
+        /// </summary>
+        /// <param name="entrepeneurId">int</param>
+        /// <returns></returns>
+        private SubEntrepeneur GetSubEntrepeneur(int entrepeneurId)
+        {
+            SubEntrepeneur result = new SubEntrepeneur();
+
+            foreach (SubEntrepeneur subEntrepeneur in ProjectSubEntrepeneurs)
+            {
+                if (subEntrepeneur.Entrepeneur.Id == entrepeneurId)
+                {
+                    result = subEntrepeneur;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that generates the Project SubEntrepeneurs list
+        /// </summary>
+        private void RefreshProjectEnterprises()
+        {
+            ProjectEnterprises.Clear();
+            foreach (Enterprise enterprise in CBZ.Enterprises)
+            {
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
+                {
+                    ProjectEnterprises.Add(enterprise);
+                }
+            }
+        }
+
+        /// <summary>
         /// Method, that generates List of Receivers
         /// </summary>
-        private void GetProjectReceivers()
+        private void RefreshProjectReceivers()
         {
+            RefreshProjectShippings();
             ProjectReceivers.Clear();
-            ProjectShippings.Clear();
-            CBZ.RefreshList("Receivers");
-            CBZ.RefreshList("ShippingList");
 
-            foreach (Shipping shipping in CBZ.Shippings)
+            foreach (Shipping shipping in ProjectShippings)
             {
                 if (shipping.Project.Id == CBZ.TempProject.Id)
                 {
                     ProjectReceivers.Add(shipping.Receiver);
-                    ProjectShippings.Add(shipping);
                 }
             }
 
@@ -353,58 +453,39 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that generates the Project SubEntrepeneurs list
+        /// Method, that generates List of Receivers
         /// </summary>
-        private void GetProjectSubEntrepeneurs()
-        {
-            ProjectEnterprises.Clear();
-            ProjectSubEntrepeneurs.Clear();
-            foreach (Enterprise enterprise in CBZ.Enterprises)
-            {
-                if (enterprise.Project.Id == CBZ.TempProject.Id)
-                {
-                    ProjectEnterprises.Add(enterprise);
-                    foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
-                    {
-                        if (sub.Enterprise.Id == enterprise.Id)
-                        {
-                            ProjectSubEntrepeneurs.Add(sub);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Method, that retrieves a SubEntrepeneur
-        /// </summary>
-        /// <param name="entrepeneurId">int</param>
-        /// <returns></returns>
-        private SubEntrepeneur GetSubEntrepeneur(int entrepeneurId)
-        {
-            SubEntrepeneur result = new SubEntrepeneur();
-
-            foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)
-            {
-                if (sub.Entrepeneur.Id == entrepeneurId)
-                {
-                    result = sub;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that refreshes content of the Shipping List
-        /// </summary>
-        private void RefreshShippingList()
+        private void RefreshProjectShippings()
         {
             ProjectShippings.Clear();
-            foreach (Receiver receiver in ProjectReceivers)
+            CBZ.RefreshList("Shippings");
+
+            foreach (Shipping shipping in CBZ.Shippings)
             {
-                AddShipping(receiver.Id);
+                if (shipping.Project.Id == CBZ.TempProject.Id)
+                {
+                    ProjectReceivers.Add(shipping.Receiver);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Method, that generates the Project SubEntrepeneurs list
+        /// </summary>
+        private void RefreshProjectSubEntrepeneurs()
+        {
+            RefreshProjectEnterprises();
+            ProjectSubEntrepeneurs.Clear();
+            foreach (Enterprise enterprise in ProjectEnterprises)
+            {
+                foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
+                {
+                    if (sub.Enterprise.Id == enterprise.Id)
+                    {
+                        ProjectSubEntrepeneurs.Add(sub);
+                    }
+                }
             }
         }
 

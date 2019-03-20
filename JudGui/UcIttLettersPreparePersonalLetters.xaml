@@ -102,7 +102,8 @@
                                Text=""
                                TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="01-01-2019" />
+                               Watermark="01-01-2019"
+                               TextChanged="TextBoxAnswerDate_TextChanged" />
         <Label x:Name="LabelQuestionDate"
                Content="Seneste spørgsmålsdato:"
                FontSize="30"
@@ -117,7 +118,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="01-01-2019" />
+                               Watermark="01-01-2019"
+                               TextChanged="TextBoxQuestionDate_TextChanged" />
         <Label x:Name="LabelTimeSpan"
                Content="Tilbuddets gyldighed:"
                FontSize="30"
@@ -132,7 +134,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="90" />
+                               Watermark="90"
+                               TextChanged="TextBoxTimeSpan_TextChanged" />
         <Label x:Name="LabelDays"
                Content="dage"
                FontSize="30"
@@ -154,7 +157,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="01-01-2019" />
+                               Watermark="01-01-2019"
+                               TextChanged="TextBoxCorrectionSheetDate_TextChanged" />
         <Label x:Name="LabelConditionDate"
                Content="Betingelsesdato:"
                FontSize="30"
@@ -169,7 +173,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="01-01-2019" />
+                               Watermark="01-01-2019"
+                               TextChanged="TextBoxConditionDate_TextChanged" />
         <Label x:Name="LabelMaterialUrl"
                Content="Link til udbudsmateriale:"
                FontSize="30"
@@ -184,7 +189,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="https://jorton.dk/udbudsmateriale/" />
+                               Watermark="https://jorton.dk/udbudsmateriale/"
+                               TextChanged="TextBoxMaterialUrl_TextChanged" />
         <Label x:Name="LabelConditionUrl"
                Content="Link til betingelser:"
                FontSize="30"
@@ -199,7 +205,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="https://jorton.dk/betingelser/" />
+                               Watermark="https://jorton.dk/betingelser/"
+                               TextChanged="TextBoxConditionUrl_TextChanged" />
         <Label x:Name="LabelPassword"
                Content="Adgangskode:"
                FontSize="30"
@@ -214,7 +221,8 @@
                                HorizontalAlignment="Left"
                                Text="" TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="P@ssW0rd" />
+                               Watermark="P@ssW0rd"
+                               TextChanged="TextBoxPassword_TextChanged" />
         <Button x:Name="ButtonClose"
                 Content="Luk"
                 Click="ButtonClose_Click"
