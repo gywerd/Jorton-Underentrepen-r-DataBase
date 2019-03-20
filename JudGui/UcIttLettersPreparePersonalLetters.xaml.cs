@@ -84,7 +84,7 @@ namespace JudGui
                     foreach (Shipping shipping in ProjectShippings)
                     {
                         CBZ.TempShipping = shipping;
-                        CBZ.TempShipping.PdfPath = PdfCreator.GenerateIttLetterCompanyPdf(CBZ, shipping);
+                        CBZ.TempShipping.PdfPath = PdfCreator.GenerateIttLetterPrivatePdf(CBZ, shipping);
                         CBZ.UpdateInDb(CBZ.TempShipping);
 
                     }

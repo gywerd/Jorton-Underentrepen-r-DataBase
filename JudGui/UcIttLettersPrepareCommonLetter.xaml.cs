@@ -415,7 +415,7 @@ namespace JudGui
 
             try
             {
-                result = PdfCreator.GenerateIttLetterCommonPdf(CBZ, CBZ.TempProject, ProjectShippings);
+                result = PdfCreator.GenerateIttLetterCommonPdf(CBZ);
             }
             catch (Exception)
             {

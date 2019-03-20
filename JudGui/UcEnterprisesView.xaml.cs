@@ -25,8 +25,6 @@ namespace JudGui
         #region Fields
         public Bizz CBZ;
         public UserControl UcMain;
-        public List<Enterprise> IndexedEnterprises = new List<Enterprise>();
-
         #endregion
 
         #region Constructors
@@ -52,7 +50,7 @@ namespace JudGui
         private void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)
         {
             PdfCreator pdfCreator = new PdfCreator(CBZ.StrConnection);
-            string path = pdfCreator.GenerateEnterprisesPdf(CBZ, IndexedEnterprises, CBZ.Users);
+            string path = pdfCreator.GenerateEnterprisesPdf(CBZ);
             System.Diagnostics.Process.Start(path);
         }
 
@@ -70,7 +68,7 @@ namespace JudGui
                 }
             }
             TextBoxCaseName.Text = CBZ.TempProject.Name;
-            IndexedEnterprises = GetIndexedEnterprises();
+            RefreshesIndexedEnterprises();
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -82,20 +80,20 @@ namespace JudGui
         #endregion
 
         #region Methods
-        private List<Enterprise> GetIndexedEnterprises()
+        private void RefreshesIndexedEnterprises()
         {
-            List<Enterprise> result = new List<Enterprise>();
-            int i = 0;
+            CBZ.IndexedEnterprises.Clear();
+            CBZ.IndexedEnterprises.Add(new IndexedEnterprise(0, CBZ.Enterprises[0]));
+
+            int i = 1;
             foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
-                    IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
-                    result.Add(temp);
+                    CBZ.IndexedEnterprises.Add(new IndexedEnterprise(i, enterprise));
                 }
                 i++;
             }
-            return result;
         }
 
         #endregion

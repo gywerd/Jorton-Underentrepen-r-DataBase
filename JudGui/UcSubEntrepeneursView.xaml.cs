@@ -66,23 +66,23 @@ namespace JudGui
             PdfCreator pdfCreator = new PdfCreator(CBZ.StrConnection);
             if (RadioButtonShowAll.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, IndexedSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedSubEntrepeneurs);
             }
             if (RadioButtonShowOpen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, OpenIndexedSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, OpenIndexedSubEntrepeneurs);
             }
             if (RadioButtonShowChosen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, ChosenIndexedSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, ChosenIndexedSubEntrepeneurs);
             }
             if (RadioButtonShowYesReceivedChosen.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, IndexedEnterprises, YesReceivedChosenIndexedSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdf(CBZ, YesReceivedChosenIndexedSubEntrepeneurs);
             }
             if (RadioButtonShowAgreement.IsChecked.Value)
             {
-                path = pdfCreator.GenerateSubEntrepeneursPdfForAgreement(CBZ, IndexedEnterprises, ChosenIndexedSubEntrepeneurs, CBZ.Users);
+                path = pdfCreator.GenerateSubEntrepeneursPdfForAgreement(CBZ, ChosenIndexedSubEntrepeneurs);
             }
             Process.Start(path);
         }

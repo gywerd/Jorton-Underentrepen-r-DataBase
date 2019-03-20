@@ -36,7 +36,7 @@ namespace JudBizz
         public List<IndexedRegion> IndexedRegions = new List<IndexedRegion>();
         public List<IndexedRequest> IndexedRequests = new List<IndexedRequest>();
         public List<IndexedRequestStatus> IndexedRequestStatuses = new List<IndexedRequestStatus>();
-        public List<SubEntrepeneur> IndexedSubEntrepeneurs = new List<SubEntrepeneur>();
+        public List<IndexedSubEntrepeneur> IndexedSubEntrepeneurs = new List<IndexedSubEntrepeneur>();
         public List<IndexedTenderForm> IndexedTenderForms = new List<IndexedTenderForm>();
         public List<IndexedUser> IndexedUsers = new List<IndexedUser>();
         public List<IndexedUserLevel> IndexedUserLevels = new List<IndexedUserLevel>();
