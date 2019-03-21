@@ -97,4 +97,5 @@
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
     </Grid>
+
 </UserControl>

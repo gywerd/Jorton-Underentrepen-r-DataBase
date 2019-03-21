@@ -203,8 +203,8 @@
     <Compile Include="UcRegions.xaml.cs">
       <DependentUpon>UcRegions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcRequestsChooseReceivers.xaml.cs">
-      <DependentUpon>UcRequestsChooseReceivers.xaml</DependentUpon>
+    <Compile Include="UcRequests.xaml.cs">
+      <DependentUpon>UcRequests.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcEntrepeneurCreate.xaml.cs">
       <DependentUpon>UcEntrepeneurCreate.xaml</DependentUpon>
@@ -423,7 +423,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcRequestsChooseReceivers.xaml">
+    <Page Include="UcRequests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

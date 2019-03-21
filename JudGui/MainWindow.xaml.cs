@@ -51,7 +51,7 @@ namespace JudGui
         public UcProjectsEdit UcProjectsEdit;
         public UcProjectStatusChange UcProjectStatusChange;
         public UcProjectStatuses UcProjectStatuses;
-        public UcRequestsChooseReceivers UcRequestsChooseReceivers;
+        public UcRequests UcRequests;
         public UcRequestPrepare UcRequestPrepare;
         public UcRequestSend UcRequestSend;
         public UcRegions UcRegions;
@@ -647,14 +647,14 @@ namespace JudGui
                 if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcRequestsChooseReceivers = new UcRequestsChooseReceivers(CBZ, UcMain);
-                    UcMain.Content = UcRequestsChooseReceivers;
+                    UcRequests = new UcRequests(CBZ, UcMain);
+                    UcMain.Content = UcRequests;
                 }
             }
             else
             {
-                UcRequestsChooseReceivers = new UcRequestsChooseReceivers(CBZ, UcMain);
-                UcMain.Content = UcRequestsChooseReceivers;
+                UcRequests = new UcRequests(CBZ, UcMain);
+                UcMain.Content = UcRequests;
             }
         }
 

@@ -18,9 +18,9 @@ using System.Windows.Shapes;
 namespace JudGui
 {
     /// <summary>
-    /// Interaction logic for UcIttLettersChooseReceivers.xaml
+    /// Interaction logic for UcRequests.xaml
     /// </summary>
-    public partial class UcIttLettersChooseReceivers : UserControl
+    public partial class UcRequests : UserControl
     {
         #region Fields
         public Bizz CBZ = new Bizz();
@@ -31,18 +31,18 @@ namespace JudGui
         public Shipping Shipping = new Shipping();
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
-        public List<IndexedEntrepeneur> IndexedEntrepeneurs;
         public List<Shipping> ProjectShippingList = new List<Shipping>();
+        public List<Receiver> TempReceivers = new List<Receiver>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
         #endregion
 
         #region Constructors
-        public UcIttLettersChooseReceivers(Bizz cbz, UserControl ucMain)
+        public UcRequests(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
-            IndexedEntrepeneurs = cbz.IndexedEntrepeneurs;
+            RefreshIndexedSubEntrepeneurs();
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
@@ -51,42 +51,6 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonChoose_Click(object sender, RoutedEventArgs e)
-        {
-            result = false;
-            bool receivers = CheckReceiversExist();
-
-            switch (receivers)
-            {
-                case false:
-                    //Show Confirmation
-                    MessageBox.Show("Du har ikke valgt nogen modtagere. Der blev ikke føjet modtagere til modtagerlisten.", "Tilføj Modtager(e)", MessageBoxButton.OK, MessageBoxImage.Information);
-                    break;
-                case true:
-                    AddReceivers();
-                    break;
-            }
-
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Modtager(e)n(ne) blev føjet til modtagerlisten.", "Tilføj Modtager(e)", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Reset Boxes
-                ComboBoxCaseId.SelectedIndex = -1;
-
-                //Update lists and fields
-                CBZ.RefreshList("Receivers");
-                CBZ.RefreshList("ShippingList");
-                Shipping = new Shipping();
-            }
-            else
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Modtager(e)n(ne) blev ikke føjet til modtagerlisten. Prøv igen.", "Tilføj Modtager(e)", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
         private void ButtonClearAll_Click(object sender, RoutedEventArgs e)
         {
             ListBoxEntrepeneurs.UnselectAll();
@@ -96,14 +60,69 @@ namespace JudGui
         {
             ListBoxEntrepeneurs.SelectAll();
         }
+
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
+            {
+                if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    //Close right UserControl
+                    CBZ.UcMainEdited = false;
+                    UcMain.Content = new UserControl();
+                }
+            }
+            else
             {
                 //Close right UserControl
                 CBZ.UcMainEdited = false;
                 UcMain.Content = new UserControl();
+            }
+        }
+
+        private void ButtonSend_Click(object sender, RoutedEventArgs e)
+        {
+            result = false;
+            bool receivers = CheckReceiversExist();
+
+            switch (receivers)
+            {
+                case false:
+                    //Show Confirmation
+                    MessageBox.Show("Du har ikke valgt nogen modtagere. Der blev ikke føjet modtagere til modtagerlisten.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                    break;
+                case true:
+                    RefreshReceivers();
+                    result = true;
+                    break;
+            }
+
+            if (result)
+            {
+                //Show Confirmation
+                MessageBox.Show("Modtageren/-erne blev føjet til modtagerlisten.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Code to Send Requests
+                try
+                {
+                    //Make som code, that sends emails
+                    throw new NotImplementedException();
+
+                    //MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Forespørgslen/-erne blev ikke sendt.\n" + ex.ToString(), "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                //Reset Boxes
+                ComboBoxCaseId.SelectedIndex = -1;
+
+            }
+            else
+            {
+                //Show error
             }
         }
 
@@ -119,24 +138,25 @@ namespace JudGui
                 {
                     if (temp.Index == selectedIndex)
                     {
-                        CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterprisesList, temp.Copy);
+                        CBZ.TempProject = new Project(temp);
                         break;
                     }
                 }
                 TextBoxName.Text = CBZ.TempProject.Name;
                 GetProjectSubEntrepeneurs();
-                CBZ.RefreshIttLetters(CBZ.TempProject.Id);
-                GetIndexedEntrepeneurs();
+                RefreshIndexedSubEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
-                ListBoxEntrepeneurs.ItemsSource = IndexedEntrepeneurs;
+                ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
+                ListBoxEntrepeneurs.SelectedIndex = -1;
             }
             else
             {
                 TextBoxName.Text = "";
                 ProjectSubEntrepeneurs.Clear();
                 ProjectEnterprises.Clear();
-                IndexedEntrepeneurs.Clear();
+                CBZ.IndexedSubEntrepeneurs.Clear();
                 ListBoxEntrepeneurs.ItemsSource = "";
+                ListBoxEntrepeneurs.SelectedIndex = -1;
             }
 
             //Set CBZ.UcMainEdited
@@ -185,29 +205,6 @@ namespace JudGui
 
         #region Methods
         /// <summary>
-        /// Method, that adds multiple Receivers to Db
-        /// </summary>
-        /// <returns></returns>
-        private void AddReceivers()
-        {
-            foreach (IndexedEntrepeneur entrepeneur in ListBoxEntrepeneurs.SelectedItems)
-            {
-                CBZ.TempReceiver = FillReceiver(CBZ.TempProject, entrepeneur);
-                //Code that ads a enterprise to Enterprise List
-                int tempResult = CBZ.CreateInDb(CBZ.TempReceiver);
-
-                //Code, that checks result
-                if (!result)
-                {
-                    if (tempResult < 1)
-                    {
-                        result = true;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Method, that checks if Receivers have been selected in ListBoxEntrepeneurs
         /// </summary>
         /// <returns></returns>
@@ -216,6 +213,23 @@ namespace JudGui
             bool result = false;
 
             if (ListBoxEntrepeneurs.SelectedItems.Count >= 1)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that checks, wether a request has already been sent to SubEntrepeneur
+        /// </summary>
+        /// <param name="subEntrepeneur">SubEntrepeneur</param>
+        /// <returns>bool</returns>
+        private bool CheckRequestSent(SubEntrepeneur subEntrepeneur)
+        {
+            bool result = false;
+
+            if (subEntrepeneur.Request.Status.Id >= 1)
             {
                 result = true;
             }
@@ -247,33 +261,6 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that adds data to an ITT-letter receiver
-        /// </summary>
-        /// <param name="entrepeneur">IndexedLegalEntity</param>
-        /// <returns>Receiver</returns>
-        private Receiver FillReceiver(Project project, IndexedEntrepeneur entrepeneur)
-        {
-            string cvr = entrepeneur.Entity.Cvr;
-            string companyName = entrepeneur.Entity.Name;
-            Contact contact = GetContact(entrepeneur.Id);
-            string attention = contact.Person.Name;
-            Address address = entrepeneur.Entity.Address;
-            string street = address.Street;
-            string place = address.Place;
-            ZipTown zipTown = address.ZipTown;
-            string zip = zipTown.ToString();
-            string email = contact.Person.ContactInfo.Email;
-
-            Receiver result = new Receiver(cvr, companyName, attention, street, zip, email, place);
-            CreateShipping(project, result, CBZ.TempSubEntrepeneur);
-            ProjectShippingList.Add(Shipping);
-
-            return result;
-
-        }
-
- 
-        /// <summary>
         /// Method, that generates Items for ComboBoxCaseId
         /// </summary>
         private void GenerateComboBoxCaseIdItems()
@@ -282,6 +269,28 @@ namespace JudGui
             ComboBoxCaseId.ItemsSource = "";
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
+
+        /// <summary>
+        /// Method, that generates a receiver from Indexed SubEntrepeneur
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        /// <returns></returns>
+        private Receiver GenerateReceiver(object selectedItem)
+        {
+            Receiver result = new Receiver();
+
+            IndexedSubEntrepeneur subEntrepeneur = new IndexedSubEntrepeneur((IndexedSubEntrepeneur)selectedItem);
+            result.Cvr = subEntrepeneur.Entrepeneur.Entity.Cvr;
+            result.Name = subEntrepeneur.Entrepeneur.Entity.Name;
+            result.Attention = subEntrepeneur.Contact.Person.Name;
+            result.Street = subEntrepeneur.Entrepeneur.Entity.Address.Street;
+            result.Place = subEntrepeneur.Entrepeneur.Entity.Address.Place;
+            result.ZipTown = subEntrepeneur.Entrepeneur.Entity.Address.ZipTown.ToString();
+            result.Email = subEntrepeneur.Contact.Person.ContactInfo.Email;
+
+            return result;
+        }
+
 
         /// <summary>
         /// Method, that returns a Contact
@@ -313,17 +322,6 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method that creates a list of indexable Legal Entities
-        /// </summary>
-        /// <returns>List<IndexedLegalEntity></returns>
-        private void GetIndexedEntrepeneurs()
-        {
-            CBZ.RefreshIndexedList("IndexedEntrepeneursFromSubEntrepeneurs");
-            ListBoxEntrepeneurs.ItemsSource = "";
-            ListBoxEntrepeneurs.ItemsSource = IndexedEntrepeneurs;
-        }
-
-        /// <summary>
         /// Method, that generates List of ProjectSubEntrepeneurs
         /// </summary>
         /// <returns></returns>
@@ -335,7 +333,6 @@ namespace JudGui
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
-                    ProjectEnterprises.Add(enterprise);
                     foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
                     {
                         if (sub.Enterprise.Id == enterprise.Id)
@@ -343,6 +340,8 @@ namespace JudGui
                             ProjectSubEntrepeneurs.Add(sub);
                         }
                     }
+
+                    ProjectEnterprises.Add(enterprise);
                 }
             }
         }
@@ -358,6 +357,59 @@ namespace JudGui
                 }
             }
             return tempSub;
+        }
+
+        /// <summary>
+        /// Method that creates a list of indexable Legal Entities
+        /// </summary>
+        private void RefreshIndexedSubEntrepeneurs()
+        {
+            CBZ.RefreshList("SubEntrepeneurs");
+            CBZ.IndexedSubEntrepeneurs.Clear();
+
+            CBZ.IndexedSubEntrepeneurs.Add(new IndexedSubEntrepeneur(0, CBZ.SubEntrepeneurs[0]));
+
+            int i = 1;
+
+            foreach (SubEntrepeneur subEntrepeneur in ProjectSubEntrepeneurs)
+            {
+                bool requestSent = CheckRequestSent(subEntrepeneur);
+
+
+                if (!requestSent)
+                {
+                    CBZ.IndexedSubEntrepeneurs.Add(new IndexedSubEntrepeneur(i, subEntrepeneur));
+                    i++;
+                }
+            }
+
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
+        }
+
+        /// <summary>
+        /// Method, that refreshed the Receivers list
+        /// </summary>
+        private void RefreshReceivers()
+        {
+            TempReceivers.Clear();
+
+            switch (ListBoxEntrepeneurs.SelectedItems.Count)
+            {
+                case 0:
+                    MessageBox.Show("Forespørgslen kan ikke sendes, da du ikke har valgt nogen modtagere.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    break;
+                case 1:
+                    TempReceivers.Add(GenerateReceiver(ListBoxEntrepeneurs.SelectedItem));
+                    break;
+                default:
+                    foreach (object subEntrepeneur in ListBoxEntrepeneurs.SelectedItems)
+                    {
+                        TempReceivers.Add(GenerateReceiver(subEntrepeneur));
+                    }
+                    break;
+            }
+
         }
 
         #endregion

@@ -2210,7 +2210,7 @@ namespace JudBizz
         /// </summary>
         /// <param name="projectId">int</param>
         /// <returns>List<object></returns>
-        public void RefreshIttLetterLists(int projectId)
+        public void RefreshIttLetters(int projectId)
         {
             PdfLists = new PdfLists(GetEnterprises(projectId), GetSubEntrepeneurs(projectId), GetShippings(projectId));
         }

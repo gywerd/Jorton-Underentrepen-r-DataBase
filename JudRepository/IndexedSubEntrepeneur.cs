@@ -29,6 +29,15 @@ namespace JudRepository
             this.index = index;
         }
 
+        /// <summary>
+        /// Constructor to add a new Indexed SubEntrepeneur
+        /// </summary>
+        /// <param name="subEntrepeneur">IndexedSubEntrepeneur</param>
+        public IndexedSubEntrepeneur(IndexedSubEntrepeneur subEntrepeneur) : base(subEntrepeneur)
+        {
+            this.index = subEntrepeneur.Index;
+        }
+
         #endregion
 
         #region Methods
