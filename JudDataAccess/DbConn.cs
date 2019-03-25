@@ -99,22 +99,47 @@ namespace JudDataAccess
         /// der modsvarer strSql forespørgslen.
         /// Til slut lukker vi DB igen.
         /// </summary>
-        /// <param name="strSQL">Tekststreng med SQL-Udtrykket</param>
+        /// <param name="sqlQuery">string - textstring with SQL-Query</param>
+        /// <param name="args">string[] - strengArray med parametre</param>
         /// <returns>String</returns>
-        protected string DbReturnString(string strSQL)
+        protected string DbReturnString(string sqlQuery, string[] args)
         {
             string strRes = "";
+            SqlCommand cmd = new SqlCommand(sqlQuery, myConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            switch (sqlQuery)
+            {
+                case "usersAddUser":
+                    cmd.Parameters.Add("@pPerson", SqlDbType.Int).Value = Convert.ToInt32(args[0]);
+                    cmd.Parameters.Add("@pInitials", SqlDbType.NVarChar).Value = args[1];
+                    cmd.Parameters.Add("@pPassword", SqlDbType.NVarChar).Value = args[2];
+                    cmd.Parameters.Add("@pJobDescription", SqlDbType.Int).Value = Convert.ToInt32(args[3]);
+                    cmd.Parameters.Add("@pUserLevel", SqlDbType.Int).Value = Convert.ToInt32(args[4]);
+                    break;
+                case "usersUpdatePassword":
+                    cmd.Parameters.Add("@pId", SqlDbType.Int).Value = Convert.ToInt32(args[0]);
+                    cmd.Parameters.Add("@pOldPassword", SqlDbType.NVarChar).Value = args[1];
+                    cmd.Parameters.Add("@pNewPassword", SqlDbType.NVarChar).Value = args[2];
+                    break;
+                case "usersLogin":
+                    cmd.Parameters.Add("@pInitials", SqlDbType.NVarChar).Value = args[0];
+                    cmd.Parameters.Add("@pPassword", SqlDbType.NVarChar).Value = args[1];
+                    break;
+            }
 
             try
             {
                 OpenDB();
-                using(SqlCommand cmd = new SqlCommand(strSQL, myConnection))
+                using(cmd)
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
+
                     while (reader.Read())
                     {
-                        strRes = reader.GetValue(0).ToString();
+                        strRes = reader.HasRows.ToString();
                     }
+
                 }
 
 

@@ -107,11 +107,13 @@ namespace JudGui
                 try
                 {
                     //Make som code, that sends emails
-                    throw new NotImplementedException();
-
-                    //MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                    foreach (Receiver receiver in TempReceivers)
+                    {
+                        Email email = new Email("Forespørgsel om underentreprise på " + CBZ.TempProject.Name, "bern0145@edu.campusvejle.dk", "bern0145@edu.campusvejle.dk","Dette er en prøve");
+                    }
+                    MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                catch (Exception ex)
+               catch (Exception ex)
                 {
                     MessageBox.Show("Forespørgslen/-erne blev ikke sendt.\n" + ex.ToString(), "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
                 }

@@ -736,7 +736,7 @@ namespace JudBizz
                         Offer offer = new Offer(Convert.ToInt32(resultArray[0]), Convert.ToBoolean(resultArray[1]), Convert.ToDateTime(resultArray[2]), Convert.ToDouble(resultArray[3]), Convert.ToBoolean(resultArray[4]));
                         result = offer;
                         break;
-                    case "Paragrafs":
+                    case "Paragraphs":
                         Paragraf paragraph = new Paragraf(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), resultArray[2]);
                         result = paragraph;
                         break;
@@ -2291,6 +2291,9 @@ namespace JudBizz
         {
             switch (list)
             {
+                case "ActiveParagrafs":
+                    RefreshParagrafs();
+                    break;
                 case "Addresses":
                     RefreshAddresses();
                     break;
@@ -2407,11 +2410,12 @@ namespace JudBizz
             {
                 Paragrafs.Clear();
             }
-            List<object> tempList = ReadListFromDb("Paragrafs");
+            List<object> tempList = ReadListFromDb("Paragraphs");
 
             foreach (object obj in tempList)
             {
-                Paragrafs.Add((Paragraf)obj);
+                Paragraf paragraf = new Paragraf((Paragraf)obj);
+                Paragrafs.Add(paragraf);
             }
         }
 

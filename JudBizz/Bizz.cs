@@ -73,6 +73,7 @@ namespace JudBizz
         public bool CheckCredentials(Label userName, RibbonApplicationMenuItem menuItemChangePassWord, RibbonApplicationMenuItem menuItemLogOut, string initials, string passWord)
         {
             bool result = false;
+            RefreshList("Users");
             if (CheckLogin(initials, passWord))
             {
                 foreach (User user in Users)

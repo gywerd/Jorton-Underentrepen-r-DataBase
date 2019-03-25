@@ -33,12 +33,19 @@ namespace JudDataAccess
         /// <param name="person">int</param>
         /// <param name="initials">string</param>
         /// <param name="passWord">string</param>
-        /// <param name="jobDescription">int</param>
-        /// <param name="userLevel">int</param>
+        /// <param name="jobDescriptionId">int</param>
+        /// <param name="userLevelId">int</param>
         /// <returns>bool</returns>
-        public bool AddUser(int person, string initials, string passWord, int jobDescription, int userLevel)
+        public bool AddUser(int person, string initials, string passWord, int jobDescriptionId, int userLevelId)
         {
-            return Convert.ToBoolean(DbReturnString(@"usersAddUser pPerson = " + person + ", pInitials = " + initials + @", pPassword = '" + passWord + @"', pJobDescription = " + jobDescription + @", pUserLevel = " + userLevel + @", responseMessage=responseMessage OUTPUT"));
+            string[] args = new string[5];
+            args[0] = person.ToString();
+            args[1] = initials;
+            args[2] = passWord;
+            args[3] = jobDescriptionId.ToString();
+            args[4] = userLevelId.ToString();
+
+            return Convert.ToBoolean(DbReturnString(@"usersAddUser", args));
         }
 
         /// <summary>
@@ -50,7 +57,12 @@ namespace JudDataAccess
         /// <returns></returns>
         public bool ChangePassword(int id, string oldPassWord, string newPassWord)
         {
-            return Convert.ToBoolean(DbReturnString(@"usersUpdatePassword pId = " + id + @", pOldPassword = '" + oldPassWord + @"', pNewPassword = '" + newPassWord + @"', responseMessage=responseMessage OUTPUT"));
+            string[] args = new string[3];
+            args[0] = id.ToString();
+            args[1] = oldPassWord;
+            args[2] = newPassWord;
+
+            return Convert.ToBoolean(DbReturnString(@"usersUpdatePassword", args));
         }
 
 
@@ -62,7 +74,11 @@ namespace JudDataAccess
         /// <returns></returns>
         public bool CheckLogin(string initials, string passWord)
         {
-            return Convert.ToBoolean(DbReturnString(@"usersLogin pInitials = '" + initials + @"', pOldPassword = '" + passWord + @"', responseMessage=responseMessage OUTPUT"));
+            string[] args = new string[2];
+            args[0] = initials;
+            args[1] = passWord;
+
+            return Convert.ToBoolean(DbReturnString(@"usersLogin", args));
         }
 
         /// <summary>

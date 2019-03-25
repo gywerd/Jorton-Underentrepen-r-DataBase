@@ -18,7 +18,7 @@ namespace JudBizz
 		private string to = "";
 		private string sender = "";
 		private string body = "";
-		private string logPath = @"\log";
+		private string logPath = @"Log2\";
 			
 		List<Attachment> attachments = new List<Attachment>();
 		#endregion
@@ -40,7 +40,7 @@ namespace JudBizz
 		{
 			if (attachments == null)
 			{
-				attachments = new Attachment[1];
+				attachments = new Attachment[0];
 			}
 
 			this.subject = subject;
@@ -73,9 +73,9 @@ namespace JudBizz
 			Outlook.MailItem mailItem = (Outlook.MailItem)app.CreateItem(Outlook.OlItemType.olMailItem);
 			mailItem.Subject = this.subject;
 			mailItem.To = this.to;
-			mailItem.Sender.Address = this.sender;
+			//mailItem.Sender.Address = this.sender;
 			mailItem.Body = this.body;
-			mailItem.Attachments.Add(logPath);//logPath is a string holding path to the log.txt file
+			//mailItem.Attachments.Add(logPath);//logPath is a string holding path to the log.txt file
 			if(this.attachments.Count > 0)
 			{
 				foreach(Attachment attachment in this.attachments)
@@ -85,6 +85,7 @@ namespace JudBizz
 			}
 			mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
 			mailItem.Display(false);
+			mailItem.Send();
 		}
 
 		#endregion
