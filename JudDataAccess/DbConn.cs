@@ -135,10 +135,10 @@ namespace JudDataAccess
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
-                    {
+                    //while (reader.Read())
+                    //{
                         strRes = reader.HasRows.ToString();
-                    }
+                    //}
 
                 }
 

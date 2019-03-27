@@ -74,11 +74,14 @@ namespace JudDataAccess
         /// <returns></returns>
         public bool CheckLogin(string initials, string passWord)
         {
+            bool result = false;
             string[] args = new string[2];
             args[0] = initials;
             args[1] = passWord;
 
-            return Convert.ToBoolean(DbReturnString(@"usersLogin", args));
+            string strResult = DbReturnString(@"usersLogin", args);
+            result = Convert.ToBoolean(strResult);
+            return result;
         }
 
         /// <summary>

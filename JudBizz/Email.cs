@@ -18,7 +18,7 @@ namespace JudBizz
 		private string to = "";
 		private string sender = "";
 		private string body = "";
-		private string logPath = @"Log2\";
+		//private string logPath = @"Log2\";
 			
 		List<Attachment> attachments = new List<Attachment>();
 		#endregion
