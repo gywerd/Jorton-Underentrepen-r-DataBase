@@ -13,6 +13,7 @@ namespace JudRepository
         private int id;
         private Person person;
         private string initials;
+        private LegalEntity department;
         private JobDescription jobDescription;
         private UserLevel userLevel;
 
@@ -26,6 +27,7 @@ namespace JudRepository
         {
             this.id = 0;
             this.person = new Person();
+            this.department = new LegalEntity();
             this.initials = "";
             this.jobDescription = new JobDescription();
             this.userLevel = new UserLevel();
@@ -38,11 +40,12 @@ namespace JudRepository
         /// <param name="initials">string</param>
         /// <param name="jobDescription">JobDescription</param>
         /// <param name="userLevel">UserLevel</param>
-        public User(Person person, string initials, JobDescription jobDescription, UserLevel userLevel)
+        public User(Person person, string initials, LegalEntity department, JobDescription jobDescription, UserLevel userLevel)
         {
             this.id = 0;
             this.person = person;
             this.initials = initials;
+            this.department = department;
             this.jobDescription = jobDescription;
             this.userLevel = userLevel;
         }
@@ -55,11 +58,12 @@ namespace JudRepository
         /// <param name="initials">string</param>
         /// <param name="jobDescription">JobDescription</param>
         /// <param name="userLevel">UserLevel</param>
-        public User(int id, Person person, string initials, JobDescription jobDescription, UserLevel userLevel)
+        public User(int id, Person person, string initials, LegalEntity department, JobDescription jobDescription, UserLevel userLevel)
         {
             this.id = id;
             this.person = person;
             this.initials = initials;
+            this.department = department;
             this.jobDescription = jobDescription;
             this.userLevel = userLevel;
         }
@@ -73,6 +77,7 @@ namespace JudRepository
             this.id = user.Id;
             this.person = user.Person;
             this.initials = user.Initials;
+            this.department = user.Department;
             this.jobDescription = user.JobDescription;
             this.userLevel = user.UserLevel;
         }
@@ -86,6 +91,7 @@ namespace JudRepository
             this.id = user.Id;
             this.person = user.Person;
             this.initials = user.Initials;
+            this.department = user.Department;
             this.jobDescription = user.JobDescription;
             this.userLevel = user.UserLevel;
         }
@@ -112,6 +118,8 @@ namespace JudRepository
                 }
             }
         }
+
+        public LegalEntity Department { get => department; set => department = value; }
 
         public JobDescription JobDescription { get => jobDescription; set => jobDescription = value; }
 

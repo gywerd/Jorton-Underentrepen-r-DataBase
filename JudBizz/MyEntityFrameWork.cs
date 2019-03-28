@@ -38,6 +38,7 @@ namespace JudBizz
         public string TempPassWord = "";
         public Project TempProject = new Project();
         public ProjectStatus TempProjectStatus = new ProjectStatus();
+        public RequestData TempRequestData = new RequestData();
         public Receiver TempReceiver = new Receiver();
         public Region TempRegion = new Region();
         public Request TempRequest = new Request();
@@ -125,7 +126,7 @@ namespace JudBizz
             /// <returns>bool</returns>
             private bool AddUser(User user, string passWord)
             {
-                return executor.AddUser(user.Person.Id, user.Initials, passWord, user.JobDescription.Id, user.UserLevel.Id);
+                return executor.AddUser(user.Person.Id, user.Initials, user.Department.Id, passWord, user.JobDescription.Id, user.UserLevel.Id);
             }
 
             /// <summary>
@@ -785,7 +786,7 @@ namespace JudBizz
                         result = userLevel;
                         break;
                     case "Users":
-                        User user = new User(Convert.ToInt32(resultArray[0]), GetPerson(Convert.ToInt32(resultArray[1])), resultArray[2], GetJobDescription(Convert.ToInt32(resultArray[3])), GetUserLevel(Convert.ToInt32(resultArray[4])));
+                        User user = new User(Convert.ToInt32(resultArray[0]), GetPerson(Convert.ToInt32(resultArray[1])), resultArray[2], GetLegalEntity(Convert.ToInt32(resultArray[3])), GetJobDescription(Convert.ToInt32(resultArray[4])), GetUserLevel(Convert.ToInt32(resultArray[5])));
                         result = user;
                         break;
                     case "ZipTowns":
@@ -896,7 +897,7 @@ namespace JudBizz
                         result = 2;
                         break;
                     case "Users":
-                        result = 5;
+                        result = 6;
                         break;
                     case "UserLevels":
                         result = 2;
@@ -1113,7 +1114,7 @@ namespace JudBizz
                         break;
                     case "Users":
                         User user = new User((User)_object);
-                        result = @"UPDATE [dbo].[Users] SET [Person] = " + user.Person.Id + ", [Initials] = '" + user.Initials + "', [JobDescription] = " + user.JobDescription.Id + ", [UserLevel] = " + user.UserLevel.Id + " WHERE [Id] = " + user.Id;
+                        result = @"UPDATE [dbo].[Users] SET [Person] = " + user.Person.Id + ", [Initials] = '" + user.Initials + ", [Department] = '" + user.Department.Id + "', [JobDescription] = " + user.JobDescription.Id + ", [UserLevel] = " + user.UserLevel.Id + " WHERE [Id] = " + user.Id;
                         break;
                     case "UserLevels":
                         UserLevel userLevel = new UserLevel((UserLevel)_object);
@@ -1144,7 +1145,7 @@ namespace JudBizz
                 switch (entityType)
                 {
                     case "Address":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new Address((Address)_object)));
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new LegalEntity((LegalEntity)_object)));
                         break;
                     case "Builder":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", new Builder((Builder)_object)));

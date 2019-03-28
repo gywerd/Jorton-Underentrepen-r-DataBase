@@ -36,11 +36,12 @@ namespace JudDataAccess
         /// <param name="jobDescriptionId">int</param>
         /// <param name="userLevelId">int</param>
         /// <returns>bool</returns>
-        public bool AddUser(int person, string initials, string passWord, int jobDescriptionId, int userLevelId)
+        public bool AddUser(int person, string initials, int department, string passWord, int jobDescriptionId, int userLevelId)
         {
             string[] args = new string[5];
             args[0] = person.ToString();
             args[1] = initials;
+            args[2] = department.ToString();
             args[2] = passWord;
             args[3] = jobDescriptionId.ToString();
             args[4] = userLevelId.ToString();
