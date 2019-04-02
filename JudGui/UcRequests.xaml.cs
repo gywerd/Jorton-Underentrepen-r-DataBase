@@ -3,6 +3,7 @@ using JudRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +28,7 @@ namespace JudGui
         public bool result;
         public UserControl UcMain;
         public static string macAddress;
+        public PdfCreator PdfCreator;
 
         public Shipping Shipping = new Shipping();
         public List<Contact> ProjectContacts = new List<Contact>();
@@ -42,6 +44,9 @@ namespace JudGui
         {
             InitializeComponent();
             this.CBZ = cbz;
+            PdfCreator = new PdfCreator(CBZ.StrConnection);
+            CBZ.TempProject = new Project();
+            CBZ.TempRequestData = new RequestData();
             RefreshIndexedSubEntrepeneurs();
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
@@ -107,25 +112,38 @@ namespace JudGui
                 try
                 {
                     //Make som code, that sends emails
-                    foreach (Receiver receiver in TempReceivers)
+                    foreach (object item in ListBoxEntrepeneurs.SelectedItems)
                     {
-                        Email email = new Email("Forespørgsel om underentreprise på " + CBZ.TempProject.Name, "bern0145@edu.campusvejle.dk", "bern0145@edu.campusvejle.dk","Dette er en prøve");
+                        IndexedSubEntrepeneur subEntrepeneur = new IndexedSubEntrepeneur((IndexedSubEntrepeneur)item);
+                        CBZ.TempRequestData.Receiver = subEntrepeneur.Entrepeneur.Entity;
+                        CBZ.TempRequestData.ReceiverAttention = subEntrepeneur.Contact.Person.Name;
+                        CBZ.TempRequestData.EnterpriseLine = subEntrepeneur.Enterprise.Name;
+                        CBZ.TempRequestData.RequestUrl = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempRequestData);
+                        string[] fileNames = new string[] { CBZ.TempRequestData.RequestUrl };
+                        Email email = new Email("Forespørgsel om underentreprise på " + CBZ.TempProject.Name, "bern0145@edu.campusvejle.dk", "bern0145@edu.campusvejle.dk","Dette er en prøve", fileNames);
                     }
                     MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    //Reset Boxes
+                    ComboBoxCaseId.SelectedIndex = -1;
+                    TextBoxName.Text = "";
+                    TextBoxProjectDescription.Text = "";
+                    TextBoxPeriod.Text = "";
+                    TextBoxAnswerDate.Text = "";
+
                 }
-               catch (Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Forespørgslen/-erne blev ikke sendt.\n" + ex.ToString(), "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-
-                //Reset Boxes
-                ComboBoxCaseId.SelectedIndex = -1;
 
             }
             else
             {
                 //Show error
+                MessageBox.Show("Modtageren/-erne blev ikke føjet til modtagerlisten. Prøv igen.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+
         }
 
         #endregion
@@ -145,6 +163,7 @@ namespace JudGui
                     }
                 }
                 TextBoxName.Text = CBZ.TempProject.Name;
+                CBZ.TempRequestData.Project = CBZ.TempProject;
                 GetProjectSubEntrepeneurs();
                 RefreshIndexedSubEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
@@ -154,6 +173,8 @@ namespace JudGui
             else
             {
                 TextBoxName.Text = "";
+                CBZ.TempProject = new Project();
+                CBZ.TempRequestData = new RequestData();
                 ProjectSubEntrepeneurs.Clear();
                 ProjectEnterprises.Clear();
                 CBZ.IndexedSubEntrepeneurs.Clear();
@@ -201,6 +222,21 @@ namespace JudGui
                 CBZ.UcMainEdited = true;
             }
 
+        }
+
+        private void TextBoxProjectDescription_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempRequestData.ProjectDescription = TextBoxProjectDescription.Text;
+        }
+
+        private void TextBoxPeriod_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempRequestData.Period = TextBoxPeriod.Text;
+        }
+
+        private void TextBoxAnswerDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CBZ.TempRequestData.AnswerDate = TextBoxAnswerDate.Text;
         }
 
         #endregion

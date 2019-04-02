@@ -640,7 +640,7 @@ namespace JudGui
             Application.Current.Shutdown();
         }
 
-        private void ButtonRequestChooseReceivers_Click(object sender, RoutedEventArgs e)
+        private void ButtonRequests_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
             {
@@ -655,42 +655,6 @@ namespace JudGui
             {
                 UcRequests = new UcRequests(CBZ, UcMain);
                 UcMain.Content = UcRequests;
-            }
-        }
-
-        private void ButtonRequestPrepare_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.UcMainEdited)
-            {
-                if (MessageBox.Show("Vil du åbne 'Klargør forespørgsel'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                {
-                    CBZ.UcMainEdited = false;
-                    UcRequestPrepare = new UcRequestPrepare(CBZ, UcMain);
-                    UcMain.Content = UcRequestPrepare;
-                }
-            }
-            else
-            {
-                UcRequestPrepare = new UcRequestPrepare(CBZ, UcMain);
-                UcMain.Content = UcRequestPrepare;
-            }
-        }
-
-        private void ButtonRequestSend_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.UcMainEdited)
-            {
-                if (MessageBox.Show("Vil du åbne 'Afsend'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                {
-                    CBZ.UcMainEdited = false;
-                    UcRequestSend = new UcRequestSend(CBZ, UcMain);
-                    UcMain.Content = UcRequestSend;
-                }
-            }
-            else
-            {
-                UcRequestSend = new UcRequestSend(CBZ, UcMain);
-                UcMain.Content = UcRequestSend;
             }
         }
 

@@ -143,7 +143,8 @@ namespace JudRepository
 
         public CraftGroup CraftGroup4 { get => craftGroup4; set => craftGroup4 = value; }
 
-        public Region Region { get; set; }
+        public Region Region { get => region; set => region = value; }
+
         public bool CountryWide { get => countryWide; }
 
         public bool Cooperative { get => cooperative; }

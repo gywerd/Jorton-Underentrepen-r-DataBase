@@ -136,7 +136,7 @@ namespace JudRepository
         /// <returns>string</returns>
         public override string ToString()
         {
-            return street + ", " + place + ", " + base.ToString();
+            return street + ", " + place + ", " + zipTown.ToString();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace JudRepository
         /// <returns>string</returns>
         public string ToLongString()
         {
-            return street + "\n" + place + "\n" + base.ToString();
+            return street + "\n" + place + "\n" + zipTown.ToString();
         }
 
         #endregion

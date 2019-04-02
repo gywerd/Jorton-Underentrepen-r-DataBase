@@ -87,6 +87,31 @@ namespace JudRepository
 
         #endregion
 
+        #region Properties
+        public int Id { get => id; }
+
+        public Person Person { get => person; set => person = value; }
+
+        public Entrepeneur Entrepeneur { get => entrepeneur; set => entrepeneur = value; }
+
+        public string Area
+        {
+            get => area;
+            set
+            {
+                try
+                {
+                    area = value;
+                }
+                catch (Exception)
+                {
+                    area = "";
+                }
+            }
+        }
+
+        #endregion
+
         #region Methods
         /// <summary>
         /// Method, that sets id, if id == 0
@@ -113,31 +138,6 @@ namespace JudRepository
         public override string ToString()
         {
             return person.Name + " (" + area + ")";
-        }
-
-        #endregion
-
-        #region Properties
-        public int Id { get => id; }
-
-        public Person Person { get => person; set => person = value; }
-
-        public Entrepeneur Entrepeneur { get => entrepeneur; set => entrepeneur = value; }
-
-        public string Area
-        {
-            get => area;
-            set
-            {
-                try
-                {
-                    area = value;
-                }
-                catch (Exception)
-                {
-                    area = "";
-                }
-            }
         }
 
         #endregion

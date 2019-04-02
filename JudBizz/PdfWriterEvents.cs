@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace JudBizz
 {
@@ -48,9 +49,11 @@ namespace JudBizz
                 Console.Error.WriteLine(ex.Message);
             }
         }
+
         public void OnEndPage(PdfWriter writer, Document document)
         {
         }
+
         public void OnParagraph(PdfWriter writer, Document document, float paragraphPosition)
         {
         }

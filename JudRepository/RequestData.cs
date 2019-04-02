@@ -13,13 +13,13 @@ namespace JudRepository
         private Project project = new Project();
         private LegalEntity receiver = new LegalEntity();
         private string receiverAttention = "";
-        private User executive = new User();
         private string enterpriseLine = "";
         private string acceptUrl = "";
         private string declineUrl = "";
         private string projectDescription = "";
         private string period = "";
         private string answerDate = "";
+        private string requestUrl = "";
 
         #endregion
 
@@ -45,23 +45,20 @@ namespace JudRepository
         /// <param name="receiver">LegalEntity</param>
         /// <param name="receiverAttention">string</param>
         /// <param name="receiverEmail">string</param>
-        /// <param name="executive">string</param>
-        /// <param name="executivePhone">string</param>
-        /// <param name="executiveEmail">string</param>
         /// <param name="enterpriseLine">string</param>
         /// <param name="projectDescription">string</param>
         /// <param name="period">string</param>
         /// <param name="answerDate">string</param>
-        public RequestData(Project project, LegalEntity receiver, string receiverAttention, User executive, string enterpriseLine, string projectDescription, string period, string answerDate)
+        public RequestData(Project project, LegalEntity receiver, string receiverAttention, string enterpriseLine, string projectDescription, string period, string answerDate, string requestUrl)
         {
             this.project = project;
             this.receiver = receiver;
             this.receiverAttention = receiverAttention;
-            Executive = executive;
             this.enterpriseLine = enterpriseLine;
             this.projectDescription = projectDescription;
             this.period = period;
             this.answerDate = answerDate;
+            this.requestUrl = requestUrl;
         }
 
         /// <summary>
@@ -72,28 +69,25 @@ namespace JudRepository
         /// <param name="receiver">LegalEntity</param>
         /// <param name="attention">string</param>
         /// <param name="receiverEmail">string</param>
-        /// <param name="executive">User</param>
-        /// <param name="executivePhone">string</param>
-        /// <param name="executiveEmail">string</param>
         /// <param name="enterpriseLine">string</param>
         /// <param name="acceptUrl">string</param>
         /// <param name="declineUrl">string</param>
         /// <param name="projectDescription">string</param>
         /// <param name="period">string</param>
         /// <param name="answerDate">string</param>
-        public RequestData(int id, Project project, LegalEntity receiver, string attention, User executive, string enterpriseLine, string acceptUrl, string declineUrl, string projectDescription, string period, string answerDate)
+        public RequestData(int id, Project project, LegalEntity receiver, string attention, string enterpriseLine, string acceptUrl, string declineUrl, string projectDescription, string period, string answerDate, string requestUrl)
         {
             this.id = id;
             this.project = project;
             this.receiver = receiver;
             this.receiverAttention = attention;
-            this.executive = executive;
             this.enterpriseLine = enterpriseLine;
             this.acceptUrl = acceptUrl;
             this.declineUrl = declineUrl;
             this.projectDescription = projectDescription;
             this.period = period;
             this.answerDate = answerDate;
+            this.requestUrl = requestUrl;
         }
 
         /// <summary>
@@ -106,7 +100,6 @@ namespace JudRepository
             this.project = requestData.Project;
             this.receiver = requestData.Receiver;
             this.receiverAttention = requestData.ReceiverAttention;
-            this.executive = requestData.Executive;
             this.enterpriseLine = requestData.EnterpriseLine;
             this.acceptUrl = requestData.AcceptUrl;
             this.declineUrl = requestData.DeclineUrl;
@@ -121,7 +114,15 @@ namespace JudRepository
 
         public Project Project { get => project; set => project = value; }
 
-        public LegalEntity Receiver { get => receiver; set => receiver = value; }
+        public LegalEntity Receiver
+        {
+            get => receiver;
+            set
+            {
+                receiver = value;
+                SetAcceptDeclineUrls();
+            }
+        }
 
         public string ReceiverAttention
         {
@@ -136,16 +137,6 @@ namespace JudRepository
                 {
                     receiverAttention = "";
                 }
-            }
-        }
-
-        public User Executive
-        {
-            get => executive;
-            set
-            {
-                executive = value;
-                SetAcceptDeclineUrls();
             }
         }
 
@@ -217,13 +208,29 @@ namespace JudRepository
             }
         }
 
+        public string RequestUrl
+        {
+            get => requestUrl;
+            set
+            {
+                try
+                {
+                    requestUrl = value;
+                }
+                catch (Exception)
+                {
+                    requestUrl = "";
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
         private void SetAcceptDeclineUrls()
         {
-            acceptUrl = @"mailto:" + executive.Person.ContactInfo.Email + @"?subject=" + project.Name + ".%20Vi%20ønsker%20at%20afgive%20tilbud";
-            declineUrl = @"mailto:" + executive.Person.ContactInfo.Email + @"?subject=" + project.Name + ".%20Vi%20ønsker%20ikke%20at%20afgive%20tilbud";
+            acceptUrl = @"mailto:" + project.Executive.Person.ContactInfo.Email + @"?subject=" + project.Name + ".%20Vi%20ønsker%20at%20afgive%20tilbud";
+            declineUrl = @"mailto:" + project.Executive.Person.ContactInfo.Email + @"?subject=" + project.Name + ".%20Vi%20ønsker%20ikke%20at%20afgive%20tilbud";
         }
 
         #endregion

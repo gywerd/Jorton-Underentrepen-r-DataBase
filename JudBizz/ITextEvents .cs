@@ -152,6 +152,7 @@ namespace JudBizz
             cb.MoveTo(40, document.PageSize.GetBottom(50));
             cb.LineTo(document.PageSize.Width - 40, document.PageSize.GetBottom(50));
             cb.Stroke();
+
         }
 
         public override void OnCloseDocument(PdfWriter writer, Document document)

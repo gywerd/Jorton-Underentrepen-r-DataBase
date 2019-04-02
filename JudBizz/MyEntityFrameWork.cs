@@ -81,6 +81,7 @@ namespace JudBizz
             public List<Receiver> Receivers = new List<Receiver>();
             public List<Region> Regions = new List<Region>();
             public List<Request> Requests = new List<Request>();
+            public List<RequestData> RequestDataList = new List<RequestData>();
             public List<RequestStatus> RequestStatuses = new List<RequestStatus>();
             public List<Shipping> Shippings = new List<Shipping>();
             public List<SubEntrepeneur> SubEntrepeneurs = new List<SubEntrepeneur>();
@@ -269,6 +270,11 @@ namespace JudBizz
                             count = Requests.Count;
                             result = Requests[count - 1].Id;
                             break;
+                        case "RequestData":
+                            RefreshList("RequestDataList");
+                            count = RequestDataList.Count;
+                            result = RequestDataList[count - 1].Id;
+                            break;
                         case "RequestStatus":
                             RefreshList("RequestStatuses");
                             count = RequestStatuses.Count;
@@ -384,6 +390,9 @@ namespace JudBizz
                     case "Request":
                         result = "Forespørgsel";
                         break;
+                    case "RequestData":
+                        result = "Forespørgselsdata";
+                        break;
                     case "RequestStatus":
                         result = "Forespørgselsstatus";
                         break;
@@ -489,6 +498,9 @@ namespace JudBizz
                         break;
                     case "Request":
                         result = "Requests";
+                        break;
+                    case "RequestData":
+                        result = "RequestDataList";
                         break;
                     case "RequestStatus":
                         result = "RequestStatuses";
@@ -613,6 +625,10 @@ namespace JudBizz
                     case "Requests":
                         Request request = new Request((Request)entity);
                         result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToShortDateString() + @"', '" + request.ReceivedDate.ToShortDateString() + @"')";
+                        break;
+                    case "RequestDataList":
+                    RequestData requestData = new RequestData((RequestData)entity);
+                        result = "INSERT INTO [dbo].[RequestDataList]([Project], [Receiver], [ReceiverAttention], [Executive],[EnterpriseLine],[AcceptUrl],[DeclineUrl],[ProjectDescription],[Period],[AnswerDate],[RequestUrl]) VALUES(" + requestData.Project.Id + @", " + requestData.Receiver.Id + @", '" + requestData.ReceiverAttention + @"', " + requestData.EnterpriseLine + @"', '" + requestData.AcceptUrl + @"', '" + requestData.DeclineUrl + @"', '" + requestData.ProjectDescription + @"', '" + requestData.Period + @"', '" + requestData.AnswerDate + @"', '" + requestData.RequestUrl + @"')";
                         break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)entity);
@@ -765,6 +781,10 @@ namespace JudBizz
                         Request request = new Request(Convert.ToInt32(resultArray[0]), GetRequestStatus(Convert.ToInt32(resultArray[1])), Convert.ToDateTime(resultArray[2]), Convert.ToDateTime(resultArray[3]));
                         result = request;
                         break;
+                    case "RequestDataList":
+                    RequestData requestData = new RequestData(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), GetLegalEntity(Convert.ToInt32(resultArray[2])), resultArray[3], resultArray[4], resultArray[5], resultArray[6], resultArray[7], resultArray[8], resultArray[9], resultArray[10]);
+                        result = requestData;
+                        break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
                         result = requestStatus;
@@ -881,6 +901,9 @@ namespace JudBizz
                     case "Requests":
                         result = 4;
                         break;
+                    case "RequestDataList":
+                        result = 11;
+                        break;
                     case "RequestStatuses":
                         result = 2;
                         break;
@@ -916,7 +939,7 @@ namespace JudBizz
             /// <param name="list">string</param>
             /// <returns>List<object></returns>
             public List<object> ReadListFromDb(string list)
-                {
+            {
                 List<object> result = new List<object>();
 
 
@@ -1096,9 +1119,13 @@ namespace JudBizz
                         Request request = new Request((Request)_object);
                         result = @"UPDATE [dbo].[Requests] SET [Status] = " + request.Status.Id + ", [SentDate] = '" + request.SentDate.ToShortDateString() + "', [ReceivedDate] = '" + request.ReceivedDate.ToShortDateString() + "' WHERE [Id] = " + request.Id.ToString();
                         break;
-                    case "RequestStatusList":
+                    case "RequestDataList":
+                        RequestData requestData = new RequestData((RequestData)_object);
+                        result = @"UPDATE [dbo].[RequestStatuses] SET [Project] = " + requestData.Project.Id + @" [Receiver] = " + requestData.Receiver.Id + @" [ReceiverAttention] = '" + requestData.ReceiverAttention + @"' [EnterpriseLine] = '" + requestData.EnterpriseLine + @"' [AcceptUrl] = '" + requestData.AcceptUrl + @"' [DeclineUrl] = '" + requestData.DeclineUrl + @"' [ProjectDescription] = '" + requestData.ProjectDescription + @"' [Period] = '" + requestData.Period + @"' [AnswerDate] = '" + requestData.AnswerDate + @"' [RequestUrl] = '" + requestData.RequestUrl + "' WHERE [Id] = " + requestData.Id;
+                        break;
+                    case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)_object);
-                        result = @"UPDATE [dbo].[RequestStatusList] SET [Description] = '" + "' WHERE [Id] = " + requestStatus.Id.ToString();
+                        result = @"UPDATE [dbo].[RequestStatuses] SET [Text] = '" + requestStatus.Text + "' WHERE [Id] = " + requestStatus.Id.ToString();
                         break;
                     case "Shippings":
                         Shipping shipping = new Shipping((Shipping)_object);
@@ -1207,6 +1234,9 @@ namespace JudBizz
                     case "Request":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
                         break;
+                    case "RequestData":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("RequestDataList", new RequestData((RequestData)_object)));
+                        break;
                     case "RequestStatus":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
                         break;
@@ -1282,7 +1312,25 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that retrieves an Shipping List for a Project
+        /// Method, that retrieves an RequestData List for a Project
+        /// </summary>
+        /// <param name="projectId">int</param>
+        /// <returns>List<Shipping></returns>
+        private List<RequestData> GetRequestDataList(int projectId)
+        {
+            List<RequestData> result = new List<RequestData>();
+            List<object> objectList = ReadProjectListFromDb("RequestDataList", projectId);
+
+            foreach (object requestData in objectList)
+            {
+                result.Add(new RequestData((RequestData)requestData));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves an Shippings list for a Project
         /// </summary>
         /// <param name="projectId">int</param>
         /// <returns>List<Shipping></returns>
@@ -1407,6 +1455,9 @@ namespace JudBizz
                     break;
                 case "Requests":
                     obj = GetRequest(id);
+                    break;
+                case "RequestDataList":
+                    obj = GetRequestData(id);
                     break;
                 case "RequestStatuses":
                     obj = GetRequestStatus(id);
@@ -1805,6 +1856,22 @@ namespace JudBizz
             return result;
         }
 
+        private RequestData GetRequestData(int id)
+        {
+            RequestData result = new RequestData();
+
+            foreach (RequestData requestData in RequestDataList)
+            {
+                if (requestData.Id == id)
+                {
+                    result = requestData;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         private RequestStatus GetRequestStatus(int id)
         {
             RequestStatus result = new RequestStatus();
@@ -1978,6 +2045,7 @@ namespace JudBizz
             //Sixth level Lists
             RefreshEnterprises();
             RefreshParagrafs();
+            RefreshRequestDataList(); //
 
             //Seventh level Lists
             RefreshBullets();
@@ -2361,6 +2429,9 @@ namespace JudBizz
                 case "Requests":
                     RefreshRequests();
                     break;
+                case "RequestDataList":
+                    RefreshRequestDataList();
+                    break;
                 case "RequestStatuses":
                     RefreshRequestStatuses();
                     break;
@@ -2542,6 +2613,23 @@ namespace JudBizz
             foreach (object obj in tempList)
             {
                 Requests.Add((Request)obj);
+            }
+        }
+
+        /// <summary>
+        /// Method, that refreshes the RequestData List
+        /// </summary>
+        private void RefreshRequestDataList()
+        {
+            if (RequestDataList != null)
+            {
+                RequestDataList.Clear();
+            }
+            List<object> tempList = ReadListFromDb("RequestDataList");
+
+            foreach (object obj in tempList)
+            {
+                RequestDataList.Add((RequestData)obj);
             }
         }
 

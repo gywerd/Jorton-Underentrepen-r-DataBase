@@ -67,6 +67,27 @@ namespace JudRepository
 
         #endregion
 
+        #region Properties
+        public int Id { get => id; }
+
+        public string Text
+        {
+            get => text;
+            set
+            {
+                try
+                {
+                    text = value;
+                }
+                catch (Exception)
+                {
+                    text = "";
+                }
+            }
+        }
+
+        #endregion
+
         #region Methods
         /// <summary>
         /// Method, that sets id, if id == 0
@@ -93,27 +114,6 @@ namespace JudRepository
         public override string ToString()
         {
             return text;
-        }
-
-        #endregion
-
-        #region Properties
-        public int Id { get => id; }
-
-        public string Text
-        {
-            get => text;
-            set
-            {
-                try
-                {
-                    text = value;
-                }
-                catch (Exception)
-                {
-                    text = "";
-                }
-            }
         }
 
         #endregion
