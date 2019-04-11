@@ -58,9 +58,9 @@ namespace JudRepository
         /// <param name="builder">Builder</param>
         public Builder(Builder builder)
         {
-            this.id = builder.Id;
-            this.entity = builder.Entity;
-            this.active = builder.Active;
+                this.id = builder.Id;
+                this.entity = builder.Entity;
+                this.active = builder.Active;
         }
 
 

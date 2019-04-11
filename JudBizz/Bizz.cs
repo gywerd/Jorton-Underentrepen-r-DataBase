@@ -191,6 +191,7 @@ namespace JudBizz
         private void RefreshIndexedBuilders()
         {
             IndexedBuilders.Clear();
+            RefreshList("LegalEntities");
             RefreshList("Builders");
 
             int i = 0;

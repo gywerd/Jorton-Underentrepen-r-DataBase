@@ -35,17 +35,17 @@
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelCurrentCaseId" Content="Nuv. Sagsnummer*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewCaseId" Content="Nyt Sagsnummer*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId" 
-                  FontSize="30" 
+                  FontSize="24" 
                   Grid.Column="3" Grid.Row="2" 
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
@@ -53,7 +53,7 @@
                   Width="130"  />
         <xctk:WatermarkTextBox x:Name="TextBoxCaseId" 
                                Background="White"  
-                               FontSize="30" 
+                               FontSize="24" 
                                Grid.Column="3" Grid.Row="3" 
                                HorizontalAlignment="Left" 
                                Text=""
@@ -63,7 +63,7 @@
                                VerticalAlignment="Top" 
                                Width="130" />
         <TextBox x:Name="TextBoxName" 
-                 FontSize="30" 
+                 FontSize="24" 
                  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
                  Height="50" Width="795" 
                  HorizontalAlignment="Left" 

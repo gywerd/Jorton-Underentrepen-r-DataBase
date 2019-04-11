@@ -6,24 +6,25 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
             <RowDefinition Height="75*" />
-            <RowDefinition Height="255*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="195*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
@@ -36,77 +37,86 @@
                Content="Rediger Entrepenører"
                FontSize="48"
                FontWeight="Bold"
-               Grid.Column="1"
-               Grid.Row="1"
+               Grid.Column="1" Grid.Row="1"
                Grid.ColumnSpan="4"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelSearch"
+               Content="Søg:"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="2"
+               Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelEntrepeneurs"
                Content="Entrepenører:"
-               FontSize="30"
-               Grid.Column="1"
-               Grid.Row="2"
-               Grid.ColumnSpan="6"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="3"
+               Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelName"
                Content="Navn*:"
-               FontSize="30"
-               Grid.Column="1"
-               Grid.Row="3"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="4"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelContactInfo"
                Content="Kontaktinfo:"
-               FontSize="30"
-               Grid.Column="1"
-               Grid.Row="4"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="5"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelCraftgroups"
                Content="Faggrupper:"
-               FontSize="30"
-               Grid.Column="1"
-               Grid.Row="5"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="6"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelRegion"
                Content="Region:"
-               FontSize="30"
-               Grid.Column="1"
-               Grid.Row="7"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="8"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxSearch"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="2"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="1065"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               TextChanged="TextBoxSearch_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="JOR" />
         <ListBox x:Name="ListBoxEntrepeneurs"
-                 Grid.Column="3"
-                 Grid.Row="2"
+                 Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="300"
-                 Width="955"
+                 Height="185" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
                  VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxName"
-                 FontSize="30"
-                 Grid.Column="3"
-                 Grid.Row="3"
-                 Grid.ColumnSpan="6"
-                 Height="50"
-                 Width="955"
-                 HorizontalAlignment="Left"
-                 TextWrapping="Wrap"
-                 Text=""
-                 TextChanged="TextBoxName_TextChanged"
-                 VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxName"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="4"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="1065"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               TextChanged="TextBoxName_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="JORTON A/S Aabenraa" />
         <xctk:WatermarkTextBox x:Name="TextBoxPhone"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="3" Grid.Row="4"
-                               Height="50" Width="150"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="5"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -115,9 +125,9 @@
                                Watermark="Tlf.nr." />
         <xctk:WatermarkTextBox x:Name="TextBoxFax"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="4" Grid.Row="4"
-                               Height="50" Width="150"
+                               FontSize="24"
+                               Grid.Column="4" Grid.Row="5"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -126,9 +136,9 @@
                                Watermark="Faxnr." />
         <xctk:WatermarkTextBox x:Name="TextBoxMobile"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="5" Grid.Row="4"
-                               Height="50" Width="150"
+                               FontSize="24"
+                               Grid.Column="5" Grid.Row="5"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -137,67 +147,66 @@
                                Watermark="Mobilnr." />
         <xctk:WatermarkTextBox x:Name="TextBoxEmail"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="6" Grid.Row="4"
+                               FontSize="24"
+                               Grid.Column="6" Grid.Row="5"
                                Grid.ColumnSpan="3"
-                               Height="50" Width="470"
-                               HorizontalAlignment="Right"
+                               Height="50" Width="525"
+                               HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxEmail_TextChanged"
                                VerticalAlignment="Top"
                                Watermark="Emailadresse" />
         <ComboBox x:Name="ComboBoxCraftGroup1"
-                  FontSize="30"
-                  Grid.Column="3" Grid.Row="5"
+                  FontSize="24"
+                  Grid.Column="3" Grid.Row="6"
                   Grid.ColumnSpan="3"
-                  Height="50"
-                  Width="470"
+                  Height="50" Width="525"
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCraftGroup1_SelectionChanged"
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCraftGroup2"
-                  FontSize="30"
-                  Grid.Column="6" Grid.Row="5"
+                  FontSize="24"
+                  Grid.Column="6" Grid.Row="6"
                   Grid.ColumnSpan="3"
-                  Height="50" Width="470"
-                  HorizontalAlignment="Right"
+                  Height="50" Width="525"
+                  HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCraftGroup2_SelectionChanged"
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCraftGroup3"
-                  FontSize="30"
-                  Grid.Column="3" Grid.Row="6"
+                  FontSize="24"
+                  Grid.Column="3" Grid.Row="7"
                   Grid.ColumnSpan="3"
-                  Height="50" Width="470"
+                  Height="50" Width="525"
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCraftGroup3_SelectionChanged"
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCraftGroup4"
-                  FontSize="30"
-                  Grid.Column="6" Grid.Row="6"
+                  FontSize="24"
+                  Grid.Column="6" Grid.Row="7"
                   Grid.ColumnSpan="3"
-                  Height="50" Width="470"
-                  HorizontalAlignment="Right"
+                  Height="50" Width="525"
+                  HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCraftGroup4_SelectionChanged"
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxRegion"
-                  FontSize="30"
-                  Grid.Column="2" Grid.Row="7"
+                  FontSize="24"
+                  Grid.Column="2" Grid.Row="8"
                   Grid.ColumnSpan="5"
-                  Height="50" Width="750"
+                  Height="50" Width="885"
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxRegion_SelectionChanged"
                   VerticalAlignment="Top" />
         <Label x:Name="LabelCountrywide"
                Content="Hele DK:"
-               FontSize="30"
-               Grid.Column="7" Grid.Row="7"
+               FontSize="24"
+               Grid.Column="7" Grid.Row="8"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <StackPanel x:Name="StackPanelCountryWide"
-                    Grid.Column="8" Grid.Row="7"
+                    Grid.Column="8" Grid.Row="8"
                     HorizontalAlignment="Left"
-                    Height="50" Width="150"
+                    Height="50" Width="165"
                     Margin="5,5,0,0"
                     VerticalAlignment="Top">
             <RadioButton x:Name="RadioButtonCountryWideYes"
@@ -240,14 +249,14 @@
             </RadioButton>
         </StackPanel>
         <Button x:Name="ButtonUpdateCvr"
-                Content="Søg i CVR"
+                Content="Opdater fra CVR"
                 Click="ButtonUpdateCvr_Click"
                 FontSize="24"
                 FontWeight="Bold"
-                Grid.Column="1"
-                Grid.Row="2"
-                Height="50"
-                Width="130"
+                Grid.Column="1" Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Height="50" Width="345"
+                Margin="0,15"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonClose"
@@ -255,9 +264,9 @@
                 Click="ButtonClose_Click"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="1" Grid.Row="8"
+                Grid.Column="1" Grid.Row="9"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
@@ -265,9 +274,9 @@
                 Click="ButtonSave_Click"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="7" Grid.Row="8"
+                Grid.Column="7" Grid.Row="9"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

@@ -17,6 +17,7 @@ namespace JudBizz
         public PdfLists PdfLists;
         private Executor executor = new Executor(strConnection);
         private MacAddress macAddress = new MacAddress();
+        string appPath = "";
 
         public User CurrentUser = new User();
         public Address TempAddress = new Address();
@@ -97,14 +98,35 @@ namespace JudBizz
         #region Constructors
         public MyEntityFrameWork()
         {
+            appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            appPath = appPath.Remove(appPath.Count() - 11, 11);
+
             RefreshAllLists();
         }
 
         #endregion
 
         #region Properties
+        public string AppPath
+        {
+            get => appPath;
+            set
+            {
+                try
+                {
+                    appPath = value;
+                }
+                catch (Exception)
+                {
+                    appPath = "";
+                }
+            }
+        }
+
         public string MacAddress { get => macAddress.ToString(); }
+
         public string StrConnection { get => strConnection.ToString(); }
+
         #endregion
 
         #region Methods
@@ -141,7 +163,7 @@ namespace JudBizz
                 int count = 0;
                 string entityTypeDk = "";
                 bool dbAnswer = false;
-                string entityType = entity.GetType().ToString();
+                string entityType = entity.GetType().ToString().Remove(0,14);
                 string list = GetListFromEntityType(entityType);
 
                 switch (list)
@@ -310,8 +332,8 @@ namespace JudBizz
                             count = ZipTowns.Count;
                             result = ZipTowns[count - 1].Id;
                             break;
+                    }
                 }
-            }
 
                 return result;
             }
@@ -584,7 +606,7 @@ namespace JudBizz
                         break;
                     case "IttLetters":
                         IttLetter ittLetter = new IttLetter((IttLetter)entity);
-                        result = "INSERT INTO[dbo].[IttLetters]([Sent], [SentDate]) VALUES('" + ittLetter.Sent + "', " + ittLetter.SentDate.ToShortDateString() + "')";
+                        result = "INSERT INTO[dbo].[IttLetters]([Sent], [SentDate]) VALUES('" + ittLetter.Sent.ToString() + "', '" + ittLetter.SentDate.ToString("yyyy-MM-dd") + "')";
                         break;
                     case "LegalEntities":
                         LegalEntity legalEntity = new LegalEntity((LegalEntity)entity);
@@ -596,7 +618,7 @@ namespace JudBizz
                         break;
                     case "Offers":
                         Offer offer = new Offer((Offer)entity);
-                        result = "INSERT INTO [dbo].[Offers]([Received], [ReceivedDate], [Price], [Chosen]) VALUES('" + offer.Received.ToString() + @"', '" + offer.ReceivedDate.ToShortDateString() + @"', " + offer.Price.ToString() + @", '" + offer.Chosen.ToString() + @"')";
+                        result = "INSERT INTO [dbo].[Offers]([Received], [ReceivedDate], [Price], [Chosen]) VALUES('" + offer.Received.ToString() + @"', '" + offer.ReceivedDate.ToString("yyyy-MM-dd") + @"', " + offer.Price.ToString() + @", '" + offer.Chosen.ToString() + @"')";
                         break;
                     case "Paragrafs":
                         Paragraf paragraph = new Paragraf((Paragraf)entity);
@@ -608,7 +630,8 @@ namespace JudBizz
                         break;
                     case "Projects":
                         Project project = new Project((Project)entity);
-                        result = @"INSERT INTO [dbo].[Projects](CaseId, Name, Builder, Status, TenderForm, EnterpriseForm, Executive, Enterprises, Copy) VALUES(" + project.Case + @", '" + project.Name + @"', " + project.Builder + @", " + project.Status + @", " + project.TenderForm + @", " + project.EnterpriseForm + @", " + project.Executive + @", '" + project.EnterprisesList.ToString() + "', '" + project.Copy.ToString() + "')";
+                    //result = @"INSERT INTO [dbo].[Projects]([Case], [Name], [Builder], [Status], [TenderForm], [EnterpriseForm], [Executive], [EnterpriseList], [Copy]) VALUES(<Case, int,>, <Name, nvarchar(250),>, <Builder, int,>, <Status, int,>, <TenderForm, int,>, <EnterpriseForm, int,>, <Executive, int,>, <Copy, bit,>)"
+                    result = @"INSERT INTO [dbo].[Projects]([Case], [Name], [Builder], [Status], [TenderForm], [EnterpriseForm], [Executive], [EnterpriseList], [Copy]) VALUES(" + project.Case + @", '" + project.Name + @"', " + project.Builder.Id + @", " + project.Status.Id + @", " + project.TenderForm.Id + @", " + project.EnterpriseForm.Id + @", " + project.Executive.Id + @", '" + project.EnterpriseList.ToString() + "', '" + project.Copy.ToString() + "')";
                         break;
                     case "ProjectStatuses":
                         ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)entity);
@@ -624,7 +647,7 @@ namespace JudBizz
                         break;
                     case "Requests":
                         Request request = new Request((Request)entity);
-                        result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToShortDateString() + @"', '" + request.ReceivedDate.ToShortDateString() + @"')";
+                        result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToString("yyyy-MM-dd") + @"', '" + request.ReceivedDate.ToString("yyyy-MM-dd") + @"')";
                         break;
                     case "RequestDataList":
                     RequestData requestData = new RequestData((RequestData)entity);
@@ -640,7 +663,8 @@ namespace JudBizz
                         break;
                     case "SubEntrepeneurs":
                         SubEntrepeneur subEntrepeneur = new SubEntrepeneur((SubEntrepeneur)entity);
-                        result = "INSERT INTO [dbo].[Shippings]([Enterprises], [Entrepeneur], [Contact], [Request], [IttLetter], [Offer], [Reservations], [Uphold], AgreementConcluded], [Active]) VALUES(" + subEntrepeneur.Enterprise.Id + @", '" + subEntrepeneur.Entrepeneur.Id + @"', " + subEntrepeneur.Contact.Id + @", " + subEntrepeneur.Request.Id + @", " + subEntrepeneur.IttLetter.Id + @", " + subEntrepeneur.Offer.Id + @", '" + subEntrepeneur.Reservations.ToString() + @"', '" + subEntrepeneur.Uphold.ToString() + @"', '" + subEntrepeneur.AgreementConcluded.ToString() + @"', '" + subEntrepeneur.Active.ToString() + @"')";
+                        //result = "INSERT INTO [dbo].[SubEntrepeneurs]([Entrepeneur], [Enterprise], [Contact], [Request], [IttLetter], [Offer], [Reservations], [Uphold], [AgreementConcluded], [Active]) VALUES(< Entrepeneur, int,>, < Enterprise, int,>, < Contact, int,>, < Request, int,>, < IttLetter, int,>, < Offer, int,>, < Reservations, bit,>, < Uphold, bit,>, < AgreementConcluded, bit,>, < Active, bit,>)"
+                        result = "INSERT INTO [dbo].[SubEntrepeneurs]([Entrepeneur], [Enterprise], [Contact], [Request], [IttLetter], [Offer], [Reservations], [Uphold], [AgreementConcluded], [Active]) VALUES(" + subEntrepeneur.Entrepeneur.Id + @", " + subEntrepeneur.Enterprise.Id + @", " + subEntrepeneur.Contact.Id + @", " + subEntrepeneur.Request.Id + @", " + subEntrepeneur.IttLetter.Id + @", " + subEntrepeneur.Offer.Id + @", '" + subEntrepeneur.Reservations.ToString() + @"', '" + subEntrepeneur.Uphold.ToString() + @"', '" + subEntrepeneur.AgreementConcluded.ToString() + @"', '" + subEntrepeneur.Active.ToString() + @"')";
                         break;
                     case "TenderFormList":
                         TenderForm tenderForm = new TenderForm((TenderForm)entity);
@@ -794,7 +818,7 @@ namespace JudBizz
                         result = shipping;
                         break;
                     case "SubEntrepeneurs":
-                        SubEntrepeneur subEntrepeneur = new SubEntrepeneur(Convert.ToInt32(resultArray[0]), GetEntrepeneur(Convert.ToInt32(resultArray[2])), GetEnterprise(Convert.ToInt32(resultArray[1])), GetContact(Convert.ToInt32(resultArray[3])), GetRequest(Convert.ToInt32(resultArray[4])), GetIttLetter(Convert.ToInt32(resultArray[5])), GetOffer(Convert.ToInt32(resultArray[6])), Convert.ToBoolean(resultArray[7]), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]), Convert.ToBoolean(resultArray[10]));
+                        SubEntrepeneur subEntrepeneur = new SubEntrepeneur(Convert.ToInt32(resultArray[0]), GetEntrepeneur(Convert.ToInt32(resultArray[1])), GetEnterprise(Convert.ToInt32(resultArray[2])), GetContact(Convert.ToInt32(resultArray[3])), GetRequest(Convert.ToInt32(resultArray[4])), GetIttLetter(Convert.ToInt32(resultArray[5])), GetOffer(Convert.ToInt32(resultArray[6])), Convert.ToBoolean(resultArray[7]), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]), Convert.ToBoolean(resultArray[10]));
                         result = subEntrepeneur;
                         break;
                     case "TenderForms":
@@ -1093,7 +1117,7 @@ namespace JudBizz
                         break;
                     case "Offers":
                         Offer offer = new Offer((Offer)_object);
-                        result = @"UPDATE [dbo].[Offers] SET [Received] = " + offer.Received.ToString() + @", [ReceivedDate] = " + offer.ReceivedDate.ToShortDateString() + @", [Price] = " + offer.Price + @", [Chosen] = '" + offer.Chosen.ToString() + @"' WHERE [Id] = " + offer.Id;
+                        result = @"UPDATE [dbo].[Offers] SET [Received] = " + offer.Received.ToString() + @", [ReceivedDate] = " + offer.ReceivedDate.ToString("yyyy-MM-dd") + @", [Price] = " + offer.Price + @", [Chosen] = '" + offer.Chosen.ToString() + @"' WHERE [Id] = " + offer.Id;
                         break;
                     case "Paragrafs":
                         Paragraf paragraph = new Paragraf((Paragraf)_object);
@@ -1105,7 +1129,7 @@ namespace JudBizz
                         break;
                     case "Projects":
                         Project project = new Project((Project)_object);
-                        result = @"UPDATE dbo.[Projects] SET [CaseId] = " + project.Case + ", [Name] = '" + project.Name + "', [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Enterprises] = '" + project.EnterprisesList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
+                        result = @"UPDATE dbo.[Projects] SET [CaseId] = " + project.Case + ", [Name] = '" + project.Name + "', [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Enterprises] = '" + project.EnterpriseList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
                         break;
                     case "ProjectStatuses":
                         ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)_object);
@@ -1117,7 +1141,7 @@ namespace JudBizz
                         break;
                     case "Requests":
                         Request request = new Request((Request)_object);
-                        result = @"UPDATE [dbo].[Requests] SET [Status] = " + request.Status.Id + ", [SentDate] = '" + request.SentDate.ToShortDateString() + "', [ReceivedDate] = '" + request.ReceivedDate.ToShortDateString() + "' WHERE [Id] = " + request.Id.ToString();
+                        result = @"UPDATE [dbo].[Requests] SET [Status] = " + request.Status.Id + ", [SentDate] = '" + request.SentDate.ToString("yyyy-MM-dd") + "', [ReceivedDate] = '" + request.ReceivedDate.ToString("yyyy-MM-dd") + "' WHERE [Id] = " + request.Id.ToString();
                         break;
                     case "RequestDataList":
                         RequestData requestData = new RequestData((RequestData)_object);
@@ -1167,7 +1191,7 @@ namespace JudBizz
             public bool UpdateInDb(object _object)
             {
                 bool result = false;
-                string entityType = _object.GetType().ToString();
+                string entityType = _object.GetType().ToString().Remove(0,14);
 
                 switch (entityType)
                 {
@@ -2091,6 +2115,8 @@ namespace JudBizz
             {
                 InactiveBuilders.Clear();
             }
+            RefreshAddresses();
+            RefreshLegalEntities();
             List<object> tempList = ReadListFromDb("Builders");
 
             foreach (object obj in tempList)
@@ -2102,7 +2128,7 @@ namespace JudBizz
             {
                 switch (builder.Active.ToString())
                 {
-                    case "true":
+                    case "True":
                         ActiveBuilders.Add(builder);
                         break;
                     default:
@@ -2262,9 +2288,10 @@ namespace JudBizz
 
             foreach (Entrepeneur entrepeneur in Entrepeneurs)
             {
-                switch (entrepeneur.Active.ToString())
+                string _switch = entrepeneur.Active.ToString();
+                switch (_switch)
                 {
-                    case "true":
+                    case "True":
                         ActiveEntrepeneurs.Add(entrepeneur);
                         break;
                     default:

@@ -137,10 +137,10 @@ namespace JudGui
             {
                 if (TextBoxCvr.Text.Length == 8 || TextBoxCvr.Text.Length == 10)
                 {
-                    CBZ.CvrApi.GetCvrData(TextBoxCvr.Text, CBZ.TempLegalEntity);
-                    CBZ.TempAddress = CBZ.TempLegalEntity.Address;
+                    CBZ.TempBuilder.Entity = CBZ.CvrApi.GetCvrData(TextBoxCvr.Text);
+                    //CBZ.TempAddress = CBZ.TempLegalEntity.Address;
                     TextBoxName.Text = CBZ.TempBuilder.Entity.Name;
-                    TextBoxCoName.Text = CBZ.TempLegalEntity.CoName;
+                    TextBoxCoName.Text = CBZ.TempBuilder.Entity.CoName;
                     TextBoxStreet.Text = CBZ.TempBuilder.Entity.Address.Street;
                     TextBoxPlace.Text = CBZ.TempBuilder.Entity.Address.Place;
                     TextBoxZip.Text = CBZ.TempBuilder.Entity.Address.ZipTown.Zip;
@@ -168,12 +168,15 @@ namespace JudGui
 
         private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.TempBuilder.Entity.Name = TextBoxName.Text;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (CBZ.TempBuilder != new Builder())
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempBuilder.Entity.Name = TextBoxName.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
         }
 

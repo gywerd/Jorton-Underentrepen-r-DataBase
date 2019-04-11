@@ -42,7 +42,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelUserSearch"
                Content="Søg:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="2"
                Grid.ColumnSpan="2"
@@ -50,7 +50,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelUsers"
                Content="Brugere:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="3"
                Grid.ColumnSpan="2"
@@ -58,7 +58,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelName"
                Content="Name:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="4"
                Grid.ColumnSpan="2"
@@ -66,14 +66,14 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelUserAccess"
                Content="Brugeradgang:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="5"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxUserSearch"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="2"
                                Grid.ColumnSpan="6"
@@ -96,7 +96,7 @@
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxName" 
                                Background="#FFF9F9F9" 
-                               FontSize="30" 
+                               FontSize="24" 
                                Grid.Column="3"  Grid.Row="4" 
                                Grid.ColumnSpan="6"
                                Height="50" Width="955"

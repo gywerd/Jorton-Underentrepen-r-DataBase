@@ -117,6 +117,11 @@ namespace JudRepository
         /// <param name="entrepeneur">IndexedEntrepeneur</param>
         public Entrepeneur(IndexedEntrepeneur entrepeneur)
         {
+            if (entrepeneur == null)
+            {
+                entrepeneur = new IndexedEntrepeneur();
+            }
+            this.id = entrepeneur.Id;
             this.entity = entrepeneur.Entity;
             this.craftGroup1 = entrepeneur.CraftGroup1;
             this.craftGroup2 = entrepeneur.CraftGroup2;

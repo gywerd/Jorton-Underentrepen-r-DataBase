@@ -46,7 +46,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelJobDescriptionSearch"
                Content="Søg:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="2"
                Grid.ColumnSpan="2"
@@ -54,7 +54,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelJobDescriptionsBox"
                Content="Fagkategorier:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="3"
                Grid.ColumnSpan="2"
@@ -62,21 +62,21 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelOccupation"
                Content="Beskæftigelse:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="4"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelArea"
                Content="Område:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="5"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelProcuration"
                Content="Prokuration:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="6"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
@@ -88,7 +88,7 @@
                    VerticalAlignment="Bottom" />
         <Label x:Name="LabelAddJobDescription"
                Content="Tilføj Jobbeskrivelse"
-               FontSize="30"
+               FontSize="24"
                FontWeight="Bold"
                Grid.Column="1" Grid.Row="7"
                Grid.ColumnSpan="3"
@@ -96,27 +96,27 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewOccupation"
                Content="Ny Beskæftigelse:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="8"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewArea"
                Content="Nyt område:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="9"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewProcuration"
                Content="Ny Prokuration:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="10"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxJobDescriptionSearch"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="2"
                                Grid.ColumnSpan="6"
@@ -138,7 +138,7 @@
                  SelectionChanged="ListBoxJobDescriptions_SelectionChanged"
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxOccupation"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="4"
                                Grid.ColumnSpan="6"
                                Height="50"
@@ -150,7 +150,7 @@
                                VerticalAlignment="Top"
                                Watermark="IT-Chef" />
         <xctk:WatermarkTextBox x:Name="TextBoxArea"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="5"
                                Grid.ColumnSpan="6"
                                Height="50" Width="955"
@@ -181,7 +181,7 @@
             </CheckBox.RenderTransform>
         </CheckBox>
         <xctk:WatermarkTextBox x:Name="TextBoxNewOccupation"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="8"
                                Grid.ColumnSpan="5"
                                Height="50"
@@ -193,7 +193,7 @@
                                VerticalAlignment="Top"
                                Watermark="Lærling" />
         <xctk:WatermarkTextBox x:Name="TextBoxNewArea"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="9"
                                Grid.ColumnSpan="5"
                                Height="50" Width="795"
@@ -226,7 +226,7 @@
         <Button x:Name="ButtonAddJobDescription"
                 Content="Tilføj"
                 Click="ButtonAddJobDescription_Click"
-                FontSize="30"
+                FontSize="24"
                 FontWeight="Bold"
                 Grid.Column="8" Grid.Row="10"
                 Height="50" Width="150"

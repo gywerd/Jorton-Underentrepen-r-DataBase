@@ -36,6 +36,9 @@ namespace JudGui
             this.CBZ = cbz;
             this.UcMain = ucMain;
             CBZ.TempEntrepeneur = new Entrepeneur();
+            CBZ.RefreshIndexedList("IndexedCraftGroups");
+            ComboBoxCraftGroup1.ItemsSource = ComboBoxCraftGroup2.ItemsSource = ComboBoxCraftGroup3.ItemsSource = ComboBoxCraftGroup3.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup1.SelectedIndex = ComboBoxCraftGroup2.SelectedIndex = ComboBoxCraftGroup3.SelectedIndex = ComboBoxCraftGroup3.SelectedIndex = 0;
         }
 
         #endregion
@@ -352,8 +355,7 @@ namespace JudGui
             {
                 if (TextBoxCvr.Text.Length == 8 || TextBoxCvr.Text.Length == 10)
                 {
-                    CBZ.CvrApi.GetCvrData(TextBoxCvr.Text, CBZ.TempLegalEntity);
-                    CBZ.TempEntrepeneur.Entity = CBZ.TempLegalEntity;
+                    CBZ.TempEntrepeneur.Entity = CBZ.CvrApi.GetCvrData(TextBoxCvr.Text);
                     TextBoxName.Text = CBZ.TempEntrepeneur.Entity.Name;
                     TextBoxCoName.Text = CBZ.TempEntrepeneur.Entity.CoName;
                     TextBoxStreet.Text = CBZ.TempEntrepeneur.Entity.Address.Street;

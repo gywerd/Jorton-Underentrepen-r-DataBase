@@ -120,16 +120,22 @@ namespace JudGui
                         CBZ.TempRequestData.EnterpriseLine = subEntrepeneur.Enterprise.Name;
                         CBZ.TempRequestData.RequestUrl = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempRequestData);
                         string[] fileNames = new string[] { CBZ.TempRequestData.RequestUrl };
-                        Email email = new Email("Forespørgsel om underentreprise på " + CBZ.TempProject.Name, "bern0145@edu.campusvejle.dk", "bern0145@edu.campusvejle.dk","Dette er en prøve", fileNames);
+                        Email email = new Email(CBZ, "PRØVE: Forespørgsel om underentreprise på " + CBZ.TempProject.Name, subEntrepeneur.Contact.Person.ContactInfo.Email, CBZ.CurrentUser.Person.ContactInfo.Email, "Dette er en prøve", fileNames);
+                        subEntrepeneur.Request.Status = new RequestStatus((RequestStatus)CBZ.GetObject("RequestStatuses", 1));
+                        subEntrepeneur.Request.SentDate = DateTime.Now;
+                        CBZ.UpdateInDb(subEntrepeneur);
                     }
                     MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     //Reset Boxes
                     ComboBoxCaseId.SelectedIndex = -1;
+                    ListBoxEntrepeneurs.SelectedIndex = -1;
+                    ListBoxEntrepeneurs.ItemsSource = "";
                     TextBoxName.Text = "";
                     TextBoxProjectDescription.Text = "";
                     TextBoxPeriod.Text = "";
                     TextBoxAnswerDate.Text = "";
+                    CBZ.RefreshList("SubEntrepeneurs");
 
                 }
                 catch (Exception ex)
@@ -151,18 +157,11 @@ namespace JudGui
         #region Events
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            if (selectedIndex >= 0)
+            if (ComboBoxCaseId.SelectedIndex >= 0)
             {
-                foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-                {
-                    if (temp.Index == selectedIndex)
-                    {
-                        CBZ.TempProject = new Project(temp);
-                        break;
-                    }
-                }
+                CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
                 TextBoxName.Text = CBZ.TempProject.Name;
+                CBZ.TempRequestData = new RequestData();
                 CBZ.TempRequestData.Project = CBZ.TempProject;
                 GetProjectSubEntrepeneurs();
                 RefreshIndexedSubEntrepeneurs();
@@ -367,6 +366,8 @@ namespace JudGui
         {
             ProjectEnterprises.Clear();
             ProjectSubEntrepeneurs.Clear();
+            CBZ.RefreshList("Enterprises");
+            CBZ.RefreshList("SubEntrepeneurs");
             foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
@@ -405,9 +406,7 @@ namespace JudGui
             CBZ.RefreshList("SubEntrepeneurs");
             CBZ.IndexedSubEntrepeneurs.Clear();
 
-            CBZ.IndexedSubEntrepeneurs.Add(new IndexedSubEntrepeneur(0, CBZ.SubEntrepeneurs[0]));
-
-            int i = 1;
+            int i = 0;
 
             foreach (SubEntrepeneur subEntrepeneur in ProjectSubEntrepeneurs)
             {

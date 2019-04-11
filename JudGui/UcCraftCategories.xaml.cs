@@ -152,11 +152,6 @@ namespace JudGui
             ListBoxCraftCategories.ItemsSource = "";
             ListBoxCraftCategories.ItemsSource = this.FilteredCategories;
 
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
         }
 
         private void TextBoxNewText_TextChanged(object sender, TextChangedEventArgs e)

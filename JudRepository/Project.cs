@@ -107,7 +107,7 @@ namespace JudRepository
             this.tenderForm = project.TenderForm;
             this.enterpriseForm = project.EnterpriseForm;
             this.executive = project.Executive;
-            this.enterpriseList = project.EnterprisesList;
+            this.enterpriseList = project.EnterpriseList;
             this.copy = project.Copy;
         }
 
@@ -125,7 +125,7 @@ namespace JudRepository
             this.tenderForm = project.TenderForm;
             this.enterpriseForm = project.EnterpriseForm;
             this.executive = project.Executive;
-            this.enterpriseList = project.EnterprisesList;
+            this.enterpriseList = project.EnterpriseList;
             this.copy = project.Copy;
         }
 
@@ -176,7 +176,7 @@ namespace JudRepository
 
         public User Executive { get => executive; set => executive = value; }
 
-        public bool EnterprisesList { get => enterpriseList; }
+        public bool EnterpriseList { get => enterpriseList; }
 
         public bool Copy { get => copy; }
 
@@ -219,7 +219,7 @@ namespace JudRepository
         /// <summary>
         /// Methods that toggles value of Enterprises field
         /// </summary>
-        public void ToggleEnterprises()
+        public void ToggleEnterpriseList()
         {
             enterpriseList = true;
         }

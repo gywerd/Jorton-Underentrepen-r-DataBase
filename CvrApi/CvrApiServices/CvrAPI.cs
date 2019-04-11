@@ -11,18 +11,23 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Threading;
+using System.Net;
+using System.IO;
+using System.Net.Mail;
 
 namespace CvrApiServices
 {
     public class CvrAPI
     {
         #region Fields
-        private HttpClient client;
+        private HttpClient client = new HttpClient();
         private RootObject cvrRootRootObject = new RootObject();
         private Builder tempBuilder = new Builder();
         private LegalEntity tempLegalEntity = new LegalEntity();
         private Entrepeneur tempEntrepeneur = new Entrepeneur();
         private List<ZipTown> zipTowns = new List<ZipTown>();
+        private UpdateData updatedData = new UpdateData();
 
         #endregion
 
@@ -30,132 +35,108 @@ namespace CvrApiServices
         public CvrAPI(List<ZipTown> zipTowns)
         {
             this.zipTowns = zipTowns;
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://cvrapi.dk/");
         }
 
         #endregion
 
+        #region Properties
+        //public RootObject CvrRootRootObject { get => this.cvrRootRootObject; set => this.cvrRootRootObject = value; }
+
+        #endregion
+
         #region Methods
-        private void CheckEntrepeneurData(LegalEntity tempEntity)
+        private void CheckEntityData()
         {
-            if (tempEntrepeneur.Entity.Name.Remove(tempEntity.Name.Length) != tempEntity.Name)
+            if (updatedData.Entity.Name.Length > 0)
             {
-                tempEntrepeneur.Entity.Name = tempEntity.Name;
+                if (updatedData.Entity.Name.Length >= tempLegalEntity.Name.Length)
+                {
+                    string name = updatedData.Entity.Name;
+                    if (updatedData.Entity.Name.Length > tempLegalEntity.Name.Length)
+                    {
+                        name = updatedData.Entity.Name.Remove(tempLegalEntity.Name.Length);
+                    }
+
+                    if (name != tempLegalEntity.Name)
+                    {
+                        updatedData.Entity.Name = tempLegalEntity.Name;
+                    }
+                }
             }
 
-            if (tempEntrepeneur.Entity.CoName != tempEntity.CoName)
+
+            if (updatedData.Entity.CoName.Length > 0)
             {
-                tempEntrepeneur.Entity.CoName = tempEntity.CoName;
+                if (updatedData.Entity.CoName.Length >= tempLegalEntity.CoName.Length && updatedData.Entity.CoName.Remove(tempLegalEntity.Name.Length - 1) != tempLegalEntity.CoName)
+                {
+                    updatedData.Entity.CoName = tempLegalEntity.CoName;
+                }
             }
 
-            if (tempEntrepeneur.Entity.Address.Street != tempEntity.Address.Street)
+            if (updatedData.Entity.Address.Street.Length > 0)
             {
-                tempEntrepeneur.Entity.Address.Street = tempEntity.Address.Street;
+                if (updatedData.Entity.Address.Street != tempLegalEntity.Address.Street)
+                {
+                    updatedData.Entity.Address.Street = tempLegalEntity.Address.Street;
+
+                    if (updatedData.Entity.Address.Place != tempLegalEntity.Address.Place)
+                    {
+                        updatedData.Entity.Address.Place = tempLegalEntity.Address.Place;
+                    }
+
+                    if (updatedData.Entity.Address.ZipTown.Zip != tempLegalEntity.Address.ZipTown.Zip)
+                    {
+                        updatedData.Entity.Address.ZipTown = GetZipTown(tempLegalEntity.Address.ZipTown.Zip);
+                    }
+
+                }
             }
 
-            if (tempEntrepeneur.Entity.Address.Place != tempEntity.Address.Place)
+
+            if (updatedData.Entity.ContactInfo.Phone != tempLegalEntity.ContactInfo.Phone && tempLegalEntity.ContactInfo.Phone != "")
             {
-                tempEntrepeneur.Entity.Address.Place = tempEntity.Address.Place;
+                bool invalidNumber = CheckPhoneNumber(tempLegalEntity.ContactInfo.Phone);
+                if (!invalidNumber)
+                {
+                    updatedData.Entity.ContactInfo.Phone = tempLegalEntity.ContactInfo.Phone;
+                }
             }
 
-            if (tempEntrepeneur.Entity.Address.ZipTown.Zip != tempEntity.Address.ZipTown.Zip)
+            if (updatedData.Entity.ContactInfo.Fax != tempLegalEntity.ContactInfo.Fax && tempLegalEntity.ContactInfo.Fax != "")
             {
-                tempEntrepeneur.Entity.Address.ZipTown = GetZipTown(tempEntity.Address.ZipTown.Zip);
+                bool invalidNumber = CheckPhoneNumber(tempLegalEntity.ContactInfo.Fax);
+                if (!invalidNumber)
+                {
+                    updatedData.Entity.ContactInfo.Fax = tempLegalEntity.ContactInfo.Fax;
+                }
             }
 
-            if (tempEntrepeneur.Entity.Address.Street != tempEntity.Address.Street)
+            if (updatedData.Entity.ContactInfo.Email != tempLegalEntity.ContactInfo.Email && tempLegalEntity.ContactInfo.Email != "")
             {
-                tempEntrepeneur.Entity.Address.Street = tempEntity.Address.Street;
-            }
-
-            if (tempEntrepeneur.Entity.ContactInfo.Phone != tempEntity.ContactInfo.Phone && tempEntity.ContactInfo.Phone != "")
-            {
-                tempEntrepeneur.Entity.ContactInfo.Phone = tempEntity.ContactInfo.Phone;
-            }
-
-            if (tempEntrepeneur.Entity.ContactInfo.Fax != tempEntity.ContactInfo.Fax && tempEntity.ContactInfo.Fax != "")
-            {
-                tempEntrepeneur.Entity.ContactInfo.Fax = tempEntity.ContactInfo.Fax;
-            }
-
-            if (tempEntrepeneur.Entity.ContactInfo.Email != tempEntity.ContactInfo.Email && tempEntity.ContactInfo.Email != "")
-            {
-                tempEntrepeneur.Entity.ContactInfo.Email = tempEntity.ContactInfo.Email;
-            }
-
-        }
-
-        private void CheckNullStringFieldsCvr()
-        {
-            if (cvrRootRootObject.cityname == null)
-            {
-                cvrRootRootObject.cityname = "";
-            }
-
-            if (cvrRootRootObject.email == null)
-            {
-                cvrRootRootObject.email = "";
-            }
-
-            if (cvrRootRootObject.addressco == null)
-            {
-                cvrRootRootObject.addressco = "";
-            }
-
-        }
-
-        private void CheckNullStringFieldsProductionUnit(Productionunit productionUnit)
-        {
-            
-
-            if (productionUnit.cityname == null)
-            {
-                productionUnit.cityname = "";
-            }
-
-            if (productionUnit.phone == null)
-            {
-                productionUnit.phone = 0;
-            }
-
-            if (cvrRootRootObject.fax == null)
-            {
-                productionUnit.phone = 0;
-            }
-
-            if (productionUnit.email == null)
-            {
-                productionUnit.email = "";
-            }
-
-            if (productionUnit.addressco == null)
-            {
-                productionUnit.addressco = "";
+                bool validEmail = tempLegalEntity.ContactInfo.CheckEmail(tempLegalEntity.ContactInfo.Email);
+                if (!validEmail)
+                {
+                    updatedData.Entity.ContactInfo.Email = tempLegalEntity.ContactInfo.Email;
+                }
             }
 
         }
 
         /// <summary>
-        /// Method, that converts cvr data in r to a LegalEntity
+        /// Method, that checks wether a phone number is valid
         /// </summary>
-        private void ConvertCvrDataToLegalEntity()
+        /// <param name="phone">string</param>
+        /// <returns>bool</returns>
+        private bool CheckPhoneNumber(string phone)
         {
-            CheckNullStringFieldsCvr();
-            string fax = "";
-            string phone = "";
+            bool result = true;
 
-            if (cvrRootRootObject.fax != null)
+            if (phone.Length < 8)
             {
-                fax = cvrRootRootObject.fax.ToString();
+                result = false;
             }
 
-            if (cvrRootRootObject.phone != null)
-            {
-                phone = cvrRootRootObject.phone.ToString();
-            }
-
-            this.tempLegalEntity = new LegalEntity(cvrRootRootObject.vat.ToString(), cvrRootRootObject.name, cvrRootRootObject.addressco, new Address(cvrRootRootObject.address, cvrRootRootObject.cityname, new ZipTown(cvrRootRootObject.zipcode.ToString(), cvrRootRootObject.city)), new ContactInfo(phone, fax, "", cvrRootRootObject.email), "");
+            return result;
         }
 
         /// <summary>
@@ -168,24 +149,22 @@ namespace CvrApiServices
             {
                 if (productionUnit.pno.ToString() == cvr)
                 {
-                    CheckNullStringFieldsProductionUnit(productionUnit);
-                    string fax = "";
-                    string phone = "";
-
-                    if (productionUnit.fax != null)
-                    {
-                        fax = productionUnit.fax.ToString();
-                    }
-
-                    if (productionUnit.phone != null)
-                    {
-                        phone = productionUnit.phone.ToString();
-                    }
-
-                    this.tempLegalEntity = new LegalEntity(productionUnit.pno.ToString(), productionUnit.name, productionUnit.addressco, new Address(productionUnit.address, productionUnit.cityname, new ZipTown(productionUnit.zipcode.ToString(), productionUnit.city)), new ContactInfo(phone, fax, "", productionUnit.email), "");
+                    this.tempLegalEntity = new LegalEntity(productionUnit.pno.ToString(), productionUnit.name, productionUnit.addressco, new Address(productionUnit.address, productionUnit.cityname, new ZipTown(productionUnit.zipcode.ToString(), productionUnit.city)), new ContactInfo(productionUnit.phone.ToString(), productionUnit.fax.ToString(), "", productionUnit.email), "");
                 }
                 break;
             }
+        }
+
+        private bool CheckCvrRootRootObject()
+        {
+            bool result = false;
+
+            if (cvrRootRootObject.name != null)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -193,15 +172,13 @@ namespace CvrApiServices
         /// </summary>
         /// <param name="cvr">string</param>
         /// <param name="legalEntity">LegalEntity</param>
-        public void GetCvrData(string cvr, LegalEntity legalEntity)
+        public LegalEntity GetCvrData(string cvr)
         {
-            this.tempLegalEntity = legalEntity;
-            cvrRootRootObject = new RootObject();
+            this.tempLegalEntity = new LegalEntity();
 
             try
             {
-                GetCvrRootsObjectAsync(cvr);
-                Task.Delay(2200);
+                GetCvrRootsObject(cvr);
                 GetLegalEntityFromRootObject(cvr);
                 
             }
@@ -210,71 +187,47 @@ namespace CvrApiServices
                 MessageBox.Show(ex.Message);
             }
 
+            return this.tempLegalEntity;
         }
 
         /// <summary>
         /// Method, that retrieves JSON data from cvr-api.dk
         /// </summary>
         /// <param name="cvr">string</param>
-        private async void GetCvrRootsObjectAsync(string cvr)
+        private void GetCvrRootsObject(string cvr)
         {
             string query = $"api?search={cvr}&country=dk";
-            client.Timeout = new TimeSpan(0,0,2);
-            HttpResponseMessage responseMessageExchange = await client.GetAsync(query);
+            string baseUrl = @"https://cvrapi.dk/";
 
-            string responseStream = await responseMessageExchange.Content.ReadAsStringAsync();
+            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(Path.Combine(baseUrl, query));
+            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763";
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
             JavaScriptSerializer js = new JavaScriptSerializer();
-            cvrRootRootObject = JsonConvert.DeserializeObject<RootObject>(responseStream);
+            cvrRootRootObject = JsonConvert.DeserializeObject<RootObject>(responseString);
         }
 
-        private LegalEntity GetLegalEntityFromCvrData()
+        /// <summary>
+        /// Method, that converts JSON dato in
+        /// </summary>
+        /// <param name="cvr">string</param>
+        /// <returns>LegalEntity</returns>
+        private void GetLegalEntityFromProductionUnitData()
         {
-            CheckNullStringFieldsCvr();
-            string fax = "";
-            string phone = "";
-
-            if (cvrRootRootObject.fax != null)
-            {
-                fax = cvrRootRootObject.fax.ToString();
-            }
-
-            if (cvrRootRootObject.phone != null)
-            {
-                phone = cvrRootRootObject.phone.ToString();
-            }
-
-            return new LegalEntity(cvrRootRootObject.vat.ToString(), cvrRootRootObject.name, cvrRootRootObject.addressco, new Address(cvrRootRootObject.address, cvrRootRootObject.cityname, new ZipTown(cvrRootRootObject.zipcode.ToString(), cvrRootRootObject.city)), new ContactInfo(phone, fax, "", cvrRootRootObject.email), "");
-        }
-
-        private LegalEntity GetLegalEntityFromProductionUnitData(string cvr)
-        {
-            LegalEntity result = new LegalEntity();
+            
 
             foreach (Productionunit productionUnit in cvrRootRootObject.productionunits)
             {
-                if (productionUnit.pno.ToString() == cvr)
+                if (productionUnit.pno.ToString() == updatedData.Entity.Cvr)
                 {
-                    CheckNullStringFieldsProductionUnit(productionUnit);
-                    string fax = "";
-                    string phone = "";
-
-                    if (productionUnit.fax != null)
-                    {
-                        fax = productionUnit.fax.ToString();
-                    }
-
-                    if (productionUnit.phone != null)
-                    {
-                        phone = productionUnit.phone.ToString();
-                    }
-
-                    result = new LegalEntity(productionUnit.pno.ToString(), productionUnit.name, productionUnit.addressco, new Address(productionUnit.address, productionUnit.cityname, new ZipTown(productionUnit.zipcode.ToString(), productionUnit.city)), new ContactInfo(phone, fax, "", productionUnit.email), "");
+                    tempLegalEntity = new LegalEntity(productionUnit.pno.ToString(), productionUnit.name, productionUnit.addressco, new Address(productionUnit.address, productionUnit.cityname, new ZipTown(productionUnit.zipcode.ToString(), productionUnit.city)), new ContactInfo(productionUnit.phone.ToString(), productionUnit.fax.ToString(), "", productionUnit.email), "");
                 }
                 break;
             }
 
-            return result;
         }
 
         /// <summary>
@@ -288,7 +241,7 @@ namespace CvrApiServices
             switch (cvrLength)
             {
                 case 8:
-                    ConvertCvrDataToLegalEntity();
+                    this.tempLegalEntity = new LegalEntity(cvrRootRootObject.vat.ToString(), cvrRootRootObject.name, cvrRootRootObject.addressco, new Address(cvrRootRootObject.address, cvrRootRootObject.cityname, new ZipTown(cvrRootRootObject.zipcode.ToString(), cvrRootRootObject.city)), new ContactInfo(cvrRootRootObject.phone.ToString(), cvrRootRootObject.fax.ToString(), "", cvrRootRootObject.email), "");
                     break;
                 case 10:
                     ConvertProductionUnitDataToLegalEntity(cvr);
@@ -303,7 +256,7 @@ namespace CvrApiServices
         /// Method that retrieves a valid ZipTown
         /// </summary>
         /// <param name="zip"></param>
-        /// <returns></returns>
+        /// <returns>ZipTown</returns>
         private ZipTown GetZipTown(string zip)
         {
             ZipTown result = new ZipTown();
@@ -323,18 +276,17 @@ namespace CvrApiServices
         /// <summary>
         /// Method, that updates Entrepeneur data
         /// </summary>
-        /// <param name="cvr"></param>
-        /// <param name="entrepeneur"></param>
-        public void UpdateCvrData(Entrepeneur entrepeneur)
+        /// <param name="entity">LegalEntity</param>
+        /// <returns>LegalEntity</returns>
+        public UpdateData UpdateCvrData(LegalEntity entity)
         {
-            this.tempEntrepeneur = entrepeneur;
+            updatedData.Entity = entity;
             cvrRootRootObject = new RootObject();
 
             try
             {
-                GetCvrRootsObjectAsync(entrepeneur.Entity.Cvr);
-                Task.Delay(2200);
-                UpdateLegalEntityFromRootObject(entrepeneur.Entity.Cvr);
+                GetCvrRootsObject(updatedData.Entity.Cvr);
+                UpdateLegalEntityFromRootObject();
 
             }
             catch (Exception ex)
@@ -342,88 +294,51 @@ namespace CvrApiServices
                 MessageBox.Show(ex.Message);
             }
 
-        }
-
-        /// <summary>
-        /// Method, that updates Entrepeneur data
-        /// </summary>
-        /// <param name="cvr"></param>
-        /// <param name="builder"></param>
-        public void UpdateCvrData(Builder builder)
-        {
-            this.tempBuilder = builder;
-            cvrRootRootObject = new RootObject();
-
-            try
-            {
-                GetCvrRootsObjectAsync(builder.Entity.Cvr);
-                Task.Delay(2200);
-                UpdateLegalEntityFromRootObject(builder.Entity.Cvr);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
+            return updatedData;
         }
 
         /// <summary>
         /// Method, that updates JSON data from cvr-api.dk 
         /// </summary>
         /// <param name="cvr"></param>
-        private void UpdateLegalEntityFromRootObject(string cvr)
+        private void UpdateLegalEntityFromRootObject()
         {
-            int cvrLength = cvr.Length;
-            LegalEntity tempEntity = new LegalEntity();
+            int cvrLength = updatedData.Entity.Cvr.Length;
+            tempLegalEntity = new LegalEntity();
             
 
             switch (cvrLength)
             {
                 case 8:
-                    tempEntity = GetLegalEntityFromCvrData();
+                    tempLegalEntity = new LegalEntity(cvrRootRootObject.vat.ToString(), cvrRootRootObject.name, cvrRootRootObject.addressco, new Address(cvrRootRootObject.address, cvrRootRootObject.cityname, new ZipTown(cvrRootRootObject.zipcode.ToString(), cvrRootRootObject.city)), new ContactInfo(cvrRootRootObject.phone.ToString(), cvrRootRootObject.fax.ToString(), "", cvrRootRootObject.email), "");
                     break;
                 case 10:
-                    tempEntity = GetLegalEntityFromProductionUnitData(cvr);
+                    GetLegalEntityFromProductionUnitData();
                     break;
                 default:
                     break;
             }
 
-            UpdateTempEntrepeneur(tempEntity);
+            UpdateTempEntity();
+
 
         }
 
 
-        private void UpdateTempEntrepeneur(LegalEntity tempEntity)
+        private void UpdateTempEntity()
         {
-            bool active = true;
-
             if (cvrRootRootObject.enddate != null)
             {
-                active = false;
+                updatedData.Active = false;
             }
-
-            switch (active.ToString())
+            else
             {
-                case "false":
-                    if (tempEntrepeneur.Active)
-                    {
-                        tempEntrepeneur.ToggleActive();
-                    }
-                    break;
-                case "true":
-                    CheckEntrepeneurData(tempEntity);
-                    break;
-                default:
-                    break;
+                updatedData.Active = true;
             }
+
+            CheckEntityData();
+
         }
-
-        #endregion
-
-        #region Fields
-        //public RootObject CvrRootRootObject { get => this.cvrRootRootObject; set => this.cvrRootRootObject = value; }
 
         #endregion
 

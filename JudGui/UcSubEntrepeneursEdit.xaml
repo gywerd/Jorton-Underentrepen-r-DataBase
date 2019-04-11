@@ -5,19 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -43,13 +43,14 @@
                 Grid.Column="1" Grid.ColumnSpan="8" Grid.Row="4" />
         <Border BorderThickness="1" 
                 BorderBrush="Black" 
-                Grid.Column="1" Grid.Row="5" Grid.RowSpan="4" />
+                Grid.Column="1" Grid.Row="5" Grid.RowSpan="2" />
         <Border BorderThickness="1" 
                 BorderBrush="Black" 
-                Grid.Column="2" Grid.Row="5" Grid.RowSpan="4" />
+                Grid.Column="2" Grid.Row="5" Grid.RowSpan="2" />
         <Border BorderThickness="1" 
                 BorderBrush="Black" 
-                Grid.Column="3" Grid.Row="5" Grid.RowSpan="4" />
+                Grid.Column="2" Grid.Row="5" 
+                Grid.ColumnSpan="2" Grid.RowSpan="4" />
         <Border BorderThickness="1" 
                 BorderBrush="Black" 
                 Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="4" />
@@ -71,69 +72,79 @@
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelCaseId" Content="Sagsnummer*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelEnterprise" Content="Entreprise*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="4" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelSubEntrepeneur" Content="Underentrepenører*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="4" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelEnterpreneur" Content="Entrepenør:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelContact" Content="Kontakt:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
+        <Label x:Name="LabelRequestSent" Content="Sendt:" 
+               FontSize="24" 
+               Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="1" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelRequestReceived" Content="Modtaget:" 
+               FontSize="24" 
+               Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="1" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" />
         <Label x:Name="LabelRequest" Content="Forespørg.:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelIttLetter" Content="Udbudsbr.:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelOffer" Content="Tilbud:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelReservations" Content="Forbehold:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelUphold" Content="Vedstå:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelChosen" Content="Valgt:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="8" Grid.Row="5" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId" 
-                  FontSize="30" 
+                  FontSize="24" 
                   Grid.Column="3" Grid.Row="2" 
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" 
                   Width="130" />
         <TextBox x:Name="TextBoxName" 
-                 FontSize="30" 
+                 FontSize="24" 
                  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
                  Height="50" Width="795" 
                  HorizontalAlignment="Left" 
@@ -142,45 +153,45 @@
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxEnterprise" 
-                  FontSize="30" 
+                  FontSize="24" 
                   Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-                  Height="50" Width="955"
+                  Height="50" Width="1055"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxEnterprise_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ListBox x:Name="ListBoxSubEntrepeneurs" 
                  Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
-                 Height="185" Width="955" 
+                 Height="185" Width="1055" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxSubEntrepeneurs_SelectionChanged"
                  VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxEntrepeneur" 
-                 FontSize="30" 
+                 FontSize="24" 
                  Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" 
-                 Height="50" Width="150"
+                 Height="50" Width="170"
                  HorizontalAlignment="Center" 
                  IsEnabled="False" 
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxContact" 
-                  FontSize="30" 
+                  FontSize="24" 
                   Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="1" 
-                  Height="50" Width="150"
+                  Height="50" Width="170"
                   HorizontalAlignment="Center" 
                   SelectionChanged="ComboBoxContact_SelectionChanged" 
                   VerticalAlignment="Bottom" Margin="0,0,0,10" />
         <ComboBox x:Name="ComboBoxRequest" 
-                  FontSize="30" 
+                  FontSize="24" 
                   Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="1" 
-                  Height="50" Width="150"
+                  Height="50" Width="170"
                   HorizontalAlignment="Center" 
                   SelectionChanged="ComboBoxRequest_SelectionChanged"
                   VerticalAlignment="Top" />
         <StackPanel x:Name="StackPanelIttLetterSent" 
                     Grid.Column="4" Grid.Row="6" Grid.RowSpan="2" 
                     HorizontalAlignment="Left" 
-                    Height="50" Width="150" 
+                    Height="50" Width="170" 
                     Margin="5,5,0,0" 
                     VerticalAlignment="Top" >
             <RadioButton x:Name="RadioButtonIttLetterSentYes" 
@@ -221,7 +232,7 @@
         <StackPanel x:Name="StackPanelOfferReceived" 
                     Grid.Column="5" Grid.Row="6" Grid.RowSpan="2" 
                     HorizontalAlignment="Left" 
-                    Height="50" Width="150" 
+                    Height="50" Width="170" 
                     Margin="5,5,0,0" 
                     VerticalAlignment="Top" >
             <RadioButton x:Name="RadioButtonOfferReceivedYes" 
@@ -262,7 +273,7 @@
         <StackPanel x:Name="StackPanelReservations" 
                     Grid.Column="6" Grid.Row="6" Grid.RowSpan="2" 
                     HorizontalAlignment="Left" 
-                    Height="50" Width="150" 
+                    Height="50" Width="170" 
                     Margin="5,5,0,0" 
                     VerticalAlignment="Top" >
             <RadioButton x:Name="RadioButtonReservationsYes" 
@@ -303,7 +314,7 @@
         <StackPanel x:Name="StackPanelUpholdSent" 
                     Grid.Column="7" Grid.Row="6" Grid.RowSpan="2" 
                     HorizontalAlignment="Left" 
-                    Height="50" Width="150" 
+                    Height="50" Width="170" 
                     Margin="5,5,0,0" 
                     VerticalAlignment="Top" >
             <RadioButton x:Name="RadioButtonUpholdYes" 
@@ -344,7 +355,7 @@
         <StackPanel x:Name="StackPanelOfferChosen" 
                     Grid.Column="8" Grid.Row="6" Grid.RowSpan="2" 
                     HorizontalAlignment="Left" 
-                    Height="50" Width="150" 
+                    Height="50" Width="170" 
                     Margin="5,5,0,0" 
                     VerticalAlignment="Top" >
             <RadioButton x:Name="RadioButtonOfferChosenYes" 
@@ -382,13 +393,30 @@
                 </RadioButton.RenderTransform>
             </RadioButton>
         </StackPanel>
-        <DatePicker x:Name="DateRequest" 
+        <DatePicker x:Name="DateRequestSent" 
                     FontSize="8" 
                     Grid.Column="3" Grid.Row="7" 
                     HorizontalAlignment="Left" 
+                    MaxWidth="170"
+                    RenderTransformOrigin="1,1"
+                    SelectedDateChanged="DateRequestSent_SelectedDateChanged" 
+                    VerticalAlignment="Top">
+            <DatePicker.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterX="-88" CenterY="-30" ScaleX="1.80" ScaleY="1.8"  />
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </DatePicker.RenderTransform>
+        </DatePicker>
+        <DatePicker x:Name="DateRequestReceived" 
+                    FontSize="8" 
+                    Grid.Column="3" Grid.Row="8" 
+                    HorizontalAlignment="Left" 
                     MaxWidth="150"
                     RenderTransformOrigin="1,1"
-                    SelectedDateChanged="DateRequest_SelectedDateChanged" 
+                    SelectedDateChanged="DateRequestReceived_SelectedDateChanged" 
                     VerticalAlignment="Top">
             <DatePicker.RenderTransform>
                 <TransformGroup>
@@ -403,7 +431,7 @@
                     FontSize="8" 
                     Grid.Column="4" Grid.Row="7" 
                     HorizontalAlignment="Left" 
-                    MaxWidth="160" 
+                    MaxWidth="170" 
                     RenderTransformOrigin="1,1" 
                     SelectedDateChanged="DateIttLetter_SelectedDateChanged" 
                     VerticalAlignment="Top" >
@@ -420,7 +448,7 @@
                     FontSize="8" 
                     Grid.Column="5" Grid.Row="7" 
                     HorizontalAlignment="Left" 
-                    MaxWidth="160"
+                    MaxWidth="170"
                     RenderTransformOrigin="1,1"
                     SelectedDateChanged="DateOffer_SelectedDateChanged" 
                     VerticalAlignment="Top">
@@ -434,29 +462,30 @@
             </DatePicker.RenderTransform>
         </DatePicker>
         <Label x:Name="LabelOfferPrice" Content="Pris:" 
-               FontSize="30" 
-               Grid.Column="4" Grid.Row="8" Grid.ColumnSpan="1" 
+               FontSize="24" 
+               Grid.Column="4" Grid.Row="8" 
+               Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxOfferPrice" 
-                 FontSize="30" 
+                 FontSize="24" 
                  Grid.Column="4" Grid.Row="8" Grid.ColumnSpan="2" 
                  Height="50" Width="250"
                  HorizontalAlignment="Right" 
-                 Text="0" 
+                 Text="0,00" 
                  TextAlignment="Right" 
                  TextChanged="TextBoxOfferPrice_TextChanged" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" Margin="0,0,5,0" />
         <Label x:Name="LabelAgreementConcluded" Content="Aftalt :" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="7" Grid.Row="8" Grid.ColumnSpan="1" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <StackPanel x:Name="StackPanelAgreementConcluded" 
                     Grid.Column="8" Grid.Row="8" Grid.RowSpan="2" 
                     HorizontalAlignment="Left" 
-                    Height="50" Width="150" 
+                    Height="50" Width="170" 
                     Margin="5,5,0,0" 
                     VerticalAlignment="Top" >
             <RadioButton x:Name="RadioButtonAgreementConcludedYes" 
@@ -497,8 +526,15 @@
         <Button x:Name="ButtonClose" Content="Luk"
                 Click="ButtonClose_Click" 
                 FontSize="48" FontWeight="Bold" 
+                Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" 
+                Height="100"  Width="345" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonSave" Content="Gem"
+                Click="ButtonSave_Click" 
+                FontSize="48" FontWeight="Bold" 
                 Grid.Column="7" Grid.Row="9" Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
     </Grid>

@@ -88,7 +88,7 @@ namespace JudGui
         #region Buttons
         private void ButtonAbout_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Jorton Underentrepenør Database V. 0.4 ALPHA\n\n©2018 Jorton\n©2018 Daniel Giversen", "Om Jorton Underentrepenør Database", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Jorton Underentrepenør Database V. 0.9 BETA\n\n©2019 Jorton\n©2019 Daniel Giversen", "Om Jorton Underentrepenør Database", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ButtonBicV115_Click(object sender, RoutedEventArgs e)

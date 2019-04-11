@@ -26,6 +26,8 @@ namespace JudGui
         public Bizz CBZ;
         public UserControl UcMain;
 
+        public List<Entrepeneur> FilteredEntrepeneurs = new List<Entrepeneur>();
+
         #endregion
 
         #region Constructors
@@ -127,9 +129,49 @@ namespace JudGui
             }
         }
 
+        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GetFilteredEntrepeneurs();
+            ListBoxEntrepeneurs.SelectedIndex = -1;
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = this.FilteredEntrepeneurs;
+
+        }
+
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that retrieves a list of filtered Categories for ListBoxCraftCategories
+        /// </summary>
+        private void GetFilteredEntrepeneurs()
+        {
+            int length = TextBoxSearch.Text.Length;
+
+            if (length > 0)
+            {
+                CBZ.RefreshList("Entrepeneurs");
+                this.FilteredEntrepeneurs.Clear();
+                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
+                {
+                    if (entrepeneur.Entity.Name.Remove(length).ToLower() == TextBoxSearch.Text.ToLower())
+                    {
+                        this.FilteredEntrepeneurs.Add(entrepeneur);
+                    }
+                }
+
+            }
+            else
+            {
+                CBZ.RefreshList("Entrepeneurs");
+                this.FilteredEntrepeneurs.Clear();
+                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
+                {
+                    this.FilteredEntrepeneurs.Add(entrepeneur);
+                }
+            }
+        }
+
         /// <summary>
         /// Method, that creates an Entrepeneur in Db
         /// </summary>

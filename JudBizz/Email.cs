@@ -16,39 +16,41 @@ namespace JudBizz
 		#region Fields
 		private string subject = "";
 		private string to = "";
+        private string cc = "";
 		private string sender = "";
 		private string body = "";
-		private string logPath = @"%AppData%\Local\Temp\Outlook Logging\";
+        private Bizz CBZ = new Bizz();
 			
-		List<string> FileNames = new List<string>();
+		List<string> filePaths = new List<string>();
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Empty constructor
 		/// </summary>
-		public Email(){ }
+		public Email() { }
 
-		/// <summary>
-		/// Construct a mail attachment form a byte array
-		/// </summary>
-		/// <param name="subject">string</param>
-		/// <param name="to">string</param>
-		/// <param name="body">string</param>
-		/// <param name="attachments">Attachment[]</param>
-		public Email(string subject, string to, string sender, string body, string[] fileNames)
+        /// <summary>
+        /// Construct a mail attachment form a byte array
+        /// </summary>
+        /// <param name="subject">string</param>
+        /// <param name="to">string</param>
+        /// <param name="body">string</param>
+        /// <param name="attachments">Attachment[]</param>
+        public Email(Bizz cbz, string subject, string to, string cc, string body, string[] filePaths)
 		{
-			this.subject = subject;
+            this.CBZ = cbz;
+            this.subject = subject;
 			this.to = to;
-			this.sender = sender;
+            this.cc = cc;
 			this.body = body; 
 				
-			if(fileNames.Count() > 0)
+			if(filePaths.Count() > 0)
 			{
-                this.FileNames.Clear();
-				foreach(string fileName in fileNames)
+                this.filePaths.Clear();
+				foreach(string filePath in filePaths)
 				{
-					this.FileNames.Add(fileName);
+					this.filePaths.Add(filePath);
 				}
 			}
 				
@@ -70,21 +72,20 @@ namespace JudBizz
             Outlook.Recipient recipient = app.Session.CreateRecipient(sender);
             mailItem.Subject = this.subject;
 			mailItem.To = this.to;
-            //mailItem.Sender = recipient.AddressEntry;
+            mailItem.CC = this.cc;
 			mailItem.Body = this.body;
-            //mailItem.Attachments.Add(logPath);//logPath is a string holding path to the log.txt file
-            if (this.FileNames.Count > 0)
+
+            if (this.filePaths.Count > 0)
 			{
-				foreach(string fileName in this.FileNames)
+				foreach(string fileName in this.filePaths)
 				{
-                    string rootPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                    rootPath = rootPath.Remove(rootPath.Count() - 11, 11);
-                    var absolute_path = Path.Combine(rootPath + fileName);
+                    string absolute_path = Path.Combine(CBZ.AppPath + fileName);
                     mailItem.Attachments.Add(Path.GetFullPath((new Uri(absolute_path)).LocalPath), Outlook.OlAttachmentType.olByValue, 1, fileName.Remove(0,14));
 
                 }
 			}
-			mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
+
+            mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
 			mailItem.Display(false);
 			mailItem.Send();
 		}

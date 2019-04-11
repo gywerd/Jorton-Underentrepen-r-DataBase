@@ -6,24 +6,25 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
             <RowDefinition Height="75*" />
-            <RowDefinition Height="495*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="435*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="110*" />
             <RowDefinition Height="50" />
@@ -36,30 +37,48 @@
                Grid.ColumnSpan="4"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
+        <Label x:Name="LabelSearch"
+               Content="Søg:"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="2"
+               Grid.ColumnSpan="2"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
         <Label x:Name="LabelBygherrer"
                Content="Bygherrer:"
-               FontSize="30"
-               Grid.Column="1" Grid.Row="2"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="3"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelStatus"
                Content="Status:"
-               FontSize="30"
-               Grid.Column="1" Grid.Row="3"
+               FontSize="24"
+               Grid.Column="1" Grid.Row="4"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
+        <xctk:WatermarkTextBox x:Name="TextBoxSearch"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="2"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="1065"
+                               HorizontalAlignment="Left"
+                               Text=""
+                               TextWrapping="Wrap"
+                               TextChanged="TextBoxSearch_TextChanged"
+                               VerticalAlignment="Top"
+                               Watermark="JOR" />
         <ListBox x:Name="ListBoxBuilders"
-                 Grid.Column="2" Grid.Row="2"
-                 Grid.ColumnSpan="7"
-                 Height="480" Width="1050"
+                 Grid.Column="3" Grid.Row="3"
+                 Grid.ColumnSpan="6"
+                 Height="480" Width="1055"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxBuilders_SelectionChanged"
                  VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxActive" 
                   Content="Aktiv"
-                  Grid.Column="2" Grid.Row="3"
+                  Grid.Column="3" Grid.Row="4"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Checked="CheckBoxActive_Checked"
@@ -81,7 +100,7 @@
                 Click="ButtonClose_Click"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="1" Grid.Row="4"
+                Grid.Column="1" Grid.Row="5"
                 Grid.ColumnSpan="2"
                 Height="100" Width="315"
                 HorizontalAlignment="Center"
@@ -91,7 +110,7 @@
                 Click="ButtonSave_Click"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="7" Grid.Row="4"
+                Grid.Column="7" Grid.Row="5"
                 Grid.ColumnSpan="2"
                 Height="100" Width="315"
                 HorizontalAlignment="Center"

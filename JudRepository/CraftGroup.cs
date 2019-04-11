@@ -71,6 +71,10 @@ namespace JudRepository
         /// <param name="craftGroup">CraftGroup</param>
         public CraftGroup(CraftGroup craftGroup)
         {
+            if (craftGroup == null)
+            {
+                craftGroup = new CraftGroup();
+            }
             this.id = craftGroup.Id;
             this.category = craftGroup.Category;
             this.designation = craftGroup.Designation;

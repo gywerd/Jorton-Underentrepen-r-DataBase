@@ -42,7 +42,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelName"
                Content="Navn*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="2"
                Grid.ColumnSpan="2"
@@ -50,28 +50,28 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelContactInfo"
                Content="Kontactinfo:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="3"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelInitials"
                Content="Initialer*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="4"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelJobDescription"
                Content="Jobbeskrivelse:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="5"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelUserLevel"
                Content="Brugerniveau:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="6"
                Grid.ColumnSpan="2"
                Height="50" Width="290"
@@ -79,7 +79,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelPassWord1"
                Content="PassWord:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="7"
                Grid.ColumnSpan="2"
                Height="50" Width="290"
@@ -88,7 +88,7 @@
         <Label x:Name="LabelPassWord2"
                Background="#FFF9F9F9"
                Content="1234"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="3"
                Grid.Row="7"
                Grid.ColumnSpan="2"
@@ -97,7 +97,7 @@
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxName"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="2"
                                Grid.ColumnSpan="6"
                                Height="50" Width="955"
@@ -109,7 +109,7 @@
                                Watermark="Jens Petersen" />
         <xctk:WatermarkTextBox x:Name="TextBoxPhone"
                                Background="White"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="3"
                                Height="50" Width="150"
                                HorizontalAlignment="Left"
@@ -120,7 +120,7 @@
                                Watermark="Tlf.nr." />
         <xctk:WatermarkTextBox x:Name="TextBoxFax"
                                Background="White"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="3"
                                Height="50" Width="150"
                                HorizontalAlignment="Left"
@@ -131,7 +131,7 @@
                                Watermark="Faxnr." />
         <xctk:WatermarkTextBox x:Name="TextBoxMobile"
                                Background="White"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="5" Grid.Row="3"
                                Height="50" Width="150"
                                HorizontalAlignment="Left"
@@ -142,7 +142,7 @@
                                Watermark="Mobilnr." />
         <xctk:WatermarkTextBox x:Name="TextBoxEmail"
                                Background="White"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="6" Grid.Row="3"
                                Grid.ColumnSpan="3"
                                Height="50" Width="450"
@@ -153,7 +153,7 @@
                                VerticalAlignment="Top"
                                Watermark="Emailadresse" />
         <xctk:WatermarkTextBox x:Name="TextBoxInitials"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3" Grid.Row="4"
                                Grid.ColumnSpan="6"
                                Height="50" Width="955"
@@ -164,7 +164,7 @@
                                VerticalAlignment="Top"
                                Watermark="jp" />
         <ComboBox x:Name="ComboBoxJobDescription"
-                  FontSize="30"
+                  FontSize="24"
                   Grid.Column="3" Grid.Row="5"
                   Grid.ColumnSpan="2"
                   Height="50" Width="290"
@@ -172,7 +172,7 @@
                   SelectionChanged="ComboBoxJobDescription_SelectionChanged"
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxUserLevel"
-                  FontSize="30"
+                  FontSize="24"
                   Grid.Column="3" Grid.Row="6"
                   Grid.ColumnSpan="2"
                   Height="50" Width="290"

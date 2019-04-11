@@ -46,12 +46,12 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelCaseId"
                Content="Sagsnummer*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId"
-                  FontSize="30"
+                  FontSize="24"
                   Grid.Column="3" Grid.Row="2"
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCaseId_SelectionChanged"
@@ -59,7 +59,7 @@
                   Width="130" />
         <TextBox x:Name="TextBoxName"
                  Background="GhostWhite"
-                 FontSize="30"
+                 FontSize="24"
                  Grid.Column="4" Grid.ColumnSpan="5" Grid.Row="2"
                  Height="50" Width="795"
                  HorizontalAlignment="Left"
@@ -88,12 +88,12 @@
         </CheckBox>
         <Label x:Name="LabelAnswerDate"
                Content="Seneste svardato:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxAnswerDate"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="4"
                                Grid.ColumnSpan="6"
                                Height="50" Width="890"
@@ -105,12 +105,12 @@
                                TextChanged="TextBoxAnswerDate_TextChanged" />
         <Label x:Name="LabelQuestionDate"
                Content="Seneste spørgsmålsdato:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="5"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxQuestionDate"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="5"
                                Grid.ColumnSpan="5"
                                Height="50" Width="890"
@@ -121,12 +121,12 @@
                                TextChanged="TextBoxQuestionDate_TextChanged" />
         <Label x:Name="LabelTimeSpan"
                Content="Tilbuddets gyldighed:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="6"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxTimeSpan"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="6"
                                Grid.ColumnSpan="4"
                                Height="50" Width="710"
@@ -137,19 +137,19 @@
                                TextChanged="TextBoxTimeSpan_TextChanged" />
         <Label x:Name="LabelDays"
                Content="dage"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="8" Grid.Row="6"
                Grid.ColumnSpan="3"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelCorrectionSheetDate"
                Content="Dato for seneste rettelsesbrev:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="7"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxCorrectionSheetDate"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="7"
                                Grid.ColumnSpan="5"
                                Height="50" Width="890"
@@ -160,12 +160,12 @@
                                TextChanged="TextBoxCorrectionSheetDate_TextChanged" />
         <Label x:Name="LabelConditionDate"
                Content="Betingelsesdato:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="8"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxConditionDate"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="8"
                                Grid.ColumnSpan="5"
                                Height="50" Width="890"
@@ -176,12 +176,12 @@
                                TextChanged="TextBoxConditionDate_TextChanged" />
         <Label x:Name="LabelMaterialUrl"
                Content="Link til udbudsmateriale:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxMaterialUrl"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="9"
                                Grid.ColumnSpan="5"
                                Height="50" Width="890"
@@ -192,12 +192,12 @@
                                TextChanged="TextBoxMaterialUrl_TextChanged" />
         <Label x:Name="LabelConditionUrl"
                Content="Link til betingelser:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="10"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxConditionUrl"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="10"
                                Grid.ColumnSpan="5"
                                Height="50" Width="890"
@@ -208,12 +208,12 @@
                                TextChanged="TextBoxConditionUrl_TextChanged" />
         <Label x:Name="LabelPassword"
                Content="Adgangskode:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="11"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxPassword"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="4" Grid.Row="11"
                                Grid.ColumnSpan="5"
                                Height="50" Width="890"

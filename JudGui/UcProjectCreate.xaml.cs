@@ -91,7 +91,7 @@ namespace JudGui
             bool result = false;
 
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)CBZ.GetObject("ProjectStatus", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
+            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)CBZ.GetObject("ProjectStatuses", 1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
             int id = CBZ.CreateInDb(project);
             if (id >= 1)
             {

@@ -26,6 +26,8 @@ namespace JudGui
         public Bizz CBZ;
         public UserControl UcMain;
 
+        public List<Builder> FilteredBuilders = new List<Builder>();
+
         #endregion
 
         #region Constructors
@@ -34,9 +36,10 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
+            CBZ.TempBuilder = new Builder();
 
-            CBZ.RefreshIndexedList("IndexedBuilders");
-            ListBoxBuilders.ItemsSource = CBZ.IndexedBuilders;
+            GetFilteredBuilders();
+            ListBoxBuilders.ItemsSource = FilteredBuilders;
 
         }
 
@@ -99,21 +102,22 @@ namespace JudGui
 
         private void ButtonUpdateCvr_Click(object sender, RoutedEventArgs e)
         {
+            UpdateData updatedData = new UpdateData();
             if (CBZ.TempBuilder != new Builder())
             {
-                CBZ.CvrApi.UpdateCvrData(CBZ.TempBuilder);
-                CBZ.TempBuilder.Entity.Address = CBZ.TempLegalEntity.Address;
-                CBZ.TempBuilder.Entity.ContactInfo = CBZ.TempLegalEntity.ContactInfo;
-                TextBoxName.Text = CBZ.TempLegalEntity.Name;
-                TextBoxCoName.Text = CBZ.TempLegalEntity.CoName;
-                TextBoxStreet.Text = CBZ.TempBuilder.Entity.Address.Street;
-                TextBoxPlace.Text = CBZ.TempBuilder.Entity.Address.Place;
-                TextBoxZip.Text = CBZ.TempBuilder.Entity.Address.ZipTown.Zip;
-                TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
-                TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
-                TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
-                TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
+                updatedData = CBZ.CvrApi.UpdateCvrData(CBZ.TempBuilder.Entity);
+                CBZ.TempBuilder.Entity = updatedData.Entity;
+                bool updated = CBZ.UpdateInDb(updatedData.Entity);
+
+                if (updated)
+                {
+                    int index = ListBoxBuilders.SelectedIndex;
+                    ListBoxBuilders.SelectedIndex = -1;
+                    GetFilteredBuilders();
+                    ListBoxBuilders.SelectedIndex = index;
+                }
             }
+
         }
 
         #endregion
@@ -121,17 +125,47 @@ namespace JudGui
         #region Events
         private void ListBoxBuilders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempBuilder = new Builder((Builder)ListBoxBuilders.SelectedItem);
-            TextBoxName.Text = CBZ.TempBuilder.Entity.Name;
-            TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
-            TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
-            TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
-            TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ListBoxBuilders.SelectedIndex >= 0)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempBuilder = new Builder((Builder)ListBoxBuilders.SelectedItem);
+                TextBoxName.Text = CBZ.TempBuilder.Entity.Name;
+                TextBoxCoName.Text = CBZ.TempBuilder.Entity.CoName;
+                TextBoxStreet.Text = CBZ.TempBuilder.Entity.Address.Street;
+                TextBoxPlace.Text = CBZ.TempBuilder.Entity.Address.Place;
+                TextBoxZip.Text = CBZ.TempBuilder.Entity.Address.ZipTown.Zip;
+                TextBoxTown.Text = CBZ.TempBuilder.Entity.Address.ZipTown.Town;
+                TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
+                TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
+                TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
+                TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+
+            }
+            else
+            {
+                CBZ.TempBuilder = new Builder();
+                TextBoxName.Text = "";
+                TextBoxCoName.Text = "";
+                TextBoxStreet.Text = "";
+                TextBoxPlace.Text = "";
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+                TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
+                TextBoxFax.Text = "";
+                TextBoxMobile.Text = "";
+                TextBoxEmail.Text = "";
+
+                //Set CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+
             }
 
         }
@@ -242,9 +276,49 @@ namespace JudGui
             }
         }
 
+        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GetFilteredBuilders();
+            ListBoxBuilders.SelectedIndex = -1;
+            ListBoxBuilders.ItemsSource = "";
+            ListBoxBuilders.ItemsSource = this.FilteredBuilders;
+
+        }
+
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that retrieves a list of filtered Builders for ListBoxBuilders
+        /// </summary>
+        private void GetFilteredBuilders()
+        {
+            int length = TextBoxSearch.Text.Length;
+
+            if (length > 0)
+            {
+                CBZ.RefreshList("Builders");
+                this.FilteredBuilders.Clear();
+                foreach (Builder builder in CBZ.Builders)
+                {
+                    if (builder.Entity.Name.Remove(length).ToLower() == TextBoxSearch.Text.ToLower())
+                    {
+                        this.FilteredBuilders.Add(builder);
+                    }
+                }
+
+            }
+            else
+            {
+                CBZ.RefreshList("Builders");
+                this.FilteredBuilders.Clear();
+                foreach (Builder builder in CBZ.Builders)
+                {
+                    this.FilteredBuilders.Add(builder);
+                }
+            }
+        }
+
         /// <summary>
         /// Method, that retrieves a ZipTown
         /// </summary>

@@ -42,7 +42,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelProjectStatusSearch"
                Content="Søg:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="2"
                Grid.ColumnSpan="2"
@@ -50,7 +50,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelEnterpriseFormsBox"
                Content="Entrepriseformer:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="3"
                Grid.ColumnSpan="2"
@@ -58,7 +58,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelText"
                Content="Tekst:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="4"
                Grid.ColumnSpan="2"
@@ -73,7 +73,7 @@
                    VerticalAlignment="Bottom" />
         <Label x:Name="LabelAddEnterpriseForm"
                Content="Tilføj Entrepriseform"
-               FontSize="30"
+               FontSize="24"
                FontWeight="Bold"
                Grid.Column="1"
                Grid.Row="5"
@@ -82,14 +82,14 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewText"
                Content="Ny tekst:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="6"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxEnterpriseFormSearch"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="2"
                                Grid.ColumnSpan="6"
@@ -111,7 +111,7 @@
                  SelectionChanged="ListBoxEnterpriseForms_SelectionChanged"
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxText"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="4"
                                Grid.ColumnSpan="6"
@@ -124,7 +124,7 @@
                                VerticalAlignment="Top"
                                Watermark="Fagentreprise" />
         <xctk:WatermarkTextBox x:Name="TextBoxNewText"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="6"
                                Grid.ColumnSpan="5"
@@ -139,7 +139,7 @@
         <Button x:Name="ButtonAddEnterpriseForm"
                 Content="Tilføj"
                 Click="ButtonAddEnterpriseForm_Click"
-                FontSize="30"
+                FontSize="24"
                 FontWeight="Bold"
                 Grid.Column="8"
                 Grid.Row="6"

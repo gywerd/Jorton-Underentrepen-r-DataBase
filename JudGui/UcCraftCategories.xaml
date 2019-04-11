@@ -6,19 +6,19 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -42,7 +42,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelCraftCategorySearch"
                Content="Søg:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="2"
                Grid.ColumnSpan="2"
@@ -50,7 +50,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelCraftCategoriesBox"
                Content="Fagkategorier:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="3"
                Grid.ColumnSpan="2"
@@ -58,7 +58,7 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelText"
                Content="Tekst:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="4"
                Grid.ColumnSpan="2"
@@ -69,11 +69,11 @@
                    Grid.ColumnSpan="8"
                    HorizontalAlignment="Center"
                    Height="20"
-                   Width="1260"
+                   Width="1425"
                    VerticalAlignment="Bottom" />
         <Label x:Name="LabelAddCraftCategory"
                Content="Tilføj Fagkategori"
-               FontSize="30"
+               FontSize="24"
                FontWeight="Bold"
                Grid.Column="1"
                Grid.Row="5"
@@ -82,19 +82,17 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewText"
                Content="Ny tekst:*"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="6"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxCraftCategorySearch"
-                               FontSize="30"
-                               Grid.Column="3"
-                               Grid.Row="2"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="2"
                                Grid.ColumnSpan="6"
-                               Height="50"
-                               Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -106,17 +104,17 @@
                  Grid.Row="3"
                  Grid.ColumnSpan="6"
                  Height="260"
-                 Width="955"
+                 Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxCraftCategories_SelectionChanged"
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxText"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="4"
                                Grid.ColumnSpan="6"
                                Height="50"
-                               Width="955"
+                               Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -124,12 +122,12 @@
                                VerticalAlignment="Top"
                                Watermark="Skomagere" />
         <xctk:WatermarkTextBox x:Name="TextBoxNewText"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="3"
                                Grid.Row="6"
                                Grid.ColumnSpan="5"
                                Height="50"
-                               Width="795"
+                               Width="890"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxNewText_TextChanged"
@@ -139,13 +137,13 @@
         <Button x:Name="ButtonAddCraftGroup"
                 Content="Tilføj"
                 Click="ButtonAddCraftCategories_Click"
-                FontSize="30"
+                FontSize="24"
                 FontWeight="Bold"
                 Grid.Column="8"
                 Grid.Row="6"
                 Height="50"
-                Width="150"
-                HorizontalAlignment="Center"
+                Width="165"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Top" />
         <Button x:Name="ButtonClose"
                 Content="Luk"

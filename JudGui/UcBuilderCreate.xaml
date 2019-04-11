@@ -6,19 +6,19 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -43,56 +43,62 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelCvr"
                Content="Cvr-/P-nr.*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="2"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelName"
                Content="Navn*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="3"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelCoName"
                Content="C/O:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="4"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelStreet"
                Content="Vej*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="5"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelPlace"
                Content="Sted*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="6"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <Label x:Name="LabelZipTown"
+        <Label x:Name="LabelZip"
                Content="Postnr.:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="7"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelTown"
+               Content="By:"
+               FontSize="24"
+               Grid.Column="4" Grid.Row="7"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelZipContactInfo"
                Content="Kont.info:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="8"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxCvr"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="2"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="2"
                                Grid.ColumnSpan="2"
-                               Height="50" Width="290"
+                               Height="50" Width="345"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
@@ -104,15 +110,15 @@
                 Click="ButtonSearchCvr_Click"
                 FontSize="24"
                 FontWeight="Bold"
-                Grid.Column="4" Grid.Row="2"
+                Grid.Column="5" Grid.Row="2"
                 Height="50" Width="130"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxName"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="3"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="3"
                                Grid.ColumnSpan="7"
-                               Height="50" Width="1050"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
@@ -120,65 +126,65 @@
                                VerticalAlignment="Top" 
                                Watermark="JBH Gruppen A/S" />
         <xctk:WatermarkTextBox x:Name="TextBoxCoName"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="4"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="4"
                                Grid.ColumnSpan="7"
-                               Height="50" Width="1050"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
                                TextChanged="TextBoxCoName_TextChanged"
                                VerticalAlignment="Top"
-                               Watermark="C/O Jorton A/S" />
+                               Watermark="Co. A/S Boligbeton" />
         <xctk:WatermarkTextBox x:Name="TextBoxStreet"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="5"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="5"
                                Grid.ColumnSpan="7"
-                               Height="50" Width="1050"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
                                TextChanged="TextBoxStreet_TextChanged"
                                VerticalAlignment="Top"
-                               Watermark="Robert Fultons Vej 16" />
+                               Watermark="Gl Præstegårdsvej 19" />
         <xctk:WatermarkTextBox x:Name="TextBoxPlace"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="6"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="6"
                                Grid.ColumnSpan="7"
-                               Height="50" Width="1050"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxPlace_TextChanged"
                                VerticalAlignment="Top"
-                               Watermark="Skejby" />
+                               Watermark="Lundager" />
         <xctk:WatermarkTextBox x:Name="TextBoxZip"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="7"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="7"
                                Height="50" Width="130"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxZip_TextChanged"
                                VerticalAlignment="Top"
-                               Watermark="8200" />
+                               Watermark="8723" />
         <xctk:WatermarkTextBox x:Name="TextBoxTown"
-                               Background="#FFFCFCFC"
-                               FontSize="30"
-                               Grid.Column="3" Grid.Row="7"
-                               Grid.ColumnSpan="6"
-                               Height="50" Width="900"
-                               HorizontalAlignment="Right"
+                               Background="GhostWhite"
+                               FontSize="24"
+                               Grid.Column="5" Grid.Row="7"
+                               Grid.ColumnSpan="4"
+                               Height="50" Width="705"
+                               HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
                                VerticalAlignment="Top"
-                               Watermark="Aarhus N"
+                               Watermark="Løsning"
                                IsEnabled="False" />
         <xctk:WatermarkTextBox x:Name="TextBoxPhone"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="2" Grid.Row="8"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="8"
                                Height="50" Width="150"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
@@ -188,8 +194,8 @@
                                Watermark="Tlf.nr." />
         <xctk:WatermarkTextBox x:Name="TextBoxFax"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="3" Grid.Row="8"
+                               FontSize="24"
+                               Grid.Column="4" Grid.Row="8"
                                Height="50" Width="150"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
@@ -199,8 +205,8 @@
                                Watermark="Faxnr." />
         <xctk:WatermarkTextBox x:Name="TextBoxMobile"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="4" Grid.Row="8"
+                               FontSize="24"
+                               Grid.Column="5" Grid.Row="8"
                                Height="50" Width="150"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
@@ -210,11 +216,11 @@
                                Watermark="Mobilnr." />
         <xctk:WatermarkTextBox x:Name="TextBoxEmail"
                                Background="White"
-                               FontSize="30"
-                               Grid.Column="5" Grid.Row="8"
-                               Grid.ColumnSpan="4"
-                               Height="50" Width="600"
-                               HorizontalAlignment="Right"
+                               FontSize="24"
+                               Grid.Column="6" Grid.Row="8"
+                               Grid.ColumnSpan="3"
+                               Height="50" Width="525"
+                               HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxEmail_TextChanged"

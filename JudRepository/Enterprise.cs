@@ -95,6 +95,10 @@ namespace JudRepository
         /// <param name="enterprise">Enterprise</param>
         public Enterprise(Enterprise enterprise)
         {
+            if (enterprise == null)
+            {
+                enterprise = new Enterprise();
+            }
             this.id = enterprise.id;
             this.project = enterprise.Project;
             this.name = enterprise.Name;

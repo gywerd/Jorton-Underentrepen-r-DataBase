@@ -46,14 +46,14 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelCaseId"
                Content="Sagsnummer*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.ColumnSpan="2"
                Grid.Row="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId"
-                  FontSize="30"
+                  FontSize="24"
                   Grid.Column="3"
                   Grid.Row="2"
                   HorizontalAlignment="Left"
@@ -61,7 +61,7 @@
                   VerticalAlignment="Top"
                   Width="130" />
         <TextBox x:Name="TextBoxName"
-                 FontSize="30"
+                 FontSize="24"
                  Grid.Column="4"
                  Grid.ColumnSpan="5"
                  Grid.Row="2"

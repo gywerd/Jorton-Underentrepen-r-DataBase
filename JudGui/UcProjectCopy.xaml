@@ -36,22 +36,22 @@
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelCurrentCaseId" Content="Nuv. Sagsnummer*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelNewCaseId" Content="Nyt Sagsnummer*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelCaseName" Content="Sagsnavn:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId" 
-                  FontSize="30" 
+                  FontSize="24" 
                   Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" 
                   Height="50" Width="130"
                   HorizontalAlignment="Left" 
@@ -59,7 +59,7 @@
                   VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxCaseId" 
                                Background="White"  
-                               FontSize="30" 
+                               FontSize="24" 
                                Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" 
                                Height="50" Width="130"
                                HorizontalAlignment="Left" 
@@ -69,7 +69,7 @@
                                VerticalAlignment="Top" TextChanged="TextBoxCaseId_TextChanged"/>
         <xctk:WatermarkTextBox x:Name="TextBoxCaseName" 
                                Background="White"  
-                               FontSize="30" 
+                               FontSize="24" 
                                Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
                                Height="50" Width="955"
                                HorizontalAlignment="Left" 

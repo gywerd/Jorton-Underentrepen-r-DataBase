@@ -27,7 +27,7 @@ namespace JudGui
         public UserControl UcMain;
         public CraftGroup CCG = new CraftGroup();
 
-
+        public List<Entrepeneur> FilteredEntrepeneurs = new List<Entrepeneur>();
 
         #endregion
 
@@ -38,8 +38,8 @@ namespace JudGui
             this.CBZ = cbz;
             this.UcMain = ucMain;
 
-            CBZ.RefreshIndexedList("IndexedEntrepeneurs");
-            ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedEntrepeneurs;
+            GetFilteredEntrepeneurs();
+            ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
 
             ComboBoxCraftGroup1.ItemsSource = CBZ.IndexedCraftGroups;
             ComboBoxCraftGroup2.ItemsSource = CBZ.IndexedCraftGroups;
@@ -240,6 +240,15 @@ namespace JudGui
             }
         }
 
+        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GetFilteredEntrepeneurs();
+            ListBoxEntrepeneurs.SelectedIndex = -1;
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = this.FilteredEntrepeneurs;
+
+        }
+
         #endregion
 
         #region Buttons
@@ -299,16 +308,16 @@ namespace JudGui
 
         private void ButtonUpdateCvr_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.TempEntrepeneur != new Entrepeneur())
+            UpdateData updatedData = new UpdateData();
+            CBZ.TempEntrepeneur.Entity = updatedData.Entity;
+            bool updated = CBZ.UpdateInDb(updatedData.Entity);
+
+            if (updated)
             {
-                CBZ.CvrApi.UpdateCvrData(CBZ.TempEntrepeneur);
-                CBZ.TempEntrepeneur.Entity.Address = CBZ.TempLegalEntity.Address;
-                CBZ.TempEntrepeneur.Entity.ContactInfo = CBZ.TempLegalEntity.ContactInfo;
-                TextBoxName.Text = CBZ.TempLegalEntity.Name;
-                TextBoxPhone.Text = CBZ.TempBuilder.Entity.ContactInfo.Phone;
-                TextBoxFax.Text = CBZ.TempBuilder.Entity.ContactInfo.Fax;
-                TextBoxMobile.Text = CBZ.TempBuilder.Entity.ContactInfo.Mobile;
-                TextBoxEmail.Text = CBZ.TempBuilder.Entity.ContactInfo.Email;
+                int index = ListBoxEntrepeneurs.SelectedIndex;
+                ListBoxEntrepeneurs.SelectedIndex = -1;
+                GetFilteredEntrepeneurs();
+                ListBoxEntrepeneurs.SelectedIndex = index;
             }
         }
 
@@ -334,6 +343,39 @@ namespace JudGui
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves a list of filtered Entrepeneurs for ListBoxEntrepeneurs
+        /// </summary>
+        private void GetFilteredEntrepeneurs()
+        {
+            int length = TextBoxSearch.Text.Length;
+
+            if (length > 0)
+            {
+                CBZ.RefreshList("Entrepeneurs");
+                this.FilteredEntrepeneurs.Clear();
+                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
+                {
+                    if (entrepeneur.Entity.Name.Remove(length).ToLower() == TextBoxSearch.Text.ToLower())
+                    {
+                        this.FilteredEntrepeneurs.Add(entrepeneur);
+                    }
+                }
+
+            }
+            else
+            {
+                CBZ.RefreshList("Entrepeneurs");
+                this.FilteredEntrepeneurs.Clear();
+                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
+                {
+                    this.FilteredEntrepeneurs.Add(entrepeneur);
+                }
+
+            }
+
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -162,6 +163,29 @@ namespace JudRepository
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that checks wether an Email address is invalid
+        /// </summary>
+        /// <param name="email">string</param>
+        /// <returns>bool</returns>
+        public bool CheckEmail(string email)
+        {
+            bool result;
+
+            try
+            {
+                MailAddress m = new MailAddress(email);
+
+                result = true;
+            }
+            catch (FormatException)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Method, that sets id, if id == 0
         /// </summary>

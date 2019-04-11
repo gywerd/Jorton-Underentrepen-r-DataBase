@@ -16,9 +16,9 @@ namespace CvrApiRepository
         private string _city;
         private string _cityname;
         private bool _protected;
-        private int? _phone;
+        private int _phone;
         private string _email;
-        private int? _fax;
+        private int _fax;
         private string _startdate;
         private string _enddate;
         private string _employees;
@@ -47,15 +47,88 @@ namespace CvrApiRepository
         public string address { get => _address; set => _address = value; }
         public int zipcode { get => _zipcode; set => _zipcode = value; }
         public string city { get => _city; set => _city = value; }
-        public string cityname { get => _cityname; set => _cityname = value; }
+        public string cityname
+        {
+            get => _cityname;
+            set
+            {
+                if (value != null)
+                {
+                    _cityname = value;
+                }
+                else
+                {
+                    _cityname = "";
+                }
+
+            }
+        }
         public bool @protected { get => _protected; set => _protected = value; }
-        public int? phone { get => _phone; set => _phone = value; }
-        public string email { get => _email; set => _email = value; }
-        public int? fax { get => _fax; set => _fax = value; }
+        public int? phone
+        {
+            get => _phone;
+            set
+            {
+                if (value != null)
+                {
+                    _phone = Convert.ToInt32(value);
+                }
+                else
+                {
+                    _phone = 0;
+                }
+            }
+        }
+        public string email
+        {
+            get => _email;
+            set
+            {
+                if (value != null)
+                {
+                    _email = value;
+                }
+                else
+                {
+                    _email = "";
+                }
+
+            }
+        }
+        public int? fax
+        {
+            get => _fax;
+            set
+            {
+                if (value != null)
+                {
+                    _fax = Convert.ToInt32(value);
+                }
+                else
+                {
+                    _fax = 0;
+                }
+            }
+        }
         public string startdate { get => _startdate; set => _startdate = value; }
         public string enddate { get => _enddate; set => _enddate = value; }
         public string employees { get => _employees; set => _employees = value; }
-        public string addressco { get => _addressco; set => _addressco = value; }
+        public string addressco
+        {
+            get => _addressco;
+            set
+            {
+                if (value != null)
+                {
+                    _addressco = value;
+                }
+                else
+                {
+                    _addressco = "";
+                }
+
+            }
+        }
         public int industrycode { get => _industrycode; set => _industrycode = value; }
         public string industrydesc { get => _industrydesc; set => _industrydesc = value; }
         public int companycode { get => _companycode; set => _companycode = value; }

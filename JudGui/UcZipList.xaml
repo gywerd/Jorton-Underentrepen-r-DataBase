@@ -37,14 +37,14 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelZipSearch"
                Content="Søg*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1" Grid.Row="2"
                Grid.ColumnSpan="2"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelZips"
                Content="Postnumre*:"
-               FontSize="30"
+               FontSize="24"
                Grid.Column="1"
                Grid.Row="3"
                Grid.ColumnSpan="2"
@@ -52,14 +52,14 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelZipBox" 
                Content="Postnr*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="4" 
                Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelTown" 
                Content="By*:" 
-               FontSize="30" 
+               FontSize="24" 
                Grid.Column="1" Grid.Row="5" 
                Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
@@ -73,7 +73,7 @@
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxZipSearch" 
                                Background="White"  
-                               FontSize="30" 
+                               FontSize="24" 
                                Grid.Column="3" Grid.Row="2" 
                                Grid.ColumnSpan="6" 
                                IsEnabled="False"
@@ -86,7 +86,7 @@
                                Watermark="9999" />
         <xctk:WatermarkTextBox x:Name="TextBoxZip"
                                Background="White"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="2" Grid.Row="4"
                                IsEnabled="False"
                                Height="50" Width="130"
@@ -138,7 +138,7 @@
         </CheckBox>
         <xctk:WatermarkTextBox x:Name="TextBoxTown"
                                Background="White"
-                               FontSize="30"
+                               FontSize="24"
                                Grid.Column="2" Grid.Row="5"
                                Grid.ColumnSpan="6"
                                Height="50" Width="130"

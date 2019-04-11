@@ -95,6 +95,7 @@
     <Compile Include="RequestStatus.cs" />
     <Compile Include="SubEntrepeneur.cs" />
     <Compile Include="TenderForm.cs" />
+    <Compile Include="UpdateData.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserLevel.cs" />
     <Compile Include="ZipTown.cs" />
