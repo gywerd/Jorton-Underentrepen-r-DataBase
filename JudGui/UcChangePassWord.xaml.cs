@@ -27,22 +27,24 @@ namespace JudGui
         public UserControl UcMain;
         public string TempNewPassWord = "";
 
-        bool oldPassWordCorrect = false;
-        bool newPassWordLength = false;
-        bool newPassWordrepeatCorrect = false;
+        public bool ForcedPassWordChange = false;
+        public bool OldPassWordCorrect = false;
+        public bool NewPassWordLength = false;
+        public bool NewPassWordrepeatCorrect = false;
 
-        ImageBrush greenIndicator = new ImageBrush();
-        ImageBrush redIndicator = new ImageBrush();
+        public ImageBrush greenIndicator = new ImageBrush();
+        public ImageBrush redIndicator = new ImageBrush();
 
 
         #endregion
 
         #region Constructors
-        public UcChangePassWord(Bizz cbz, UserControl ucMain)
+        public UcChangePassWord(Bizz cbz, UserControl ucMain, bool forcedPassWordChange = false)
         {
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
+            this.ForcedPassWordChange = forcedPassWordChange;
 
             SetIndicators();
         }
@@ -52,7 +54,11 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.UcMainEdited)
+            if (ForcedPassWordChange)
+            {
+                MessageBox.Show("Passwordet skal ændres, før du kan benytte programmet", "Password", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (CBZ.UcMainEdited && !ForcedPassWordChange)
             {
                 //Warning about lost changes before closing
                 if (MessageBox.Show("Passwordet er ikke ændret. Vil du lukke alligevel?", "Password", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -73,49 +79,41 @@ namespace JudGui
         private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
             //Show Errors
-            if (!oldPassWordCorrect)
+            if (!OldPassWordCorrect)
             {
                 MessageBox.Show("Det nuværende password er tastet forkert.", "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            if (!newPassWordLength)
+            if (!NewPassWordLength)
             {
                 MessageBox.Show("Det nye password er for kort. Mindst 8 tegn.", "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            if (!newPassWordrepeatCorrect)
+            if (!NewPassWordrepeatCorrect)
             {
                 MessageBox.Show("Nyt Password & Gentaget Nyt Password er ikke ens.", "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            //Change Password in memory
+            //Update Password
             bool passWordChanged = false;
 
-            if (oldPassWordCorrect && newPassWordLength && newPassWordrepeatCorrect)
+            if (OldPassWordCorrect && NewPassWordLength && NewPassWordrepeatCorrect)
             {
-                CBZ.ChangePassword(PasswordBoxOld.Text, PasswordBoxNew.Text);
-                passWordChanged = true;
+                passWordChanged = CBZ.ChangePassword(PasswordBoxOld.Password, PasswordBoxNew.Password);
             }
 
-            //Update User in Db
-            bool passWordUpdated = false;
-
+            //
+           //Show result
             if (passWordChanged)
             {
-                passWordUpdated = CBZ.UpdateInDb(CBZ.CurrentUser);
-            }
-
-            //Show result
-            if (passWordChanged & passWordUpdated)
-            {
                 MessageBox.Show("Passwordet blev opdateret.", "Login", MessageBoxButton.OK, MessageBoxImage.Information);
+                ForcedPassWordChange = false;
+                CBZ.UcMainEdited = false;
                 ButtonClose_Click(sender, e);
-
             }
             else
             {
                 MessageBox.Show("Passwordet blev ikke opdateret. Tjek, at du har tastet korrekt: Mindst 8 tegn. Forskel på store og små bogstaver. Ingen mellemrum.", "Login", MessageBoxButton.OK, MessageBoxImage.Error);
-                CBZ.ChangePassword(PasswordBoxNew.Text, PasswordBoxOld.Text);
             }
         }
 
@@ -157,9 +155,9 @@ namespace JudGui
         }
 
         private void PasswordBoxOld_TextChanged(object sender, TextChangedEventArgs e)
-        {
+            {
             //Remove spaces
-            string tempPassWord = PasswordBoxOld.Text;
+            string tempPassWord = PasswordBoxOld.Password;
             tempPassWord.Replace(" ", "");
             PasswordBoxOld.Text = tempPassWord;
 
@@ -182,13 +180,13 @@ namespace JudGui
 
             if (PasswordBoxNew.Text == PasswordBoxNewRepeat.Text)
             {
-                newPassWordrepeatCorrect = true;
-                NewRepeatIndicatorBackGround = greenIndicator;
+                NewPassWordrepeatCorrect = true;
+                ButtonPasswordNewRepeatIndicator.Background = greenIndicator;
             }
             else
             {
-                newPassWordrepeatCorrect = false;
-                NewRepeatIndicatorBackGround = redIndicator;
+                NewPassWordrepeatCorrect = false;
+                ButtonPasswordNewRepeatIndicator.Background = redIndicator;
             }
 
         }
@@ -197,13 +195,13 @@ namespace JudGui
         {
             if (PasswordBoxNew.Text.Length >= 8)
             {
-                newPassWordLength = true;
-                NewIndicatorBackGround = greenIndicator;
+                NewPassWordLength = true;
+                ButtonPasswordNewIndicator.Background = greenIndicator;
             }
             else
             {
-                newPassWordLength = false;
-                NewIndicatorBackGround = redIndicator;
+                NewPassWordLength = false;
+                ButtonPasswordNewIndicator.Background = redIndicator;
             }
         }
 
@@ -212,21 +210,21 @@ namespace JudGui
 
             if (CBZ.CheckLogin(CBZ.CurrentUser.Initials, PasswordBoxOld.Text))
             {
-                oldPassWordCorrect = true;
-                OldIndicatorBackGround = greenIndicator;
+                OldPassWordCorrect = true;
+                ButtonPasswordOldIndicator.Background = greenIndicator;
             }
             else
             {
-                oldPassWordCorrect = true;
-                OldIndicatorBackGround = redIndicator;
+                OldPassWordCorrect = false;
+                ButtonPasswordOldIndicator.Background = redIndicator; 
             }
 
         }
 
         private void SetIndicators()
         {
-            Uri greenUri = new Uri("Images/green-indicator.png", UriKind.Relative);
-            Uri redUri = new Uri("Images/red-indicator.png", UriKind.Relative);
+            Uri greenUri = new Uri(@"Images\green-indicator.png", UriKind.Relative);
+            Uri redUri = new Uri(@"Images\red-indicator.png", UriKind.Relative);
             StreamResourceInfo greenStreamInfo = Application.GetResourceStream(greenUri);
             StreamResourceInfo redStreamInfo = Application.GetResourceStream(redUri);
 

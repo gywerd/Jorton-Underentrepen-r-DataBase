@@ -6,19 +6,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -53,19 +53,19 @@
         <ComboBox x:Name="ComboBoxCaseId" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="2" 
-                  Height="50" Width="130"
+                  Height="50" Width="165"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" />
         <Label x:Name="TextBoxCaseName" Content=""
                FontSize="24" 
-               Height="50" Width="955"
+               Height="50" Width="1065"
                Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxProjectStatus" 
                   FontSize="24" 
-                  Height="50" Width="955"
+                  Height="50" Width="1065"
                   Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxProjectStatus_SelectionChanged" 
@@ -74,14 +74,14 @@
                 Click="ButtonCancel_Click" 
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" 
-                Height="100"  Width="315"
+                Height="100"  Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonExecute" Content="Udfør"
                 Click="ButtonExecute_Click" 
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="6" Grid.ColumnSpan="2" 
-                Height="100"  Width="315"
+                Height="100"  Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

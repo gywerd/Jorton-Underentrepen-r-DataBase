@@ -92,13 +92,25 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="2"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="1065"
+                               Height="50" Width="1015"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxCraftCategorySearch_TextChanged"
                                VerticalAlignment="Top"
                                Watermark="Jen" />
+        <Button x:Name="ButtonSearchEntrepeneur"
+                FontSize="24"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="2"
+                Height="50" Width="50"
+                HorizontalAlignment="Right"
+                ToolTip="Indtast de førstebogsstaver i firmanavnet"
+                VerticalAlignment="Top">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/help.png" />
+            </Button.Background>
+        </Button>
         <ListBox x:Name="ListBoxCraftCategories"
                  Grid.Column="3"
                  Grid.Row="3"
@@ -123,11 +135,10 @@
                                Watermark="Skomagere" />
         <xctk:WatermarkTextBox x:Name="TextBoxNewText"
                                FontSize="24"
-                               Grid.Column="3"
-                               Grid.Row="6"
+                               Grid.Column="3" Grid.Row="6"
                                Grid.ColumnSpan="5"
                                Height="50"
-                               Width="890"
+                               Width="885"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxNewText_TextChanged"
@@ -154,7 +165,7 @@
                 Grid.Row="7"
                 Grid.ColumnSpan="2"
                 Height="100"
-                Width="315"
+                Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
@@ -166,7 +177,7 @@
                 Grid.Row="7"
                 Grid.ColumnSpan="2"
                 Height="100"
-                Width="315"
+                Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

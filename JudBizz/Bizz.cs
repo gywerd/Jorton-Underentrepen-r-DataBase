@@ -564,7 +564,7 @@ namespace JudBizz
 
             if (intZip > 0 && intZip < 900)
             {
-                TempZipTown = new ZipTown((ZipTown)GetObject("ZipTowns", 1100));
+                TempZipTown = new ZipTown((ZipTown)GetZipTown(1100));
                 zipFound = true;
             }
             else if (intZip <= 0 || intZip >= 900)

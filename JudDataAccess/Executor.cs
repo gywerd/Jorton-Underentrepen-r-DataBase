@@ -46,7 +46,7 @@ namespace JudDataAccess
             args[3] = jobDescriptionId.ToString();
             args[4] = userLevelId.ToString();
 
-            return Convert.ToBoolean(DbReturnString(@"usersAddUser", args));
+            return Convert.ToBoolean(DbReturnBool(@"usersAddUser", args));
         }
 
         /// <summary>
@@ -58,12 +58,15 @@ namespace JudDataAccess
         /// <returns></returns>
         public bool ChangePassword(int id, string oldPassWord, string newPassWord)
         {
+            bool result = false;
             string[] args = new string[3];
             args[0] = id.ToString();
             args[1] = oldPassWord;
             args[2] = newPassWord;
 
-            return Convert.ToBoolean(DbReturnString(@"usersUpdatePassword", args));
+            result = DbReturnBool(@"usersUpdatePassword", args);
+
+            return result;
         }
 
 
@@ -80,8 +83,8 @@ namespace JudDataAccess
             args[0] = initials;
             args[1] = passWord;
 
-            string strResult = DbReturnString(@"usersLogin", args);
-            result = Convert.ToBoolean(strResult);
+            result = DbReturnBool(@"usersLogin", args);
+
             return result;
         }
 
@@ -195,7 +198,6 @@ namespace JudDataAccess
         /// <summary>
         /// Method, that retrieves a Project List from Db
         /// Accepts the following tables: Enterprises [projectId], Shippings [projectId] & SubEntrepeneurs [enterpriseId]
-        /// 
         /// </summary>
         /// <param name="table">string</param>
         /// <param name="id">int</param>

@@ -55,7 +55,7 @@ namespace JudGui
         {
             bool result = false;
             // Code that copies the current project into a new project
-            Project project = new Project(CBZ.TempProject.Case, CBZ.TempProject.Name, CBZ.TempProject.Builder, new ProjectStatus((ProjectStatus)CBZ.GetObject("ProjectStatus", 1)), CBZ.TempProject.TenderForm, CBZ.TempProject.EnterpriseForm, CBZ.TempProject.Executive);
+            Project project = new Project(CBZ.TempProject.Case, CBZ.TempProject.Name, CBZ.TempProject.Builder, new ProjectStatus((ProjectStatus)CBZ.GetProjectStatus(1)), CBZ.TempProject.TenderForm, CBZ.TempProject.EnterpriseForm, CBZ.TempProject.Executive);
             int id = CBZ.CreateInDb(CBZ.TempProject);
             if (id >= 1)
             {

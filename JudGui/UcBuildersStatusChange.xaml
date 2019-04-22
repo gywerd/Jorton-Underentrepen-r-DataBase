@@ -72,7 +72,7 @@
         <ListBox x:Name="ListBoxBuilders"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="480" Width="1055"
+                 Height="420" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxBuilders_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -102,7 +102,7 @@
                 FontWeight="Bold"
                 Grid.Column="1" Grid.Row="5"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
@@ -112,7 +112,7 @@
                 FontWeight="Bold"
                 Grid.Column="7" Grid.Row="5"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

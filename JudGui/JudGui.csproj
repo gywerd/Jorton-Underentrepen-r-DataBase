@@ -129,11 +129,8 @@
     <Compile Include="UcEntrepeneurEdit.xaml.cs">
       <DependentUpon>UcEntrepeneurEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcRequestPrepare.xaml.cs">
-      <DependentUpon>UcRequestPrepare.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcRequestSend.xaml.cs">
-      <DependentUpon>UcRequestSend.xaml</DependentUpon>
+    <Compile Include="UcRequestsSentShow.xaml.cs">
+      <DependentUpon>UcRequestsSentShow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcSubEntrepeneursChoose.xaml.cs">
       <DependentUpon>UcSubEntrepeneursChoose.xaml</DependentUpon>
@@ -325,13 +322,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcRequestPrepare.xaml">
+    <Page Include="UcRequestsSentShow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UcRequestSend.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UcSubEntrepeneursChoose.xaml">
       <SubType>Designer</SubType>
@@ -587,15 +580,27 @@
     <Resource Include="Images\project-copy-small.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\green-indicator-small.png" />
-    <Resource Include="Images\green-indicator.png" />
-    <Resource Include="Images\red-indicator-small.png" />
-    <Resource Include="Images\red-indicator.png" />
+    <Resource Include="Images\green-indicator-small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\green-indicator.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\red-indicator-small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\red-indicator.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Log2\log.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\request-show-small.png" />
+    <Resource Include="Images\request-small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

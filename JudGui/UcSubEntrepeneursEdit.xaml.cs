@@ -26,13 +26,20 @@ namespace JudGui
     {
         #region Fields
         public DateTime Date = new DateTime();
-        public bool Changed = false;
-        public bool ChangeSentDate;
+        public bool ChangedRequestStatus = false;
+        public bool ChangedIttLetterSent = false;
+        public bool ChangedOfferReceived = false;
+        public bool requestStatusUpTodate = false;
+        public bool ittLetterSentUptoDate = false;
+        public bool offerReceivedUpToDate = false;
+        public bool result = false;
         public bool DbStatus = false;
         public bool OverrideControl = false;
 
         public Bizz CBZ;
         public UserControl UcMain;
+
+        List<IndexedEnterprise> ProjectEnterprises = new List<IndexedEnterprise>();
 
         #endregion
 
@@ -73,14 +80,48 @@ namespace JudGui
         {
             if (ListBoxSubEntrepeneurs.SelectedItems.Count > 0)
             {
-                bool result = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur);
+                //Assume, that Request Status, IttLetter sent & Offer Received is up to date, 
+                //while TempSupEntrepeneur is not yet updated
+                requestStatusUpTodate = true;
+                ittLetterSentUptoDate = true;
+                offerReceivedUpToDate = true;
+                result = false;
 
+                //Validate, requestStatus that Request Status is up to date
+                if (ChangedRequestStatus)
+                {
+                    requestStatusUpTodate = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur.Request);
+                }
+
+                //Validate, wether IttLetter sent is up to date
+                if (ChangedIttLetterSent)
+                {
+                    ittLetterSentUptoDate = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur.IttLetter);
+                }
+
+                //Validate, wether Offer received is up to date
+                if (ChangedOfferReceived)
+                {
+                    offerReceivedUpToDate = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur.Offer);
+                }
+
+                //Update SubEntrepeneur
+                if (requestStatusUpTodate && ittLetterSentUptoDate && offerReceivedUpToDate)
+                {
+                    result = CBZ.UpdateInDb(CBZ.TempSubEntrepeneur);
+                }
+
+                //Display result in messagebox
                 if (result)
                 {
-                    MessageBox.Show("Underentrepenøren blev opdateret?", "Underentrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Underentrepenøren blev opdateret.", "Underentrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     ComboBoxCaseId.SelectedIndex = -1;
                     CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+                    ComboBoxEnterprise.SelectedIndex = -1;
+                    ComboBoxEnterprise.ItemsSource = "";
+                    ListBoxSubEntrepeneurs.SelectedIndex = -1;
+                    ListBoxSubEntrepeneurs.ItemsSource = "";
                     ResetComboBoxes();
                     ResetRadioButtons();
 
@@ -88,8 +129,12 @@ namespace JudGui
                 }
                 else
                 {
-                    MessageBox.Show("Der opstod en fejl, ved opdatering af Underentrepenøren. Prøv Igen.", "Underentrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Der opstod en fejl under opdatering af Underentrepenøren. Prøv Igen.", "Underentrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+            else
+            {
+                MessageBox.Show("Du har ikke valgt en Underentrepenøren at opdatere.", "Underentrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -100,10 +145,12 @@ namespace JudGui
         {
             if (ComboBoxCaseId.SelectedIndex > -1)
             {
+                CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
+
                 TextBoxName.Text = CBZ.TempProject.Name;
-                GetIndexedEnterprises();
                 ComboBoxEnterprise.ItemsSource = "";
-                ComboBoxEnterprise.ItemsSource = CBZ.IndexedEnterprises;
+                GetProjectEnterprises();
+                ComboBoxEnterprise.ItemsSource = ProjectEnterprises;
                 ComboBoxEnterprise.SelectedIndex = 0;
                 ListBoxSubEntrepeneurs.ItemsSource = "";
                 ListBoxSubEntrepeneurs.SelectedIndex = -1;
@@ -119,7 +166,6 @@ namespace JudGui
                     CBZ.UcMainEdited = true;
                 }
 
-
             }
         }
 
@@ -127,7 +173,10 @@ namespace JudGui
         {
             if (ComboBoxContact.SelectedIndex > 0)
             {
-                CBZ.TempSubEntrepeneur.Contact = ((Contact)ComboBoxContact.SelectedItem);
+                if (CBZ.TempSubEntrepeneur.Contact.Id != new Contact((Contact)ComboBoxContact.SelectedItem).Id)
+                {
+                    CBZ.TempSubEntrepeneur.Contact = ((Contact)ComboBoxContact.SelectedItem);
+                }
 
                 //Set CBZ.UcMainEdited
                 if (CBZ != null)
@@ -144,15 +193,21 @@ namespace JudGui
 
         private void ComboBoxEnterprise_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboBoxEnterprise.SelectedIndex > 0)
+            TextBoxEntrepeneur.Text = "";
+            TextBoxOfferPrice.Text = "";
+            ResetComboBoxes();
+            ResetRadioButtons();
+            ListBoxSubEntrepeneurs.UnselectAll();
+            ListBoxSubEntrepeneurs.ItemsSource = "";
+            if (ComboBoxEnterprise.SelectedIndex == -1 || ComboBoxEnterprise.SelectedIndex == 0)
             {
-                TextBoxEntrepeneur.Text = "";
-                TextBoxOfferPrice.Text = "";
                 CBZ.TempEnterprise = new Enterprise((Enterprise)ComboBoxEnterprise.SelectedItem);
-                ResetComboBoxes();
-                ResetRadioButtons();
-                ListBoxSubEntrepeneurs.UnselectAll();
                 ListBoxSubEntrepeneurs.ItemsSource = "";
+
+            }
+            else if (ComboBoxEnterprise.SelectedIndex >= 1)
+            {
+                CBZ.TempEnterprise = new Enterprise((Enterprise)ComboBoxEnterprise.SelectedItem);
                 if (CBZ.TempEnterprise.Id != 0)
                 {
                     GetIndexedSubEntrepeneurs();
@@ -165,11 +220,38 @@ namespace JudGui
 
         private void ComboBoxRequest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboBoxRequest.SelectedIndex > 0)
+            if (ComboBoxRequest.SelectedIndex > -1)
             {
                 if (CBZ.TempSubEntrepeneur != new SubEntrepeneur())
                 {
-                    CBZ.TempSubEntrepeneur.Request = new Request((IndexedRequest)ComboBoxRequest.SelectedItem);
+                    if (CBZ.TempSubEntrepeneur.Request.Status != new RequestStatus((IndexedRequestStatus)ComboBoxRequest.SelectedItem))
+                    {
+                        RequestStatus requestStatus = new RequestStatus((IndexedRequestStatus)ComboBoxRequest.SelectedItem);
+
+                        //Validate Dates
+                        switch (requestStatus.Id)
+                        {
+                            case 0:
+                                ValidateRequestDatesNotSent();
+                                break;
+                            case 1:
+                                ValidateRequestDatesSent();
+                                break;
+                            case 2:
+                                ValidateRequestDatesReceived();
+                                break;
+                            case 3:
+                                ValidateRequestDatesCancelled();
+                                break;
+                            default:
+                                ValidateRequestDatesNotSent();
+                                break;
+                        }
+
+                        //Update CBZ.TempSubEntrepeneur Request Status
+                        CBZ.TempSubEntrepeneur.Request.Status = requestStatus;
+                        ChangedRequestStatus = true;
+                    }
                 }
 
                 //Set CBZ.UcMainEdited
@@ -186,77 +268,26 @@ namespace JudGui
 
         private void DateIttLetter_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CheckTempSubEntrepeneur())
-            {
-                CBZ.TempSubEntrepeneur.IttLetter.SentDate = DateIttLetter.DisplayDate;
-
-                //Set CBZ.UcMainEdited
-                if (CBZ != null)
-                {
-                    if (!CBZ.UcMainEdited)
-                    {
-                        CBZ.UcMainEdited = true;
-                    }
-                }
-            }
-
+            //Validating IttLetter Sent Date when written/selected corrupts the code
+            //Instead, validate date when changing status
         }
 
         private void DateOffer_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CheckTempSubEntrepeneur())
-            {
-                CBZ.TempSubEntrepeneur.Offer.SetReceived(DateOffer.DisplayDate);
-
-                //Set CBZ.UcMainEdited
-                if (CBZ != null)
-                {
-                    if (!CBZ.UcMainEdited && CheckTempSubEntrepeneur())
-                    {
-                        CBZ.UcMainEdited = true;
-                    }
-                }
-
-            }
-
+            //Validating Offer Received Date when written/selected corrupts the code
+            //Instead, validate Offer Received Date when changing status
         }
 
         private void DateRequestReceived_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CheckTempSubEntrepeneur())
-            {
-                CBZ.TempSubEntrepeneur.Request.ReceivedDate = (DateOffer.DisplayDate);
-
-                //Set CBZ.UcMainEdited
-                if (CBZ != null)
-                {
-                    if (!CBZ.UcMainEdited && CheckTempSubEntrepeneur())
-                    {
-                        CBZ.UcMainEdited = true;
-                    }
-                }
-
-            }
-
+            //Validating Request Received Date when written/selected corrupts the code
+            //Instead, validate Request Received Date when changing status
         }
 
         private void DateRequestSent_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CheckTempSubEntrepeneur())
-            {
-                CBZ.TempSubEntrepeneur.Request.SentDate = (DateOffer.DisplayDate);
-
-
-                //Set CBZ.UcMainEdited
-                if (CBZ != null)
-                {
-                    if (!CBZ.UcMainEdited && CheckTempSubEntrepeneur())
-                    {
-                        CBZ.UcMainEdited = true;
-                    }
-                }
-            }
-
+            //Validating Request Sent Date when written/selected corrupts the code
+            //Instead, validate Sent Received Date when changing status
         }
 
         private void ListBoxSubEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -287,23 +318,24 @@ namespace JudGui
         {
             if (CBZ != null && CheckTempSubEntrepeneur())
             {
-                RadioButtonOfferReceivedYes.IsChecked = true;
-                RadioButtonOfferReceivedNo.IsChecked = false;
                 if (!CBZ.TempSubEntrepeneur.AgreementConcluded)
                 {
                     CBZ.TempSubEntrepeneur.ToggleAgreementConcluded();
                 }
+                RadioButtonOfferReceivedYes.IsChecked = true;
+                RadioButtonOfferReceivedNo.IsChecked = false;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited && CheckTempSubEntrepeneur())
+                {
+                    CBZ.UcMainEdited = true;
+                }
+
             }
             else
             {
                 RadioButtonOfferReceivedYes.IsChecked = false;
                 RadioButtonOfferReceivedYes.IsChecked = false;
-            }
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited && CheckTempSubEntrepeneur())
-            {
-                CBZ.UcMainEdited = true;
             }
 
         }
@@ -312,26 +344,18 @@ namespace JudGui
         {
             if (CBZ != null && CheckTempSubEntrepeneur())
             {
-                RadioButtonAgreementConcludedYes.IsChecked = false;
-                RadioButtonAgreementConcludedNo.IsChecked = true;
-                if (CBZ.TempSubEntrepeneur.AgreementConcluded == true)
+                if (CBZ.TempSubEntrepeneur.AgreementConcluded)
                 {
                     CBZ.TempSubEntrepeneur.ToggleAgreementConcluded();
                 }
+                RadioButtonAgreementConcludedYes.IsChecked = false;
+                RadioButtonAgreementConcludedNo.IsChecked = true;
+
             }
             else
             {
                 RadioButtonOfferReceivedYes.IsChecked = false;
                 RadioButtonOfferReceivedYes.IsChecked = false;
-            }
-
-            //Set CBZ.UcMainEdited
-            if (CBZ != null)
-            {
-                if (!CBZ.UcMainEdited && CheckTempSubEntrepeneur())
-                {
-                    CBZ.UcMainEdited = true;
-                }
             }
 
         }
@@ -342,7 +366,9 @@ namespace JudGui
             {
                 if (!CBZ.TempSubEntrepeneur.IttLetter.Sent)
                 {
+                    ValidateIttLetterSentDateSent();
                     CBZ.TempSubEntrepeneur.IttLetter.ToggleSent();
+                    ChangedIttLetterSent = true;
                 }
                 RadioButtonIttLetterSentYes.IsChecked = true;
                 RadioButtonIttLetterSentNo.IsChecked = false;
@@ -361,10 +387,12 @@ namespace JudGui
             {
                 if (CBZ.TempSubEntrepeneur.IttLetter.Sent)
                 {
+                    ValidateIttLetterSentDateNotSent();
                     CBZ.TempSubEntrepeneur.IttLetter.ToggleSent();
+                    ChangedIttLetterSent = true;
                 }
-                RadioButtonIttLetterSentYes.IsChecked = true;
-                RadioButtonIttLetterSentNo.IsChecked = false;
+                RadioButtonIttLetterSentYes.IsChecked = false;
+                RadioButtonIttLetterSentNo.IsChecked = true;
             }
             else
             {
@@ -426,7 +454,9 @@ namespace JudGui
             {
                 if (!CBZ.TempSubEntrepeneur.Offer.Received)
                 {
+                    ValidateOfferReceivedDateReceived();
                     CBZ.TempSubEntrepeneur.Offer.ToggleReceived();
+                    ChangedOfferReceived = true;
                 }
                 RadioButtonOfferReceivedYes.IsChecked = true;
                 RadioButtonOfferReceivedNo.IsChecked = false;
@@ -445,7 +475,9 @@ namespace JudGui
             {
                 if (CBZ.TempSubEntrepeneur.Offer.Received)
                 {
+                    ValidateOfferReceivedDateNotReceived();
                     CBZ.TempSubEntrepeneur.Offer.ToggleReceived();
+                    ChangedOfferReceived = true;
                 }
                 RadioButtonOfferReceivedYes.IsChecked = false;
                 RadioButtonOfferReceivedNo.IsChecked = true;
@@ -620,25 +652,6 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Methods, creates a list of indexable Enterprises
-        /// </summary>
-        private void GetIndexedEnterprises()
-        {
-            CBZ.IndexedEnterprises.Clear();
-            CBZ.RefreshList("Enterprises");
-            CBZ.IndexedEnterprises.Add(new IndexedEnterprise(0, CBZ.Enterprises[0]));
-            int i = 1;
-            foreach (Enterprise enterprise in CBZ.Enterprises)
-            {
-                if (enterprise.Project.Id == CBZ.TempProject.Id)
-                {
-                    CBZ.IndexedEnterprises.Add(new IndexedEnterprise(i, enterprise));
-                    i++;
-                }
-            }
-        }
-
-        /// <summary>
         /// <summary>
         /// Method that creates a list of indexable SubEbtrepeneurs
         /// </summary>
@@ -655,6 +668,30 @@ namespace JudGui
                     i++;
                 }
             }
+        }
+
+        /// <summary>
+        /// Methods, creates a list of indexable Enterprises
+        /// </summary>
+        private void GetProjectEnterprises()
+        {
+            ProjectEnterprises.Clear();
+
+            CBZ.RefreshList("Enterprises");
+
+            ProjectEnterprises.Add(new IndexedEnterprise(0, CBZ.Enterprises[0]));
+
+            int i = 1;
+
+            foreach (Enterprise enterprise in CBZ.Enterprises)
+            {
+                if (enterprise.Project.Id == CBZ.TempProject.Id)
+                {
+                    ProjectEnterprises.Add(new IndexedEnterprise(i, enterprise));
+                    i++;
+                }
+            }
+
         }
 
         /// <summary>
@@ -821,7 +858,7 @@ namespace JudGui
             DateRequestSent.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToShortDateString();
             DateRequestReceived.DisplayDate = CBZ.TempSubEntrepeneur.Request.ReceivedDate;
             DateRequestReceived.Text = CBZ.TempSubEntrepeneur.Request.ReceivedDate.ToShortDateString();
-            ComboBoxRequest.SelectedIndex = CBZ.TempRequest.Status.Id;
+            ComboBoxRequest.SelectedIndex = CBZ.TempSubEntrepeneur.Request.Status.Id;
         }
 
         /// <summary>
@@ -936,6 +973,195 @@ namespace JudGui
             {
                 RadioButtonUpholdYes.IsChecked = false;
                 RadioButtonUpholdNo.IsChecked = true;
+            }
+        }
+
+        /// <summary>
+        /// Method, that resets IttLetter Sent Date, when status is 'False'
+        /// Logic: As the IttLetter is not sent, the IttLetter Sent Date must be reset
+        /// </summary>
+        private void ValidateIttLetterSentDateNotSent()
+        {
+            if (DateIttLetter.DisplayDate.ToShortDateString() != CBZ.oldDate.ToShortDateString() || CBZ.TempSubEntrepeneur.IttLetter.SentDate.ToShortDateString() != CBZ.oldDate.ToShortDateString())
+            {
+                CBZ.TempSubEntrepeneur.IttLetter.SentDate = DateIttLetter.DisplayDate = CBZ.oldDate;
+                DateIttLetter.Text = CBZ.TempSubEntrepeneur.IttLetter.SentDate.ToString("dd-MM-yyyy");
+            }
+        }
+
+        /// <summary>
+        /// Method, that validates, wether IttLetter Sent Date is less than ten years old, when status is 'True'
+        /// Logic: Adjusting IttLetter Sent Date is pointless for very old cases
+        /// </summary>
+        private void ValidateIttLetterSentDateSent()
+        {
+            if (DateIttLetter.DisplayDate.Year < (DateTime.Now.Year - 10))
+            {
+                CBZ.TempSubEntrepeneur.IttLetter.SentDate = DateIttLetter.DisplayDate = DateTime.Now;
+                DateIttLetter.Text = CBZ.TempSubEntrepeneur.IttLetter.SentDate.ToString("dd-MM-yyyy");
+            }
+            else
+            {
+                CBZ.TempSubEntrepeneur.IttLetter.SentDate = DateIttLetter.DisplayDate;
+            }
+        }
+
+        /// <summary>
+        /// Method, that resets Offer Received Date, when status is 'False'
+        /// Logic: As the Offer is not received, the Offer Received Date must be reset
+        /// </summary>
+        private void ValidateOfferReceivedDateNotReceived()
+        {
+            if (DateOffer.DisplayDate.ToShortDateString() != CBZ.oldDate.ToShortDateString() || CBZ.TempSubEntrepeneur.Offer.ReceivedDate.ToShortDateString() != CBZ.oldDate.ToShortDateString())
+            {
+                CBZ.TempSubEntrepeneur.Offer.SetReceived(CBZ.oldDate);
+                DateOffer.DisplayDate = CBZ.TempSubEntrepeneur.IttLetter.SentDate;
+                DateOffer.Text = CBZ.TempSubEntrepeneur.IttLetter.SentDate.ToString("dd-MM-yyyy");
+            }
+        }
+
+        /// <summary>
+        /// Method, that validates, wether Offer Received Date is less than ten years old, when status is 'True'
+        /// Logic: Adjusting Offer Received Date is pointless for very old cases
+        /// </summary>
+        private void ValidateOfferReceivedDateReceived()
+        {
+            if (DateIttLetter.DisplayDate.Year < (DateTime.Now.Year - 10))
+            {
+                CBZ.TempSubEntrepeneur.Offer.SetReceived(DateTime.Now);
+                DateOffer.DisplayDate = CBZ.TempSubEntrepeneur.Offer.ReceivedDate;
+                DateOffer.Text = CBZ.TempSubEntrepeneur.Offer.ReceivedDate.ToString("dd-MM-yyyy");
+            }
+            else
+            {
+                CBZ.TempSubEntrepeneur.Offer.SetReceived(DateIttLetter.DisplayDate);
+            }
+        }
+
+        /// <summary>
+        /// Method, that resets Request dates, when status is '3 Cancellation'
+        /// </summary>
+        private void ValidateRequestDatesCancelled()
+        {
+            ValidateRequestReceivedDateReceived();
+            ValidateRequestSentDateWhenReceived();
+        }
+
+        /// <summary>
+        /// Method, that resets Request dates, when status is '0 Not Sent'
+        /// </summary>
+        private void ValidateRequestDatesNotSent()
+        {
+            ValidateRequestSentDateNotSent();
+            ValidateRequestReceivedDateNotReceived();
+        }
+
+        /// <summary>
+        /// Method, that resets Request dates, when status is '2 Receiced'
+        /// </summary>
+        private void ValidateRequestDatesReceived()
+        {
+            ValidateRequestReceivedDateReceived();
+            ValidateRequestSentDateWhenReceived();
+        }
+
+        /// <summary>
+        /// Method, that validates Request dates, when status is '1 Sent'
+        /// </summary>
+        private void ValidateRequestDatesSent()
+        {
+            ValidateRequestSentDateSent();
+            ValidateRequestReceivedDateNotReceived();
+        }
+
+        /// <summary>
+        /// Method, that resets Request Received Date when status is '0 Not Sent' or '1 Sent'
+        /// Logic: As the Request was sent recently or never sent, the Request Received Date must be reset, if no Request received
+        /// </summary>
+        private void ValidateRequestReceivedDateNotReceived()
+        {
+            CBZ.TempSubEntrepeneur.Request.ReceivedDate = DateRequestReceived.DisplayDate = CBZ.oldDate;
+            DateRequestReceived.Text = CBZ.TempSubEntrepeneur.Request.ReceivedDate.ToString("dd-MM-yyy");
+        }
+
+        /// <summary>
+        /// Method, that validates, wether Request Received Date is less than ten years old, when status is '2 Received' or '3 Cancellation'
+        /// Logic: Adjusting Request Received Date is pointless for very old cases
+        /// </summary>
+        private void ValidateRequestReceivedDateReceived()
+        {
+            if (DateRequestReceived.DisplayDate.Year <= (DateTime.Now.Year - 10))
+            {
+                CBZ.TempSubEntrepeneur.Request.ReceivedDate = DateRequestReceived.DisplayDate = DateTime.Now;
+                DateRequestReceived.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToString("dd-MM-yyy");
+            }
+            else
+            {
+                CBZ.TempSubEntrepeneur.Request.ReceivedDate = DateRequestReceived.DisplayDate;
+            }
+        }
+
+        /// <summary>
+        /// Method, that resets Request Sent Date, when status is '0 Not Sent'
+        /// Logic: As the Request has not been sent, Request Sent Date must be reset
+        /// </summary>
+        private void ValidateRequestSentDateNotSent()
+        {
+            CBZ.TempSubEntrepeneur.Request.SentDate = DateRequestSent.DisplayDate = CBZ.oldDate;
+            DateRequestSent.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToString("dd-MM-yyy");
+        }
+
+        /// <summary>
+        /// Method, that validates Request Sent Date is less than ten years old, when status is '1 Sent'
+        /// Logic: Adjusting Request Sent Date is pointless for very old cases
+        /// </summary>
+        private void ValidateRequestSentDateSent()
+        {
+            if (DateRequestSent.DisplayDate.Year <= (DateTime.Now.Year - 10))
+            {
+                CBZ.TempSubEntrepeneur.Request.SentDate = DateRequestSent.DisplayDate = DateTime.Now;
+                DateRequestSent.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToString("dd-MM-yyy");
+            }
+            else
+            {
+                CBZ.TempSubEntrepeneur.Request.SentDate = DateRequestSent.DisplayDate;
+            }
+        }
+
+        /// <summary>
+        /// Method, that validates Request Sent Date, when status i '2 Received' or '3 Cancellation' - Used after ValidateRequestReceivedDateReceived().
+        /// Logic: Request Sent Date cannot be newer, than Request Received Date
+        /// </summary>
+        private void ValidateRequestSentDateWhenReceived()
+        {
+            //Compare year
+            if (CBZ.TempSubEntrepeneur.Request.SentDate.Year > DateRequestReceived.DisplayDate.Year)
+            {
+                CBZ.TempSubEntrepeneur.Request.SentDate = DateRequestSent.DisplayDate = DateRequestReceived.DisplayDate;
+                DateRequestSent.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToString("dd-MM-yyy");
+            }
+
+            //Compare year and month
+            else if (CBZ.TempSubEntrepeneur.Request.SentDate.Year == DateRequestReceived.DisplayDate.Year)
+            {
+                if (CBZ.TempSubEntrepeneur.Request.SentDate.Month > DateRequestReceived.DisplayDate.Month)
+                {
+                    CBZ.TempSubEntrepeneur.Request.SentDate = DateRequestSent.DisplayDate = DateRequestReceived.DisplayDate;
+                    DateRequestSent.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToString("dd-MM-yyy");
+                }
+            }
+
+            //compares full date
+            else if (CBZ.TempSubEntrepeneur.Request.SentDate.Year == DateRequestReceived.DisplayDate.Year)
+            {
+                if (CBZ.TempSubEntrepeneur.Request.SentDate.Month == DateRequestReceived.DisplayDate.Month)
+                {
+                    if (CBZ.TempSubEntrepeneur.Request.SentDate.Day > DateRequestReceived.DisplayDate.Day)
+                    {
+                        CBZ.TempSubEntrepeneur.Request.SentDate = DateRequestSent.DisplayDate = DateRequestReceived.DisplayDate;
+                        DateRequestSent.Text = CBZ.TempSubEntrepeneur.Request.SentDate.ToString("dd-MM-yyy");
+                    }
+                }
             }
         }
 

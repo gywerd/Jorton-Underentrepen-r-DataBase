@@ -132,10 +132,10 @@ namespace JudGui
                 CBZ.TempEnterprise.Name = "";
                 CBZ.TempEnterprise.Elaboration = "";
                 CBZ.TempEnterprise.OfferList = "";
-                CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
-                CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
-                CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
-                CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroup", 0));
+                CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
+                CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
+                CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
+                CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
             }
             else
             {
@@ -164,10 +164,10 @@ namespace JudGui
             ComboBoxCraftGroup2.SelectedIndex = 0;
             ComboBoxCraftGroup3.SelectedIndex = 0;
             ComboBoxCraftGroup4.SelectedIndex = 0;
-            CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroups", 0));
-            CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroups", 0));
-            CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroups", 0));
-            CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetObject("CraftGroups", 0));
+            CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
+            CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
+            CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
+            CBZ.TempEnterprise.CraftGroup4 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)

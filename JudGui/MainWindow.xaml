@@ -128,10 +128,18 @@
                                           Label="Vis Underentrepenører"
                                           SmallImageSource="images/subentrepeneur-show-small.png" />
                         </RibbonSplitButton>
-                        <RibbonButton x:Name="ButtonRequests"
-                                          Click="ButtonRequests_Click"
-                                          Label="Forespørgsler"
-                                          LargeImageSource="images/request.png" />
+                        <RibbonSplitButton x:Name="ButtonRequests"
+                                           LargeImageSource="images/request.png"
+                                           Label="Forespørgsler">
+                            <RibbonButton x:Name="ButtonRequestsSend"
+                                          Click="ButtonRequestsSend_Click"
+                                          Label="Send Forespørgsler"
+                                          SmallImageSource="images/request-small.png" />
+                            <RibbonButton x:Name="ButtonRequestsShow"
+                                          Click="ButtonRequestsShow_Click"
+                                          Label="Vis Forespørgsler"
+                                          SmallImageSource="images/request-show-small.png" />
+                        </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonIttLetters"
                                            LargeImageSource="images/ittletter.png"
                                            Label="Tilbudsbreve">

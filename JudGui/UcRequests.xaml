@@ -31,7 +31,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Label x:Name="LabelChooseReceivers"
-               Content="Vælg Modtagere"
+               Content="Send Forespørgsler"
                FontSize="48"
                FontWeight="Bold"
                Grid.Column="1" Grid.Row="1"
@@ -52,6 +52,24 @@
                Grid.ColumnSpan="4"
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
+        <CheckBox x:Name="CheckBoxShowSent" 
+                  Checked="CheckBoxShowSent_ToggleChecked" 
+                  Content="Vis sendte" 
+                  FontSize="12" 
+                  Grid.Column="2" Grid.Row="3" 
+                  HorizontalAlignment="Left"
+                  RenderTransformOrigin="1,1" 
+                  Unchecked="CheckBoxShowSent_ToggleChecked"
+                  VerticalAlignment="Bottom" >
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterX="-90" CenterY="15" ScaleX="2" ScaleY="2"  />
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
         <Label x:Name="LabelProjectDescription"
                Content="Projektbeskrivelse*:"
                FontSize="24"
@@ -60,7 +78,7 @@
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
         <Label x:Name="LabelPeriod"
-               Content="Periode*:"
+               Content="Udførelsesperiode*:"
                FontSize="24"
                Grid.Column="1" Grid.Row="5"
                Grid.ColumnSpan="4"
@@ -122,7 +140,7 @@
                  VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxProjectDescription" 
                                AcceptsReturn="True" 
-                               FontSize="24"
+                               FontSize="12"
                                Grid.Column="3" Grid.Row="4" 
                                Grid.ColumnSpan="6"
                                Height="140" Width="1065"
@@ -131,7 +149,7 @@
                                TextChanged="TextBoxProjectDescription_TextChanged" 
                                TextWrapping="Wrap" 
                                VerticalAlignment="Top" 
-                               Watermark="Byggeriet omfatter etablering af 6 nye punkthuse med hver 10 lejligheder i..."  />
+                               Watermark="Byggeriet omfatter etablering af 6 nye punkthuse med hver 10 lejligheder i Skærbæk, Fredericia. Det vil sige i alt 60 boliger. De seks punkthuse er identiske i forhold til konstruktionsopbygning..."  />
         <xctk:WatermarkTextBox x:Name="TextBoxPeriod"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="5"

@@ -17,7 +17,9 @@ namespace JudBizz
         public PdfLists PdfLists;
         private Executor executor = new Executor(strConnection);
         private MacAddress macAddress = new MacAddress();
-        string appPath = "";
+        private string appPath = "";
+        public DateTime oldDate = Convert.ToDateTime("1932-03-17");
+
 
         public User CurrentUser = new User();
         public Address TempAddress = new Address();
@@ -650,8 +652,9 @@ namespace JudBizz
                         result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToString("yyyy-MM-dd") + @"', '" + request.ReceivedDate.ToString("yyyy-MM-dd") + @"')";
                         break;
                     case "RequestDataList":
-                    RequestData requestData = new RequestData((RequestData)entity);
-                        result = "INSERT INTO [dbo].[RequestDataList]([Project], [Receiver], [ReceiverAttention], [Executive],[EnterpriseLine],[AcceptUrl],[DeclineUrl],[ProjectDescription],[Period],[AnswerDate],[RequestUrl]) VALUES(" + requestData.Project.Id + @", " + requestData.Receiver.Id + @", '" + requestData.ReceiverAttention + @"', " + requestData.EnterpriseLine + @"', '" + requestData.AcceptUrl + @"', '" + requestData.DeclineUrl + @"', '" + requestData.ProjectDescription + @"', '" + requestData.Period + @"', '" + requestData.AnswerDate + @"', '" + requestData.RequestUrl + @"')";
+                        RequestData requestData = new RequestData((RequestData)entity);
+                        //result = "INSERT INTO [dbo].[RequestDataList]([Project], [Receiver], [ReceiverAttention], [EnterpriseLine], [AcceptUrl], [DeclineUrl], [ProjectDescription], [Period], [AnswerDate],[ProjectUrl]) VALUES(<Project, int,>, <Receiver, int,>, <ReceiverAttention, nvarchar(50),>, <EnterpriseLine, nvarchar(50),>, <AcceptUrl, nvarchar(50),>, <DeclineUrl, nvarchar(50),>, <ProjectDescription, nvarchar(max),>, <Period, nvarchar(50),>, <AnswerDate, nvarchar(50),>, <ProjectUrl, nvarchar(50),>)"
+                        result = @"INSERT INTO [dbo].[RequestDataList]([Project], [Receiver], [ReceiverAttention], [EnterpriseLine], [AcceptUrl], [DeclineUrl], [ProjectDescription], [Period], [AnswerDate],[ProjectUrl]) VALUES(" + requestData.Project.Id + @", " + requestData.Receiver.Id + @", '" + requestData.ReceiverAttention + @"', '" + requestData.EnterpriseLine + @"', '" + requestData.AcceptUrl + @"', '" + requestData.DeclineUrl + @"', '" + requestData.ProjectDescription + @"', '" + requestData.Period + @"', '" + requestData.AnswerDate + @"', '" + requestData.RequestUrl + @"')";
                         break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)entity);
@@ -1043,7 +1046,9 @@ namespace JudBizz
             /// <returns></returns>
             public bool ChangePassword(string oldPassWord, string newPassWord)
             {
-                return executor.ChangePassword(TempUser.Id, oldPassWord, newPassWord);
+                bool result = false;
+                result = executor.ChangePassword(CurrentUser.Id, oldPassWord, newPassWord);
+                return result;
             }
 
             /// <summary>
@@ -1145,7 +1150,8 @@ namespace JudBizz
                         break;
                     case "RequestDataList":
                         RequestData requestData = new RequestData((RequestData)_object);
-                        result = @"UPDATE [dbo].[RequestStatuses] SET [Project] = " + requestData.Project.Id + @" [Receiver] = " + requestData.Receiver.Id + @" [ReceiverAttention] = '" + requestData.ReceiverAttention + @"' [EnterpriseLine] = '" + requestData.EnterpriseLine + @"' [AcceptUrl] = '" + requestData.AcceptUrl + @"' [DeclineUrl] = '" + requestData.DeclineUrl + @"' [ProjectDescription] = '" + requestData.ProjectDescription + @"' [Period] = '" + requestData.Period + @"' [AnswerDate] = '" + requestData.AnswerDate + @"' [RequestUrl] = '" + requestData.RequestUrl + "' WHERE [Id] = " + requestData.Id;
+                        //result = "UPDATE [dbo].[RequestDataList] SET [Project] = <Project, int,>, [Receiver] = <Receiver, int,>, [ReceiverAttention] = <ReceiverAttention, nvarchar(50),>, [EnterpriseLine] = <EnterpriseLine, nvarchar(50),>, [AcceptUrl] = <AcceptUrl, nvarchar(50),>, [DeclineUrl] = <DeclineUrl, nvarchar(50),>, [ProjectDescription] = <ProjectDescription, nvarchar(max),>, [Period] = <Period, nvarchar(50),>, [AnswerDate] = <AnswerDate, nvarchar(50),>, [RequestUrl] = '' WHERE <Search Conditions,,>
+                        result = @"UPDATE [dbo].[RequestDataList] SET [Project] = " + requestData.Project.Id + @", [Receiver] = " + requestData.Receiver.Id + @", [ReceiverAttention] = '" + requestData.ReceiverAttention + @"', [EnterpriseLine] = '" + requestData.EnterpriseLine + @"', [AcceptUrl] = '" + requestData.AcceptUrl + @"', [DeclineUrl] = '" + requestData.DeclineUrl + @"', [ProjectDescription] = '" + requestData.ProjectDescription + @"', [Period] = '" + requestData.Period + @"', [AnswerDate] = '" + requestData.AnswerDate + @"', [RequestUrl] = '" + requestData.RequestUrl + "' WHERE [Id] = " + requestData.Id;
                         break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)_object);
@@ -1157,7 +1163,7 @@ namespace JudBizz
                         break;
                     case "SubEntrepeneurs":
                         SubEntrepeneur subEntrepeneur = new SubEntrepeneur((SubEntrepeneur)_object);
-                        result = @"UPDATE [dbo].[SubEntrepeneurs] SET [Enterprise] = " + subEntrepeneur.Enterprise.Id + ", [Entrepeneur] = '" + subEntrepeneur.Entrepeneur + "', [Contact] = " + subEntrepeneur.Contact.Id + ", [Request] = " + subEntrepeneur.Request.Id + "', [IttLetter] = " + subEntrepeneur.IttLetter.Id + ", [Offer] = " + subEntrepeneur.Offer.Id + ", [Reservations] = '" + subEntrepeneur.Reservations.ToString() + ", [Uphold] = '" + subEntrepeneur.Uphold.ToString() + ", [AgreementConcluded] = '" + subEntrepeneur.AgreementConcluded.ToString() + ", [Active] = '" + subEntrepeneur.Active.ToString() + "' WHERE [Id] = " + subEntrepeneur.Id;
+                        result = @"UPDATE [dbo].[SubEntrepeneurs] SET [Enterprise] = " + subEntrepeneur.Enterprise.Id + ", [Entrepeneur] = " + subEntrepeneur.Entrepeneur.Id + ", [Contact] = " + subEntrepeneur.Contact.Id + ", [Request] = " + subEntrepeneur.Request.Id + ", [IttLetter] = " + subEntrepeneur.IttLetter.Id + ", [Offer] = " + subEntrepeneur.Offer.Id + ", [Reservations] = '" + subEntrepeneur.Reservations.ToString() + "', [Uphold] = '" + subEntrepeneur.Uphold.ToString() + "', [AgreementConcluded] = '" + subEntrepeneur.AgreementConcluded.ToString() + "', [Active] = '" + subEntrepeneur.Active.ToString() + "' WHERE [Id] = " + subEntrepeneur.Id;
                         break;
                     case "TenderForms":
                         TenderForm tenderForm = new TenderForm((TenderForm)_object);
@@ -1403,116 +1409,7 @@ namespace JudBizz
         /// </summary>
         /// <param name="list"></param>
         /// <returns>object</returns>
-        public object GetObject(string list, int id)
-        {
-            object obj = new object();
-            switch (list)
-            {
-                case "ActiveProjects":
-                    obj = GetActiveProject(id);
-                    break;
-                case "Addresses":
-                    obj = GetAddress(id);
-                    break;
-                case "Builders":
-                    obj = GetBuilder(id);
-                    break;
-                case "Bullets":
-                    obj = GetBullet(id);
-                    break;
-                case "Categories":
-                    obj = GetCategory(id);
-                    break;
-                case "ContactInfoList":
-                    obj = GetContactInfo(id);
-                    break;
-                case "Contacts":
-                    obj = GetContact(id);
-                    break;
-                case "CraftGroups":
-                    obj = GetCraftGroup(id);
-                    break;
-                case "EnterpriseForms":
-                    obj = GetEnterpriseForm(id);
-                    break;
-                case "Enterprises":
-                    GetEnterprise(id);
-                    break;
-                case "Entrepeneurs":
-                    obj = GetEntrepeneur(id);
-                    break;
-                case "InactiveProjects":
-                    obj = GetInactiveProject(id);
-                    break;
-                case "IttLetters":
-                    obj = GetIttLetter(id);
-                    break;
-                case "JobDescriptions":
-                    obj = GetJobDescription(id);
-                    break;
-                case "LegalEntities":
-                    obj = GetLegalEntity(id);
-                    break;
-                case "LetterDataList":
-                    obj = GetLetterData(id);
-                    break;
-                case "Offers":
-                    obj = GetOffer(id);
-                    break;
-                case "Paragrafs":
-                    obj = GetParagraf(id);
-                    break;
-                case "Persons":
-                    obj = GetPerson(id);
-                    break;
-                case "Projects":
-                    obj = GetProject(id);
-                    break;
-                case "ProjectStatuses":
-                    obj = GetProjectStatus(id);
-                    break;
-                case "Receivers":
-                    obj = GetReceiver(id);
-                    break;
-                case "Regions":
-                    obj = GetRegion(id);
-                    break;
-                case "Requests":
-                    obj = GetRequest(id);
-                    break;
-                case "RequestDataList":
-                    obj = GetRequestData(id);
-                    break;
-                case "RequestStatuses":
-                    obj = GetRequestStatus(id);
-                    break;
-                case "RefreshTenderForms":
-                    obj = GetRegion(id);
-                    break;
-                case "SubEntrepeneurs":
-                    obj = GetSubEntrepeneur(id);
-                    break;
-                case "Shippings":
-                    obj = GetShipping(id);
-                    break;
-                case "TenderForms":
-                    obj = GetTenderForm(id);
-                    break;
-                case "UserLevels":
-                    obj = GetUserLevel(id);
-                    break;
-                case "Users":
-                    obj = GetUser(id);
-                    break;
-                case "ZipTowns":
-                    obj = GetZipTown(id);
-                    break;
-            }
-
-            return obj;
-        }
-
-        private Project GetActiveProject(int id)
+        public Project GetActiveProject(int id)
         {
             Project result = new Project();
 
@@ -1528,7 +1425,7 @@ namespace JudBizz
             return result;
         }
 
-        private Address GetAddress(int id)
+        public Address GetAddress(int id)
         {
             Address result = new Address();
 
@@ -1544,7 +1441,7 @@ namespace JudBizz
             return result;
         }
 
-        private Builder GetBuilder(int id)
+        public Builder GetBuilder(int id)
         {
             Builder result = new Builder();
 
@@ -1560,7 +1457,7 @@ namespace JudBizz
             return result;
         }
 
-        private Bullet GetBullet(int id)
+        public Bullet GetBullet(int id)
         {
             Bullet result = new Bullet();
 
@@ -1576,7 +1473,7 @@ namespace JudBizz
             return result;
         }
 
-        private Category GetCategory(int id)
+        public Category GetCategory(int id)
         {
             Category result = new Category();
 
@@ -1592,7 +1489,7 @@ namespace JudBizz
             return result;
         }
 
-        private Contact GetContact(int id)
+        public Contact GetContact(int id)
         {
             Contact result = new Contact();
 
@@ -1608,7 +1505,7 @@ namespace JudBizz
             return result;
         }
 
-        private ContactInfo GetContactInfo(int id)
+        public ContactInfo GetContactInfo(int id)
         {
             ContactInfo result = new ContactInfo();
 
@@ -1624,7 +1521,7 @@ namespace JudBizz
             return result;
         }
 
-        private CraftGroup GetCraftGroup(int id)
+        public CraftGroup GetCraftGroup(int id)
         {
             CraftGroup result = new CraftGroup();
 
@@ -1640,7 +1537,7 @@ namespace JudBizz
             return result;
         }
 
-        private Enterprise GetEnterprise(int id)
+        public Enterprise GetEnterprise(int id)
         {
             Enterprise result = new Enterprise();
 
@@ -1656,7 +1553,7 @@ namespace JudBizz
             return result;
         }
 
-        private EnterpriseForm GetEnterpriseForm(int id)
+        public EnterpriseForm GetEnterpriseForm(int id)
         {
             EnterpriseForm result = new EnterpriseForm();
 
@@ -1672,7 +1569,7 @@ namespace JudBizz
             return result;
         }
 
-        private Entrepeneur GetEntrepeneur(int id)
+        public Entrepeneur GetEntrepeneur(int id)
         {
             Entrepeneur result = new Entrepeneur();
 
@@ -1688,7 +1585,7 @@ namespace JudBizz
             return result;
         }
 
-        private Project GetInactiveProject(int id)
+        public Project GetInactiveProject(int id)
         {
             Project result = new Project();
 
@@ -1704,7 +1601,7 @@ namespace JudBizz
             return result;
         }
 
-        private IttLetter GetIttLetter(int id)
+        public IttLetter GetIttLetter(int id)
         {
             IttLetter result = new IttLetter();
 
@@ -1720,7 +1617,7 @@ namespace JudBizz
             return result;
         }
 
-        private JobDescription GetJobDescription(int id)
+        public JobDescription GetJobDescription(int id)
         {
             JobDescription result = new JobDescription();
 
@@ -1736,7 +1633,7 @@ namespace JudBizz
             return result;
         }
 
-        private LegalEntity GetLegalEntity(int id)
+        public LegalEntity GetLegalEntity(int id)
         {
             LegalEntity result = new LegalEntity();
 
@@ -1752,7 +1649,7 @@ namespace JudBizz
             return result;
         }
 
-        private LetterData GetLetterData(int id)
+        public LetterData GetLetterData(int id)
         {
             LetterData result = new LetterData();
 
@@ -1768,7 +1665,7 @@ namespace JudBizz
             return result;
         }
 
-        private Offer GetOffer(int id)
+        public Offer GetOffer(int id)
         {
             Offer result = new Offer();
 
@@ -1784,7 +1681,7 @@ namespace JudBizz
             return result;
         }
 
-        private Paragraf GetParagraf(int id)
+        public Paragraf GetParagraf(int id)
         {
             Paragraf result = new Paragraf();
 
@@ -1800,7 +1697,7 @@ namespace JudBizz
             return result;
         }
 
-        private Person GetPerson(int id)
+        public Person GetPerson(int id)
         {
             Person result = new Person();
 
@@ -1816,7 +1713,7 @@ namespace JudBizz
             return result;
         }
 
-        private Project GetProject(int id)
+        public Project GetProject(int id)
         {
             Project result = new Project();
 
@@ -1832,7 +1729,7 @@ namespace JudBizz
             return result;
         }
 
-        private ProjectStatus GetProjectStatus(int id)
+        public ProjectStatus GetProjectStatus(int id)
         {
             ProjectStatus result = new ProjectStatus();
 
@@ -1848,7 +1745,7 @@ namespace JudBizz
             return result;
         }
 
-        private Receiver GetReceiver(int id)
+        public Receiver GetReceiver(int id)
         {
             Receiver result = new Receiver();
 
@@ -1864,7 +1761,7 @@ namespace JudBizz
             return result;
         }
 
-        private Request GetRequest(int id)
+        public Request GetRequest(int id)
         {
             Request result = new Request();
 
@@ -1880,7 +1777,7 @@ namespace JudBizz
             return result;
         }
 
-        private RequestData GetRequestData(int id)
+        public RequestData GetRequestData(int id)
         {
             RequestData result = new RequestData();
 
@@ -1896,7 +1793,7 @@ namespace JudBizz
             return result;
         }
 
-        private RequestStatus GetRequestStatus(int id)
+        public RequestStatus GetRequestStatus(int id)
         {
             RequestStatus result = new RequestStatus();
 
@@ -1912,7 +1809,7 @@ namespace JudBizz
             return result;
         }
 
-        private Region GetRegion(int id)
+        public Region GetRegion(int id)
         {
             Region result = new Region();
 
@@ -1928,7 +1825,7 @@ namespace JudBizz
             return result;
         }
 
-        private SubEntrepeneur GetSubEntrepeneur(int id)
+        public SubEntrepeneur GetSubEntrepeneur(int id)
         {
             SubEntrepeneur result = new SubEntrepeneur();
 
@@ -1944,7 +1841,7 @@ namespace JudBizz
             return result;
         }
 
-        private Shipping GetShipping(int id)
+        public Shipping GetShipping(int id)
         {
             Shipping result = new Shipping();
 
@@ -1960,7 +1857,7 @@ namespace JudBizz
             return result;
         }
 
-        private TenderForm GetTenderForm(int id)
+        public TenderForm GetTenderForm(int id)
         {
             TenderForm result = new TenderForm();
 
@@ -1976,7 +1873,7 @@ namespace JudBizz
             return result;
         }
 
-        private User GetUser(int id)
+        public User GetUser(int id)
         {
             User result = new User();
 
@@ -1992,7 +1889,7 @@ namespace JudBizz
             return result;
         }
 
-        private UserLevel GetUserLevel(int id)
+        public UserLevel GetUserLevel(int id)
         {
             UserLevel result = new UserLevel();
 
@@ -2008,7 +1905,7 @@ namespace JudBizz
             return result;
         }
 
-        private ZipTown GetZipTown(int id)
+        public ZipTown GetZipTown(int id)
         {
             ZipTown result = new ZipTown();
 

@@ -6,19 +6,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1520">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -50,7 +50,7 @@
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" 
-                  Width="130"  />
+                  Width="165"  />
         <xctk:WatermarkTextBox x:Name="TextBoxCaseId" 
                                Background="White"  
                                FontSize="24" 
@@ -61,11 +61,11 @@
                                TextWrapping="Wrap" 
                                Watermark="123456"
                                VerticalAlignment="Top" 
-                               Width="130" />
+                               Width="165" />
         <TextBox x:Name="TextBoxName" 
                  FontSize="24" 
                  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
-                 Height="50" Width="795" 
+                 Height="50" Width="885" 
                  HorizontalAlignment="Left" 
                  IsEnabled="False" 
                  Text="" 
@@ -75,14 +75,14 @@
                 Click="ButtonCancel_Click" 
                 FontSize="48" FontWeight="Bold"
                 Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" 
-                Height="100"  Width="315"
+                Height="100"  Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonEdit" Content="Gem og luk"
                 Click="ButtonEdit_Click" 
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

@@ -75,6 +75,7 @@ namespace JudRepository
         /// <param name="projectDescription">string</param>
         /// <param name="period">string</param>
         /// <param name="answerDate">string</param>
+        /// <param name="requestUrl">string</param>
         public RequestData(int id, Project project, LegalEntity receiver, string attention, string enterpriseLine, string acceptUrl, string declineUrl, string projectDescription, string period, string answerDate, string requestUrl)
         {
             this.id = id;
@@ -106,6 +107,7 @@ namespace JudRepository
             this.projectDescription = requestData.ProjectDescription;
             this.period = requestData.Period;
             this.answerDate = requestData.AnswerDate;
+            this.requestUrl = requestData.RequestUrl;
         }
         #endregion
 
@@ -231,6 +233,11 @@ namespace JudRepository
         {
             acceptUrl = @"mailto:" + project.Executive.Person.ContactInfo.Email + @"?subject=" + project.Name + ".%20Vi%20ønsker%20at%20afgive%20tilbud";
             declineUrl = @"mailto:" + project.Executive.Person.ContactInfo.Email + @"?subject=" + project.Name + ".%20Vi%20ønsker%20ikke%20at%20afgive%20tilbud";
+        }
+
+        public override string ToString()
+        {
+            return receiver.Name + @" (" + enterpriseLine + @")";
         }
 
         #endregion

@@ -6,19 +6,19 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -94,7 +94,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="2"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -104,7 +104,7 @@
         <ListBox x:Name="ListBoxUsers"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="90" Width="955"
+                 Height="90" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxUsers_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -112,7 +112,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="4"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -123,7 +123,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="5"
-                               Height="50" Width="150"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxPhone_TextChanged"
@@ -134,7 +134,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="4" Grid.Row="5"
-                               Height="50" Width="150"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxFax_TextChanged"
@@ -145,7 +145,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="5" Grid.Row="5"
-                               Height="50" Width="150"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxMobile_TextChanged"
@@ -157,7 +157,7 @@
                                FontSize="24"
                                Grid.Column="6" Grid.Row="5"
                                Grid.ColumnSpan="3"
-                               Height="50" Width="450"
+                               Height="50" Width="525"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxEmail_TextChanged"
@@ -168,7 +168,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="6"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxInitials_TextChanged"
@@ -179,7 +179,7 @@
                   FontSize="24"
                   Grid.Column="3" Grid.Row="7"
                   Grid.ColumnSpan="2"
-                  Height="50" Width="290"
+                  Height="50" Width="345"
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxJobDescription_SelectionChanged"
                   VerticalAlignment="Top" />
@@ -187,7 +187,7 @@
                   FontSize="24"
                   Grid.Column="3" Grid.Row="8"
                   Grid.ColumnSpan="2"
-                  Height="50" Width="290"
+                  Height="50" Width="345"
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxUserLevel_SelectionChanged"
                   VerticalAlignment="Top" />
@@ -198,7 +198,7 @@
                 FontWeight="Bold"
                 Grid.Column="1" Grid.Row="9"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonUpdate"
@@ -208,7 +208,7 @@
                 FontWeight="Bold"
                 Grid.Column="7" Grid.Row="9"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

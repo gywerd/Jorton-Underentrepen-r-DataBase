@@ -6,19 +6,19 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -69,7 +69,7 @@
                    Grid.ColumnSpan="8"
                    HorizontalAlignment="Center"
                    Height="20"
-                   Width="1260"
+                   Width="1425"
                    VerticalAlignment="Bottom" />
         <Label x:Name="LabelAddEnterpriseForm"
                Content="Tilføj Entrepriseform"
@@ -94,19 +94,31 @@
                                Grid.Row="2"
                                Grid.ColumnSpan="6"
                                Height="50"
-                               Width="955"
+                               Width="1015"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxEnterpriseFormSearch_TextChanged"
                                VerticalAlignment="Top"
                                Watermark="Fagent" />
+        <Button x:Name="ButtonSearchEntrepeneur"
+                FontSize="24"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="2"
+                Height="50" Width="50"
+                HorizontalAlignment="Right"
+                ToolTip="Indtast de førstebogsstaver i firmanavnet"
+                VerticalAlignment="Top">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/help.png" />
+            </Button.Background>
+        </Button>
         <ListBox x:Name="ListBoxEnterpriseForms"
                  Grid.Column="3"
                  Grid.Row="3"
                  Grid.ColumnSpan="6"
                  Height="260"
-                 Width="955"
+                 Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxEnterpriseForms_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -116,7 +128,7 @@
                                Grid.Row="4"
                                Grid.ColumnSpan="6"
                                Height="50"
-                               Width="955"
+                               Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -129,7 +141,7 @@
                                Grid.Row="6"
                                Grid.ColumnSpan="5"
                                Height="50"
-                               Width="795"
+                               Width="885"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxNewText_TextChanged"
@@ -144,7 +156,7 @@
                 Grid.Column="8"
                 Grid.Row="6"
                 Height="50"
-                Width="150"
+                Width="165"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top" />
         <Button x:Name="ButtonClose"
@@ -156,7 +168,7 @@
                 Grid.Row="7"
                 Grid.ColumnSpan="2"
                 Height="100"
-                Width="315"
+                Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
@@ -168,7 +180,7 @@
                 Grid.Row="7"
                 Grid.ColumnSpan="2"
                 Height="100"
-                Width="315"
+                Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

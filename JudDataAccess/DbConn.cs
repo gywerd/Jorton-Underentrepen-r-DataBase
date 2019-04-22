@@ -94,17 +94,39 @@ namespace JudDataAccess
             return dtRes;
         }
 
+        protected DataTable DbReturnDataTable(SqlCommand cmd)
+        {
+            DataTable dtRes = new DataTable();
+            try
+            {
+                OpenDB();
+                using (cmd)
+                {
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(dtRes);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.ToString(), "Database", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            return dtRes;
+        }
+
         /// <summary>
-        /// Denne funktion returnerer en string, 
+        /// Denne funktion returnerer en bool,
         /// der modsvarer strSql forespørgslen.
         /// Til slut lukker vi DB igen.
         /// </summary>
         /// <param name="sqlQuery">string - textstring with SQL-Query</param>
         /// <param name="args">string[] - strengArray med parametre</param>
-        /// <returns>String</returns>
-        protected string DbReturnString(string sqlQuery, string[] args)
+        /// <returns>bool</returns>
+        protected bool DbReturnBool(string sqlQuery, string[] args)
         {
-            string strRes = "";
+            bool result = false;
             SqlCommand cmd = new SqlCommand(sqlQuery, myConnection);
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -131,28 +153,27 @@ namespace JudDataAccess
             try
             {
                 OpenDB();
-                using(cmd)
-                {
-                    SqlDataReader reader = cmd.ExecuteReader();
+                DataTable dtRes = DbReturnDataTable(cmd);
 
-                    //while (reader.Read())
-                    //{
-                        strRes = reader.HasRows.ToString();
-                    //}
+                if (dtRes.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtRes.Rows)
+                    {
+                        result = Convert.ToBoolean(row[0].ToString());
+                        break;
+                    }
 
                 }
 
-
                 CloseDB();
-
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
+                CloseDB();
                 throw ex;
             }
 
-
-            return strRes;
+            return result;
         }
 
         /// <summary>
@@ -244,13 +265,15 @@ namespace JudDataAccess
                 {
                     cmd.ExecuteNonQuery();
                 }
-                
-                CloseDB();
             }
             catch(SqlException ex)
             {
                 MessageBox.Show(ex.ToString());
                 throw ex;
+            }
+            finally
+            {
+                CloseDB();
             }
         }
 

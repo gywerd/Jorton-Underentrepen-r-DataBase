@@ -6,26 +6,27 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="740" d:DesignWidth="1560">
+             d:DesignHeight="740" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="75*"/>
-            <RowDefinition Height="80*"/>
-            <RowDefinition Height="70*"/>
-            <RowDefinition Height="415*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="385*"/>
             <RowDefinition Height="110*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -36,28 +37,30 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelCurrentCaseId" Content="Nuværende SagsID*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="2" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="2" 
-                  Height="50" Width="130"
+                  Height="50" Width="165"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxName" 
                  FontSize="24" 
-                 Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
+                 Grid.Column="1" Grid.Row="3" 
+                 Grid.ColumnSpan="8" 
                  HorizontalAlignment="Left" 
-                 Height="50" Width="795" 
+                 Height="50" Width="1425" 
                  IsEnabled="False" 
                  Text="" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
         <CheckBox x:Name="CheckBoxEraseProject" Content="Godkend sletning af projekt" 
                   FontSize="15" 
-                  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" 
+                  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
                   Margin="0,0,0,0"  
@@ -75,15 +78,17 @@
         <Button x:Name="ButtonCancel" Content="Annuller"
                 Click="ButtonCancel_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Grid.Column="2" Grid.Row="6" 
+                Grid.ColumnSpan="2" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonErase" Content="Slet Projekt"
                 Click="ButtonErase_Click" 
                 FontSize="48" FontWeight="Bold" 
-                Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Grid.Column="5" Grid.Row="6" 
+                Grid.ColumnSpan="2" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
     </Grid>

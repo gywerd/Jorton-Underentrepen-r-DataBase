@@ -5,19 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -50,14 +50,14 @@
         <ComboBox x:Name="ComboBoxCaseId" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="2" 
-                  Height="50" Width="155"
+                  Height="50" Width="165"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxCaseName" 
                  FontSize="24" 
                  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-                 Height="50" Width="955"
+                 Height="50" Width="1065"
                  HorizontalAlignment="Left" 
                  IsEnabled="False" 
                  Text="" 
@@ -67,7 +67,7 @@
                 Click="ButtonCancel_Click" 
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="2" 
-                Height="100"  Width="320" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonGeneratePdf" Content="Generer PDF"
@@ -75,7 +75,7 @@
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="9
                 " Grid.ColumnSpan="2" 
-                Height="100"  Width="320" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
     </Grid>

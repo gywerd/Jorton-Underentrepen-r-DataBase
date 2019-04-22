@@ -6,19 +6,19 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -85,8 +85,8 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="2"
-                               Grid.ColumnSpan="2"
-                               Height="50" Width="250"
+                               Grid.ColumnSpan="6"
+                               Height="50" Width="1015"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
@@ -96,11 +96,11 @@
         <Button x:Name="ButtonSearchEntrepeneur"
                 FontSize="24"
                 FontWeight="Bold"
-                Grid.Column="4"
+                Grid.Column="8"
                 Grid.Row="2"
                 Height="50" Width="50"
                 HorizontalAlignment="Right"
-                ToolTip="Indtast de tre første bogsstaver i firmanavnet"
+                ToolTip="Indtast de førstebogsstaver i firmanavnet"
                 VerticalAlignment="Top">
             <Button.Background>
                 <ImageBrush ImageSource="Images/help.png" />
@@ -109,14 +109,14 @@
         <ListBox x:Name="ListBoxEntrepeneurs"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="125" Width="955"
+                 Height="125" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
                  VerticalAlignment="Top" />
         <ListBox x:Name="ListBoxContacts"
                  Grid.Column="3" Grid.Row="4"
                  Grid.ColumnSpan="6"
-                 Height="125" Width="955"
+                 Height="125" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxContacts_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -124,7 +124,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="5" 
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
@@ -135,7 +135,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="6"
-                               Height="50" Width="150"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -146,7 +146,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="4" Grid.Row="6"
-                               Height="50" Width="150"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -157,7 +157,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="5" Grid.Row="6"
-                               Height="50" Width="150"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -169,7 +169,7 @@
                                FontSize="24"
                                Grid.Column="6" Grid.Row="6"
                                Grid.ColumnSpan="3"
-                               Height="50" Width="450"
+                               Height="50" Width="525"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -180,7 +180,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="7"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
@@ -194,7 +194,7 @@
                 FontWeight="Bold"
                 Grid.Column="1" Grid.Row="8"
                 Grid.ColumnSpan="2"
-                Height="90" Width="315"
+                Height="90" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
@@ -204,7 +204,7 @@
                 FontWeight="Bold"
                 Grid.Column="7" Grid.Row="8"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

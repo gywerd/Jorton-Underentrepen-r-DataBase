@@ -34,10 +34,17 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
+            CBZ.RefreshList("Projects");
             ComboBoxCaseId.ItemsSource = CBZ.ActiveProjects;
+            CBZ.RefreshIndexedList("IndexedBuilders");
             ComboBoxBuilder.ItemsSource = CBZ.ActiveBuilders;
-            ComboBoxTenderForm.ItemsSource = CBZ.IndexedTenderForms;
+            CBZ.RefreshIndexedList("IndexedProjectStatuses");
             ComboBoxProjectStatus.ItemsSource = CBZ.IndexedProjectStatuses;
+            CBZ.RefreshIndexedList("IndexedTenderForms");
+            ComboBoxTenderForm.ItemsSource = CBZ.IndexedTenderForms;
+            CBZ.RefreshIndexedList("IndexedEnterpriseForms");
+            ComboBoxEnterpriseForm.ItemsSource = CBZ.IndexedEnterpriseForms;
+            CBZ.RefreshIndexedList("IndexedUsers");
             ComboBoxExecutive.ItemsSource = CBZ.ActiveUsers;
         }
 
@@ -85,22 +92,28 @@ namespace JudGui
         #endregion
 
         #region Events
+        private void ComboBoxBuilder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CBZ.TempProject.Builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
+
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+        }
+
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                if (temp.Index == selectedIndex)
-                {
-                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
-                }
-            }
+            CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
+
             TextBoxCaseName.Text = CBZ.TempProject.Name;
-            ComboBoxBuilder.SelectedIndex = CBZ.TempProject.Builder.Id;
-            ComboBoxProjectStatus.SelectedIndex = GetProjectStatusIndex(CBZ.TempProject.Status.Id);
-            ComboBoxTenderForm.SelectedIndex = CBZ.TempProject.TenderForm.Id;
-            ComboBoxEnterpriseForm.SelectedIndex = GetEnterPriseFormIndex(CBZ.TempProject.EnterpriseForm);
-            ComboBoxExecutive.SelectedIndex = CBZ.TempProject.Executive.Id;
+            ComboBoxBuilder.SelectedIndex = GetBuilderIndex();
+            ComboBoxProjectStatus.SelectedIndex = GetProjectStatusIndex();
+            ComboBoxTenderForm.SelectedIndex = GetTenderFormIndex();
+            ComboBoxEnterpriseForm.SelectedIndex = GetEnterPriseFormIndex();
+            ComboBoxExecutive.SelectedIndex = GetExecutiveIndex();
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -110,9 +123,20 @@ namespace JudGui
 
         }
 
-        private void ComboBoxBuilder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBoxEnterpriseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject.Builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
+            CBZ.TempProject.EnterpriseForm = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
+
+            //Set CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = true;
+            }
+        }
+
+        private void ComboBoxExecutive_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CBZ.TempProject.Executive = new User((User)ComboBoxExecutive.SelectedItem);
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -143,31 +167,12 @@ namespace JudGui
             }
         }
 
-        private void ComboBoxEnterpriseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CBZ.TempProject.EnterpriseForm = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-        }
-
-        private void ComboBoxExecutive_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CBZ.TempProject.Executive = new User((User)ComboBoxExecutive.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-        }
-
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.TempProject.Name = TextBoxCaseName.Text;
+            if (CBZ.TempProject.Name != TextBoxCaseName.Text)
+            {
+                CBZ.TempProject.Name = TextBoxCaseName.Text;
+            }
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -179,31 +184,109 @@ namespace JudGui
         #endregion
 
         #region Methods
-
-        private int GetEnterPriseFormIndex(EnterpriseForm enterpriseForm)
+        /// <summary>
+        /// Method, that retrieves the index of a Builder
+        /// </summary>
+        /// <returns>int</returns>
+        private int GetBuilderIndex()
         {
             int result = 0;
 
-            foreach (IndexedEnterpriseForm indexForm in ComboBoxEnterpriseForm.Items)
+            CBZ.RefreshIndexedList("IndexedBuilders");
+
+            foreach (IndexedBuilder builder in CBZ.IndexedBuilders)
             {
-                if (indexForm.Text == enterpriseForm.Text)
+                if (builder.Id == CBZ.TempProject.Builder.Id)
                 {
-                    result = indexForm.Index;
+                    result = builder.Index;
+                    break;
                 }
             }
 
             return result;
         }
 
-        private int GetProjectStatusIndex(int id)
+        /// <summary>
+        /// Method, that retrieves the index of an EnterPrise Form
+        /// </summary>
+        /// <returns>int</returns>
+        private int GetEnterPriseFormIndex()
         {
             int result = 0;
 
-            foreach (IndexedProjectStatus indexProjectStatus in CBZ.IndexedProjectStatuses)
+            CBZ.RefreshIndexedList("IndexedEnterpriseForms");
+
+            foreach (IndexedEnterpriseForm form in CBZ.IndexedEnterpriseForms)
             {
-                if (indexProjectStatus.Id == id)
+                if (form.Id == CBZ.TempProject.Status.Id)
                 {
-                    result = indexProjectStatus.Index;
+                    result = form.Index;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves the index of an Executive
+        /// </summary>
+        /// <returns>int</returns>
+        private int GetExecutiveIndex()
+        {
+            int result = 0;
+
+            CBZ.RefreshIndexedList("IndexedUsers");
+
+            foreach (IndexedUser user in CBZ.IndexedUsers)
+            {
+                if (user.Id == CBZ.TempProject.Executive.Id)
+                {
+                    result = user.Index;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves the index of a Project Status
+        /// </summary>
+        /// <returns>int</returns>
+        private int GetProjectStatusIndex()
+        {
+            int result = 0;
+
+            CBZ.RefreshIndexedList("IndexedProjectStatuses");
+
+            foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatuses)
+            {
+                if (status.Id == CBZ.TempProject.Status.Id)
+                {
+                    result = status.Index;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves the index of a Tender Form
+        /// </summary>
+        /// <returns>int</returns>
+        private int GetTenderFormIndex()
+        {
+            int result = 0;
+
+            CBZ.RefreshIndexedList("IndexedTenderForms");
+
+            foreach (IndexedTenderForm form in CBZ.IndexedTenderForms)
+            {
+                if (form.Id == CBZ.TempProject.TenderForm.Id)
+                {
+                    result = form.Index;
                     break;
                 }
             }

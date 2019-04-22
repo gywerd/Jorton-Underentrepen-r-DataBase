@@ -53,7 +53,12 @@
                 Grid.ColumnSpan="2" Grid.RowSpan="4" />
         <Border BorderThickness="1" 
                 BorderBrush="Black" 
-                Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="5" Grid.RowSpan="4" />
+                Grid.Column="4" Grid.Row="5" 
+                Grid.RowSpan="4" />
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="5" Grid.Row="5" 
+                Grid.RowSpan="4" />
         <Border BorderThickness="1" 
                 BorderBrush="Black" 
                 Grid.Column="6" Grid.Row="5" Grid.RowSpan="4" />
@@ -142,11 +147,11 @@
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" 
-                  Width="130" />
+                  Width="165" />
         <TextBox x:Name="TextBoxName" 
                  FontSize="24" 
                  Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
-                 Height="50" Width="795" 
+                 Height="50" Width="885" 
                  HorizontalAlignment="Left" 
                  IsEnabled="False" 
                  Text="" 
@@ -155,18 +160,18 @@
         <ComboBox x:Name="ComboBoxEnterprise" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-                  Height="50" Width="1055"
+                  Height="50" Width="1065"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxEnterprise_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ListBox x:Name="ListBoxSubEntrepeneurs" 
                  Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
-                 Height="185" Width="1055" 
+                 Height="185" Width="1065" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxSubEntrepeneurs_SelectionChanged"
                  VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxEntrepeneur" 
-                 FontSize="24" 
+                 FontSize="18" 
                  Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" 
                  Height="50" Width="170"
                  HorizontalAlignment="Center" 
@@ -175,7 +180,7 @@
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxContact" 
-                  FontSize="24" 
+                  FontSize="18" 
                   Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="1" 
                   Height="50" Width="170"
                   HorizontalAlignment="Center" 
@@ -414,7 +419,7 @@
                     FontSize="8" 
                     Grid.Column="3" Grid.Row="8" 
                     HorizontalAlignment="Left" 
-                    MaxWidth="150"
+                    MaxWidth="165"
                     RenderTransformOrigin="1,1"
                     SelectedDateChanged="DateRequestReceived_SelectedDateChanged" 
                     VerticalAlignment="Top">
@@ -469,9 +474,9 @@
                VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxOfferPrice" 
                  FontSize="24" 
-                 Grid.Column="4" Grid.Row="8" Grid.ColumnSpan="2" 
-                 Height="50" Width="250"
-                 HorizontalAlignment="Right" 
+                 Grid.Column="5" Grid.Row="8" 
+                 Height="50" Width="165"
+                 HorizontalAlignment="Left" 
                  Text="0,00" 
                  TextAlignment="Right" 
                  TextChanged="TextBoxOfferPrice_TextChanged" 

@@ -52,8 +52,7 @@ namespace JudGui
         public UcProjectStatusChange UcProjectStatusChange;
         public UcProjectStatuses UcProjectStatuses;
         public UcRequests UcRequests;
-        public UcRequestPrepare UcRequestPrepare;
-        public UcRequestSend UcRequestSend;
+        public UcRequestsSentShow UcRequestsSentShow;
         public UcRegions UcRegions;
         public UcSubEntrepeneursChoose UcSubEntrepeneursChoose;
         public UcSubEntrepeneursEdit UcSubEntrepeneursEdit;
@@ -640,7 +639,7 @@ namespace JudGui
             Application.Current.Shutdown();
         }
 
-        private void ButtonRequests_Click(object sender, RoutedEventArgs e)
+        private void ButtonRequestsSend_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
             {
@@ -655,6 +654,24 @@ namespace JudGui
             {
                 UcRequests = new UcRequests(CBZ, UcMain);
                 UcMain.Content = UcRequests;
+            }
+        }
+
+        private void ButtonRequestsShow_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                if (MessageBox.Show("Vil du åbne 'Vis Forespørgsler'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcMainEdited = false;
+                    UcRequestsSentShow = new UcRequestsSentShow(CBZ, UcMain);
+                    UcMain.Content = UcRequestsSentShow;
+                }
+            }
+            else
+            {
+                UcRequestsSentShow = new UcRequestsSentShow(CBZ, UcMain);
+                UcMain.Content = UcRequestsSentShow;
             }
         }
 

@@ -55,9 +55,8 @@
                VerticalAlignment="Top" />
         <Label x:Name="LabelTenderForm" Content="Udbudsform*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" 
-               HorizontalAlignment="Left" 
-               VerticalAlignment="Top" />
+               Grid.Column="1" Grid.Row="5" 
+               HorizontalAlignment="Left" Margin="0,0,0,28.4" />
         <Label x:Name="LabelEnterpriseForm" Content="Entrepriseform*:" 
                FontSize="24" 
                Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" 
@@ -83,7 +82,7 @@
         <xctk:WatermarkTextBox x:Name="TextBoxCaseName" 
                                FontSize="24" 
                                Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-                               Height="50" Width="1055"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left" 
                                TextWrapping="Wrap" 
                                Text=""
@@ -93,25 +92,25 @@
         <ComboBox x:Name="ComboBoxBuilder" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
-                  Height="50" Width="1055"
+                  Height="50" Width="1065"
                   HorizontalAlignment="Left" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxTenderForm" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="6" 
-                  Height="50" Width="1055"
+                  Height="50" Width="1065"
                   HorizontalAlignment="Left" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxEnterpriseForm" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6" 
-                  Height="50" Width="1055"
+                  Height="50" Width="1065"
                   HorizontalAlignment="Left" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxExecutive" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="6" 
-                  Height="50" Width="1055"
+                  Height="50" Width="1065"
                   HorizontalAlignment="Left" 
                   VerticalAlignment="Top" />
         <Button x:Name="ButtonCancel" Content="Annuller"

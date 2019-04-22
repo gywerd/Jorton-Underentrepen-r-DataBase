@@ -107,13 +107,25 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="2" 
                                Grid.ColumnSpan="6"
-                               Height="50" Width="1065"
+                               Height="50" Width="1015"
                                HorizontalAlignment="Left"
                                Text=""
                                TextWrapping="Wrap"
                                TextChanged="TextBoxSearch_TextChanged"
                                VerticalAlignment="Top"
                                Watermark="JBH" />
+        <Button x:Name="ButtonSearchEntrepeneur"
+                FontSize="24"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="2"
+                Height="50" Width="50"
+                HorizontalAlignment="Right"
+                ToolTip="Indtast de førstebogsstaver i firmanavnet"
+                VerticalAlignment="Top">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/help.png" />
+            </Button.Background>
+        </Button>
         <ListBox x:Name="ListBoxBuilders"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
@@ -170,7 +182,7 @@
                                Background="White"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="8"
-                               Height="50" Width="130"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -227,8 +239,8 @@
                                FontSize="24"
                                Grid.Column="6" Grid.Row="9"
                                Grid.ColumnSpan="3"
-                               Height="50" Width="470"
-                               HorizontalAlignment="Right"
+                               Height="50" Width="525"
+                               HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxEmail_TextChanged"

@@ -108,8 +108,17 @@ namespace JudGui
                         Users.IsEnabled = false;
                         break;
                 }
-                UcMain.Content = new UserControl();
                 CBZ.UcMainEdited = false;
+                switch (TextBoxPassword.Password)
+                {
+                    case "1234":
+                        MessageBox.Show("Dette er et midlertidigt password, der skal ændres!", "Password", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                        this.UcMain.Content = new UcChangePassWord(CBZ, UcMain, true);
+                        break;
+                    default:
+                        UcMain.Content = new UserControl();
+                        break;
+                }
             }
             else
             {

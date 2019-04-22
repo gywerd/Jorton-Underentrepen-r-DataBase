@@ -48,7 +48,7 @@
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" 
-                  Width="130" />
+                  Width="165" />
         <xctk:WatermarkTextBox x:Name="TextBoxName" 
                                Background="GhostWhite"
                                FontSize="24" 
@@ -63,7 +63,7 @@
         <CheckBox x:Name="CheckBoxReceiversListExist" 
                   Content="Modtagerliste er klargjort" 
                  FontSize="15" 
-                  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" 
+                  Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="3" 
                   HorizontalAlignment="Left"
                   IsEnabled="False" 
                   RenderTransformOrigin="1,1"
@@ -126,7 +126,7 @@
                    VerticalAlignment="Bottom" />
         <ListBox x:Name="ListBoxBullets" 
                  Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6" 
-                 Height="180" Width="1055" 
+                 Height="180" Width="1065" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxBullets_SelectionChanged"
                  VerticalAlignment="Top" />

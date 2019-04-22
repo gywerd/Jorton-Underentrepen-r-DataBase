@@ -6,19 +6,19 @@
              xmlns:local="clr-namespace:JudGui"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1560">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="160*" />
-            <ColumnDefinition Width="120*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*" />
@@ -73,7 +73,7 @@
                    Grid.ColumnSpan="8"
                    HorizontalAlignment="Center"
                    Height="10"
-                   Width="1260"
+                   Width="1425"
                    VerticalAlignment="Bottom" />
         <Label x:Name="LabelAddRegion"
                Content="Tilføj Region"
@@ -101,7 +101,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="2"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                TextWrapping="Wrap"
                                Text=""
@@ -111,7 +111,7 @@
         <ListBox x:Name="ListBoxRegions"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="135" Width="955"
+                 Height="135" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxRegions_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -119,7 +119,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="4"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxText_TextChanged"
@@ -130,7 +130,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="5"
                                Grid.ColumnSpan="6"
-                               Height="50" Width="955"
+                               Height="50" Width="1065"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxZips_TextChanged"
@@ -141,7 +141,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="7"
                                Grid.ColumnSpan="5"
-                               Height="50" Width="795"
+                               Height="50" Width="885"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxNewText_TextChanged"
@@ -152,7 +152,7 @@
                                FontSize="24"
                                Grid.Column="3" Grid.Row="8"
                                Grid.ColumnSpan="5"
-                               Height="50" Width="795"
+                               Height="50" Width="885"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxNewZips_TextChanged"
@@ -165,7 +165,7 @@
                 FontSize="24"
                 FontWeight="Bold"
                 Grid.Column="8" Grid.Row="8"
-                Height="50" Width="150"
+                Height="50" Width="165"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top" />
         <Button x:Name="ButtonClose"
@@ -175,7 +175,7 @@
                 FontWeight="Bold"
                 Grid.Column="1" Grid.Row="9"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
@@ -185,7 +185,7 @@
                 FontWeight="Bold"
                 Grid.Column="7" Grid.Row="9"
                 Grid.ColumnSpan="2"
-                Height="100" Width="315"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom" />
     </Grid>

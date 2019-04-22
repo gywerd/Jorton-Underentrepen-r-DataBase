@@ -121,8 +121,10 @@ namespace JudGui
                         CBZ.TempRequestData.RequestUrl = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempRequestData);
                         string[] fileNames = new string[] { CBZ.TempRequestData.RequestUrl };
                         Email email = new Email(CBZ, "PRØVE: Forespørgsel om underentreprise på " + CBZ.TempProject.Name, subEntrepeneur.Contact.Person.ContactInfo.Email, CBZ.CurrentUser.Person.ContactInfo.Email, "Dette er en prøve", fileNames);
-                        subEntrepeneur.Request.Status = new RequestStatus((RequestStatus)CBZ.GetObject("RequestStatuses", 1));
+                        subEntrepeneur.Request.Status = new RequestStatus((RequestStatus)CBZ.GetRequestStatus(1));
                         subEntrepeneur.Request.SentDate = DateTime.Now;
+                        CBZ.CreateInDb(CBZ.TempRequestData);
+                        CBZ.UpdateInDb(subEntrepeneur.Request);
                         CBZ.UpdateInDb(subEntrepeneur);
                     }
                     MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -155,15 +157,26 @@ namespace JudGui
         #endregion
 
         #region Events
+        private void CheckBoxShowSent_ToggleChecked(object sender, RoutedEventArgs e)
+        {
+            CBZ.TempRequestData = new RequestData(CBZ.TempProject);
+            RefreshIndexedSubEntrepeneurs();
+            ListBoxEntrepeneurs.SelectedIndex = -1;
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
+            TextBoxAnswerDate.Text = "";
+            TextBoxPeriod.Text = "";
+            TextBoxProjectDescription.Text = "";
+
+        }
+
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ComboBoxCaseId.SelectedIndex >= 0)
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
                 TextBoxName.Text = CBZ.TempProject.Name;
-                CBZ.TempRequestData = new RequestData();
-                CBZ.TempRequestData.Project = CBZ.TempProject;
-                GetProjectSubEntrepeneurs();
+                CBZ.TempRequestData = new RequestData(CBZ.TempProject);
                 RefreshIndexedSubEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
                 ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
@@ -403,15 +416,19 @@ namespace JudGui
         /// </summary>
         private void RefreshIndexedSubEntrepeneurs()
         {
-            CBZ.RefreshList("SubEntrepeneurs");
+            GetProjectSubEntrepeneurs();
             CBZ.IndexedSubEntrepeneurs.Clear();
 
             int i = 0;
 
             foreach (SubEntrepeneur subEntrepeneur in ProjectSubEntrepeneurs)
             {
-                bool requestSent = CheckRequestSent(subEntrepeneur);
+                bool requestSent = false;
 
+                if (CheckBoxShowSent.IsChecked == false)
+                {
+                    requestSent = CheckRequestSent(subEntrepeneur);
+                }
 
                 if (!requestSent)
                 {
@@ -452,4 +469,6 @@ namespace JudGui
         #endregion
 
     }
+
+
 }

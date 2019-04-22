@@ -6,19 +6,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:JudGui"
              mc:Ignorable="d" 
-             d:DesignHeight="840" d:DesignWidth="1520">
+             d:DesignHeight="840" d:DesignWidth="1800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*" />
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="180*" />
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*"/>
+            <ColumnDefinition Width="180*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -67,7 +67,7 @@
         <ListBox x:Name="ListBoxZipTowns" 
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6" 
-                 Height="365" Width="955" 
+                 Height="365" Width="1065" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxZipTowns_SelectionChanged"
                  VerticalAlignment="Top" />
@@ -77,19 +77,31 @@
                                Grid.Column="3" Grid.Row="2" 
                                Grid.ColumnSpan="6" 
                                IsEnabled="False"
-                               Height="50" Width="955"
+                               Height="50" Width="1015"
                                HorizontalAlignment="Left" 
                                Text=""
                                TextChanged="TextBoxZipSearch_TextChanged" 
                                TextWrapping="Wrap" 
                                VerticalAlignment="Top" 
                                Watermark="9999" />
+        <Button x:Name="ButtonSearchEntrepeneur"
+                FontSize="24"
+                FontWeight="Bold"
+                Grid.Column="8" Grid.Row="2"
+                Height="50" Width="50"
+                HorizontalAlignment="Right"
+                ToolTip="Indtast de første tegn i postnummeret - landekendingsbogstaver for udenlandske numre"
+                VerticalAlignment="Top">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/help.png" />
+            </Button.Background>
+        </Button>
         <xctk:WatermarkTextBox x:Name="TextBoxZip"
                                Background="White"
                                FontSize="24"
-                               Grid.Column="2" Grid.Row="4"
+                               Grid.Column="3" Grid.Row="4"
                                IsEnabled="False"
-                               Height="50" Width="130"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxZip_TextChanged"
@@ -99,7 +111,7 @@
         <CheckBox x:Name="CheckBoxAddNewZipCode" Content="Tilføj nyt postnummer"  
                   Checked="CheckBoxAddNewZipCode_Checked"
                   FontSize="15" 
-                  Grid.Column="3" Grid.Row="4" 
+                  Grid.Column="4" Grid.Row="4" 
                   Grid.ColumnSpan="3" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
@@ -119,8 +131,8 @@
         <CheckBox x:Name="CheckBoxDeleteZipCode" Content="Godkend sletning"  
                   Checked="CheckBoxDeleteZipCode_Checked"
                   FontSize="15" 
-                  Grid.Column="6" Grid.Row="4" 
-                  Grid.ColumnSpan="3" 
+                  Grid.Column="7" Grid.Row="4" 
+                  Grid.ColumnSpan="2" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
                   Margin="0,0,0,0"  
@@ -139,9 +151,8 @@
         <xctk:WatermarkTextBox x:Name="TextBoxTown"
                                Background="White"
                                FontSize="24"
-                               Grid.Column="2" Grid.Row="5"
-                               Grid.ColumnSpan="6"
-                               Height="50" Width="130"
+                               Grid.Column="3" Grid.Row="5"
+                               Height="50" Width="165"
                                HorizontalAlignment="Left"
                                Text=""
                                TextChanged="TextBoxTown_TextChanged"
@@ -151,7 +162,7 @@
         <CheckBox x:Name="CheckBoxEditZipCode" Content="Ret postnummer"  
                   Checked="CheckBoxEditZipCode_Checked"
                   FontSize="15" 
-                  Grid.Column="3" Grid.Row="5" 
+                  Grid.Column="4" Grid.Row="5" 
                   Grid.ColumnSpan="3" 
                   Height="25" Width="230" 
                   HorizontalAlignment="Left" 
@@ -173,7 +184,7 @@
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="2" Grid.Row="6" 
                 Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonEdit" Content="Rediger"
@@ -181,7 +192,7 @@
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="6" 
                 Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" />
         <Button x:Name="ButtonCreate" Content="Opret"
@@ -189,7 +200,7 @@
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="6" 
                 Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
                 Visibility="Hidden"  />
@@ -198,7 +209,7 @@
                 FontSize="48" FontWeight="Bold" 
                 Grid.Column="6" Grid.Row="6" 
                 Grid.ColumnSpan="2" 
-                Height="100"  Width="315" 
+                Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" 
                 Visibility="Hidden" />
