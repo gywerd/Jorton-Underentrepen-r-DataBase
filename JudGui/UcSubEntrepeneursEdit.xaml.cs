@@ -147,7 +147,7 @@ namespace JudGui
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
 
-                TextBoxName.Text = CBZ.TempProject.Name;
+                TextBoxName.Text = CBZ.TempProject.Details.Name;
                 ComboBoxEnterprise.ItemsSource = "";
                 GetProjectEnterprises();
                 ComboBoxEnterprise.ItemsSource = ProjectEnterprises;

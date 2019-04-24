@@ -116,7 +116,7 @@ namespace JudGui
             if (ComboBoxCaseId.SelectedIndex > -1)
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
-                TextBoxName.Text = CBZ.TempProject.Name;
+                TextBoxName.Text = CBZ.TempProject.Details.Name;
                 IndexedEnterprises = GetIndexedEnterprises();
                 ComboBoxEnterprise.ItemsSource = IndexedEnterprises;
                 CBZ.TempSubEntrepeneur = new SubEntrepeneur();

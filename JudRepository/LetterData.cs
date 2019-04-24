@@ -11,8 +11,8 @@ namespace JudRepository
     {
         #region Fields
         private int id;
-        private string builder;
-        private string projectName;
+        private string builder = "";
+        private string projectName = "";
         private string answerDate = "";
         private string questionDate = "";
         private string correctionDate = "";
@@ -28,23 +28,10 @@ namespace JudRepository
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public LetterData()
-        {
-            this.id = 0;
-            this.projectName = "";
-            this.builder = "";
-            this.answerDate = "";
-            this.questionDate = "";
-            this.correctionDate = "";
-            this.conditionDate = "";
-            this.materialUrl = "";
-            this.conditionUrl = "";
-            this.passWord = "";
-            this.timeSpan = 0;
-        }
+        public LetterData() { }
 
         /// <summary>
-        /// Constructor to adding anew Description
+        /// Constructor to adding new Letter Data
         /// </summary>
         /// <param name="projectName">string</param>
         /// <param name="builder">string</param>
@@ -70,7 +57,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor to adding a Description from Db
+        /// Constructor to adding Letter Data from Db
         /// </summary>
         /// <param name="id">int</param>
         /// <param name="projectName">string</param>
@@ -97,7 +84,7 @@ namespace JudRepository
         }
 
         /// <summary>
-        /// Constructor, that accepts data from an existing Description
+        /// Constructor, that accepts data from existing Letter Data
         /// </summary>
         /// <param name="letterData">PdfData</param>
         public LetterData(LetterData letterData)

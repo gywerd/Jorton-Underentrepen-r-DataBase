@@ -97,10 +97,10 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    CBZ.TempProject = new Project(temp);
                 }
             }
-            TextBoxCaseName.Text = CBZ.TempProject.Name;
+            TextBoxCaseName.Text = CBZ.TempProject.Details.Name;
             IndexedEnterprises = GetIndexedEnterprises();
             IndexedSubEntrepeneurs = GetIndexedSubEntrepeneurs();
             RadioButtonShowAll.IsChecked = true;

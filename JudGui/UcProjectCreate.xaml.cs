@@ -58,8 +58,7 @@ namespace JudGui
             bool result = false;
 
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)CBZ.GetProjectStatus(1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
-            int id = CBZ.CreateInDb(project);
+            int id = CBZ.CreateInDb(CBZ.TempProject);
             if (id >= 1)
             {
                 result = true;
@@ -91,8 +90,7 @@ namespace JudGui
             bool result = false;
 
             //Code that creates a new project
-            Project project = new Project(Convert.ToInt32(TextBoxCaseId.Text), TextBoxCaseName.Text, new Builder((Builder)ComboBoxBuilder.SelectedItem), new ProjectStatus((ProjectStatus)CBZ.GetProjectStatus(1)), new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem), new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem), new User((User)ComboBoxExecutive.SelectedItem));
-            int id = CBZ.CreateInDb(project);
+            int id = CBZ.CreateInDb(CBZ.TempProject);
             if (id >= 1)
             {
                 result = true;
@@ -126,6 +124,67 @@ namespace JudGui
         #endregion
 
         #region Events
+        private void ComboBoxBuilder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Builder builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
+            if (CBZ.TempProject.Builder.Id != builder.Id)
+            {
+                CBZ.TempProject.Builder = builder;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+        }
+
+        private void ComboBoxTenderForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TenderForm tenderForm = new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem);
+            if (CBZ.TempProject.TenderForm.Id != tenderForm.Id)
+            {
+                CBZ.TempProject.TenderForm = tenderForm;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+        }
+
+        private void ComboBoxEnterpriseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnterpriseForm form = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
+            if (CBZ.TempProject.EnterpriseForm.Id != form.Id)
+            {
+                CBZ.TempProject.EnterpriseForm = form;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+        }
+
+        private void ComboBoxExecutive_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            User user = new User((User)ComboBoxExecutive.SelectedItem);
+
+            if (CBZ.TempProject.Executive.Id != user.Id)
+            {
+                CBZ.TempProject.Executive = user;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+        }
+
         private void TextBoxCaseId_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (TextBoxCaseId.Text.Count() > 6)
@@ -136,11 +195,26 @@ namespace JudGui
                 TextBoxCaseId.Select(TextBoxCaseId.Text.Length, 0);
             }
 
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (CBZ.TempProject.Case.ToString() != TextBoxCaseId.Text)
             {
-                CBZ.UcMainEdited = true;
+                try
+                {
+                    CBZ.TempProject.Case = Convert.ToInt32(TextBoxCaseId.Text);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Sagsnummer skal være et tal!", "Projekter", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                finally
+                {
+                    //Set CBZ.UcMainEdited
+                    if (!CBZ.UcMainEdited)
+                    {
+                        CBZ.UcMainEdited = true;
+                    }
+                }
             }
+
         }
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
@@ -153,10 +227,30 @@ namespace JudGui
                 TextBoxCaseName.Select(TextBoxCaseName.Text.Length, 0);
             }
 
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (CBZ.TempProject.Details.Name != TextBoxCaseName.Text)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.Details.Name = TextBoxCaseName.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+
+        }
+
+        private void TextBoxDescription_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CBZ.TempProject.Details.Description != TextBoxDescription.Text)
+            {
+                CBZ.TempProject.Details.Description = TextBoxDescription.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
         }
 

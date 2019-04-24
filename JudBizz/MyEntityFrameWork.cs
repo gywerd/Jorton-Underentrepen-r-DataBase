@@ -14,7 +14,7 @@ namespace JudBizz
     {
         #region Fields
         private static string strConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JortonSubEnt;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        public PdfLists PdfLists;
+        public ProjectLists ProjectLists;
         private Executor executor = new Executor(strConnection);
         private MacAddress macAddress = new MacAddress();
         private string appPath = "";
@@ -33,6 +33,7 @@ namespace JudBizz
         public EnterpriseForm TempEnterpriseForm = new EnterpriseForm();
         public Entrepeneur TempEntrepeneur = new Entrepeneur();
         public IttLetter TempIttLetter = new IttLetter();
+        public IttLetterShipping TempIttLetterShipping = new IttLetterShipping();
         public JobDescription TempJobDescription = new JobDescription();
         public LegalEntity TempLegalEntity = new LegalEntity();
         public LetterData TempLetterData = new LetterData();
@@ -40,12 +41,12 @@ namespace JudBizz
         public Paragraf TempParagraf = new Paragraf();
         public string TempPassWord = "";
         public Project TempProject = new Project();
+        public ProjectDetail TempProjectDetail = new ProjectDetail();
         public ProjectStatus TempProjectStatus = new ProjectStatus();
-        public RequestData TempRequestData = new RequestData();
+        public RequestShipping TempRequestShipping = new RequestShipping();
         public Receiver TempReceiver = new Receiver();
         public Region TempRegion = new Region();
         public Request TempRequest = new Request();
-        public Shipping TempShipping = new Shipping();
         public SubEntrepeneur TempSubEntrepeneur;
         public TenderForm TempTenderForm = new TenderForm();
         public User TempUser = new User();
@@ -73,20 +74,21 @@ namespace JudBizz
             public List<Project> InactiveProjects = new List<Project>();
             public List<User> InactiveUsers = new List<User>();
             public List<IttLetter> IttLetters = new List<IttLetter>();
+            public List<IttLetterShipping> IttLetterShippings = new List<IttLetterShipping>();
             public List<JobDescription> JobDescriptions = new List<JobDescription>();
             public List<LegalEntity> LegalEntities = new List<LegalEntity>();
             public List<LetterData> LetterDataList = new List<LetterData>();
             public List<Offer> Offers = new List<Offer>();
             public List<Paragraf> Paragrafs = new List<Paragraf>();
             public List<Person> Persons = new List<Person>();
+            public List<ProjectDetail> ProjectDetails = new List<ProjectDetail>();
             public List<Project> Projects = new List<Project>();
             public List<ProjectStatus> ProjectStatuses = new List<ProjectStatus>();
             public List<Receiver> Receivers = new List<Receiver>();
             public List<Region> Regions = new List<Region>();
             public List<Request> Requests = new List<Request>();
-            public List<RequestData> RequestDataList = new List<RequestData>();
+            public List<RequestShipping> RequestShippings = new List<RequestShipping>();
             public List<RequestStatus> RequestStatuses = new List<RequestStatus>();
-            public List<Shipping> Shippings = new List<Shipping>();
             public List<SubEntrepeneur> SubEntrepeneurs = new List<SubEntrepeneur>();
             public List<TenderForm> TenderForms = new List<TenderForm>();
             public List<UserLevel> UserLevels = new List<UserLevel>();
@@ -166,7 +168,7 @@ namespace JudBizz
                 string entityTypeDk = "";
                 bool dbAnswer = false;
                 string entityType = entity.GetType().ToString().Remove(0,14);
-                string list = GetListFromEntityType(entityType);
+                string list = GetListNameFromEntityType(entityType);
 
                 switch (list)
                 {
@@ -244,6 +246,11 @@ namespace JudBizz
                             count = IttLetters.Count;
                             result = IttLetters[count - 1].Id;
                             break;
+                        case "IttLetterShipping":
+                            RefreshList("IttLetterShippings");
+                            count = IttLetterShippings.Count;
+                            result = IttLetterShippings[count - 1].Id;
+                            break;
                         case "JobDescription":
                             RefreshList("JobDescriptions");
                             count = JobDescriptions.Count;
@@ -274,6 +281,11 @@ namespace JudBizz
                             count = Projects.Count;
                             result = Projects[count - 1].Id;
                             break;
+                        case "ProjectDetail":
+                            RefreshList("ProjectDetails");
+                            count = ProjectDetails.Count;
+                            result = ProjectDetails[count - 1].Id;
+                            break;
                         case "ProjectStatus":
                             RefreshList("ProjectStatuses");
                             count = ProjectStatuses.Count;
@@ -294,20 +306,15 @@ namespace JudBizz
                             count = Requests.Count;
                             result = Requests[count - 1].Id;
                             break;
-                        case "RequestData":
-                            RefreshList("RequestDataList");
-                            count = RequestDataList.Count;
-                            result = RequestDataList[count - 1].Id;
+                        case "RequestShipping":
+                            RefreshList("RequestShippings");
+                            count = RequestShippings.Count;
+                            result = RequestShippings[count - 1].Id;
                             break;
                         case "RequestStatus":
                             RefreshList("RequestStatuses");
                             count = RequestStatuses.Count;
                             result = RequestStatuses[count - 1].Id;
-                            break;
-                        case "Shipping":
-                            RefreshList("ShippingList");
-                            count = Shippings.Count;
-                            result = Shippings[count - 1].Id;
                             break;
                         case "SubEntrepeneur":
                             RefreshList("SubEntrepeneurs");
@@ -384,6 +391,9 @@ namespace JudBizz
                     case "IttLetter":
                         result = "Udbudsbrev";
                         break;
+                    case "IttLetterShipping":
+                        result = "Forsendelse af Udbudsbrev";
+                        break;
                     case "LegalEntity":
                         result = "Legal Person";
                         break;
@@ -402,6 +412,9 @@ namespace JudBizz
                     case "Project":
                         result = "Projekt";
                         break;
+                    case "ProjectDetail":
+                        result = "Projektdetalje";
+                        break;
                     case "ProjectStatus":
                         result = "Projektstatus";
                         break;
@@ -414,14 +427,11 @@ namespace JudBizz
                     case "Request":
                         result = "Forespørgsel";
                         break;
-                    case "RequestData":
-                        result = "Forespørgselsdata";
+                    case "RequestShipping":
+                        result = "Forsendelse af Forespørgsel";
                         break;
                     case "RequestStatus":
                         result = "Forespørgselsstatus";
-                        break;
-                    case "Shipping":
-                        result = "Forsendelse";
                         break;
                     case "SubEntrepeneur":
                         result = "Underentrepenør";
@@ -448,7 +458,7 @@ namespace JudBizz
             /// </summary>
             /// <param name="entityType"></param>
             /// <returns></returns>
-            private string GetListFromEntityType(string entityType)
+            private string GetListNameFromEntityType(string entityType)
             {
                 string result = "";
 
@@ -490,6 +500,9 @@ namespace JudBizz
                     case "IttLetter":
                         result = "IttLetters";
                         break;
+                    case "IttLetterShipping":
+                        result = "IttLetterShippings";
+                        break;
                     case "JobDescription":
                         result = "JobDescriptions";
                         break;
@@ -524,13 +537,10 @@ namespace JudBizz
                         result = "Requests";
                         break;
                     case "RequestData":
-                        result = "RequestDataList";
+                        result = "RequestShippings";
                         break;
                     case "RequestStatus":
                         result = "RequestStatuses";
-                        break;
-                    case "Shipping":
-                        result = "ShippingList";
                         break;
                     case "SubEntrepeneur":
                         result = "SubEntrepeneurs";
@@ -610,6 +620,10 @@ namespace JudBizz
                         IttLetter ittLetter = new IttLetter((IttLetter)entity);
                         result = "INSERT INTO[dbo].[IttLetters]([Sent], [SentDate]) VALUES('" + ittLetter.Sent.ToString() + "', '" + ittLetter.SentDate.ToString("yyyy-MM-dd") + "')";
                         break;
+                    case "IttLetterShippings":
+                        IttLetterShipping shipping = new IttLetterShipping((IttLetterShipping)entity);
+                        result = "INSERT INTO [dbo].[IttLetterShippings]([SubEntrepeneur], [Receiver, [LetterData], [CommonPdfPath], [PersonalPdfPath]) VALUES(" + shipping.SubEntrepeneur.Id + ", " + shipping.Receiver.Id + ", " + shipping.LetterData.Id + ", '" + shipping.CommonPdfPath + "', '" + shipping.PersonalPdfPath + "')";
+                        break;
                     case "LegalEntities":
                         LegalEntity legalEntity = new LegalEntity((LegalEntity)entity);
                         result = "INSERT INTO [dbo].[LegalEntities]([Cvr], [Name], [CoName], [Address], [ContactInfo], [Url]) VALUES(" + legalEntity.Cvr + ", " + legalEntity.Name + ", '" + legalEntity.CoName + "', " + legalEntity.Address.Id + ", " + legalEntity.ContactInfo.Id + ", '" + legalEntity.Url + "')";
@@ -630,10 +644,15 @@ namespace JudBizz
                         Person person = new Person((Person)entity);
                         result = "INSERT INTO [dbo].[Persons]([Name], [ContactInfo]) VALUES('" + person.Name + @"', " + person.Id + @")";
                         break;
+                    case "ProjectDetails":
+                        ProjectDetail projectDetail = new ProjectDetail((ProjectDetail)entity);
+                        //result = "INSERT INTO [dbo].[ProjectDetails]([Name], [Description], [Period], [AnswerDate]) VALUES(< Name, nvarchar(50),>, < Description, nvarchar(max),>, < Period, nvarchar(50),>, < AnswerDate, nvarchar(50),>)";
+                        result = "INSERT INTO [dbo].[ProjectDetails]([Name], [Description], [Period], [AnswerDate]) VALUES('" + projectDetail.Name + "', '" + projectDetail.Description + "', '" + projectDetail.Period + "', '" + projectDetail.AnswerDate + "')";
+                        break;
                     case "Projects":
                         Project project = new Project((Project)entity);
-                    //result = @"INSERT INTO [dbo].[Projects]([Case], [Name], [Builder], [Status], [TenderForm], [EnterpriseForm], [Executive], [EnterpriseList], [Copy]) VALUES(<Case, int,>, <Name, nvarchar(250),>, <Builder, int,>, <Status, int,>, <TenderForm, int,>, <EnterpriseForm, int,>, <Executive, int,>, <Copy, bit,>)"
-                    result = @"INSERT INTO [dbo].[Projects]([Case], [Name], [Builder], [Status], [TenderForm], [EnterpriseForm], [Executive], [EnterpriseList], [Copy]) VALUES(" + project.Case + @", '" + project.Name + @"', " + project.Builder.Id + @", " + project.Status.Id + @", " + project.TenderForm.Id + @", " + project.EnterpriseForm.Id + @", " + project.Executive.Id + @", '" + project.EnterpriseList.ToString() + "', '" + project.Copy.ToString() + "')";
+                        //result = @"INSERT INTO [dbo].[Projects]([Case], [Builder], [Status], [TenderForm], [EnterpriseForm], [Executive], [Detail], [EnterpriseList], [Copy]) VALUES(<Case, int,>, <Name, nvarchar(250),>, <Builder, int,>, <Status, int,>, <TenderForm, int,>, <EnterpriseForm, int,>, <Executive, int,>, <Description, nvarchar(250),>, <EnterpriseList, bit,>, <Copy, bit,>)"
+                        result = @"INSERT INTO [dbo].[Projects]([Case], [Builder], [Status], [TenderForm], [EnterpriseForm], [Executive], [Detail], [EnterpriseList], [Copy]) VALUES(" + project.Case + @", " + project.Builder.Id + @", " + project.Status.Id + @", " + project.TenderForm.Id + @", " + project.EnterpriseForm.Id + @", " + project.Executive.Id + @", '" + project.Details + @"', '" + project.EnterpriseList.ToString() + "', '" + project.Copy.ToString() + "')";
                         break;
                     case "ProjectStatuses":
                         ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)entity);
@@ -651,18 +670,14 @@ namespace JudBizz
                         Request request = new Request((Request)entity);
                         result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToString("yyyy-MM-dd") + @"', '" + request.ReceivedDate.ToString("yyyy-MM-dd") + @"')";
                         break;
-                    case "RequestDataList":
-                        RequestData requestData = new RequestData((RequestData)entity);
-                        //result = "INSERT INTO [dbo].[RequestDataList]([Project], [Receiver], [ReceiverAttention], [EnterpriseLine], [AcceptUrl], [DeclineUrl], [ProjectDescription], [Period], [AnswerDate],[ProjectUrl]) VALUES(<Project, int,>, <Receiver, int,>, <ReceiverAttention, nvarchar(50),>, <EnterpriseLine, nvarchar(50),>, <AcceptUrl, nvarchar(50),>, <DeclineUrl, nvarchar(50),>, <ProjectDescription, nvarchar(max),>, <Period, nvarchar(50),>, <AnswerDate, nvarchar(50),>, <ProjectUrl, nvarchar(50),>)"
-                        result = @"INSERT INTO [dbo].[RequestDataList]([Project], [Receiver], [ReceiverAttention], [EnterpriseLine], [AcceptUrl], [DeclineUrl], [ProjectDescription], [Period], [AnswerDate],[ProjectUrl]) VALUES(" + requestData.Project.Id + @", " + requestData.Receiver.Id + @", '" + requestData.ReceiverAttention + @"', '" + requestData.EnterpriseLine + @"', '" + requestData.AcceptUrl + @"', '" + requestData.DeclineUrl + @"', '" + requestData.ProjectDescription + @"', '" + requestData.Period + @"', '" + requestData.AnswerDate + @"', '" + requestData.RequestUrl + @"')";
+                    case "RequestShippings":
+                        RequestShipping requestShipping = new RequestShipping((RequestShipping)entity);
+                        //result = "INSERT INTO [dbo].[RequestShippings]([SubEntrepeneur], [AcceptUrl], [DeclineUrl], [Period], [AnswerDate], [RequestPdfPath]) VALUES(< SubEntrepeneur, int,>, < AcceptUrl, nvarchar(50),>, < DeclineUrl, nvarchar(50),>, < RequestPdfPath, nvarchar(50),>)"
+                        result = @"INSERT INTO [dbo].[RequestShippings]([SubEntrepeneur], [AcceptUrl], [DeclineUrl], [Period], [AnswerDate], [RequestPdfPath]) VALUES(" + requestShipping.SubEntrepeneur.Id + @", '" + requestShipping.AcceptUrl + @"', '" + requestShipping.DeclineUrl + @"', '" + requestShipping.RequestPdfPath + @"')";
                         break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)entity);
                         result = "INSERT INTO [dbo].[RequestStatuses]([Description]) VALUES('" + requestStatus.Text + @"')";
-                        break;
-                    case "Shippings":
-                        Shipping shipping = new Shipping((Shipping)entity);
-                        result = "INSERT INTO [dbo].[ShippingList]([Project], [CommonPdfPath], [PdfPath]) VALUES(" + shipping.Project.Id + ", '" + shipping.CommonPdfPath + "', '" + shipping.PdfPath + "')";
                         break;
                     case "SubEntrepeneurs":
                         SubEntrepeneur subEntrepeneur = new SubEntrepeneur((SubEntrepeneur)entity);
@@ -713,7 +728,7 @@ namespace JudBizz
                 switch (list)
                 {
                     case "ActiveProjects":
-                        Project activeProject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        Project activeProject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), GetBuilder(Convert.ToInt32(resultArray[2])), GetProjectStatus(Convert.ToInt32(resultArray[3])), GetTenderForm(Convert.ToInt32(resultArray[4])), GetEnterpriseForm(Convert.ToInt32(resultArray[5])), GetUser(Convert.ToInt32(resultArray[6])), GetProjectDetail(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
                         result = activeProject;
                         break;
                     case "Addresses":
@@ -757,7 +772,7 @@ namespace JudBizz
                         result = entrepeneur;
                         break;
                     case "InactiveProjects":
-                        Project inactiveproject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        Project inactiveproject = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), GetBuilder(Convert.ToInt32(resultArray[2])), GetProjectStatus(Convert.ToInt32(resultArray[3])), GetTenderForm(Convert.ToInt32(resultArray[4])), GetEnterpriseForm(Convert.ToInt32(resultArray[5])), GetUser(Convert.ToInt32(resultArray[6])), GetProjectDetail(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
                         result = inactiveproject;
                         break;
                     case "IttLetters":
@@ -789,7 +804,7 @@ namespace JudBizz
                         result = person;
                         break;
                     case "Projects":
-                        Project project = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), resultArray[2], GetBuilder(Convert.ToInt32(resultArray[3])), GetProjectStatus(Convert.ToInt32(resultArray[4])), GetTenderForm(Convert.ToInt32(resultArray[5])), GetEnterpriseForm(Convert.ToInt32(resultArray[6])), GetUser(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
+                        Project project = new Project(Convert.ToInt32(resultArray[0]), Convert.ToInt32(resultArray[1]), GetBuilder(Convert.ToInt32(resultArray[2])), GetProjectStatus(Convert.ToInt32(resultArray[3])), GetTenderForm(Convert.ToInt32(resultArray[4])), GetEnterpriseForm(Convert.ToInt32(resultArray[5])), GetUser(Convert.ToInt32(resultArray[6])), GetProjectDetail(Convert.ToInt32(resultArray[7])), Convert.ToBoolean(resultArray[8]), Convert.ToBoolean(resultArray[9]));
                         result = project;
                         break;
                     case "ProjectStatuses":
@@ -808,16 +823,16 @@ namespace JudBizz
                         Request request = new Request(Convert.ToInt32(resultArray[0]), GetRequestStatus(Convert.ToInt32(resultArray[1])), Convert.ToDateTime(resultArray[2]), Convert.ToDateTime(resultArray[3]));
                         result = request;
                         break;
-                    case "RequestDataList":
-                    RequestData requestData = new RequestData(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), GetLegalEntity(Convert.ToInt32(resultArray[2])), resultArray[3], resultArray[4], resultArray[5], resultArray[6], resultArray[7], resultArray[8], resultArray[9], resultArray[10]);
+                    case "RequestShippings":
+                        RequestShipping requestData = new RequestShipping(Convert.ToInt32(resultArray[0]), GetSubEntrepeneur(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), resultArray[3], resultArray[4], resultArray[5]);
                         result = requestData;
                         break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
                         result = requestStatus;
                         break;
-                    case "Shippings":
-                        Shipping shipping = new Shipping(Convert.ToInt32(resultArray[0]), GetProject(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), GetSubEntrepeneur(Convert.ToInt32(resultArray[3])), GetLetterData(Convert.ToInt32(resultArray[4])), resultArray[5], resultArray[6]);
+                    case "IttLetterShippings":
+                        IttLetterShipping shipping = new IttLetterShipping(Convert.ToInt32(resultArray[0]), GetSubEntrepeneur(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), GetLetterData(Convert.ToInt32(resultArray[3])), resultArray[4], resultArray[5]);
                         result = shipping;
                         break;
                     case "SubEntrepeneurs":
@@ -898,6 +913,9 @@ namespace JudBizz
                     case "IttLetters":
                         result = 3;
                         break;
+                    case "IttLetterShippings":
+                        result = 6;
+                        break;
                     case "JobDescriptions":
                         result = 4;
                         break;
@@ -916,6 +934,9 @@ namespace JudBizz
                     case "Persons":
                         result = 3;
                         break;
+                    case "ProjectDetails":
+                        result = 5;
+                        break;
                     case "Projects":
                         result = 10;
                         break;
@@ -928,17 +949,14 @@ namespace JudBizz
                     case "Requests":
                         result = 4;
                         break;
-                    case "RequestDataList":
-                        result = 11;
+                    case "RequestShippings":
+                        result = 6;
                         break;
                     case "RequestStatuses":
                         result = 2;
                         break;
                     case "Receivers":
                         result = 8;
-                        break;
-                    case "Shippings":
-                        result = 7;
                         break;
                     case "SubEntrepeneurs":
                         result = 11;
@@ -1005,35 +1023,6 @@ namespace JudBizz
 
             return result;
         }
-
-            /// <summary>
-            /// Method, that reads a Project List from Db
-            /// Accepts the following lists: Enterprises [projectId], Shippings [projectId] & SubEntrepeneurs [enterpriseId]
-            /// </summary>
-            /// <param name="list">string</param>
-            /// <param name="id">int</param>
-            /// <returns>List<object></returns>
-            public List<object> ReadProjectListFromDb(string list, int id)
-            {
-                List<object> result = new List<object>();
-
-
-                List<string> strResults;
-
-                strResults = executor.ReadProjectListFromDataBase(list, id);
-
-                int fieldAmount = GetFieldAmount(list);
-
-                foreach (string strResult in strResults)
-                {
-                    string[] resultArray = new string[fieldAmount];
-                    resultArray = strResult.Split(';');
-                    object obj = ConvertObject(list, resultArray);
-                    result.Add(obj);
-                }
-
-                return result;
-            }
 
             #endregion
 
@@ -1108,6 +1097,10 @@ namespace JudBizz
                         IttLetter ittLetter = new IttLetter((IttLetter)_object);
                         result = @"UPDATE [dbo].[IttLetters] SET [Sent] = '" + ittLetter.Sent + @"', [SentDate] = " + ittLetter.SentDate + "' WHERE [Id] = " + ittLetter.Id;
                         break;
+                    case "IttLetterShippings":
+                        IttLetterShipping shipping = new IttLetterShipping((IttLetterShipping)_object);
+                        result = @"UPDATE [dbo].[IttLetterShippings] SET [SubEntrepeneur] = " + shipping.SubEntrepeneur.Id + @", [Receiver] = " + shipping.Receiver.Id + @", [LetterData] = " + shipping.LetterData.Id + @", [CommonPdfPath] = '" + shipping.CommonPdfPath + @"', [PersonalPdfPath] = '" + shipping.PersonalPdfPath + @"' WHERE [Id] = " + shipping.Id;
+                        break;
                     case "JobDescriptions":
                         JobDescription jobDescription = new JobDescription((JobDescription)_object);
                         result = @"UPDATE [dbo].[Regions] SET [Occupation] = " + jobDescription.Occupation + ", [Area] = '" + jobDescription.Area + "', [Procuration] = '" + jobDescription.Procuration.ToString() + "' WHERE [Id] = " + jobDescription.Id.ToString();
@@ -1132,9 +1125,15 @@ namespace JudBizz
                         Person person = new Person((Person)_object);
                         result = @"UPDATE [dbo].[Persons] SET [Name] = '" + person.Name + @"', [ContactInfo] = " + person.ContactInfo.Id + @" WHERE[Id] = " + person.Id;
                         break;
+                    case "ProjectDetails":
+                        ProjectDetail projectDetail = new ProjectDetail((ProjectDetail)_object);
+                        //result = @"UPDATE [dbo].[ProjectDetails] SET [Name] = < Case, int,>, [Description] = <Description, nvarchar(max),>, [Period] = <Period, nvarchar(50),>, [AnswerDate] = <AnswerDate, nvarchar(50),> WHERE[Id] = <Id, int,>"
+                        result = @"UPDATE dbo.[ProjectDetails] SET [Name] = '" + projectDetail.Name + "', [Description] = '" + projectDetail.Description + "', [Period] = " + projectDetail.Period + "', [AnswerDate] = " + projectDetail.AnswerDate + "' WHERE [Id] = " + projectDetail.Id;
+                        break;
                     case "Projects":
                         Project project = new Project((Project)_object);
-                        result = @"UPDATE dbo.[Projects] SET [CaseId] = " + project.Case + ", [Name] = '" + project.Name + "', [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Enterprises] = '" + project.EnterpriseList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
+                        //result = @"UPDATE [dbo].[Projects] SET[Case] = < Case, int,>, [Name] = <Name, nvarchar(250),>, [Builder] = <Builder, int,>, [Status] = <Status, int,>, [TenderForm] = <TenderForm, int,>, [EnterpriseForm] = <EnterpriseForm, int,>, [Executive] = <Executive, int,>, [Details] = <Details, int,>, [EnterpriseList] = <EnterpriseList, bit,>, [Copy] = <Copy, bit,> WHERE[Id] = <Id, int,>"
+                        result = @"UPDATE dbo.[Projects] SET [Case] = '" + project.Case + "', [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Details] = " + project.Details.Id + ", [EnterpriseList] = '" + project.EnterpriseList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
                         break;
                     case "ProjectStatuses":
                         ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)_object);
@@ -1148,18 +1147,14 @@ namespace JudBizz
                         Request request = new Request((Request)_object);
                         result = @"UPDATE [dbo].[Requests] SET [Status] = " + request.Status.Id + ", [SentDate] = '" + request.SentDate.ToString("yyyy-MM-dd") + "', [ReceivedDate] = '" + request.ReceivedDate.ToString("yyyy-MM-dd") + "' WHERE [Id] = " + request.Id.ToString();
                         break;
-                    case "RequestDataList":
-                        RequestData requestData = new RequestData((RequestData)_object);
-                        //result = "UPDATE [dbo].[RequestDataList] SET [Project] = <Project, int,>, [Receiver] = <Receiver, int,>, [ReceiverAttention] = <ReceiverAttention, nvarchar(50),>, [EnterpriseLine] = <EnterpriseLine, nvarchar(50),>, [AcceptUrl] = <AcceptUrl, nvarchar(50),>, [DeclineUrl] = <DeclineUrl, nvarchar(50),>, [ProjectDescription] = <ProjectDescription, nvarchar(max),>, [Period] = <Period, nvarchar(50),>, [AnswerDate] = <AnswerDate, nvarchar(50),>, [RequestUrl] = '' WHERE <Search Conditions,,>
-                        result = @"UPDATE [dbo].[RequestDataList] SET [Project] = " + requestData.Project.Id + @", [Receiver] = " + requestData.Receiver.Id + @", [ReceiverAttention] = '" + requestData.ReceiverAttention + @"', [EnterpriseLine] = '" + requestData.EnterpriseLine + @"', [AcceptUrl] = '" + requestData.AcceptUrl + @"', [DeclineUrl] = '" + requestData.DeclineUrl + @"', [ProjectDescription] = '" + requestData.ProjectDescription + @"', [Period] = '" + requestData.Period + @"', [AnswerDate] = '" + requestData.AnswerDate + @"', [RequestUrl] = '" + requestData.RequestUrl + "' WHERE [Id] = " + requestData.Id;
+                    case "RequestShippings":
+                        RequestShipping requestData = new RequestShipping((RequestShipping)_object);
+                        //result = "UPDATE [dbo].[RequestShippings] SET [SubEntrepeneur] = <SubEntrepeneur, int,>, [AcceptUrl] = <AcceptUrl, nvarchar(50),>, [DeclineUrl] = <DeclineUrl, nvarchar(50),>, [RequestPdfPath] = <RequestPdfPath, nvarchar(50),> WHERE [Id] = <Id, int,>"
+                        result = @"UPDATE [dbo].[RequestShippings] SET [SubEntrepeneur] = " + requestData.SubEntrepeneur.Id + @", [AcceptUrl] = '" + requestData.AcceptUrl + @"', [DeclineUrl] = '" + requestData.DeclineUrl + @"', [RequestPdfPath] = '" + requestData.RequestPdfPath + "' WHERE [Id] = " + requestData.Id;
                         break;
                     case "RequestStatuses":
                         RequestStatus requestStatus = new RequestStatus((RequestStatus)_object);
                         result = @"UPDATE [dbo].[RequestStatuses] SET [Text] = '" + requestStatus.Text + "' WHERE [Id] = " + requestStatus.Id.ToString();
-                        break;
-                    case "Shippings":
-                        Shipping shipping = new Shipping((Shipping)_object);
-                        result = @"UPDATE [dbo].[ShippingList] SET [Project] = " + shipping.Project.Id + @", [CommonPdfPath] = '" + shipping.CommonPdfPath + @"', [PdfPath] = '" + shipping.PdfPath + @"' WHERE [Id] = " + shipping.Id;
                         break;
                     case "SubEntrepeneurs":
                         SubEntrepeneur subEntrepeneur = new SubEntrepeneur((SubEntrepeneur)_object);
@@ -1202,34 +1197,58 @@ namespace JudBizz
                 switch (entityType)
                 {
                     case "Address":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", new LegalEntity((LegalEntity)_object)));
+                        Address address = new Address((Address)_object);
+                        UpdateInDb(address.ZipTown);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", address));
                         break;
                     case "Builder":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", new Builder((Builder)_object)));
+                        Builder builder = new Builder((Builder)_object);
+                        UpdateInDb(builder.Entity);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", builder));
                         break;
                     case "Bullet":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", new Bullet((Bullet)_object)));
+                        Bullet bullet = new Bullet((Bullet)_object);
+                        UpdateInDb(bullet.Paragraf);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", bullet));
                         break;
                     case "Category":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Categories", new Category((Category)_object)));
                         break;
                     case "Contact":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", new Contact((Contact)_object)));
+                        Contact contact = new Contact((Contact)_object);
+                        UpdateInDb(contact.Person);
+                        UpdateInDb(contact.Entrepeneur);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", contact));
                         break;
                     case "ContactInfo":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("ContactInfoList", new ContactInfo((ContactInfo)_object)));
                         break;
                     case "CraftGroup":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", new CraftGroup((CraftGroup)_object)));
+                        CraftGroup craftGroup = new CraftGroup((CraftGroup)_object);
+                        UpdateInDb(craftGroup.Category);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", craftGroup));
                         break;
                     case "Enterprise":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", new Enterprise((Enterprise)_object)));
+                        Enterprise enterprise = new Enterprise((Enterprise)_object);
+                        UpdateInDb(enterprise.Project);
+                        UpdateInDb(enterprise.CraftGroup1);
+                        UpdateInDb(enterprise.CraftGroup2);
+                        UpdateInDb(enterprise.CraftGroup3);
+                        UpdateInDb(enterprise.CraftGroup4);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", enterprise));
                         break;
                     case "EnterpriseForm":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("EnterpriseForms", new EnterpriseForm((EnterpriseForm)_object)));
                         break;
                     case "IttLetter":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetters", new Enterprise((Enterprise)_object)));
+                        break;
+                    case "IttLetterShipping":
+                        IttLetterShipping ittLetterShipping = new IttLetterShipping((IttLetterShipping)_object);
+                        UpdateInDb(ittLetterShipping.SubEntrepeneur);
+                        UpdateInDb(ittLetterShipping.Receiver);
+                        UpdateInDb(ittLetterShipping.LetterData);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetterShippings", ittLetterShipping));
                         break;
                     case "JobDescription":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("JobDescriptions", new JobDescription((JobDescription)_object)));
@@ -1244,16 +1263,27 @@ namespace JudBizz
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Offers", new Offer((Offer)_object)));
                         break;
                     case "Paragraf":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Paragrafs", new Paragraf((Paragraf)_object)));
+                        Paragraf paragraf = new Paragraf((Paragraf)_object);
+                        UpdateInDb(paragraf.Project);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Paragrafs", paragraf));
                         break;
                     case "Person":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", new Person((Person)_object)));
-                        break;
-                    case "Shipping":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Shippings", new Shipping((Shipping)_object)));
+                        Person person = new Person((Person)_object);
+                        UpdateInDb(person.ContactInfo);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", person));
                         break;
                     case "Project":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", new Project((Project)_object)));
+                        Project project = new Project((Project)_object);
+                        UpdateInDb(project.Builder);
+                        UpdateInDb(project.Status);
+                        UpdateInDb(project.TenderForm);
+                        UpdateInDb(project.EnterpriseForm);
+                        UpdateInDb(project.Executive);
+                        UpdateInDb(project.Details);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", project));
+                        break;
+                    case "ProjectDetail":
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectDetails", new ProjectDetail((ProjectDetail)_object)));
                         break;
                     case "ProjectStatus":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectStatuses", new ProjectStatus((ProjectStatus)_object)));
@@ -1264,8 +1294,11 @@ namespace JudBizz
                     case "Request":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
                         break;
-                    case "RequestData":
-                        result = ProcesSqlQuery(GetSQLQueryUpdate("RequestDataList", new RequestData((RequestData)_object)));
+                    case "RequestShipping":
+                        RequestShipping requestShipping = new RequestShipping((RequestShipping)_object);
+                        UpdateInDb(requestShipping.SubEntrepeneur);
+                        UpdateInDb(requestShipping);
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("RequestShippings", requestShipping));
                         break;
                     case "RequestStatus":
                         result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
@@ -1322,59 +1355,106 @@ namespace JudBizz
 
         #endregion
 
-        #region Get Lists for a project
+        #region Refresh Project Lists
         /// <summary>
         /// Method, that retrieves an Enterprise List for a Project
         /// </summary>
         /// <param name="projectId">int</param>
         /// <returns>List<Enterprise></returns>
-        private List<Enterprise> GetEnterprises(int projectId)
+        private void RefreshProjectEnterprises(int projectId)
         {
-            List<Enterprise> result = new List<Enterprise>();
-            List<object> objectList = ReadProjectListFromDb("Enterprises", projectId);
+            ProjectLists.ProjectEnterprises.Clear();
 
-            foreach (object enterprise in objectList)
+            RefreshEnterprises();
+
+            foreach (Enterprise enterprise in Enterprises)
             {
-                result.Add(new Enterprise((Enterprise)enterprise));
+                if (enterprise.Project.Id == projectId)
+                {
+                    ProjectLists.ProjectEnterprises.Add(new Enterprise((Enterprise)enterprise));
+                }
             }
 
-            return result;
         }
 
         /// <summary>
-        /// Method, that retrieves an RequestData List for a Project
+        /// Method, that refreshes a single Project List
+        /// Accepts the following lists: ProjectEnterprises, ProjectRequestDataList, ProjectShippings & ProjectSubEntrepeneurs
         /// </summary>
+        /// <param name="list">string</param>
         /// <param name="projectId">int</param>
-        /// <returns>List<Shipping></returns>
-        private List<RequestData> GetRequestDataList(int projectId)
+        public void RefreshProjectList(string list, int projectId)
         {
-            List<RequestData> result = new List<RequestData>();
-            List<object> objectList = ReadProjectListFromDb("RequestDataList", projectId);
-
-            foreach (object requestData in objectList)
+            switch (list)
             {
-                result.Add(new RequestData((RequestData)requestData));
+                case "ProjectEnterprises":
+                    RefreshProjectEnterprises(projectId);
+                    break;
+                case "ProjectRequestDataList":
+                    RefreshProjectRequestShippings(projectId);
+                    break;
+                case "ProjectShippings":
+                    RefreshProjectIttLetterShippings(projectId);
+                    break;
+                case "ProjectSubEntrepeneurs":
+                    RefreshProjectSubEntrepeneurs(projectId);
+                    break;
             }
 
-            return result;
         }
 
         /// <summary>
-        /// Method, that retrieves an Shippings list for a Project
+        /// Method, that refreshes all Project Lists
         /// </summary>
         /// <param name="projectId">int</param>
-        /// <returns>List<Shipping></returns>
-        private List<Shipping> GetShippings(int projectId)
+        /// <returns>List<object></returns>
+        public void RefreshProjectLists(int projectId)
         {
-            List<Shipping> result = new List<Shipping>();
-            List<object> objectList = ReadProjectListFromDb("Shippings", projectId);
+            RefreshProjectEnterprises(projectId);
+            RefreshProjectIttLetterShippings(projectId);
+            RefreshProjectSubEntrepeneurs(projectId);
+            RefreshProjectRequestShippings(projectId);
 
-            foreach (object shipping in objectList)
+        }
+
+        /// <summary>
+        /// Method, that retrieves an Request Shippings list for a Project
+        /// </summary>
+        /// <param name="projectId">int</param>
+        private void RefreshProjectRequestShippings(int projectId)
+        {
+            ProjectLists.ProjectRequestDataList.Clear();
+
+            RefreshRequestShippings();
+
+            foreach (RequestShipping requestData in RequestShippings)
             {
-                result.Add(new Shipping((Shipping)shipping));
+                if (requestData.SubEntrepeneur.Enterprise.Project.Id == projectId)
+                {
+                    ProjectLists.ProjectRequestDataList.Add(new RequestShipping((RequestShipping)requestData));
+                }
             }
 
-            return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves an IttLetter Shippings list for a Project
+        /// </summary>
+        /// <param name="projectId">int</param>
+        private void RefreshProjectIttLetterShippings(int projectId)
+        {
+            ProjectLists.ProjectShippings.Clear();
+
+            RefreshIttLetterShippings();
+
+            foreach (IttLetterShipping shipping in IttLetterShippings)
+            {
+                if (shipping.SubEntrepeneur.Enterprise.Project.Id == projectId)
+                {
+                    ProjectLists.ProjectShippings.Add(new IttLetterShipping((IttLetterShipping)shipping));
+                }
+            }
+
         }
 
         /// <summary>
@@ -1382,23 +1462,20 @@ namespace JudBizz
         /// </summary>
         /// <param name="projectId">int</param>
         /// <returns>List<SubEntrepeneur></returns>
-        private List<SubEntrepeneur> GetSubEntrepeneurs(int projectId)
+        private void RefreshProjectSubEntrepeneurs(int projectId)
         {
-            List<SubEntrepeneur> result = new List<SubEntrepeneur>();
-            List<Enterprise> projectEnterprises = GetEnterprises(projectId);
+            ProjectLists.ProjectSubEntrepeneurs.Clear();
 
-            foreach (Enterprise enterprise in projectEnterprises)
+            RefreshSubEntrepeneurs();
+
+            foreach (SubEntrepeneur subEntrepeneur in SubEntrepeneurs)
             {
-                List<object> objectList = ReadProjectListFromDb("Subentrepeneurs", enterprise.Id);
-
-                foreach (object shipping in objectList)
+                if (subEntrepeneur.Enterprise.Project.Id == projectId)
                 {
-                    result.Add(new SubEntrepeneur((SubEntrepeneur)shipping));
+                    ProjectLists.ProjectSubEntrepeneurs.Add(subEntrepeneur);
                 }
             }
 
-            return result;
-            
         }
 
         #endregion
@@ -1412,6 +1489,8 @@ namespace JudBizz
         public Project GetActiveProject(int id)
         {
             Project result = new Project();
+
+            RefreshProjects();
 
             foreach (Project project in ActiveProjects)
             {
@@ -1429,6 +1508,8 @@ namespace JudBizz
         {
             Address result = new Address();
 
+            RefreshAddresses();
+
             foreach (Address address in Addresses)
             {
                 if (address.Id == id)
@@ -1444,6 +1525,8 @@ namespace JudBizz
         public Builder GetBuilder(int id)
         {
             Builder result = new Builder();
+
+            RefreshBuilders();
 
             foreach (Builder builder in Builders)
             {
@@ -1461,6 +1544,8 @@ namespace JudBizz
         {
             Bullet result = new Bullet();
 
+            RefreshBullets();
+
             foreach (Bullet bullet in Bullets)
             {
                 if (bullet.Id == id)
@@ -1476,6 +1561,8 @@ namespace JudBizz
         public Category GetCategory(int id)
         {
             Category result = new Category();
+
+            RefreshCategories();
 
             foreach (Category category in Categories)
             {
@@ -1493,6 +1580,8 @@ namespace JudBizz
         {
             Contact result = new Contact();
 
+            RefreshContacts();
+
             foreach (Contact contact in Contacts)
             {
                 if (contact.Id == id)
@@ -1508,6 +1597,8 @@ namespace JudBizz
         public ContactInfo GetContactInfo(int id)
         {
             ContactInfo result = new ContactInfo();
+
+            RefreshContactInfoList();
 
             foreach (ContactInfo info in ContactInfoList)
             {
@@ -1525,6 +1616,8 @@ namespace JudBizz
         {
             CraftGroup result = new CraftGroup();
 
+            RefreshCraftGroups();
+
             foreach (CraftGroup craftGroup in CraftGroups)
             {
                 if (craftGroup.Id == id)
@@ -1540,6 +1633,8 @@ namespace JudBizz
         public Enterprise GetEnterprise(int id)
         {
             Enterprise result = new Enterprise();
+
+            RefreshEnterprises();
 
             foreach (Enterprise enterprise in Enterprises)
             {
@@ -1557,6 +1652,8 @@ namespace JudBizz
         {
             EnterpriseForm result = new EnterpriseForm();
 
+            RefreshEnterpriseForms();
+
             foreach (EnterpriseForm form in EnterpriseForms)
             {
                 if (form.Id == id)
@@ -1572,6 +1669,8 @@ namespace JudBizz
         public Entrepeneur GetEntrepeneur(int id)
         {
             Entrepeneur result = new Entrepeneur();
+
+            RefreshEntrepeneurs();
 
             foreach (Entrepeneur entrepeneur in Entrepeneurs)
             {
@@ -1589,6 +1688,8 @@ namespace JudBizz
         {
             Project result = new Project();
 
+            RefreshProjects();
+
             foreach (Project project in InactiveProjects)
             {
                 if (project.Id == id)
@@ -1605,6 +1706,8 @@ namespace JudBizz
         {
             IttLetter result = new IttLetter();
 
+            RefreshIttLetters();
+
             foreach (IttLetter letter in IttLetters)
             {
                 if (letter.Id == id)
@@ -1617,9 +1720,29 @@ namespace JudBizz
             return result;
         }
 
+        public IttLetterShipping GetIttLetterShipping(int id)
+        {
+            IttLetterShipping result = new IttLetterShipping();
+
+            RefreshIttLetterShippings();
+
+            foreach (IttLetterShipping shipping in IttLetterShippings)
+            {
+                if (shipping.Id == id)
+                {
+                    result = shipping;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         public JobDescription GetJobDescription(int id)
         {
             JobDescription result = new JobDescription();
+
+            RefreshJobDescriptions();
 
             foreach (JobDescription description in JobDescriptions)
             {
@@ -1637,6 +1760,8 @@ namespace JudBizz
         {
             LegalEntity result = new LegalEntity();
 
+            RefreshLegalEntities();
+
             foreach (LegalEntity entity in LegalEntities)
             {
                 if (entity.Id == id)
@@ -1652,6 +1777,8 @@ namespace JudBizz
         public LetterData GetLetterData(int id)
         {
             LetterData result = new LetterData();
+
+            RefreshLetterDataList();
 
             foreach (LetterData letterData in LetterDataList)
             {
@@ -1669,6 +1796,8 @@ namespace JudBizz
         {
             Offer result = new Offer();
 
+            RefreshOffers();
+
             foreach (Offer offer in Offers)
             {
                 if (offer.Id == id)
@@ -1684,6 +1813,8 @@ namespace JudBizz
         public Paragraf GetParagraf(int id)
         {
             Paragraf result = new Paragraf();
+
+            RefreshParagrafs();
 
             foreach (Paragraf paragraph in Paragrafs)
             {
@@ -1701,6 +1832,8 @@ namespace JudBizz
         {
             Person result = new Person();
 
+            RefreshPersons();
+
             foreach (Person person in Persons)
             {
                 if (person.Id == id)
@@ -1717,6 +1850,8 @@ namespace JudBizz
         {
             Project result = new Project();
 
+            RefreshProjects();
+
             foreach (Project project in Projects)
             {
                 if (project.Id == id)
@@ -1729,9 +1864,29 @@ namespace JudBizz
             return result;
         }
 
+        public ProjectDetail GetProjectDetail(int id)
+        {
+            ProjectDetail result = new ProjectDetail();
+
+            RefreshProjectDetails();
+
+            foreach (ProjectDetail projectDetail in ProjectDetails)
+            {
+                if (projectDetail.Id == id)
+                {
+                    result = projectDetail;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         public ProjectStatus GetProjectStatus(int id)
         {
             ProjectStatus result = new ProjectStatus();
+
+            RefreshProjectStatuses();
 
             foreach (ProjectStatus status in ProjectStatuses)
             {
@@ -1749,6 +1904,8 @@ namespace JudBizz
         {
             Receiver result = new Receiver();
 
+            RefreshReceivers();
+
             foreach (Receiver receiver in Receivers)
             {
                 if (receiver.Id == id)
@@ -1761,57 +1918,11 @@ namespace JudBizz
             return result;
         }
 
-        public Request GetRequest(int id)
-        {
-            Request result = new Request();
-
-            foreach (Request request in Requests)
-            {
-                if (request.Id == id)
-                {
-                    result = request;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        public RequestData GetRequestData(int id)
-        {
-            RequestData result = new RequestData();
-
-            foreach (RequestData requestData in RequestDataList)
-            {
-                if (requestData.Id == id)
-                {
-                    result = requestData;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        public RequestStatus GetRequestStatus(int id)
-        {
-            RequestStatus result = new RequestStatus();
-
-            foreach (RequestStatus status in RequestStatuses)
-            {
-                if (status.Id == id)
-                {
-                    result = status;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
         public Region GetRegion(int id)
         {
             Region result = new Region();
+
+            RefreshRegions();
 
             foreach (Region region in Regions)
             {
@@ -1825,9 +1936,65 @@ namespace JudBizz
             return result;
         }
 
+        public Request GetRequest(int id)
+        {
+            Request result = new Request();
+
+            RefreshRequests();
+
+            foreach (Request request in Requests)
+            {
+                if (request.Id == id)
+                {
+                    result = request;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public RequestShipping GetRequestShipping(int id)
+        {
+            RequestShipping result = new RequestShipping();
+
+            RefreshRequestShippings();
+
+            foreach (RequestShipping requestShipping in RequestShippings)
+            {
+                if (requestShipping.Id == id)
+                {
+                    result = requestShipping;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        public RequestStatus GetRequestStatus(int id)
+        {
+            RequestStatus result = new RequestStatus();
+
+            RefreshRequestStatuses();
+
+            foreach (RequestStatus status in RequestStatuses)
+            {
+                if (status.Id == id)
+                {
+                    result = status;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         public SubEntrepeneur GetSubEntrepeneur(int id)
         {
             SubEntrepeneur result = new SubEntrepeneur();
+
+            RefreshSubEntrepeneurs();
 
             foreach (SubEntrepeneur subEntrepeneur in SubEntrepeneurs)
             {
@@ -1841,25 +2008,11 @@ namespace JudBizz
             return result;
         }
 
-        public Shipping GetShipping(int id)
-        {
-            Shipping result = new Shipping();
-
-            foreach (Shipping shipping in Shippings)
-            {
-                if (shipping.Id == id)
-                {
-                    result = shipping;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
         public TenderForm GetTenderForm(int id)
         {
             TenderForm result = new TenderForm();
+
+            RefreshTenderforms();
 
             foreach (TenderForm form in TenderForms)
             {
@@ -1877,6 +2030,8 @@ namespace JudBizz
         {
             User result = new User();
 
+            RefreshUsers();
+
             foreach (User user in Users)
             {
                 if (user.Id == id)
@@ -1893,6 +2048,8 @@ namespace JudBizz
         {
             UserLevel result = new UserLevel();
 
+            RefreshUserLevels();
+
             foreach (UserLevel userLevel in UserLevels)
             {
                 if (userLevel.Id == id)
@@ -1908,6 +2065,8 @@ namespace JudBizz
         public ZipTown GetZipTown(int id)
         {
             ZipTown result = new ZipTown();
+
+            RefreshZipTowns();
 
             foreach (ZipTown zipTown in ZipTowns)
             {
@@ -1937,6 +2096,7 @@ namespace JudBizz
             RefreshJobDescriptions(); //
             RefreshLetterDataList(); //
             RefreshOffers(); //
+            RefreshProjectDetails(); //
             RefreshProjectStatuses(); //
             RefreshReceivers(); //
             RefreshRegions(); //
@@ -1946,34 +2106,35 @@ namespace JudBizz
             RefreshZipTowns(); //
 
             //Second level Lists
-            RefreshAddresses(); //
-            RefreshCraftGroups(); //
-            RefreshPersons(); //
-            RefreshRequests(); //
+            RefreshAddresses(true); //
+            RefreshCraftGroups(true); //
+            RefreshPersons(true); //
+            RefreshRequests(true); //
 
             //Third level list
-            RefreshLegalEntities(); //
-            RefreshUsers(); //
+            RefreshLegalEntities(true); //
+            RefreshUsers(true); //
 
             //Fourth Level List
-            RefreshBuilders(); //
-            RefreshEntrepeneurs(); //
+            RefreshBuilders(true); //
+            RefreshEntrepeneurs(true); //
 
             //Fifth level Lists
-            RefreshContacts(); //
-            RefreshProjects(); //
+            RefreshContacts(true); //
+            RefreshProjects(true); //
 
             //Sixth level Lists
-            RefreshEnterprises();
-            RefreshParagrafs();
-            RefreshRequestDataList(); //
+            RefreshEnterprises(true);
+            RefreshParagrafs(true);
+            RefreshRequestShippings(true); //
 
             //Seventh level Lists
-            RefreshBullets();
-            RefreshSubEntrepeneurs();
+            RefreshBullets(true);
+            RefreshSubEntrepeneurs(true);
 
             //Eightieth level Lists
-            RefreshShippings();
+            RefreshIttLetterShippings(true);
+            RefreshRequestShippings(true); //
 
 
         }
@@ -1981,12 +2142,18 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Addresses list
         /// </summary>
-        private void RefreshAddresses()
+        private void RefreshAddresses(bool allLists = false)
         {
             if (Addresses != null)
             {
                 Addresses.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshZipTowns();
+            }
+
             List<object> tempList = ReadListFromDb("Addresses");
 
             foreach (object obj in tempList)
@@ -1998,7 +2165,7 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Builders lists
         /// </summary>
-        private void RefreshBuilders()
+        private void RefreshBuilders(bool allLists = false)
         {
             if (Builders != null)
             {
@@ -2012,8 +2179,12 @@ namespace JudBizz
             {
                 InactiveBuilders.Clear();
             }
-            RefreshAddresses();
-            RefreshLegalEntities();
+
+            if (!allLists)
+            {
+                RefreshLegalEntities();
+            }
+
             List<object> tempList = ReadListFromDb("Builders");
 
             foreach (object obj in tempList)
@@ -2028,7 +2199,7 @@ namespace JudBizz
                     case "True":
                         ActiveBuilders.Add(builder);
                         break;
-                    default:
+                    case "False":
                         InactiveBuilders.Add(builder);
                         break;
                 }
@@ -2038,12 +2209,18 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Bullets list
         /// </summary>
-        private void RefreshBullets()
+        private void RefreshBullets(bool allLists = false)
         {
             if (Bullets != null)
             {
                 Bullets.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshParagrafs();
+            }
+
             List<object> tempList = ReadListFromDb("Bullets");
 
             foreach (object obj in tempList)
@@ -2093,29 +2270,42 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Contacts list
         /// </summary>
-        private void RefreshContacts()
+        private void RefreshContacts(bool allLists = false)
         {
             if (Contacts != null)
             {
                 Contacts.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshPersons();
+                RefreshEntrepeneurs();
+            }
+
             List<object> tempContacts = ReadListFromDb("Contacts");
 
             foreach (object obj in tempContacts)
             {
-                Contacts.Add((Contact)obj);
+                Contacts.Add(new Contact((Contact)obj));
             }
         }
 
         /// <summary>
         /// Method, that refreshes the CraftGroups list
         /// </summary>
-        private void RefreshCraftGroups()
+        private void RefreshCraftGroups(bool allLists = false)
         {
             if (CraftGroups != null)
             {
                 CraftGroups.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshCategories();
+            }
+
             List<object> tempList = ReadListFromDb("CraftGroups");
 
             foreach (object obj in tempList)
@@ -2144,12 +2334,19 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Enterprise List
         /// </summary>
-        private void RefreshEnterprises()
+        private void RefreshEnterprises(bool allLists = false)
         {
             if (Enterprises != null)
             {
                 Enterprises.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshProjects();
+                RefreshCraftGroups();
+            }
+
             List<object> tempList = ReadListFromDb("Enterprises");
 
             foreach (object obj in tempList)
@@ -2161,7 +2358,7 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Entrepeneurs lists
         /// </summary>
-        private void RefreshEntrepeneurs()
+        private void RefreshEntrepeneurs(bool allLists = false)
         {
             if (Entrepeneurs != null)
             {
@@ -2174,6 +2371,13 @@ namespace JudBizz
             if (InactiveEntrepeneurs != null)
             {
                 InactiveEntrepeneurs.Clear();
+            }
+
+            if (!allLists)
+            {
+                RefreshRegions();
+                RefreshLegalEntities();
+                RefreshCraftGroups();
             }
 
             List<object> tempList = ReadListFromDb("Entrepeneurs");
@@ -2199,16 +2403,6 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes Lists for Itt Letter
-        /// </summary>
-        /// <param name="projectId">int</param>
-        /// <returns>List<object></returns>
-        public void RefreshIttLetters(int projectId)
-        {
-            PdfLists = new PdfLists(GetEnterprises(projectId), GetSubEntrepeneurs(projectId), GetShippings(projectId));
-        }
-
-        /// <summary>
         /// Method, that refreshes the IttLetters list
         /// </summary>
         private void RefreshIttLetters()
@@ -2222,6 +2416,31 @@ namespace JudBizz
             foreach (object obj in tempList)
             {
                 IttLetters.Add((IttLetter)obj);
+            }
+        }
+
+        /// <summary>
+        /// Method, that refreshes the IttLetter Shippings List
+        /// </summary>
+        private void RefreshIttLetterShippings(bool allLists = false)
+        {
+            if (IttLetterShippings != null)
+            {
+                IttLetterShippings.Clear();
+            }
+
+            if (!allLists)
+            {
+                RefreshLetterDataList();
+                RefreshReceivers();
+                RefreshSubEntrepeneurs();
+            }
+
+            List<object> tempList = ReadListFromDb("IttLetterShippings");
+
+            foreach (object obj in tempList)
+            {
+                IttLetterShippings.Add((IttLetterShipping)obj);
             }
         }
 
@@ -2245,12 +2464,19 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the LegalEntities list
         /// </summary>
-        private void RefreshLegalEntities()
+        private void RefreshLegalEntities(bool allLists = false)
         {
             if (LegalEntities != null)
             {
                 LegalEntities.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshAddresses();
+                RefreshContactInfoList();
+            }
+
             List<object> tempList = ReadListFromDb("LegalEntities");
 
             foreach (object obj in tempList)
@@ -2320,6 +2546,9 @@ namespace JudBizz
                 case "IttLetters":
                     RefreshIttLetters();
                     break;
+                case "IttLetterShippings":
+                    RefreshIttLetterShippings();
+                    break;
                 case "JobDescriptions":
                     RefreshJobDescriptions();
                     break;
@@ -2353,14 +2582,11 @@ namespace JudBizz
                 case "Requests":
                     RefreshRequests();
                     break;
-                case "RequestDataList":
-                    RefreshRequestDataList();
+                case "RequestShippings":
+                    RefreshRequestShippings();
                     break;
                 case "RequestStatuses":
                     RefreshRequestStatuses();
-                    break;
-                case "Shippings":
-                    RefreshShippings();
                     break;
                 case "SubEntrepeneurs":
                     RefreshSubEntrepeneurs();
@@ -2400,12 +2626,18 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Paragraf List
         /// </summary>
-        private void RefreshParagrafs()
+        private void RefreshParagrafs(bool allLists = false)
         {
             if (Paragrafs != null)
             {
                 Paragrafs.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshProjects();
+            }
+
             List<object> tempList = ReadListFromDb("Paragraphs");
 
             foreach (object obj in tempList)
@@ -2418,12 +2650,18 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Persons list
         /// </summary>
-        private void RefreshPersons()
+        private void RefreshPersons(bool allLists = false)
         {
             if (Persons != null)
             {
                 Persons.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshContactInfoList();
+            }
+
             List<object> tempList = ReadListFromDb("Persons");
 
             foreach (object obj in tempList)
@@ -2434,9 +2672,26 @@ namespace JudBizz
         }
 
         /// <summary>
+        /// Method, that refreshes the Project Details list
+        /// </summary>
+        private void RefreshProjectDetails()
+        {
+            if (ProjectDetails != null)
+            {
+                ProjectDetails.Clear();
+            }
+            List<object> tempList = ReadListFromDb("ProjectDetails");
+
+            foreach (object obj in tempList)
+            {
+                ProjectDetails.Add((ProjectDetail)obj);
+            }
+        }
+
+        /// <summary>
         /// Method, that refreshes the Projects lists
         /// </summary>
-        private void RefreshProjects()
+        private void RefreshProjects(bool allLists = false)
         {
             if (Projects != null)
             {
@@ -2449,6 +2704,15 @@ namespace JudBizz
             if (InactiveProjects != null)
             {
                 InactiveProjects.Clear();
+            }
+
+            if (!allLists)
+            {
+                RefreshProjectStatuses();
+                RefreshTenderforms();
+                RefreshEnterpriseForms();
+                RefreshUsers();
+                RefreshBuilders();
             }
 
             List<object> tempList = ReadListFromDb("Projects");
@@ -2524,36 +2788,48 @@ namespace JudBizz
         }
 
         /// <summary>
+        /// Method, that refreshes the Request Shippings list
+        /// </summary>
+        private void RefreshRequestShippings(bool allLists = false)
+        {
+            if (RequestShippings != null)
+            {
+                RequestShippings.Clear();
+            }
+
+            if (!allLists)
+            {
+                RefreshSubEntrepeneurs();
+            }
+
+            List<object> tempList = ReadListFromDb("RequestShippings");
+
+            foreach (object obj in tempList)
+            {
+                RequestShippings.Add((RequestShipping)obj);
+            }
+        }
+
+        /// <summary>
         /// Method, that refreshes the Requests list
         /// </summary>
-        private void RefreshRequests()
+        private void RefreshRequests(bool allLists = false)
         {
             if (Requests != null)
             {
                 Requests.Clear();
             }
+
+            if (allLists)
+            {
+                RefreshRequestStatuses();
+            }
+
             List<object> tempList = ReadListFromDb("Requests");
 
             foreach (object obj in tempList)
             {
                 Requests.Add((Request)obj);
-            }
-        }
-
-        /// <summary>
-        /// Method, that refreshes the RequestData List
-        /// </summary>
-        private void RefreshRequestDataList()
-        {
-            if (RequestDataList != null)
-            {
-                RequestDataList.Clear();
-            }
-            List<object> tempList = ReadListFromDb("RequestDataList");
-
-            foreach (object obj in tempList)
-            {
-                RequestDataList.Add((RequestData)obj);
             }
         }
 
@@ -2575,36 +2851,30 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the Shipping List
-        /// </summary>
-        private void RefreshShippings()
-        {
-            if (Shippings != null)
-            {
-                Shippings.Clear();
-            }
-            List<object> tempList = ReadListFromDb("Shippings");
-
-            foreach (object obj in tempList)
-            {
-                Shippings.Add((Shipping)obj);
-            }
-        }
-
-        /// <summary>
         /// Method, that refreshes the SubEntrepeneurs list
         /// </summary>
-        private void RefreshSubEntrepeneurs()
+        private void RefreshSubEntrepeneurs(bool allLists = false)
         {
             if (SubEntrepeneurs != null)
             {
                 SubEntrepeneurs.Clear();
             }
+
+            if (!allLists)
+            {
+                RefreshEntrepeneurs();
+                RefreshEnterprises();
+                RefreshContacts();
+                RefreshRequests();
+                RefreshIttLetters();
+                RefreshOffers();
+            }
+
             List<object> tempList = ReadListFromDb("SubEntrepeneurs");
 
             foreach (object obj in tempList)
             {
-                SubEntrepeneurs.Add((SubEntrepeneur)obj);
+                SubEntrepeneurs.Add(new SubEntrepeneur((SubEntrepeneur)obj));
             }
         }
 
@@ -2628,7 +2898,7 @@ namespace JudBizz
         /// <summary>
         /// Method, that refreshes the Users lists
         /// </summary>
-        private void RefreshUsers()
+        private void RefreshUsers(bool allLists = false)
         {
             if (Users != null)
             {
@@ -2641,6 +2911,14 @@ namespace JudBizz
             if (InactiveUsers != null)
             {
                 InactiveUsers.Clear();
+            }
+
+            if (!allLists)
+            {
+                RefreshJobDescriptions();
+                RefreshUserLevels();
+                RefreshPersons();
+                RefreshLegalEntities();
             }
 
             List<object> tempList = ReadListFromDb("Users");

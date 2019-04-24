@@ -124,15 +124,10 @@ namespace JudGui
         #region Events
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                if (temp.Index == selectedIndex)
-                {
-                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
-                }
-            }
+            CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
+
             IndexedEnterprises = GetIndexedEnterprises();
+
             ListBoxEnterprises.ItemsSource = IndexedEnterprises;
 
             //Set CBZ.UcMainEdited

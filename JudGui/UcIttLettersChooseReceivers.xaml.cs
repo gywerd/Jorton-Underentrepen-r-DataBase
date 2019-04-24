@@ -28,11 +28,11 @@ namespace JudGui
         public UserControl UcMain;
         public static string macAddress;
 
-        public Shipping Shipping = new Shipping();
+        public IttLetterShipping Shipping = new IttLetterShipping();
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
         public List<IndexedEntrepeneur> IndexedEntrepeneurs;
-        public List<Shipping> ProjectShippingList = new List<Shipping>();
+        public List<IttLetterShipping> ProjectShippingList = new List<IttLetterShipping>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
         #endregion
@@ -78,7 +78,7 @@ namespace JudGui
                 //Update lists and fields
                 CBZ.RefreshList("Receivers");
                 CBZ.RefreshList("ShippingList");
-                Shipping = new Shipping();
+                Shipping = new IttLetterShipping();
             }
             else
             {
@@ -115,17 +115,11 @@ namespace JudGui
             int selectedIndex = ComboBoxCaseId.SelectedIndex;
             if (selectedIndex >= 0)
             {
-                foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-                {
-                    if (temp.Index == selectedIndex)
-                    {
-                        CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
-                        break;
-                    }
-                }
-                TextBoxName.Text = CBZ.TempProject.Name;
+                CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
+
+                TextBoxName.Text = CBZ.TempProject.Details.Name;
                 GetProjectSubEntrepeneurs();
-                CBZ.RefreshIttLetters(CBZ.TempProject.Id);
+                CBZ.RefreshProjectLists(CBZ.TempProject.Id);
                 GetIndexedEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
                 ListBoxEntrepeneurs.ItemsSource = IndexedEntrepeneurs;
@@ -232,12 +226,12 @@ namespace JudGui
         /// <param name="letterData">PdfData</param>
         private void CreateShipping(Project project, Receiver receiver, SubEntrepeneur subEntrepeneur)
         {
-            Shipping = new Shipping(project, receiver, subEntrepeneur, new LetterData(), @"PDF_Documents\", macAddress);
+            Shipping = new IttLetterShipping(subEntrepeneur, receiver, new LetterData(), @"PDF_Documents\", macAddress);
             try
             {
                 int id = CBZ.CreateInDb(Shipping);
                 Shipping.SetId(id);
-                Shipping.PdfPath = "";
+                Shipping.PersonalPdfPath = "";
                 CBZ.UpdateInDb(Shipping);
             }
             catch (Exception ex)

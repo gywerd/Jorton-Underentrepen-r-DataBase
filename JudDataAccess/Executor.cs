@@ -196,32 +196,6 @@ namespace JudDataAccess
         }
 
         /// <summary>
-        /// Method, that retrieves a Project List from Db
-        /// Accepts the following tables: Enterprises [projectId], Shippings [projectId] & SubEntrepeneurs [enterpriseId]
-        /// </summary>
-        /// <param name="table">string</param>
-        /// <param name="id">int</param>
-        /// <returns>List<string></returns>
-        public List<string> ReadProjectListFromDataBase(string table, int id)
-        {
-            List<string> listResult = new List<string>();
-            DataTable dm = GetProjectListDataTable(table, id);
-
-            foreach (DataRow row in dm.Rows)
-            {
-                string rowString = "";
-
-                for (int i = 0; i < row.Table.Columns.Count; i++)
-                {
-                    rowString += row[i] + ";";
-                }
-                rowString = rowString.Remove(rowString.Length - 1);
-                listResult.Add(rowString);
-            }
-            return listResult;
-        }
-
-        /// <summary>
         /// Method, that retrieves a DataTable containing a List
         /// Accepts the following tables: Enterprises, Shippings & SubEntrepeneurs
         /// </summary>
@@ -231,6 +205,18 @@ namespace JudDataAccess
         private DataTable GetProjectListDataTable(string table, int projectId)
         {
             return DbReturnDataTable(@"SELECT * FROM [" + table + @"] WHERE [Project] = " + projectId + "");
+        }
+
+        /// <summary>
+        /// Method, that retrieves a DataTable containing a List
+        /// Accepts the following tables: Enterprises, Shippings & SubEntrepeneurs
+        /// </summary>
+        /// <param name="table">string</param>
+        /// <param name="subEntrepeneurId">int</param>
+        /// <returns>DataTable</returns>
+        private DataTable GetProjectRequestDataListDataTable(int subEntrepeneurId)
+        {
+            return DbReturnDataTable(@"SELECT * FROM [RequestDataList] WHERE [SubEntrepeneur] = " + subEntrepeneurId + "");
         }
 
         /// <summary>

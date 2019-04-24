@@ -150,20 +150,17 @@ namespace JudGui
         #region Events
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                if (temp.Index == selectedIndex)
-                {
-                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
-                }
-            }
-            TextBoxCaseName.Content = CBZ.TempProject.Name;
+            CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
+
+            TextBoxCaseName.Content = CBZ.TempProject.Details.Name;
+
             CBZ.TempEnterprise.Project = CBZ.TempProject;
+
             ComboBoxCraftGroup1.SelectedIndex = 0;
             ComboBoxCraftGroup2.SelectedIndex = 0;
             ComboBoxCraftGroup3.SelectedIndex = 0;
             ComboBoxCraftGroup4.SelectedIndex = 0;
+
             CBZ.TempEnterprise.CraftGroup1 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
             CBZ.TempEnterprise.CraftGroup2 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));
             CBZ.TempEnterprise.CraftGroup3 = new CraftGroup((CraftGroup)CBZ.GetCraftGroup(0));

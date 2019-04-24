@@ -29,7 +29,7 @@ namespace JudGui
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
         public List<Paragraf> ProjectParagrafs = new List<Paragraf>();
-        public List<Shipping> ProjectShippings = new List<Shipping>();
+        public List<IttLetterShipping> ProjectShippings = new List<IttLetterShipping>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
         public List<Receiver> Receivers = new List<Receiver>();
 
@@ -185,16 +185,9 @@ namespace JudGui
         #region Events
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedIndex = ComboBoxCaseId.SelectedIndex;
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                if (temp.Index == selectedIndex)
-                {
-                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
-                    break;
-                }
-            }
-            TextBoxName.Text = CBZ.TempProject.Name;
+            CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
+
+            TextBoxName.Text = CBZ.TempProject.Details.Name;
             GetProjectDetails();
             SetCheckBoxReceiversListExist();
             ComboBoxParagrafs.ItemsSource = CBZ.IndexedParagrafs;
@@ -532,7 +525,7 @@ namespace JudGui
                         {
                             ProjectSubEntrepeneurs.Add(sub);
                         }
-                        foreach (Shipping shipping in CBZ.Shippings)
+                        foreach (IttLetterShipping shipping in CBZ.IttLetterShippings)
                         {
                             if (shipping.SubEntrepeneur.Id == sub.Id)
                             {
@@ -611,9 +604,9 @@ namespace JudGui
         {
             ProjectShippings.Clear();
 
-            foreach (Shipping shipping in CBZ.Shippings)
+            foreach (IttLetterShipping shipping in CBZ.IttLetterShippings)
             {
-                if (shipping.Project.Id == CBZ.TempProject.Id)
+                if (shipping.SubEntrepeneur.Enterprise.Project.Id == CBZ.TempProject.Id)
                 {
                     ProjectShippings.Add(shipping);
                 }
@@ -661,11 +654,11 @@ namespace JudGui
         {
             try
             {
-                foreach (Shipping shipping in ProjectShippings)
+                foreach (IttLetterShipping shipping in ProjectShippings)
                 {
-                    CBZ.TempShipping = shipping;
-                    CBZ.TempShipping.CommonPdfPath = commonPdfPath;
-                    CBZ.UpdateInDb(CBZ.TempShipping);
+                    CBZ.TempIttLetterShipping = shipping;
+                    CBZ.TempIttLetterShipping.CommonPdfPath = commonPdfPath;
+                    CBZ.UpdateInDb(CBZ.TempIttLetterShipping);
                 }
 
             }

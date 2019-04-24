@@ -296,7 +296,7 @@ namespace JudBizz
             RefreshList("ActiveEntrepeneurs");
 
             //Fill temporary Entrepeneur list
-            foreach (SubEntrepeneur sub in PdfLists.SubEntrepeneurs)
+            foreach (SubEntrepeneur sub in ProjectLists.ProjectSubEntrepeneurs)
             {
                 foreach (Entrepeneur tempEntrepeneur in ActiveEntrepeneurs)
                 {

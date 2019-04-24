@@ -30,10 +30,10 @@ namespace JudGui
         public static string macAddress;
         public PdfCreator PdfCreator;
 
-        public Shipping Shipping = new Shipping();
+        public IttLetterShipping IttLetterShipping = new IttLetterShipping();
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
-        public List<Shipping> ProjectShippingList = new List<Shipping>();
+        public List<IttLetterShipping> ProjectShippingList = new List<IttLetterShipping>();
         public List<Receiver> TempReceivers = new List<Receiver>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
@@ -46,7 +46,7 @@ namespace JudGui
             this.CBZ = cbz;
             PdfCreator = new PdfCreator(CBZ.StrConnection);
             CBZ.TempProject = new Project();
-            CBZ.TempRequestData = new RequestData();
+            CBZ.TempRequestShipping = new RequestShipping();
             RefreshIndexedSubEntrepeneurs();
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
@@ -115,15 +115,13 @@ namespace JudGui
                     foreach (object item in ListBoxEntrepeneurs.SelectedItems)
                     {
                         IndexedSubEntrepeneur subEntrepeneur = new IndexedSubEntrepeneur((IndexedSubEntrepeneur)item);
-                        CBZ.TempRequestData.Receiver = subEntrepeneur.Entrepeneur.Entity;
-                        CBZ.TempRequestData.ReceiverAttention = subEntrepeneur.Contact.Person.Name;
-                        CBZ.TempRequestData.EnterpriseLine = subEntrepeneur.Enterprise.Name;
-                        CBZ.TempRequestData.RequestUrl = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempRequestData);
-                        string[] fileNames = new string[] { CBZ.TempRequestData.RequestUrl };
-                        Email email = new Email(CBZ, "PRØVE: Forespørgsel om underentreprise på " + CBZ.TempProject.Name, subEntrepeneur.Contact.Person.ContactInfo.Email, CBZ.CurrentUser.Person.ContactInfo.Email, "Dette er en prøve", fileNames);
+                        CBZ.TempRequestShipping.SubEntrepeneur = subEntrepeneur;
+                        CBZ.TempRequestShipping.RequestPdfPath = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempRequestShipping);
+                        string[] fileNames = new string[] { CBZ.TempRequestShipping.RequestPdfPath };
+                        Email email = new Email(CBZ, "PRØVE: Forespørgsel om underentreprise på " + CBZ.TempProject.Details.Name, subEntrepeneur.Contact.Person.ContactInfo.Email, CBZ.CurrentUser.Person.ContactInfo.Email, "Dette er en prøve", fileNames);
                         subEntrepeneur.Request.Status = new RequestStatus((RequestStatus)CBZ.GetRequestStatus(1));
                         subEntrepeneur.Request.SentDate = DateTime.Now;
-                        CBZ.CreateInDb(CBZ.TempRequestData);
+                        CBZ.CreateInDb(CBZ.TempRequestShipping);
                         CBZ.UpdateInDb(subEntrepeneur.Request);
                         CBZ.UpdateInDb(subEntrepeneur);
                     }
@@ -159,7 +157,7 @@ namespace JudGui
         #region Events
         private void CheckBoxShowSent_ToggleChecked(object sender, RoutedEventArgs e)
         {
-            CBZ.TempRequestData = new RequestData(CBZ.TempProject);
+            CBZ.TempRequestShipping = new RequestShipping();
             RefreshIndexedSubEntrepeneurs();
             ListBoxEntrepeneurs.SelectedIndex = -1;
             ListBoxEntrepeneurs.ItemsSource = "";
@@ -175,8 +173,8 @@ namespace JudGui
             if (ComboBoxCaseId.SelectedIndex >= 0)
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
-                TextBoxName.Text = CBZ.TempProject.Name;
-                CBZ.TempRequestData = new RequestData(CBZ.TempProject);
+                TextBoxName.Text = CBZ.TempProject.Details.Name;
+                CBZ.TempRequestShipping = new RequestShipping();
                 RefreshIndexedSubEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
                 ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
@@ -186,7 +184,7 @@ namespace JudGui
             {
                 TextBoxName.Text = "";
                 CBZ.TempProject = new Project();
-                CBZ.TempRequestData = new RequestData();
+                CBZ.TempRequestShipping = new RequestShipping();
                 ProjectSubEntrepeneurs.Clear();
                 ProjectEnterprises.Clear();
                 CBZ.IndexedSubEntrepeneurs.Clear();
@@ -238,17 +236,20 @@ namespace JudGui
 
         private void TextBoxProjectDescription_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.TempRequestData.ProjectDescription = TextBoxProjectDescription.Text;
+            if (CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.Description != TextBoxProjectDescription.Text)
+            {
+                CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.Description = TextBoxProjectDescription.Text;
+            }
         }
 
         private void TextBoxPeriod_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.TempRequestData.Period = TextBoxPeriod.Text;
+            CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.Period = TextBoxPeriod.Text;
         }
 
         private void TextBoxAnswerDate_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.TempRequestData.AnswerDate = TextBoxAnswerDate.Text;
+            CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.AnswerDate = TextBoxAnswerDate.Text;
         }
 
         #endregion
@@ -290,19 +291,17 @@ namespace JudGui
         /// <summary>
         /// Method, that creates a Shipping
         /// </summary>
-        /// <param name="project">Project</param>
-        /// <param name="receiver">Receiver</param>
         /// <param name="subEntrepeneur">SubEntrepeneur</param>
-        /// <param name="letterData">PdfData</param>
-        private void CreateShipping(Project project, Receiver receiver, SubEntrepeneur subEntrepeneur)
+        /// <param name="receiver">Receiver</param>
+        private void CreateShipping(SubEntrepeneur subEntrepeneur, Receiver receiver)
         {
-            Shipping = new Shipping(project, receiver, subEntrepeneur, new LetterData(), @"PDF_Documents\", macAddress);
+            IttLetterShipping = new IttLetterShipping(subEntrepeneur, receiver, new LetterData(), @"PDF_Documents\", macAddress);
             try
             {
-                int id = CBZ.CreateInDb(Shipping);
-                Shipping.SetId(id);
-                Shipping.PdfPath = "";
-                CBZ.UpdateInDb(Shipping);
+                int id = CBZ.CreateInDb(IttLetterShipping);
+                IttLetterShipping.SetId(id);
+                IttLetterShipping.PersonalPdfPath = @"PDF_Documents\";
+                CBZ.UpdateInDb(IttLetterShipping);
             }
             catch (Exception ex)
             {

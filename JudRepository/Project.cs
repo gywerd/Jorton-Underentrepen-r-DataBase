@@ -10,16 +10,16 @@ namespace JudRepository
     public class Project
     {
         #region Fields
-        private int id;
-        private int _case;
-        private string name;
-        private Builder builder;
-        private ProjectStatus status;
-        private TenderForm tenderForm;
-        private EnterpriseForm enterpriseForm;
-        private User executive;
-        private bool enterpriseList;
-        private bool copy;
+        private int id = 0;
+        private int _case = 0;
+        private Builder builder = new Builder();
+        private ProjectStatus status = new ProjectStatus();
+        private TenderForm tenderForm = new TenderForm();
+        private EnterpriseForm enterpriseForm = new EnterpriseForm();
+        private User executive = new User();
+        private ProjectDetail details = new ProjectDetail();
+        private bool enterpriseList = false;
+        private bool copy = false;
 
         #endregion
 
@@ -27,42 +27,32 @@ namespace JudRepository
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public Project()
-        {
-            this.id = 0;
-            this.name = "";
-            this.builder = new Builder();
-            this.status = new ProjectStatus();
-            this.tenderForm = new TenderForm();
-            this.enterpriseForm = new EnterpriseForm();
-            this.executive = new User();
-            enterpriseList = false;
-            copy = false;
-        }
+        public Project() { }
 
         /// <summary>
         /// Constructor to add a new project
         /// </summary>
-        /// <param name="case">int</param>
-        /// <param name="name">string</param>
+        /// <param name="Case">int</param>
         /// <param name="builder">Builder</param>
         /// <param name="status">ProjectStatus</param>
         /// <param name="tenderForm">TenderForm</param>
         /// <param name="enterpriseForm">EnterpriseForm</param>
         /// <param name="executive">User</param>
+        /// <param name="details">ProjectDetail</param>
         /// <param name="enterPriseList">bool</param>
         /// <param name="copy">bool</param>
-        public Project(int _case, string name, Builder builder, ProjectStatus status, TenderForm tenderForm, EnterpriseForm enterpriseForm, User executive, bool enterpriseList = false,  bool copy = false)
+        public Project(int Case, Builder builder, ProjectStatus status, TenderForm tenderForm, EnterpriseForm enterpriseForm, User executive, ProjectDetail details, bool enterpriseList = false,  bool copy = false)
         {
             this.id = 0;
-            this._case = _case;
-            this.name = name;
+            this._case = Case;
             this.builder = builder;
             this.status = status;
             this.enterpriseList = enterpriseList;
             this.tenderForm = tenderForm;
             this.enterpriseForm = enterpriseForm;
             this.executive = executive;
+            this.details = details;
+            this.enterpriseList = enterpriseList;
             this.copy = copy;
         }
 
@@ -70,25 +60,25 @@ namespace JudRepository
         /// Constructor to add a project from Db to List
         /// </summary>
         /// <param name="id">int</param>
-        /// <param name="_case">int</param>
-        /// <param name="name">string</param>
+        /// <param name="Case">int</param>
         /// <param name="builder">string</param>
         /// <param name="status">int</param>
         /// <param name="tenderForm">int</param>
         /// <param name="enterpriseForm">int</param>
         /// <param name="executive">int</param>
+        /// <param name="details">ProjectDetail</param>
         /// <param name="enterPriseList">bool</param>
         /// <param name="copy">bool</param>
-        public Project(int id, int _case, string name, Builder builder, ProjectStatus status, TenderForm tenderForm, EnterpriseForm enterpriseForm, User executive, bool enterpriseList, bool copy = false)
+        public Project(int id, int Case, Builder builder, ProjectStatus status, TenderForm tenderForm, EnterpriseForm enterpriseForm, User executive, ProjectDetail details, bool enterpriseList, bool copy = false)
         {
             this.id = id;
-            this._case = _case;
-            this.name = name;
+            this._case = Case;
             this.builder = builder;
             this.status = status;
             this.tenderForm = tenderForm;
             this.enterpriseForm = enterpriseForm;
             this.executive = executive;
+            this.details = details;
             this.enterpriseList = enterpriseList;
             this.copy = copy;
         }
@@ -101,12 +91,12 @@ namespace JudRepository
         {
             this.id = project.Id;
             this._case = project.Case;
-            this.name = project.Name;
             this.builder = project.Builder;
             this.status = project.Status;
             this.tenderForm = project.TenderForm;
             this.enterpriseForm = project.EnterpriseForm;
             this.executive = project.Executive;
+            this.details = project.Details;
             this.enterpriseList = project.EnterpriseList;
             this.copy = project.Copy;
         }
@@ -119,12 +109,12 @@ namespace JudRepository
         {
             this.id = project.Id;
             this._case = project.Case;
-            this.name = project.Name;
             this.builder = project.Builder;
             this.status = project.Status;
             this.tenderForm = project.TenderForm;
             this.enterpriseForm = project.EnterpriseForm;
             this.executive = project.Executive;
+            this.details = project.Details;
             this.enterpriseList = project.EnterpriseList;
             this.copy = project.Copy;
         }
@@ -150,22 +140,6 @@ namespace JudRepository
             }
         }
 
-        public string Name
-        {
-            get => name;
-            set
-            {
-                try
-                {
-                    name = value;
-                }
-                catch (Exception)
-                {
-                    name = "";
-                }
-            }
-        }
-
         public Builder Builder { get => builder; set => builder = value; }
 
         public ProjectStatus Status { get => status; set => status = value; }
@@ -175,6 +149,8 @@ namespace JudRepository
         public EnterpriseForm EnterpriseForm { get => enterpriseForm; set => enterpriseForm = value; }
 
         public User Executive { get => executive; set => executive = value; }
+
+        public ProjectDetail Details { get => details; set => details = value; }
 
         public bool EnterpriseList { get => enterpriseList; }
 
@@ -230,7 +206,7 @@ namespace JudRepository
         /// <returns>string</returns>
         public override string ToString()
         {
-            string result = _case + " " + name;
+            string result = _case + " " + details.Name;
             return result;
         }
 

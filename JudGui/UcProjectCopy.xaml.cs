@@ -55,7 +55,7 @@ namespace JudGui
         {
             bool result = false;
             // Code that copies the current project into a new project
-            Project project = new Project(CBZ.TempProject.Case, CBZ.TempProject.Name, CBZ.TempProject.Builder, new ProjectStatus((ProjectStatus)CBZ.GetProjectStatus(1)), CBZ.TempProject.TenderForm, CBZ.TempProject.EnterpriseForm, CBZ.TempProject.Executive);
+            Project project = new Project(CBZ.TempProject.Case, CBZ.TempProject.Builder, new ProjectStatus((ProjectStatus)CBZ.GetProjectStatus(1)), CBZ.TempProject.TenderForm, CBZ.TempProject.EnterpriseForm, CBZ.TempProject.Executive, CBZ.TempProject.Details, CBZ.TempProject.EnterpriseList, CBZ.TempProject.Copy);
             int id = CBZ.CreateInDb(CBZ.TempProject);
             if (id >= 1)
             {
@@ -93,10 +93,10 @@ namespace JudGui
             {
                 if (temp.Index == selectedIndex)
                 {
-                    CBZ.TempProject = new Project(temp.Id, temp.Case, temp.Name, temp.Builder, temp.Status, temp.TenderForm, temp.EnterpriseForm, temp.Executive, temp.EnterpriseList, temp.Copy);
+                    CBZ.TempProject = new Project(temp);
                 }
             }
-            TextBoxCaseName.Text = CBZ.TempProject.Name;
+            TextBoxCaseName.Text = CBZ.TempProject.Details.Name;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -132,7 +132,7 @@ namespace JudGui
                 TextBoxCaseName.Text = id;
                 TextBoxCaseName.Select(TextBoxCaseName.Text.Length, 0);
             }
-            CBZ.TempProject.Name = TextBoxCaseName.Text;
+            CBZ.TempProject.Details.Name = TextBoxCaseName.Text;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)

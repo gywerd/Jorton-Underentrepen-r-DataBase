@@ -108,7 +108,7 @@ namespace JudGui
         {
             CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
 
-            TextBoxCaseName.Text = CBZ.TempProject.Name;
+            TextBoxCaseName.Text = CBZ.TempProject.Details.Name;
             ComboBoxBuilder.SelectedIndex = GetBuilderIndex();
             ComboBoxProjectStatus.SelectedIndex = GetProjectStatusIndex();
             ComboBoxTenderForm.SelectedIndex = GetTenderFormIndex();
@@ -169,15 +169,30 @@ namespace JudGui
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (CBZ.TempProject.Name != TextBoxCaseName.Text)
+            if (CBZ.TempProject.Details.Name != TextBoxCaseName.Text)
             {
-                CBZ.TempProject.Name = TextBoxCaseName.Text;
+                CBZ.TempProject.Details.Name = TextBoxCaseName.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
 
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+        }
+
+        private void TextBoxDescription_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CBZ.TempProject.Details.Description != TextBoxDescription.Text)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.Details.Description = TextBoxDescription.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
         }
 
