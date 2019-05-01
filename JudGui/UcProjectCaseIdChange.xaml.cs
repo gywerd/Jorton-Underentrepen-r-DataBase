@@ -41,18 +41,23 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning before cancelling
-            if (MessageBox.Show("Vil du annullere redigering af SagsId?", "Annuller redigering", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                UcMain.Content = new UserControl();
-                CBZ.UcMainEdited = false;
+                //Warning before cancelling
+                if (MessageBox.Show("Vil du lukke Rediger SagsId? Alle ugemte data mistes", "Projekter", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             // Code that save changed CaseId to the project
             bool result = CBZ.UpdateInDb(CBZ.TempProject);
@@ -60,7 +65,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Sagsnummer blev ændret", "Skift Sagsnummer", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Sagsnummer blev ændret", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
                 CBZ.RefreshList("Projects");
@@ -74,7 +79,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Sagsnummer blev ikke ændret. Prøv igen.", "Skift Sagsnummer", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Sagsnummer blev ikke ændret. Prøv igen.", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

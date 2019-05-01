@@ -82,19 +82,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Udbudsformer? Ikke gemte data mistes.", "Udbudsformen", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Udbudsformer? Alle ugemte data mistes.", "Udbudsformen", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
 
         }
@@ -212,7 +207,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredTenderForms()
         {
-            CBZ.RefreshIndexedList("IndexedTenderForm");
+            CBZ.RefreshIndexedList("TenderForm");
             this.FilteredTenderForms = new List<IndexedTenderForm>();
             int length = TextBoxTenderFormSearch.Text.Length;
 

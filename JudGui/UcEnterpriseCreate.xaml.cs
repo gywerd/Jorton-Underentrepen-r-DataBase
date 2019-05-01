@@ -44,67 +44,32 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du annullere oprettelse af EntrepriseLister?", "Luk Projekt", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-            }
-        }
-
-        private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
-        {
-            //Code that creates a new project
-            if (CBZ.TempProject.EnterpriseList == false)
-            {
-                CBZ.TempProject.ToggleEnterpriseList();
-                CBZ.UpdateInDb(CBZ.TempProject);
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
-            }
-            bool result = false;
-            int id = CBZ.CreateInDb(CBZ.TempEnterprise);
-            if (id >= 1)
-            {
-                result = true;
-            }
-
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Entreprisen blev oprettet", "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Update Enterprises
-                CBZ.RefreshList("Enterprises");
-                CBZ.TempEnterprise = new Enterprise();
-
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Du er ved at lukke 'Opret Entreprise'. Alle ugemte data mistes!", "Entrepriser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
             }
             else
             {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke oprettet. Prøv igen.", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                CBZ.CloseUcMain(UcMain);
             }
-
         }
 
-        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
+        private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
             //Code that creates a new project
             if (CBZ.TempProject.EnterpriseList == false)
             {
                 CBZ.TempProject.ToggleEnterpriseList();
                 CBZ.UpdateInDb(CBZ.TempProject);
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshIndexedList("Projects");
             }
+
             bool result = false;
             int id = CBZ.CreateInDb(CBZ.TempEnterprise);
             if (id >= 1)
@@ -115,7 +80,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Entrepriselisten blev oprettet", "Opret Entrepriselisten", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Entrepriselisten blev oprettet", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
                 TextBoxCaseName.Content = "";
@@ -140,7 +105,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke oprettet. Prøv igen.", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke oprettet. Prøv igen.", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
         }

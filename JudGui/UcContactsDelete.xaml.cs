@@ -63,9 +63,7 @@ namespace JudGui
                     CBZ.RefreshList("Contacts");
                     CBZ.TempContact = new Contact();
 
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
@@ -74,9 +72,7 @@ namespace JudGui
                 CBZ.RefreshList("Contacts");
                 CBZ.TempContact = new Contact();
 
-                //Close main UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -260,7 +256,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredContacts()
         {
-            CBZ.RefreshIndexedList("IndexedContacts");
+            CBZ.RefreshIndexedList("Contacts");
             this.FilteredContacts = new List<IndexedContact>();
             int length = TextBoxContactSearch.Text.Length;
 

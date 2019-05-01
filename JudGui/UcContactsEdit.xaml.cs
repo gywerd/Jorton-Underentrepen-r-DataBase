@@ -56,9 +56,7 @@ namespace JudGui
                     CBZ.TempContact = new Contact();
                     CBZ.TempEntrepeneur = new Entrepeneur();
 
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
@@ -68,9 +66,7 @@ namespace JudGui
                 CBZ.TempContact = new Contact();
                 CBZ.TempEntrepeneur = new Entrepeneur();
 
-                //Close main UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -247,7 +243,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredContacts()
         {
-            CBZ.RefreshIndexedList("IndexedContacts");
+            CBZ.RefreshIndexedList("Contacts");
             this.FilteredContacts = new List<IndexedContact>();
 
             foreach (IndexedContact contact in CBZ.IndexedContacts)
@@ -264,7 +260,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredEntrepeneurs()
         {
-            CBZ.RefreshIndexedList("IndexedEntrepeneurs");
+            CBZ.RefreshIndexedList("Entrepeneurs");
             this.FilteredEntrepeneurs = new List<IndexedEntrepeneur>();
 
             foreach (IndexedEntrepeneur entrepeneur in CBZ.IndexedEntrepeneurs)

@@ -57,6 +57,73 @@ namespace JudGui
 
         #endregion
 
+        #region Buttons
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke redigering af Entrepenører? Alle ugemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
+            }
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            bool result = UpdateEntrepeneurInDb();
+
+            //Display result
+            if (result)
+            {
+                //Show Confirmation
+                MessageBox.Show("Entrepenøren blev opdateret", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Reset Boxes
+                TextBoxName.Text = "";
+                TextBoxPhone.Text = "";
+                TextBoxFax.Text = "";
+                TextBoxMobile.Text = "";
+                TextBoxEmail.Text = "";
+                ComboBoxCraftGroup1.SelectedIndex = 0;
+                ComboBoxCraftGroup2.SelectedIndex = 0;
+                ComboBoxCraftGroup3.SelectedIndex = 0;
+                ComboBoxCraftGroup4.SelectedIndex = 0;
+                ComboBoxRegion.SelectedIndex = 0;
+
+                //Refresh Entrepeneurs list
+                CBZ.RefreshList("Entrepeneurs");
+                CBZ.TempEntrepeneur = new Entrepeneur();
+            }
+            else
+            {
+                //Show error
+                MessageBox.Show("Databasen returnerede en fejl. Entrepenøren blev ikke opdateret. Prøv igen.", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ButtonUpdateCvr_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateData updatedData = new UpdateData();
+            CBZ.TempEntrepeneur.Entity = updatedData.Entity;
+            bool updated = CBZ.UpdateInDb(updatedData.Entity);
+
+            if (updated)
+            {
+                int index = ListBoxEntrepeneurs.SelectedIndex;
+                ListBoxEntrepeneurs.SelectedIndex = -1;
+                GetFilteredEntrepeneurs();
+                ListBoxEntrepeneurs.SelectedIndex = index;
+            }
+        }
+
+        #endregion
+
         #region Events
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -247,78 +314,6 @@ namespace JudGui
             ListBoxEntrepeneurs.ItemsSource = "";
             ListBoxEntrepeneurs.ItemsSource = this.FilteredEntrepeneurs;
 
-        }
-
-        #endregion
-
-        #region Buttons
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.TempEntrepeneur != new Entrepeneur())
-            {
-                //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke redigering af Entrepenører? Ikke gemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
-                }
-            }
-            else
-            {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
-            }
-        }
-
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-            bool result = UpdateEntrepeneurInDb();
-
-            //Display result
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Entrepenøren blev opdateret", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Reset Boxes
-                TextBoxName.Text = "";
-                TextBoxPhone.Text = "";
-                TextBoxFax.Text = "";
-                TextBoxMobile.Text = "";
-                TextBoxEmail.Text = "";
-                ComboBoxCraftGroup1.SelectedIndex = 0;
-                ComboBoxCraftGroup2.SelectedIndex = 0;
-                ComboBoxCraftGroup3.SelectedIndex = 0;
-                ComboBoxCraftGroup4.SelectedIndex = 0;
-                ComboBoxRegion.SelectedIndex = 0;
-
-                //Refresh Entrepeneurs list
-                CBZ.RefreshList("Entrepeneurs");
-                CBZ.TempEntrepeneur = new Entrepeneur();
-            }
-            else
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entrepenøren blev ikke opdateret. Prøv igen.", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void ButtonUpdateCvr_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateData updatedData = new UpdateData();
-            CBZ.TempEntrepeneur.Entity = updatedData.Entity;
-            bool updated = CBZ.UpdateInDb(updatedData.Entity);
-
-            if (updated)
-            {
-                int index = ListBoxEntrepeneurs.SelectedIndex;
-                ListBoxEntrepeneurs.SelectedIndex = -1;
-                GetFilteredEntrepeneurs();
-                ListBoxEntrepeneurs.SelectedIndex = index;
-            }
         }
 
         #endregion

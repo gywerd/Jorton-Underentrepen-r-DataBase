@@ -10,10 +10,12 @@ namespace JudBizz
     public class ProjectLists
     {
         #region Fields
-        private List<Enterprise> projectEnterprises = new List<Enterprise>();
-        private List<RequestShipping> projectRequestDataList = new List<RequestShipping>();
-        private List<SubEntrepeneur> projectSubEntrepeneurs = new List<SubEntrepeneur>();
-        private List<IttLetterShipping> projectShippings = new List<IttLetterShipping>();
+        private List<Bullet> bullets = new List<Bullet>();
+        private List<Enterprise> enterprises = new List<Enterprise>();
+        private List<IttLetterShipping> ittLetterShippings = new List<IttLetterShipping>();
+        private List<Paragraf> paragrafs = new List<Paragraf>();
+        private List<RequestShipping> requestShippings = new List<RequestShipping>();
+        private List<SubEntrepeneur> subEntrepeneurs = new List<SubEntrepeneur>();
 
         #endregion
 
@@ -22,20 +24,22 @@ namespace JudBizz
 
         public ProjectLists(List<Enterprise> projectEnterprises, List<RequestShipping> projectRequestDataList, List<SubEntrepeneur> projectSubEntrepeneurs, List<IttLetterShipping> projectShippingList)
         {
-            this.projectEnterprises = projectEnterprises;
-            this.projectRequestDataList = projectRequestDataList;
-            this.projectSubEntrepeneurs = projectSubEntrepeneurs;
-            this.projectShippings = projectShippingList;
+            this.enterprises = projectEnterprises;
+            this.requestShippings = projectRequestDataList;
+            this.subEntrepeneurs = projectSubEntrepeneurs;
+            this.ittLetterShippings = projectShippingList;
 
         }
 
         #endregion
 
         #region Properties
-        public List<Enterprise> ProjectEnterprises { get => projectEnterprises; set => projectEnterprises = value; }
-        public List<RequestShipping> ProjectRequestDataList { get => projectRequestDataList; set => projectRequestDataList = value; }
-        public List<SubEntrepeneur> ProjectSubEntrepeneurs { get => projectSubEntrepeneurs; set => projectSubEntrepeneurs = value; }
-        public List<IttLetterShipping> ProjectShippings { get => projectShippings; set => projectShippings = value; }
+        public List<Bullet> Bullets { get => bullets; set => bullets = value; }
+        public List<Enterprise> Enterprises { get => enterprises; set => enterprises = value; }
+        public List<IttLetterShipping> IttLetterShippings { get => ittLetterShippings; set => ittLetterShippings = value; }
+        public List<Paragraf> Paragrafs { get => paragrafs; set => paragrafs = value; }
+        public List<RequestShipping> RequestShippings { get => requestShippings; set => requestShippings = value; }
+        public List<SubEntrepeneur> SubEntrepeneurs { get => subEntrepeneurs; set => subEntrepeneurs = value; }
 
         #endregion
     }

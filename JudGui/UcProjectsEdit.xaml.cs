@@ -36,15 +36,15 @@ namespace JudGui
             this.UcMain = ucMain;
             CBZ.RefreshList("Projects");
             ComboBoxCaseId.ItemsSource = CBZ.ActiveProjects;
-            CBZ.RefreshIndexedList("IndexedBuilders");
+            CBZ.RefreshIndexedList("Builders");
             ComboBoxBuilder.ItemsSource = CBZ.ActiveBuilders;
-            CBZ.RefreshIndexedList("IndexedProjectStatuses");
+            CBZ.RefreshIndexedList("ProjectStatuses");
             ComboBoxProjectStatus.ItemsSource = CBZ.IndexedProjectStatuses;
-            CBZ.RefreshIndexedList("IndexedTenderForms");
+            CBZ.RefreshIndexedList("TenderForms");
             ComboBoxTenderForm.ItemsSource = CBZ.IndexedTenderForms;
-            CBZ.RefreshIndexedList("IndexedEnterpriseForms");
+            CBZ.RefreshIndexedList("EnterpriseForms");
             ComboBoxEnterpriseForm.ItemsSource = CBZ.IndexedEnterpriseForms;
-            CBZ.RefreshIndexedList("IndexedUsers");
+            CBZ.RefreshIndexedList("Users");
             ComboBoxExecutive.ItemsSource = CBZ.ActiveUsers;
         }
 
@@ -53,16 +53,21 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Du er ved at lukke projektet. Alt, der ikke er gemt vil blive mistet!", "Luk Projekt", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                UcMain.Content = new UserControl();
-                CBZ.UcMainEdited = false;
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Du er ved at lukke projektet. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             // Code that save changes to the project
             bool result = CBZ.UpdateInDb(CBZ.TempProject);
@@ -70,12 +75,11 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Projektet blev rettet", "Ret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Projektet blev rettet", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update Projects lists
                 CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshIndexedList("Projects");
 
                 //Close right UserControl
                 UcMain.Content = new UserControl();
@@ -84,7 +88,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke rettet. Prøv igen.", "Ret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke rettet. Prøv igen.", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
         }
@@ -207,7 +211,7 @@ namespace JudGui
         {
             int result = 0;
 
-            CBZ.RefreshIndexedList("IndexedBuilders");
+            CBZ.RefreshIndexedList("Builders");
 
             foreach (IndexedBuilder builder in CBZ.IndexedBuilders)
             {
@@ -229,7 +233,7 @@ namespace JudGui
         {
             int result = 0;
 
-            CBZ.RefreshIndexedList("IndexedEnterpriseForms");
+            CBZ.RefreshIndexedList("EnterpriseForms");
 
             foreach (IndexedEnterpriseForm form in CBZ.IndexedEnterpriseForms)
             {
@@ -251,7 +255,7 @@ namespace JudGui
         {
             int result = 0;
 
-            CBZ.RefreshIndexedList("IndexedUsers");
+            CBZ.RefreshIndexedList("Users");
 
             foreach (IndexedUser user in CBZ.IndexedUsers)
             {
@@ -273,7 +277,7 @@ namespace JudGui
         {
             int result = 0;
 
-            CBZ.RefreshIndexedList("IndexedProjectStatuses");
+            CBZ.RefreshIndexedList("ProjectStatuses");
 
             foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatuses)
             {
@@ -295,7 +299,7 @@ namespace JudGui
         {
             int result = 0;
 
-            CBZ.RefreshIndexedList("IndexedTenderForms");
+            CBZ.RefreshIndexedList("TenderForms");
 
             foreach (IndexedTenderForm form in CBZ.IndexedTenderForms)
             {

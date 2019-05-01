@@ -50,9 +50,7 @@ namespace JudGui
                     CBZ.RefreshList("Users");
                     CBZ.TempUser = new User();
 
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
@@ -61,40 +59,11 @@ namespace JudGui
                 CBZ.RefreshList("Users");
                 CBZ.TempUser = new User();
 
-                //Close main UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
-        private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
-        {
-            //Code that creates a new Builder
-            bool result = CreateUserInDb();
-
-            //Display result
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Brugeren blev oprettet", "Brugere", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Refresh Users list
-                CBZ.RefreshList("Users");
-                CBZ.TempUser = new User();
-
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-            }
-            else
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Brugeren blev ikke oprettet. Prøv igen.", "Brugere", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-        }
-
-        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
+        private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
             bool result = CreateUserInDb();
 

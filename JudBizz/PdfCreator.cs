@@ -574,7 +574,7 @@ namespace JudBizz
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Der opstod en fejl ved indsætning af indhold dokument\n\n" + ex, "Indsæt indhold i dokument", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(@"Der opstod en fejl ved indsætning af indhold dokument\n\n" + ex, "PdfCreator", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -632,7 +632,7 @@ namespace JudBizz
             }
             catch (Exception ex)
             {
-                MessageBox.Show(@"Der opstod en fejl ved indsætning af indhold dokument\n\n" + ex, "Indsæt indhold i dokument", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(@"Der opstod en fejl ved indsætning af indhold dokument\n\n" + ex, "PdfCreator", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

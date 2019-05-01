@@ -61,7 +61,7 @@ namespace JudGui
                 //Reset Boxes
                 ListBoxProjectStatuses.SelectedIndex = -1;
                 ListBoxProjectStatuses.ItemsSource = "";
-                CBZ.RefreshIndexedList("IndexedProjectStatuses");
+                CBZ.RefreshIndexedList("ProjectStatuses");
                 ListBoxProjectStatuses.ItemsSource = CBZ.IndexedCraftGroups;
                 TextBoxProjectStatusSearch.Text = "";
                 TextBoxText.Text = "";
@@ -84,19 +84,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Projektstatusser? Ikke gemte data mistes.", "Projektstatusser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Projektstatusser? Alle ugemte data mistes.", "Projektstatusser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -211,7 +206,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredProjectStatuses()
         {
-            CBZ.RefreshIndexedList("IndexedProjectStatuses");
+            CBZ.RefreshIndexedList("ProjectStatuses");
             this.FilteredProjectStatuses = new List<IndexedProjectStatus>();
             int length = TextBoxProjectStatusSearch.Text.Length;
 

@@ -46,12 +46,17 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke Redigering af Entrepriselisten?", "Luk Entrepriseliste", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke Redigering af Entrepriselisten? Alle ugemte data mistes.", "Entrepriser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -64,7 +69,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Entrepriselisten blev slettet", "Slet Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Entrepriselisten blev slettet", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
                 //Reset Boxes
                 TextBoxName.Text = "";
                 TextBoxElaboration.Text = "";
@@ -83,11 +88,11 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke slettet. Prøv igen.", "Slet Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke slettet. Prøv igen.", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             //Code that edits a project
             bool result = CBZ.UpdateInDb(CBZ.TempEnterprise);
@@ -95,7 +100,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Entrepriselisten blev redigeret", "Rediger Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Entrepriselisten blev redigeret", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
                 TextBoxName.Text = "";
@@ -115,7 +120,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke redigeret. Prøv igen.", "Rediger Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Entrepriselisten blev ikke redigeret. Prøv igen.", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

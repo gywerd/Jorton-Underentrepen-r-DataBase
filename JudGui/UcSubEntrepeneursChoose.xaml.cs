@@ -99,12 +99,17 @@ namespace JudGui
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke Vælg Underentrepenør?", "Luk Vælg Underentrepenør", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke Vælg Underentrepenør?", "Luk Vælg Underentrepenør", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 

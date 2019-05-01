@@ -57,7 +57,7 @@ namespace JudGui
                 //Reset Boxes
                 ListBoxCraftCategories.SelectedIndex = -1;
                 ListBoxCraftCategories.ItemsSource = "";
-                CBZ.RefreshIndexedList("IndexedCategories");
+                CBZ.RefreshIndexedList("Categories");
                 ListBoxCraftCategories.ItemsSource = CBZ.IndexedCraftGroups;
                 TextBoxCraftCategorySearch.Text = "";
                 TextBoxText.Text = "";
@@ -80,19 +80,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Fagkategorier? Ikke gemte data mistes.", "Fagkategorier", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Fagkategorier? Alle ugemte data mistes.", "Fagkategorier", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
 
         }
@@ -203,7 +198,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredCategories()
         {
-            CBZ.RefreshIndexedList("IndexedCategories");
+            CBZ.RefreshIndexedList("Categories");
             this.FilteredCategories = new List<IndexedCategory>();
             int length = TextBoxCraftCategorySearch.Text.Length;
 
@@ -224,5 +219,9 @@ namespace JudGui
 
         #endregion
 
+        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

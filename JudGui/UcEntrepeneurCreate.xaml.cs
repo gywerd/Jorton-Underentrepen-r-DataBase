@@ -36,9 +36,99 @@ namespace JudGui
             this.CBZ = cbz;
             this.UcMain = ucMain;
             CBZ.TempEntrepeneur = new Entrepeneur();
-            CBZ.RefreshIndexedList("IndexedCraftGroups");
+            CBZ.RefreshIndexedList("CraftGroups");
             ComboBoxCraftGroup1.ItemsSource = ComboBoxCraftGroup2.ItemsSource = ComboBoxCraftGroup3.ItemsSource = ComboBoxCraftGroup3.ItemsSource = CBZ.IndexedCraftGroups;
             ComboBoxCraftGroup1.SelectedIndex = ComboBoxCraftGroup2.SelectedIndex = ComboBoxCraftGroup3.SelectedIndex = ComboBoxCraftGroup3.SelectedIndex = 0;
+        }
+
+        #endregion
+
+        #region Buttons
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du annullere oprettelse af Entrepenør? Alle ugemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    //Refresh Entrepeneurs list
+                    CBZ.RefreshList("Entrepeneurs");
+                    CBZ.TempEnterprise = new Enterprise();
+
+                    //Close right UserControl
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                //Refresh Entrepeneurs list
+                CBZ.RefreshList("Entrepeneurs");
+                CBZ.TempEnterprise = new Enterprise();
+
+                //Close main UserControl
+                CBZ.CloseUcMain(UcMain);
+            }
+
+        }
+
+        private void ButtonCreate_Click(object sender, RoutedEventArgs e)
+        {
+            bool result = CreateEntrepeneurInDb();
+
+            //Display result
+            if (result)
+            {
+                //Show Confirmation
+                MessageBox.Show("Entrepenøren blev oprettet", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                //Refresh Entrepeneurs list
+                CBZ.RefreshList("Entrepeneurs");
+                CBZ.TempEnterprise = new Enterprise();
+
+                //Reset Boxes
+                TextBoxName.Text = "";
+                TextBoxCoName.Text = "";
+                TextBoxStreet.Text = "";
+                TextBoxPlace.Text = "";
+                TextBoxZip.Text = "";
+                TextBoxTown.Text = "";
+                TextBoxPhone.Text = "";
+                TextBoxFax.Text = "";
+                TextBoxMobile.Text = "";
+                TextBoxEmail.Text = "";
+                ComboBoxCraftGroup1.SelectedIndex = 0;
+                ComboBoxCraftGroup2.SelectedIndex = 0;
+                ComboBoxCraftGroup3.SelectedIndex = 0;
+                ComboBoxCraftGroup4.SelectedIndex = 0;
+                ComboBoxRegion.SelectedIndex = 0;
+
+            }
+            else
+            {
+                //Show error
+                MessageBox.Show("Databasen returnerede en fejl. Entreprenøren blev ikke oprettet. Prøv igen.", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private void ButtonSearchCvr_Click(object sender, RoutedEventArgs e)
+        {
+            if (TextBoxCvr.Text != "")
+            {
+                if (TextBoxCvr.Text.Length == 8 || TextBoxCvr.Text.Length == 10)
+                {
+                    CBZ.TempEntrepeneur.Entity = CBZ.CvrApi.GetCvrData(TextBoxCvr.Text);
+                    TextBoxName.Text = CBZ.TempEntrepeneur.Entity.Name;
+                    TextBoxCoName.Text = CBZ.TempEntrepeneur.Entity.CoName;
+                    TextBoxStreet.Text = CBZ.TempEntrepeneur.Entity.Address.Street;
+                    TextBoxPlace.Text = CBZ.TempEntrepeneur.Entity.Address.Place;
+                    TextBoxZip.Text = CBZ.TempEntrepeneur.Entity.Address.ZipTown.Zip;
+                    TextBoxPhone.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Phone;
+                    TextBoxFax.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Fax;
+                    TextBoxMobile.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Mobile;
+                    TextBoxEmail.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Email;
+                }
+            }
         }
 
         #endregion
@@ -236,7 +326,7 @@ namespace JudGui
 
         private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.RetrieveZipTownFromZip(TextBoxZip.Text);
+            CBZ.RetrieveTempZipTown(TextBoxZip.Text);
             if(CBZ.TempZipTown.Id != 0)
             {
                 CBZ.TempEntrepeneur.Entity.Address.ZipTown = CBZ.TempZipTown;
@@ -247,125 +337,6 @@ namespace JudGui
             if (!CBZ.UcMainEdited)
             {
                 CBZ.UcMainEdited = true;
-            }
-        }
-
-        #endregion
-
-        #region Buttons
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.TempEntrepeneur != new Entrepeneur())
-            {
-                //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du annullere oprettelse af Entrepenør? Ikke gemte data mistes.", "Entrepenører", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    //Refresh Entrepeneurs list
-                    CBZ.RefreshList("Entrepeneurs");
-                    CBZ.TempEnterprise = new Enterprise();
-
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
-                }
-            }
-            else
-            {
-                //Refresh Entrepeneurs list
-                CBZ.RefreshList("Entrepeneurs");
-                CBZ.TempEnterprise = new Enterprise();
-
-                //Close main UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-            }
-
-        }
-
-        private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
-        {
-            //Code that creates a new Entrepeneur
-            bool result = CreateEntrepeneurInDb();
-
-            //Display result
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Entrepenøren blev oprettet", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Refresh Entrepeneurs list
-                CBZ.RefreshList("Entrepeneurs");
-                CBZ.TempEnterprise = new Enterprise();
-
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-            }
-            else
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entrepenøren blev ikke oprettet. Prøv igen.", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-        }
-
-        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
-        {
-            bool result = CreateEntrepeneurInDb();
-
-            //Display result
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Entrepenøren blev oprettet", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Refresh Entrepeneurs list
-                CBZ.RefreshList("Entrepeneurs");
-                CBZ.TempEnterprise = new Enterprise();
-
-                //Reset Boxes
-                TextBoxName.Text = "";
-                TextBoxCoName.Text = "";
-                TextBoxStreet.Text = "";
-                TextBoxPlace.Text = "";
-                TextBoxZip.Text = "";
-                TextBoxTown.Text = "";
-                TextBoxPhone.Text = "";
-                TextBoxFax.Text = "";
-                TextBoxMobile.Text = "";
-                TextBoxEmail.Text = "";
-                ComboBoxCraftGroup1.SelectedIndex = 0;
-                ComboBoxCraftGroup2.SelectedIndex = 0;
-                ComboBoxCraftGroup3.SelectedIndex = 0;
-                ComboBoxCraftGroup4.SelectedIndex = 0;
-                ComboBoxRegion.SelectedIndex = 0;
-
-            }
-            else
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Entreprenøren blev ikke oprettet. Prøv igen.", "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-        }
-
-        private void ButtonSearchCvr_Click(object sender, RoutedEventArgs e)
-        {
-            if (TextBoxCvr.Text != "")
-            {
-                if (TextBoxCvr.Text.Length == 8 || TextBoxCvr.Text.Length == 10)
-                {
-                    CBZ.TempEntrepeneur.Entity = CBZ.CvrApi.GetCvrData(TextBoxCvr.Text);
-                    TextBoxName.Text = CBZ.TempEntrepeneur.Entity.Name;
-                    TextBoxCoName.Text = CBZ.TempEntrepeneur.Entity.CoName;
-                    TextBoxStreet.Text = CBZ.TempEntrepeneur.Entity.Address.Street;
-                    TextBoxPlace.Text = CBZ.TempEntrepeneur.Entity.Address.Place;
-                    TextBoxZip.Text = CBZ.TempEntrepeneur.Entity.Address.ZipTown.Zip;
-                    TextBoxPhone.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Phone;
-                    TextBoxFax.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Fax;
-                    TextBoxMobile.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Mobile;
-                    TextBoxEmail.Text = CBZ.TempEntrepeneur.Entity.ContactInfo.Email;
-                }
             }
         }
 
@@ -392,7 +363,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Addressen blev ikke gemt\n" + ex, "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Addressen blev ikke gemt\n" + ex, "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result;
@@ -414,7 +385,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Kontaktoplysningerne blev ikke gemt\n" + ex, "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Kontaktoplysningerne blev ikke gemt\n" + ex, "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result;
@@ -477,7 +448,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Firmaet blev ikke gemt\n" + ex, "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Firmaet blev ikke gemt\n" + ex, "Entrepenører", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result;

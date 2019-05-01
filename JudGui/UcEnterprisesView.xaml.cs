@@ -39,12 +39,12 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Close right UserControl
-            MessageBox.Show("Visning af Entrepriselisten lukkes.", "Luk Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Information);
-            CBZ.UcMainEdited = false;
-            UcMain.Content = new UserControl();
+            if (MessageBox.Show("Vil du lukke Visning af Entrepriselisten.", "Entrepriser", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            {
+                CBZ.CloseUcMain(UcMain);
+            }
         }
 
         private void ButtonGeneratePdf_Click(object sender, RoutedEventArgs e)

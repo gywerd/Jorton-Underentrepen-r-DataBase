@@ -125,6 +125,10 @@
       <Project>{e1d9b59f-506b-428e-9a6c-52be7691df15}</Project>
       <Name>JudRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UkZipApi\UkZipApi.csproj">
+      <Project>{78d428be-7b13-4d33-b51e-d6c878666818}</Project>
+      <Name>UkZipApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

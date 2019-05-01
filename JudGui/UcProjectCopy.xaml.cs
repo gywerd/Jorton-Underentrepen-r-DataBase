@@ -41,13 +41,18 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Vil du annullere kopiering af projektet?", "Annuller kopiering", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                UcMain.Content = new UserControl();
-                CBZ.UcMainEdited = false;
+                if (MessageBox.Show("Du er ved at lukke 'Kopier Projekt'. Alle ugemte Data mistes!", "Projekter", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -65,12 +70,10 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Projektet blev kopieret", "Kopier projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Projektet blev kopieret", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshIndexedList("Projects");
 
                 //Close right UserControl
                 CBZ.UcMainEdited = false;
@@ -79,7 +82,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke kopieret. Prøv igen.", "Kopier Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke kopieret. Prøv igen.", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

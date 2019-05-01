@@ -61,14 +61,17 @@
                                    Password=""
                                    VerticalAlignment="Top" 
                                    Watermark="dinAdgang§kod3"/>
-        <Button x:Name="ButtonLogin" Content="Login"
+        <Button x:Name="ButtonLogin" 
+                Background="#216C9E"
                 Click="ButtonLogin_Click" 
-                FontSize="48" FontWeight="Bold" 
+                Content="LOGIN"
+                FontSize="48"
+                FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="2" 
                 Height="100"  Width="345" 
                 HorizontalAlignment="Center"
                 IsDefault="True" 
-                VerticalAlignment="Bottom" />
-
+                VerticalAlignment="Center" />
     </Grid>
 </UserControl>

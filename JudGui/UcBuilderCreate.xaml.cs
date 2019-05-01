@@ -45,15 +45,13 @@ namespace JudGui
             if (CBZ.TempBuilder != new Builder())
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du annullere oprettelse af Bygherre?", "Bygherrer", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Du er ved at lukke 'Opret Bygherre'. Alle ugemte data mistes", "Bygherrer", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     //Refresh Builders
                     CBZ.RefreshList("Builders");
                     CBZ.TempBuilder = new Builder();
 
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
@@ -62,41 +60,12 @@ namespace JudGui
                 CBZ.RefreshList("Builders");
                 CBZ.TempBuilder = new Builder();
 
-                //Close main UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
 
         }
 
-        private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
-        {
-            //Code that creates a new Builder
-            bool result = CreateBuilderInDb();
-
-            //Display result
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Bygherren blev oprettet", "Bygherrer", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Refresh Builders
-                CBZ.RefreshList("Builders");
-                CBZ.TempBuilder = new Builder();
-
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-            }
-            else
-            {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Bygherren blev ikke oprettet. Prøv igen.", "Bygherrer", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-        }
-
-        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
+        private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
             bool result = CreateBuilderInDb();
 
@@ -259,7 +228,7 @@ namespace JudGui
 
         private void TextBoxZip_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CBZ.RetrieveZipTownFromZip(TextBoxZip.Text);
+            CBZ.RetrieveTempZipTown(TextBoxZip.Text);
             if (CBZ.TempZipTown.Id != 0)
             {
                 CBZ.TempBuilder.Entity.Address.ZipTown = CBZ.TempZipTown;
@@ -296,7 +265,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Addressen blev ikke gemt\n" + ex, "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Addressen blev ikke gemt\n" + ex, "Bygherrer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result;
@@ -318,7 +287,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Kontaktoplysningerne blev ikke gemt\n" + ex, "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Kontaktoplysningerne blev ikke gemt\n" + ex, "Bygherrer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result;
@@ -381,7 +350,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Firmaet blev ikke gemt\n" + ex, "Opret Entrepriseliste", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Firmaet blev ikke gemt\n" + ex, "Bygherrer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return result;

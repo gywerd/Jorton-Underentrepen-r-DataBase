@@ -44,7 +44,7 @@ namespace JudGui
             ListBoxCraftGroups.ItemsSource = FilteredCraftGroups;
             ListBoxCraftGroups.SelectedIndex = -1;
 
-            CBZ.RefreshIndexedList("IndexedCategories");
+            CBZ.RefreshIndexedList("Categories");
             ComboBoxCategory.ItemsSource = CBZ.IndexedCategories;
             ComboBoxCategory.SelectedIndex = -1;
         }
@@ -65,7 +65,7 @@ namespace JudGui
                 //Reset Boxes
                 ListBoxCraftGroups.SelectedIndex = -1;
                 ListBoxCraftGroups.ItemsSource = "";
-                CBZ.RefreshIndexedList("IndexedCraftGroups");
+                CBZ.RefreshIndexedList("CraftGroups");
                 ListBoxCraftGroups.ItemsSource = CBZ.IndexedCraftGroups;
                 TextBoxCraftGroupSearch.Text = "";
                 TextBoxDesignation.Text = "";
@@ -94,19 +94,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Faggrupper? Ikke gemte data mistes.", "Faggrupper", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Faggrupper? Alle ugemte data mistes.", "Faggrupper", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -298,7 +293,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredCraftGroups()
         {
-            CBZ.RefreshIndexedList("IndexedCraftGroups");
+            CBZ.RefreshIndexedList("CraftGroups");
             this.FilteredCraftGroups = new List<IndexedCraftGroup>();
             int length = TextBoxCraftGroupSearch.Text.Length;
 

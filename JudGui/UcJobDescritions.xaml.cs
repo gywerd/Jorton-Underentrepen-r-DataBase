@@ -60,7 +60,7 @@ namespace JudGui
                 //Reset Boxes
                 ListBoxJobDescriptions.SelectedIndex = -1;
                 ListBoxJobDescriptions.ItemsSource = "";
-                CBZ.RefreshIndexedList("IndexedJobDescriptions");
+                CBZ.RefreshIndexedList("JobDescriptions");
                 ListBoxJobDescriptions.ItemsSource = CBZ.IndexedJobDescriptions;
                 TextBoxJobDescriptionSearch.Text = "";
                 TextBoxArea.Text = "";
@@ -88,18 +88,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Jobbeskrivelser? Ikke gemte data mistes.", "Jobbeskrivelser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Jobbeskrivelser? Alle ugemte data mistes.", "Jobbeskrivelser", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
 
             }
 
@@ -275,7 +271,7 @@ namespace JudGui
 
         private void GetFilteredJobDescriptions()
         {
-            CBZ.RefreshIndexedList("IndexedJobDescriptions");
+            CBZ.RefreshIndexedList("JobDescriptions");
             this.FilteredJobDescriptions = new List<IndexedJobDescription>();
             int length = TextBoxJobDescriptionSearch.Text.Length;
 

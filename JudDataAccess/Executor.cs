@@ -127,9 +127,6 @@ namespace JudDataAccess
                 case "Entrepeneurs":
                     result = DbReturnDataTable(@"SELECT * FROM [Entrepeneurs] ORDER BY [Cooperative] DESC, [Id] ASC");
                     break;
-                case "Projects":
-                    result = DbReturnDataTable(@"SELECT * FROM [Projects] ORDER BY [Name] ASC");
-                    break;
                 case "Users":
                     result = DbReturnDataTable(@"SELECT Id, Person, Initials, Department, JobDescription, UserLevel FROM [Users]");
                     break;

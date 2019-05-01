@@ -10,9 +10,9 @@ namespace JudRepository
     public class Paragraf
     {
         #region Fields
-        protected int id;
-        protected Project project;
-        protected string text;
+        protected int id = 0;
+        protected Project project = new Project();
+        protected string text = "";
 
         #endregion
 
@@ -20,12 +20,7 @@ namespace JudRepository
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public Paragraf()
-        {
-            this.id = 0;
-            project = new Project();
-            text = "";
-        }
+        public Paragraf() { }
 
         /// <summary>
         /// Costructor to add a a new Paragraf
@@ -34,7 +29,6 @@ namespace JudRepository
         /// <param name="text">string</param>
         public Paragraf(Project project, string text)
         {
-            this.id = 0;
             this.project = project;
             this.text = text;
         }
@@ -55,23 +49,23 @@ namespace JudRepository
         /// <summary>
         /// Constructor, that accepts data from an existing Paragraf
         /// </summary>
-        /// <param name="paragraph">Paragraf</param>
-        public Paragraf(Paragraf paragraph)
+        /// <param name="paragraf">Paragraf</param>
+        public Paragraf(Paragraf paragraf)
         {
-            this.id = paragraph.id;
-            this.project = paragraph.Project;
-            this.text = paragraph.Text;
+            this.id = paragraf.id;
+            this.project = paragraf.Project;
+            this.text = paragraf.Text;
         }
 
         /// <summary>
         /// Constructor, that accepts data from an existing Indexed Paragraf
         /// </summary>
-        /// <param name="paragraph">IndexedParagraf</param>
-        public Paragraf(IndexedParagraf paragraph)
+        /// <param name="paragraf">IndexedParagraf</param>
+        public Paragraf(IndexedParagraf paragraf)
         {
-            this.id = paragraph.id;
-            this.project = paragraph.Project;
-            this.text = paragraph.Text;
+            this.id = paragraf.id;
+            this.project = paragraf.Project;
+            this.text = paragraf.Text;
         }
 
         #endregion

@@ -30,10 +30,27 @@
             <RowDefinition Height="90*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
-            <RowDefinition Height="90*" />
-            <RowDefinition Height="100*" />
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="110*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        <Border BorderThickness="3" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="2" 
+                Grid.ColumnSpan="8" Grid.RowSpan="8" />
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="2" 
+                Grid.ColumnSpan="8" />
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="3" 
+                Grid.ColumnSpan="8" Grid.RowSpan="4" />
+        <Border Background="#FFCCCCCC" 
+                BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="7" 
+                Grid.ColumnSpan="8" Grid.RowSpan="3" />
         <Label x:Name="LabelCraftGroupsHeader"
                Content="Faggrupper"
                FontSize="48"
@@ -172,7 +189,7 @@
                                Text=""
                                TextChanged="TextBoxNewDesignation_TextChanged"
                                TextWrapping="Wrap"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Center"
                                Watermark="Containerleverandør" />
         <xctk:WatermarkTextBox x:Name="TextBoxNewDescription"
                                FontSize="24"
@@ -195,34 +212,39 @@
                   SelectionChanged="ComboBoxNewCategory_SelectionChanged"
                   VerticalAlignment="Top" />
         <Button x:Name="ButtonAddCraftGroup"
-                Content="Tilføj"
+                Background="#216C9E"
                 Click="ButtonAddCraftGroup_Click"
+                Content="TILFØJ"
                 FontSize="24"
                 FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="8" Grid.Row="9"
                 Height="50" Width="165"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top" />
-        <Button x:Name="ButtonClose"
-                Content="Luk"
-                Click="ButtonClose_Click"
-                FontSize="48"
-                FontWeight="Bold"
-                Grid.Column="1" Grid.Row="10"
-                Grid.ColumnSpan="2"
-                Height="100" Width="345"
-                HorizontalAlignment="Center"
+        <Button x:Name="ButtonClose" 
+                Background="#216C9E"
+                Content="X"
+                Click="ButtonClose_Click" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Foreground="#FF01A858"
+                Grid.Column="9" Grid.Row="0" 
+                Height="35"  Width="35" 
+                HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
-                Content="Gem"
+                Background="#216C9E"
                 Click="ButtonSave_Click"
+                Content="GEM"
                 FontSize="48"
                 FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="7" Grid.Row="10"
                 Grid.ColumnSpan="2"
                 Height="100" Width="345"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Center" />
     </Grid>
 
 </UserControl>

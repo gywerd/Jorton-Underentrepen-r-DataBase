@@ -42,17 +42,18 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Vil du annullere reaktivering af projektet!", "Annuller reaktivering", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                UcMain.Content = new UserControl();
-                CBZ.UcMainEdited = false;
+                if (MessageBox.Show("Vil du lukkee Reaktivering af Projekt. Alle ugemte data mistes.", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
             }
         }
 
-        private void ButtonExecute_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             // Code that changes project status
             bool result = CBZ.UpdateInDb(CBZ.TempProject);
@@ -63,13 +64,9 @@ namespace JudGui
                 MessageBox.Show("Projekstatus blev ændret", "Ændr Projektstatus", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshIndexedList("Projects");
 
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
             else
             {

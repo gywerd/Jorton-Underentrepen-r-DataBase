@@ -42,7 +42,6 @@ namespace JudGui
         {
             InitializeComponent();
             this.CBZ = cbz;
-            IndexedEntrepeneurs = cbz.IndexedEntrepeneurs;
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
@@ -60,7 +59,7 @@ namespace JudGui
             {
                 case false:
                     //Show Confirmation
-                    MessageBox.Show("Du har ikke valgt nogen modtagere. Der blev ikke føjet modtagere til modtagerlisten.", "Tilføj Modtager(e)", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Du har ikke valgt nogen modtagere. Der blev ikke føjet modtagere til modtagerlisten.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
                     break;
                 case true:
                     AddReceivers();
@@ -70,7 +69,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Modtager(e)n(ne) blev føjet til modtagerlisten.", "Tilføj Modtager(e)", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Modtager(e)n(ne) blev føjet til modtagerlisten.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
                 ComboBoxCaseId.SelectedIndex = -1;
@@ -83,7 +82,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Modtager(e)n(ne) blev ikke føjet til modtagerlisten. Prøv igen.", "Tilføj Modtager(e)", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Modtager(e)n(ne) blev ikke føjet til modtagerlisten. Prøv igen.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -96,14 +95,20 @@ namespace JudGui
         {
             ListBoxEntrepeneurs.SelectAll();
         }
+
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Udbudsbreve", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -119,7 +124,7 @@ namespace JudGui
 
                 TextBoxName.Text = CBZ.TempProject.Details.Name;
                 GetProjectSubEntrepeneurs();
-                CBZ.RefreshProjectLists(CBZ.TempProject.Id);
+                CBZ.RefreshProjectList("All", CBZ.TempProject.Id);
                 GetIndexedEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
                 ListBoxEntrepeneurs.ItemsSource = IndexedEntrepeneurs;
@@ -236,7 +241,7 @@ namespace JudGui
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Opdater forsendelse", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -312,7 +317,7 @@ namespace JudGui
         /// <returns>List<IndexedLegalEntity></returns>
         private void GetIndexedEntrepeneurs()
         {
-            CBZ.RefreshIndexedList("IndexedEntrepeneursFromSubEntrepeneurs");
+            CBZ.RefreshIndexedList("ActiveEntrepeneursFromProjectSubEntrepeneurs");
             ListBoxEntrepeneurs.ItemsSource = "";
             ListBoxEntrepeneurs.ItemsSource = IndexedEntrepeneurs;
         }
@@ -323,22 +328,7 @@ namespace JudGui
         /// <returns></returns>
         private void GetProjectSubEntrepeneurs()
         {
-            ProjectEnterprises.Clear();
-            ProjectSubEntrepeneurs.Clear();
-            foreach (Enterprise enterprise in CBZ.Enterprises)
-            {
-                if (enterprise.Project.Id == CBZ.TempProject.Id)
-                {
-                    ProjectEnterprises.Add(enterprise);
-                    foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
-                    {
-                        if (sub.Enterprise.Id == enterprise.Id)
-                        {
-                            ProjectSubEntrepeneurs.Add(sub);
-                        }
-                    }
-                }
-            }
+
         }
 
         private SubEntrepeneur GetSubEntrepeneur(int entrepeneur)

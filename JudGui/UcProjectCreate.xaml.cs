@@ -42,50 +42,23 @@ namespace JudGui
         #endregion
 
         #region Buttons
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du annullere oprettelse af projektet?", "Luk Projekt", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (CBZ.UcMainEdited)
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-            }
-        }
-
-        private void ButtonCreateClose_Click(object sender, RoutedEventArgs e)
-        {
-            bool result = false;
-
-            //Code that creates a new project
-            int id = CBZ.CreateInDb(CBZ.TempProject);
-            if (id >= 1)
-            {
-                result = true;
-            }
-
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Projektet blev oprettet", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Update list of projects
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
-
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Du er ved at lukke 'Opret Projekt'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
             }
             else
             {
-                //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke oprettet. Prøv igen.", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
-        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
+        private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
             bool result = false;
 
@@ -99,7 +72,7 @@ namespace JudGui
             if (result)
             {
                 //Show Confirmation
-                MessageBox.Show("Projektet blev oprettet", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Projektet blev oprettet", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset form
                 TextBoxCaseId.Text = "";
@@ -110,14 +83,12 @@ namespace JudGui
                 ComboBoxExecutive.SelectedIndex = -1;
 
                 //Update list of projects
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("IndexedActiveProjects");
-                CBZ.RefreshIndexedList("IndexedProjects");
+                CBZ.RefreshIndexedList("Projects");
             }
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke oprettet. Prøv igen.", "Opret Projekt", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke oprettet. Prøv igen.", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

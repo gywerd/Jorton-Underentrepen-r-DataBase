@@ -68,11 +68,11 @@ namespace JudGui
                     Exception tempEx = new Exception();
                     if (exception != tempEx)
                     {
-                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet\n" + exception, "", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet\n" + exception, "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -106,11 +106,11 @@ namespace JudGui
                     Exception tempEx = new Exception();
                     if (exception != tempEx)
                     {
-                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet\n" + exception, "", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet\n" + exception, "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Databasen meldte en fejl. Linjen blev ikke tilføjet til afsnittet", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -122,6 +122,22 @@ namespace JudGui
                     ComboBoxParagrafs.SelectedIndex = 0;
                     TextBoxNewParagraf.Text = "";
                 }
+            }
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev? Alle ugemte data mistes.", "Udbudsbreve", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -151,32 +167,21 @@ namespace JudGui
                 switch (ane.ParamName)
                 {
                     case "missingBullet":
-                        MessageBox.Show("Mindst et afsnit mangler underpunkter. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Mindst et afsnit mangler underpunkter. Fælles del af Udbudsbrev kan ikke genereres.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     case "pdf":
-                        MessageBox.Show("Pdf'en med Fælles del af Udbudsbrev kunne ikke genereres.\n" + ane.ToString(), "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Pdf'en med Fælles del af Udbudsbrev kunne ikke genereres.\n" + ane.ToString(), "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     case "shipping":
-                        MessageBox.Show("Forsendelseslisten kunne ikke opdateres.\n" + ane.ToString(), "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Forsendelseslisten kunne ikke opdateres.\n" + ane.ToString(), "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     case "noParagrafs":
-                        MessageBox.Show("Der er ingen afsnit. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Der er ingen afsnit. Fælles del af Udbudsbrev kan ikke genereres.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                     case "noReceivers":
-                        MessageBox.Show("Der er ingen modtagerliste. Fælles del af Udbudsbrev kan ikke genereres.", "Forbered Udbudsbrev", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Der er ingen modtagerliste. Fælles del af Udbudsbrev kan ikke genereres.", "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Error);
                         break;
                 }
-            }
-        }
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            //Warning about lost changes before closing
-            if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev?", "Luk Klargør Udbudsbrev", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
             }
         }
 

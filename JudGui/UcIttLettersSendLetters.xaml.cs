@@ -41,7 +41,18 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Du er ved at lukke 'Send Udbudsbreve'. Alle ugemte data mistes.", "Udbudsbreve", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                CBZ.CloseUcMain(UcMain);
+            }
         }
 
         private void ButtonSend_Click(object sender, RoutedEventArgs e)

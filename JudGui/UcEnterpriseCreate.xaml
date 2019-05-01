@@ -136,27 +136,29 @@
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCraftGroup4_SelectionChanged" 
                   VerticalAlignment="Top" />
-        <Button x:Name="ButtonCancel" Content="Annuller"
-                Click="ButtonCancel_Click" 
-                FontSize="48" FontWeight="Bold" 
-                Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" 
-                Height="100"  Width="345" 
+        <Button x:Name="ButtonClose" 
+                Background="#216C9E"
+                Content="X"
+                Click="ButtonClose_Click" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Foreground="#FF01A858"
+                Grid.Column="9" Grid.Row="0" 
+                Height="35"  Width="35" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonCreateClose" Content="Opret og luk"
-                Click="ButtonCreateClose_Click" 
-                FontSize="48" FontWeight="Bold" 
-                Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="2" 
-                Height="100"  Width="345" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonCreateNew" Content="Opret og ny"
-                Click="ButtonCreateNew_Click" 
-                FontSize="48" FontWeight="Bold" 
-                Grid.Column="7" Grid.Row="9" Grid.ColumnSpan="2" 
-                Height="100"  Width="345" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonCreate"
+                Background="#216C9E"
+                Click="ButtonCreate_Click"
+                Content="OPRET"
+                FontSize="48"
+                FontWeight="Bold"
+                Foreground="#FF01A858"
+                Grid.Column="7" Grid.Row="9"
+                Grid.ColumnSpan="2"
+                Height="100" Width="345"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
     </Grid>
 
 </UserControl>

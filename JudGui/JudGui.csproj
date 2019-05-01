@@ -129,6 +129,9 @@
     <Compile Include="UcEntrepeneurEdit.xaml.cs">
       <DependentUpon>UcEntrepeneurEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UcProjectsElaboration.xaml.cs">
+      <DependentUpon>UcProjectsElaboration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UcRequestsSentShow.xaml.cs">
       <DependentUpon>UcRequestsSentShow.xaml</DependentUpon>
     </Compile>
@@ -322,6 +325,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UcProjectsElaboration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UcRequestsSentShow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -455,7 +462,6 @@
     <Resource Include="Images\about.png" />
     <Resource Include="Images\add.png" />
     <Resource Include="Images\calculation.png" />
-    <Resource Include="Images\copy.png" />
     <Resource Include="Images\cut.png" />
     <Resource Include="Images\enterprise-form.png" />
     <Resource Include="Images\enterprise.png" />
@@ -601,6 +607,16 @@
   <ItemGroup>
     <Resource Include="Images\request-show-small.png" />
     <Resource Include="Images\request-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ApplicationMenuIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\button-small.png" />
+    <Resource Include="Images\button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\button-small-broad.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

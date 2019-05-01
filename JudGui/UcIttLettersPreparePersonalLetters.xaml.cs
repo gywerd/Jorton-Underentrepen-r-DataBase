@@ -58,16 +58,12 @@ namespace JudGui
                 //Warning about lost changes before closing
                 if (MessageBox.Show("Vil du lukke klargøring af Udbudsbrev ?", "Udbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
-                    //Close right UserControl
-                    UcMain.Content = new UserControl();
-                    CBZ.UcMainEdited = false;
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                UcMain.Content = new UserControl();
-                CBZ.UcMainEdited = false;
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -121,7 +117,7 @@ namespace JudGui
             catch (Exception ex)
             {
                 //Show error
-                MessageBox.Show("Der opstod en fejl.\n" + ex, "Forbered UdbudsBrev", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Der opstod en fejl.\n" + ex, "Udbudsbreve", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
         }

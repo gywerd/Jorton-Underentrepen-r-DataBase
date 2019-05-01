@@ -49,6 +49,7 @@ namespace JudGui
         public UcProjectCaseIdChange UcProjectCaseIdChange;
         public UcProjectCopy UcProjectCopy;
         public UcProjectsEdit UcProjectsEdit;
+        public UcProjectsElaboration UcProjectsElaboration;
         public UcProjectStatusChange UcProjectStatusChange;
         public UcProjectStatuses UcProjectStatuses;
         public UcRequests UcRequests;
@@ -109,7 +110,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Opret Bygherre'. Alt, der ikke er gemt vil blive mistet!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Opret Bygherre'. Alle ugemte data mistes!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcBuilderCreate = new UcBuilderCreate(CBZ, UcMain);
@@ -127,7 +128,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Bygherrer'. Alt, der ikke er gemt vil blive mistet!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Bygherrer'. Alle ugemte data mistes!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcBuildersEdit = new UcBuildersEdit(CBZ, UcMain);
@@ -145,7 +146,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Status for Bygherrer'. Alt, der ikke er gemt vil blive mistet!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Status for Bygherrer'. Alle ugemte data mistes!", "Bygherrer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcBuildersStatusChange = new UcBuildersStatusChange(CBZ, UcMain);
@@ -163,7 +164,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Ændr Password'. Alt, der ikke er gemt vil blive mistet!", "Password", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Ændr Password'. Alle ugemte data mistes!", "Password", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcChangePassWord = new UcChangePassWord(CBZ, UcMain);
@@ -181,7 +182,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Opret Kontakt'. Alt, der ikke er gemt vil blive mistet!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Opret Kontakt'. Alle ugemte data mistes!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcContactCreate = new UcContactCreate(CBZ, UcMain);
@@ -199,7 +200,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Slet Kontakt'. Alt, der ikke er gemt vil blive mistet!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Slet Kontakt'. Alle ugemte data mistes!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcContactsDelete = new UcContactsDelete(CBZ, UcMain);
@@ -217,7 +218,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Kontakt'. Alt, der ikke er gemt vil blive mistet!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Kontakt'. Alle ugemte data mistes!", "Kontakter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcContactsEdit = new UcContactsEdit(CBZ, UcMain);
@@ -235,7 +236,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Fagkategorier'. Alt, der ikke er gemt vil blive mistet!", "Fagkategorier", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Fagkategorier'. Alle ugemte data mistes!", "Fagkategorier", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcCraftCategories = new UcCraftCategories(CBZ, UcMain);
@@ -253,7 +254,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Faggrupper'. Alt, der ikke er gemt vil blive mistet!", "Faggrupper", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Faggrupper'. Alle ugemte data mistes!", "Faggrupper", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcCraftGroups = new UcCraftGroups(CBZ, UcMain);
@@ -271,7 +272,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Entrepriseformer'. Alt, der ikke er gemt vil blive mistet!", "Entrepriseformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Entrepriseformer'. Alle ugemte data mistes!", "Entrepriseformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEnterpriseForms = new UcEnterpriseForms(CBZ, UcMain);
@@ -289,7 +290,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Opret Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Opret Entrepriser'. Alle ugemte data mistes!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEnterpriseCreate = new UcEnterpriseCreate(CBZ, UcMain);
@@ -307,7 +308,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Entrepriser'. Alle ugemte data mistes!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEnterprisesEdit = new UcEnterprisesEdit(CBZ, UcMain);
@@ -325,7 +326,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Vis Entrepriser'. Alt, der ikke er gemt vil blive mistet!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vis Entrepriser'. Alle ugemte data mistes!", "Entrepriser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEnterprisesView = new UcEnterprisesView(CBZ, UcMain);
@@ -343,7 +344,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Opret Entrepenør'. Alt, der ikke er gemt vil blive mistet!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Opret Entrepenør'. Alle ugemte data mistes!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEntrepeneurCreate = new UcEntrepeneurCreate(CBZ, UcMain);
@@ -361,7 +362,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Entrepenører'. Alt, der ikke er gemt vil blive mistet!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Entrepenører'. Alle ugemte data mistes!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEntrepeneurEdit = new UcEntrepeneurEdit(CBZ, UcMain);
@@ -379,7 +380,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Status for Entrepenører'. Alt, der ikke er gemt vil blive mistet!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Status for Entrepenører'. Alle ugemte data mistes!", "Entrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcEntrepeneursStatusChange = new UcEntrepeneursStatusChange(CBZ, UcMain);
@@ -407,7 +408,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcIttLettersChooseReceivers = new UcIttLettersChooseReceivers(CBZ, UcMain);
@@ -425,7 +426,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Klargør Fælles Brevdel'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Klargør Fælles Brevdel'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcIttLettersPrepareCommonLetter = new UcIttLettersPrepareCommonLetter(CBZ, UcMain);
@@ -443,7 +444,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Klargør Personlig Brevdel'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Klargør Personlig Brevdel'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcIttLettersPreparePersonalLetters = new UcIttLettersPreparePersonalLetters(CBZ, UcMain);
@@ -461,7 +462,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Afsend'. Alt, der ikke er gemt vil blive mistet!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Afsend'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcIttLettersSendLetters = new UcIttLettersSendLetters(CBZ, UcMain);
@@ -485,7 +486,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Jobbeskrivelser'. Alt, der ikke er gemt vil blive mistet!", "Jobbeskrivelser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Jobbeskrivelser'. Alle ugemte data mistes!", "Jobbeskrivelser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcJobDescritions = new UcJobDescritions(CBZ, UcMain);
@@ -526,7 +527,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Kopier Projekt'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Kopier Projekt'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectCopy = new UcProjectCopy(CBZ, UcMain);
@@ -545,7 +546,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Opret Projekt'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Opret Projekt'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectCreate = new UcProjectCreate(CBZ, UcMain);
@@ -563,10 +564,29 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Projekter'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Projekt'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectsEdit = new UcProjectsEdit(CBZ, UcMain);
+                    UcMain.Content = UcProjectsEdit;
+                }
+            }
+            else
+            {
+                UcProjectsEdit = new UcProjectsEdit(CBZ, UcMain);
+                UcMain.Content = UcProjectsEdit;
+            }
+
+        }
+
+        private void ButtonProjectElaborate_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                if (MessageBox.Show("Vil du åbne 'Uddybning af Projekt'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcMainEdited = false;
+                    UcProjectsElaboration = new UcProjectsElaboration(CBZ, UcMain);
                     UcMain.Content = UcProjectsEdit;
                 }
             }
@@ -582,7 +602,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Skift Sagsnummer'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Skift Sagsnummer'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectCaseIdChange = new UcProjectCaseIdChange(CBZ, UcMain);
@@ -601,7 +621,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Skift Status'. Alt, der ikke er gemt vil blive mistet!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Skift Status'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectStatusChange = new UcProjectStatusChange(CBZ, UcMain);
@@ -620,7 +640,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Projektstatuser'. Alt, der ikke er gemt vil blive mistet!", "Projektstatuser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Projektstatuser'. Alle ugemte data mistes!", "Projektstatuser", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectStatuses = new UcProjectStatuses(CBZ, UcMain);
@@ -643,7 +663,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alle ugemte data mistes!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcRequests = new UcRequests(CBZ, UcMain);
@@ -661,7 +681,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Vis Forespørgsler'. Alt, der ikke er gemt vil blive mistet!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vis Forespørgsler'. Alle ugemte data mistes!", "Forespørgsler", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcRequestsSentShow = new UcRequestsSentShow(CBZ, UcMain);
@@ -679,7 +699,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Regioner'. Alt, der ikke er gemt vil blive mistet!", "Regioner", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Regioner'. Alle ugemte data mistes!", "Regioner", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcRegions = new UcRegions(CBZ, UcMain);
@@ -697,7 +717,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Vælg Underentrepenører'. Alt, der ikke er gemt vil blive mistet!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vælg Underentrepenører'. Alle ugemte data mistes!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcSubEntrepeneursChoose = new UcSubEntrepeneursChoose(CBZ, UcMain);
@@ -715,7 +735,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Underentrepenører'. Alt, der ikke er gemt vil blive mistet!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Underentrepenører'. Alle ugemte data mistes!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcSubEntrepeneursEdit = new UcSubEntrepeneursEdit(CBZ, UcMain);
@@ -734,7 +754,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Vis Underentrepenører'. Alt, der ikke er gemt vil blive mistet!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Vis Underentrepenører'. Alle ugemte data mistes!", "Underentrepenører", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcSubEntrepeneursView = new UcSubEntrepeneursView(CBZ, UcMain);
@@ -752,7 +772,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Udbudsformer'. Alt, der ikke er gemt vil blive mistet!", "Udbudsformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Udbudsformer'. Alle ugemte data mistes!", "Udbudsformer", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcTenderForms = new UcTenderForms(CBZ, UcMain);
@@ -770,7 +790,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Opret Bruger'. Alt, der ikke er gemt vil blive mistet!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Opret Bruger'. Alle ugemte data mistes!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcUserCreate = new UcUserCreate(CBZ, UcMain);
@@ -788,7 +808,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Brugere'. Alt, der ikke er gemt vil blive mistet!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Brugere'. Alle ugemte data mistes!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcUsersEdit = new UcUsersEdit(CBZ, UcMain);
@@ -806,7 +826,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Rediger Status for Brugere'. Alt, der ikke er gemt vil blive mistet!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Rediger Status for Brugere'. Alle ugemte data mistes!", "Brugere", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcUsersStatusChange = new UcUsersStatusChange(CBZ, UcMain);
@@ -824,7 +844,7 @@ namespace JudGui
         {
             if (CBZ.UcMainEdited)
             {
-                if (MessageBox.Show("Vil du åbne 'Postnummerliste'. Alt, der ikke er gemt vil blive mistet!", "Postnummerliste", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                if (MessageBox.Show("Vil du åbne 'Postnummerliste'. Alle ugemte data mistes!", "Postnummerliste", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
                     UcZipList = new UcZipList(CBZ, UcMain);

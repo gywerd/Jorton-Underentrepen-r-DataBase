@@ -23,10 +23,22 @@
             <RowDefinition Height="50*"/>
             <RowDefinition Height="75*"/>
             <RowDefinition Height="60*"/>
-            <RowDefinition Height="495*"/>
-            <RowDefinition Height="110*"/>
+            <RowDefinition Height="480*"/>
+            <RowDefinition Height="125*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
+        <Border BorderThickness="3" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="2" 
+                Grid.ColumnSpan="8" Grid.RowSpan="2"/>
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="2" 
+                Grid.ColumnSpan="8" Grid.RowSpan="1"/>
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="3" 
+                Grid.ColumnSpan="8" Grid.RowSpan="1"/>
         <Label x:Name="LabelChooseReceivers" Content="Vælg Modtagere" 
                FontSize="48" FontWeight="Bold"
                Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4" 
@@ -42,29 +54,13 @@
                Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="4" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Button x:Name="ButtonChoseAll" Content="Vælg Alle"
-                Click="ButtonChoseAll_Click"
-                FontSize="20" FontWeight="Bold"
-                Grid.Column="1" Grid.Row="3"
-                Height="40" Width="165"
-                HorizontalAlignment="Center"
-                Margin="0,0,0,60"
-                VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonClearAll" Content="Fravælg Alle"
-                Click="ButtonClearAll_Click"
-                FontSize="20" FontWeight="Bold"
-                Grid.Column="1" Grid.Row="3"
-                Height="40" Width="165"
-                HorizontalAlignment="Center"
-                Margin="0,0,0,10"
-                VerticalAlignment="Bottom" />
         <ComboBox x:Name="ComboBoxCaseId" 
                   FontSize="24" 
                   Grid.Column="3" Grid.Row="2"
                   Height="50" Width="165"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
-                  VerticalAlignment="Top" />
+                  VerticalAlignment="Center" />
         <TextBox x:Name="TextBoxName" 
                  Background="GhostWhite"
                  FontSize="24" 
@@ -74,28 +70,61 @@
                  IsEnabled="False" 
                  Text="" 
                  TextWrapping="Wrap" 
-                 VerticalAlignment="Top" />
+                 VerticalAlignment="Center" />
         <ListBox x:Name="ListBoxEntrepeneurs" 
                  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-                 Height="470" Width="1065" 
+                 Height="465" Width="1065" 
                  HorizontalAlignment="Left" 
                  SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
                  SelectionMode="Multiple" 
-                 VerticalAlignment="Top" />
-        <Button x:Name="ButtonClose" Content="Luk"
+                 VerticalAlignment="Center" />
+        <Button x:Name="ButtonChoseAll" 
+                Background="#216C9E"
+                Content="Vælg Alle"
+                Click="ButtonChoseAll_Click"
+                FontSize="20" 
+                FontWeight="Bold"
+                Foreground="#FF01A858"
+                Grid.Column="1" Grid.Row="3"
+                Height="40" Width="165"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,60"
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonClearAll" 
+                Background="#216C9E"
+                Content="Fravælg Alle"
+                Click="ButtonClearAll_Click"
+                FontSize="20" 
+                FontWeight="Bold"
+                Foreground="#FF01A858"
+                Grid.Column="1" Grid.Row="3"
+                Height="40" Width="165"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,10"
+                VerticalAlignment="Bottom" />
+        <Button x:Name="ButtonClose" 
+                Background="#216C9E"
+                Content="X"
                 Click="ButtonClose_Click" 
-                FontSize="48" FontWeight="Bold" 
-                Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" 
-                Height="100"  Width="345" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Foreground="#FF01A858"
+                Grid.Column="9" Grid.Row="0" 
+                Height="35"  Width="35" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonChoose" Content="Vælg"
+        <Button x:Name="ButtonSend" 
+                Background="#216C9E"
                 Click="ButtonChoose_Click" 
-                FontSize="48" FontWeight="Bold" 
-                Grid.Column="6" Grid.Row="4" Grid.ColumnSpan="2" 
+                Content="SEND"
+                FontSize="48"
+                FontWeight="Bold"
+                Foreground="#FF01A858"
+                Grid.Column="7" Grid.Row="4" 
+                Grid.ColumnSpan="2" 
                 Height="100"  Width="345" 
                 HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Center" />
     </Grid>
 
 </UserControl>

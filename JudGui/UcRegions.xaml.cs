@@ -62,7 +62,7 @@ namespace JudGui
                 //Reset Boxes
                 ListBoxRegions.SelectedIndex = -1;
                 ListBoxRegions.ItemsSource = "";
-                CBZ.RefreshIndexedList("IndexedRegtions");
+                CBZ.RefreshIndexedList("Regtions");
                 ListBoxRegions.ItemsSource = CBZ.IndexedJobDescriptions;
                 TextBoxRegionSearch.Text = "";
                 TextBoxText.Text = "";
@@ -88,19 +88,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Regioner? Ikke gemte data mistes.", "Regioner", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Regioner? Alle ugemte data mistes.", "Regioner", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
 
         }
@@ -235,7 +230,7 @@ namespace JudGui
 
         public void GetFilteredRegions()
         {
-            CBZ.RefreshIndexedList("IndexedRegions");
+            CBZ.RefreshIndexedList("Regions");
             this.FilteredRegions = new List<IndexedRegion>();
             int length = TextBoxRegionSearch.Text.Length;
 

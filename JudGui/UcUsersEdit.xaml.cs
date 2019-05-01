@@ -36,8 +36,8 @@ namespace JudGui
             this.CBZ = cbz;
             this.UcMain = ucMain;
 
-            CBZ.RefreshIndexedList("IndexedJobDescriptions");
-            CBZ.RefreshIndexedList("IndexedUserLevels");
+            CBZ.RefreshIndexedList("JobDescriptions");
+            CBZ.RefreshIndexedList("UserLevels");
 
             GetFilteredUsers();
             ListBoxUsers.ItemsSource = FilteredUsers;
@@ -55,26 +55,21 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            if (CBZ.TempUser != new User())
+            if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke redigering af Brugere? Ikke gemte data mistes.", "Brugere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke redigering af Brugere? Alle ugemte data mistes.", "Brugere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
-        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
             bool result = UpdateUserInDb();
 
@@ -246,7 +241,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredUsers()
         {
-            CBZ.RefreshIndexedList("IndexedUsers");
+            CBZ.RefreshIndexedList("Users");
             this.FilteredUsers = new List<IndexedUser>();
 
             foreach (IndexedUser user in CBZ.IndexedUsers)

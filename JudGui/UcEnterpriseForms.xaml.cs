@@ -82,18 +82,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke Entrepriseformer? Ikke gemte data mistes.", "Entrepriseformen", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke Entrepriseformer? Alle ugemte data mistes.", "Entrepriseformen", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
 
             }
 
@@ -212,7 +208,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredEnterpriseForms()
         {
-            CBZ.RefreshIndexedList("IndexedEnterpriseForms");
+            CBZ.RefreshIndexedList("EnterpriseForms");
             this.FilteredEnterpriseForms = new List<IndexedEnterpriseForm>();
             int length = TextBoxEnterpriseFormSearch.Text.Length;
 

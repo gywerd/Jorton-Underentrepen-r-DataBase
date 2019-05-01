@@ -54,19 +54,14 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke 'Ændr Brugeradgang'? Ikke gemte data mistes.", "Brugere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke 'Ændr Brugeradgang'? Alle ugemte data mistes.", "Brugere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
 
         }
@@ -149,7 +144,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredUsers()
         {
-            CBZ.RefreshIndexedList("IndexedUsers");
+            CBZ.RefreshIndexedList("Users");
             this.FilteredUsers = new List<IndexedUser>();
             int length = TextBoxUserSearch.Text.Length;
 

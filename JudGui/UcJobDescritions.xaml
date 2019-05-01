@@ -32,9 +32,21 @@
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
-            <RowDefinition Height="100*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="110*" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
+        <Border BorderThickness="3" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="2" 
+                Grid.ColumnSpan="8" Grid.RowSpan="9" />
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="2" 
+                Grid.ColumnSpan="8"  Grid.RowSpan="5" />
+        <Border BorderThickness="1" 
+                BorderBrush="Black" 
+                Grid.Column="1" Grid.Row="7" 
+                Grid.ColumnSpan="8"  Grid.RowSpan="4" />
         <Label x:Name="LabelJobDescriptionsHeader"
                Content="Jobbeskrivelser"
                FontSize="48"
@@ -126,7 +138,7 @@
                                TextWrapping="Wrap"
                                Text=""
                                TextChanged="TextBoxJobDescriptionSearch_TextChanged"
-                               VerticalAlignment="Top"
+                               VerticalAlignment="Center"
                                Watermark="Jen" />
         <ListBox x:Name="ListBoxJobDescriptions"
                  Grid.Column="3"
@@ -223,34 +235,39 @@
             </CheckBox.RenderTransform>
         </CheckBox>
         <Button x:Name="ButtonAddJobDescription"
-                Content="Tilføj"
+                Background="#216C9E"
                 Click="ButtonAddJobDescription_Click"
+                Content="TILFØJ"
                 FontSize="24"
                 FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="8" Grid.Row="10"
                 Height="50" Width="165"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top" />
-        <Button x:Name="ButtonClose"
-                Content="Luk"
-                Click="ButtonClose_Click"
-                FontSize="48"
-                FontWeight="Bold"
-                Grid.Column="1" Grid.Row="11"
-                Grid.ColumnSpan="2"
-                Height="100" Width="345"
-                HorizontalAlignment="Center"
+        <Button x:Name="ButtonClose" 
+                Background="#216C9E"
+                Content="X"
+                Click="ButtonClose_Click" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Foreground="#FF01A858"
+                Grid.Column="9" Grid.Row="0" 
+                Height="35"  Width="35" 
+                HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
         <Button x:Name="ButtonSave"
-                Content="Gem"
+                Background="#216C9E"
                 Click="ButtonSave_Click"
+                Content="GEM"
                 FontSize="48"
                 FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="7" Grid.Row="11"
                 Grid.ColumnSpan="2"
                 Height="100" Width="345"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Center" />
     </Grid>
 
 </UserControl>

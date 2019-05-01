@@ -51,19 +51,14 @@ namespace JudGui
             if (CBZ.TempBuilder != new Builder())
             {
                 //Warning about lost changes before closing
-                if (MessageBox.Show("Vil du lukke redigering af Bygherrer? Ikke gemte data mistes.", "Bygherrer", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke redigering af Bygherrer? Alle ugemte data mistes.", "Bygherrer", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
             {
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
-
+                CBZ.CloseUcMain(UcMain);
             }
         }
 

@@ -58,9 +58,7 @@ namespace JudGui
                     CBZ.RefreshList("Contacts");
                     CBZ.TempContact = new Contact();
 
-                    //Close right UserControl
-                    CBZ.UcMainEdited = false;
-                    UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
                 }
             }
             else
@@ -69,9 +67,7 @@ namespace JudGui
                 CBZ.RefreshList("Contacts");
                 CBZ.TempContact = new Contact();
 
-                //Close main UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
         }
 
@@ -90,9 +86,7 @@ namespace JudGui
                 CBZ.RefreshList("Contacts");
                 CBZ.TempContact = new Contact();
 
-                //Close right UserControl
-                CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                CBZ.CloseUcMain(UcMain);
             }
             else
             {
@@ -102,7 +96,7 @@ namespace JudGui
 
         }
 
-        private void ButtonCreateNew_Click(object sender, RoutedEventArgs e)
+        private void ButtonCreate_Click(object sender, RoutedEventArgs e)
         {
             bool result = CreateContactInDb();
 
@@ -320,7 +314,7 @@ namespace JudGui
         /// </summary>
         private void GetFilteredEntrepeneurs()
         {
-            CBZ.RefreshIndexedList("IndexedEntrepeneurs");
+            CBZ.RefreshIndexedList("Entrepeneurs");
             this.FilteredEntrepeneurs = new List<IndexedEntrepeneur>();
             int length = TextBoxEntrepeneurSearch.Text.Length;
 

@@ -33,8 +33,8 @@
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
-            <RowDefinition Height="100*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="110*" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Label x:Name="LabelCreateEntrepeneur"
                Content="Opret Entrepenør"
@@ -121,17 +121,6 @@
                                TextChanged="TextBoxCvr_TextChanged"
                                VerticalAlignment="Top"
                                Watermark="31346711" />
-        <Button x:Name="ButtonSearchCvr"
-                Content="Søg i CVR"
-                Click="ButtonSearchCvr_Click"
-                FontSize="24"
-                FontWeight="Bold"
-                Grid.Column="5"
-                Grid.Row="2"
-                Height="50"
-                Width="165"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxName"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="3"
@@ -336,36 +325,42 @@
                 </RadioButton.RenderTransform>
             </RadioButton>
         </StackPanel>
-        <Button x:Name="ButtonClose"
-                Content="Luk"
-                Click="ButtonClose_Click"
-                FontSize="48"
+        <Button x:Name="ButtonSearchCvr"
+                Background="#216C9E"
+                Click="ButtonSearchCvr_Click"
+                Content="Søg i CVR"
+                FontSize="24"
                 FontWeight="Bold"
-                Grid.Column="1" Grid.Row="12"
-                Grid.ColumnSpan="2"
-                Height="90" Width="345"
-                HorizontalAlignment="Center"
+                Foreground="#FF01A858"
+                Grid.Column="5"
+                Grid.Row="2"
+                Height="50"
+                Width="165"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center" />
+        <Button x:Name="ButtonClose" 
+                Background="#216C9E"
+                Content="X"
+                Click="ButtonClose_Click" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Foreground="#FF01A858"
+                Grid.Column="9" Grid.Row="0" 
+                Height="35"  Width="35" 
+                HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonCreateClose"
-                Content="Opret og luk"
-                Click="ButtonCreateClose_Click"
+        <Button x:Name="ButtonCreate"
+                Background="#216C9E"
+                Click="ButtonCreate_Click"
+                Content="OPRET"
                 FontSize="48"
                 FontWeight="Bold"
-                Grid.Column="4" Grid.Row="12"
-                Grid.ColumnSpan="2"
-                Height="90" Width="345"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonCreateNew"
-                Content="Opret og ny"
-                Click="ButtonCreateNew_Click"
-                FontSize="48"
-                FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="7" Grid.Row="12"
                 Grid.ColumnSpan="2"
-                Height="90" Width="345"
+                Height="100" Width="345"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Center" />
     </Grid>
     
 </UserControl>

@@ -24,7 +24,7 @@
             <RowDefinition Height="50*" />
             <RowDefinition Height="75*" />
             <RowDefinition Height="60*" />
-            <RowDefinition Height="105*" />
+            <RowDefinition Height="95*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="60*" />
@@ -104,10 +104,10 @@
         <ListBox x:Name="ListBoxUsers"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="90" Width="1065"
+                 Height="80" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxUsers_SelectionChanged"
-                 VerticalAlignment="Top" />
+                 VerticalAlignment="Center" />
         <xctk:WatermarkTextBox x:Name="TextBoxName"
                                FontSize="24"
                                Grid.Column="3" Grid.Row="4"
@@ -191,26 +191,29 @@
                   HorizontalAlignment="Left"
                   SelectionChanged="ComboBoxUserLevel_SelectionChanged"
                   VerticalAlignment="Top" />
-        <Button x:Name="ButtonClose"
-                Content="Luk"
-                Click="ButtonClose_Click"
-                FontSize="48"
-                FontWeight="Bold"
-                Grid.Column="1" Grid.Row="9"
-                Grid.ColumnSpan="2"
-                Height="100" Width="345"
-                HorizontalAlignment="Center"
+        <Button x:Name="ButtonClose" 
+                Background="#216C9E"
+                Content="X"
+                Click="ButtonClose_Click" 
+                FontSize="20" 
+                FontWeight="Bold" 
+                Foreground="#FF01A858"
+                Grid.Column="9" Grid.Row="0" 
+                Height="35"  Width="35" 
+                HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonUpdate"
-                Content="Gem"
-                Click="ButtonUpdate_Click"
+        <Button x:Name="ButtonSave"
+                Background="#216C9E"
+                Click="ButtonSave_Click"
+                Content="GEM"
                 FontSize="48"
                 FontWeight="Bold"
+                Foreground="#FF01A858"
                 Grid.Column="7" Grid.Row="9"
                 Grid.ColumnSpan="2"
                 Height="100" Width="345"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Center" />
     </Grid>
 
 </UserControl>

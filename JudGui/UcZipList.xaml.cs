@@ -45,7 +45,7 @@ namespace JudGui
             TextBoxTown.Text = "";
             ButtonCreate.Visibility = Visibility.Hidden;
             ButtonDelete.Visibility = Visibility.Hidden;
-            ButtonEdit.Visibility = Visibility.Hidden;
+            ButtonUpdate.Visibility = Visibility.Hidden;
             CheckBoxAddNewZipCode.IsEnabled = true;
             CheckBoxDeleteZipCode.IsEnabled = true;
             CheckBoxEditZipCode.IsEnabled = true;
@@ -59,13 +59,26 @@ namespace JudGui
         #region Buttons
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
-            //Update lists and fields
-            CBZ.TempZipTown = new ZipTown();
-            CBZ.RefreshList("ZipTowns");
+            if (CBZ.UcMainEdited)
+            {
+                //Warning about lost changes before closing
+                if (MessageBox.Show("Vil du lukke Vælg Modtagere?", "Luk Vælg Modtagere", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    //Update lists and fields
+                    CBZ.TempZipTown = new ZipTown();
+                    CBZ.RefreshList("ZipTowns");
 
-            //Close right UserControl
-            CBZ.UcMainEdited = false;
-            UcMain.Content = new UserControl();
+                    CBZ.CloseUcMain(UcMain);
+                }
+            }
+            else
+            {
+                //Update lists and fields
+                CBZ.TempZipTown = new ZipTown();
+                CBZ.RefreshList("ZipTowns");
+
+                CBZ.CloseUcMain(UcMain);
+            }
 
         }
 
@@ -101,7 +114,7 @@ namespace JudGui
 
         }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -124,7 +137,7 @@ namespace JudGui
                 TextBoxTown.Text = "";
                 ButtonCreate.Visibility = Visibility.Visible;
                 ButtonDelete.Visibility = Visibility.Hidden;
-                ButtonEdit.Visibility = Visibility.Hidden;
+                ButtonUpdate.Visibility = Visibility.Hidden;
                 CheckBoxAddNewZipCode.IsEnabled = true;
                 CheckBoxDeleteZipCode.IsEnabled = false;
                 CheckBoxEditZipCode.IsEnabled = false;
@@ -139,7 +152,7 @@ namespace JudGui
                 TextBoxTown.Text = "";
                 ButtonCreate.Visibility = Visibility.Hidden;
                 ButtonDelete.Visibility = Visibility.Hidden;
-                ButtonEdit.Visibility = Visibility.Hidden;
+                ButtonUpdate.Visibility = Visibility.Hidden;
                 CheckBoxAddNewZipCode.IsEnabled = true;
                 CheckBoxDeleteZipCode.IsEnabled = true;
                 CheckBoxEditZipCode.IsEnabled = true;
@@ -163,7 +176,7 @@ namespace JudGui
                 {
                     ButtonCreate.Visibility = Visibility.Hidden;
                     ButtonDelete.Visibility = Visibility.Visible;
-                    ButtonEdit.Visibility = Visibility.Hidden;
+                    ButtonUpdate.Visibility = Visibility.Hidden;
                     CheckBoxAddNewZipCode.IsEnabled = false;
                     CheckBoxDeleteZipCode.IsEnabled = true;
                     CheckBoxEditZipCode.IsEnabled = false;
@@ -183,7 +196,7 @@ namespace JudGui
                 TextBoxTown.Text = "";
                 ButtonCreate.Visibility = Visibility.Hidden;
                 ButtonDelete.Visibility = Visibility.Hidden;
-                ButtonEdit.Visibility = Visibility.Hidden;
+                ButtonUpdate.Visibility = Visibility.Hidden;
                 CheckBoxAddNewZipCode.IsEnabled = true;
                 CheckBoxDeleteZipCode.IsEnabled = true;
                 CheckBoxEditZipCode.IsEnabled = true;
@@ -205,7 +218,7 @@ namespace JudGui
                 if (ListBoxZipTowns.SelectedIndex >= 0)
                 {
                     ButtonCreate.Visibility = Visibility.Hidden;
-                    ButtonEdit.Visibility = Visibility.Visible;
+                    ButtonUpdate.Visibility = Visibility.Visible;
                     ButtonDelete.Visibility = Visibility.Hidden;
                     CheckBoxAddNewZipCode.IsEnabled = false;
                     CheckBoxDeleteZipCode.IsEnabled = false;
@@ -226,7 +239,7 @@ namespace JudGui
                 TextBoxTown.Text = "";
                 ButtonCreate.Visibility = Visibility.Hidden;
                 ButtonDelete.Visibility = Visibility.Hidden;
-                ButtonEdit.Visibility = Visibility.Hidden;
+                ButtonUpdate.Visibility = Visibility.Hidden;
                 CheckBoxAddNewZipCode.IsEnabled = true;
                 CheckBoxDeleteZipCode.IsEnabled = true;
                 CheckBoxEditZipCode.IsEnabled = true;
@@ -328,7 +341,7 @@ namespace JudGui
 
         private void GetFilteredZipTowns()
         {
-            CBZ.RefreshIndexedList("IndexedZipTowns");
+            CBZ.RefreshIndexedList("ZipTowns");
             this.FilteredZipTowns = new List<IndexedZipTown>();
             int length = TextBoxZipSearch.Text.Length;
 

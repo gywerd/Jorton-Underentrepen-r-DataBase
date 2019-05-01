@@ -12,10 +12,9 @@
         Background="#006134" 
         WindowState="Maximized" 
         ResizeMode="CanMinimize" >
-    <Grid>
         <Grid HorizontalAlignment="Left"
               Height="1020" Width="1920"
-              VerticalAlignment="Top">
+              VerticalAlignment="Top" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*" />
                 <ColumnDefinition Width="1820*" />
@@ -33,6 +32,7 @@
                 <!-- Help Pane, located at the right-hand side -->
                 <Ribbon.HelpPaneContent>
                     <RibbonSplitButton x:Name="ButtonThreeDotsMenu"
+                                       Click="ButtonAbout_Click"
                                        SmallImageSource="images/three-dots.png">
                         <RibbonButton x:Name="ButtonHelp"
                                       Click="ButtonHelp_Click"
@@ -50,7 +50,9 @@
                 </Ribbon.HelpPaneContent>
                 <!-- Application Menu, located at the left-hand side (down arrow) -->
                 <Ribbon.ApplicationMenu>
-                    <RibbonApplicationMenu x:Name="ApplicationMenu">
+                    <RibbonApplicationMenu x:Name="ApplicationMenu" 
+                                           SmallImageSource="Images/ApplicationMenuIcon.png"
+                                           KeyTip="F" >
                         <RibbonApplicationMenuItem x:Name="ButtonLogOut"
                                                    Click="ButtonLogOut_Click"
                                                    Header="Logout"
@@ -73,6 +75,7 @@
                     <RibbonGroup x:Name="Offer"
                                  Header="Tilbud">
                         <RibbonSplitButton x:Name="ButtonProject"
+                                           Click="ButtonProjectCreate_Click"
                                            LargeImageSource="images/project.png"
                                            Label="Projekt">
                             <RibbonButton x:Name="ButtonProjectCreate"
@@ -82,6 +85,10 @@
                             <RibbonButton x:Name="ButtonProjectEdit"
                                           Click="ButtonProjectEdit_Click"
                                           Label="Rediger Projekt"
+                                          SmallImageSource="images/project-edit-small.png" />
+                            <RibbonButton x:Name="ButtonProjectElaborate"
+                                          Click="ButtonProjectElaborate_Click"
+                                          Label="Uddybning af Projekt"
                                           SmallImageSource="images/project-edit-small.png" />
                             <RibbonButton x:Name="ButtonProjectChangeCaseId"
                                           Click="ButtonProjectChangeCaseId_Click"
@@ -97,6 +104,7 @@
                                           SmallImageSource="images/project-copy-small.png" />
                         </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonEnterprises"
+                                           Click="ButtonEnterprisesCreate_Click"
                                            LargeImageSource="images/enterprise.png"
                                            Label="Entrepriser">
                             <RibbonButton x:Name="ButtonEnterprisesCreate"
@@ -113,6 +121,7 @@
                                           SmallImageSource="images/enterprise-show-small.png" />
                         </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonSubEntrepeneurs"
+                                           Click="ButtonSubEntrepeneursChoose_Click"
                                            LargeImageSource="images/subentrepeneur.png"
                                            Label="Underentrepenører">
                             <RibbonButton x:Name="ButtonSubEntrepeneursChoose"
@@ -129,6 +138,7 @@
                                           SmallImageSource="images/subentrepeneur-show-small.png" />
                         </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonRequests"
+                                           Click="ButtonRequestsSend_Click"
                                            LargeImageSource="images/request.png"
                                            Label="Forespørgsler">
                             <RibbonButton x:Name="ButtonRequestsSend"
@@ -141,6 +151,7 @@
                                           SmallImageSource="images/request-show-small.png" />
                         </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonIttLetters"
+                                           Click="ButtonIttLetterChooseReceivers_Click"
                                            LargeImageSource="images/ittletter.png"
                                            Label="Tilbudsbreve">
                             <RibbonButton x:Name="ButtonIttLetterSelectReceivers"
@@ -228,6 +239,7 @@
                     <RibbonGroup x:Name="Information"
                                  Header="Information">
                         <RibbonSplitButton x:Name="ButtonContacts"
+                                           Click="ButtonContactCreate_Click"
                                            LargeImageSource="images/vcard.png"
                                            Label="Kontakter">
                             <RibbonButton x:Name="ButtonContactCreate"
@@ -244,6 +256,7 @@
                                           LargeImageSource="images/vcard.png" />
                         </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonBuilders"
+                                           Click="ButtonBuilderCreate_Click"
                                            LargeImageSource="images/builder.png"
                                            Label="Bygherrer">
                             <RibbonButton x:Name="ButtonBuilderCreate"
@@ -260,6 +273,7 @@
                                           LargeImageSource="images/builder-status-change-small.png" />
                         </RibbonSplitButton>
                         <RibbonSplitButton x:Name="ButtonEntrepeneurs"
+                                           Click="ButtonEntrepeneurCreate_Click"
                                            LargeImageSource="images/entrepeneur.png"
                                            Label="Entrepenører">
                             <RibbonButton x:Name="ButtonEntrepeneurCreate"
@@ -285,6 +299,7 @@
                                  Header="Brugere"
                                  IsEnabled="False">
                         <RibbonSplitButton x:Name="ButtonUsers"
+                                           Click="ButtonUserCreate_Click"
                                            LargeImageSource="images/user.png"
                                            Label="Brugere">
                             <RibbonButton x:Name="ButtonUserCreate"
@@ -358,5 +373,4 @@
                            Height="40" Width="250" />
             </StatusBar>
         </Grid>
-    </Grid>
 </Window>
