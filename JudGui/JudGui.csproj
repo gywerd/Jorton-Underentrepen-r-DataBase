@@ -171,17 +171,11 @@
     <Compile Include="UcEnterpriseForms.xaml.cs">
       <DependentUpon>UcEnterpriseForms.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcIttLettersChooseReceivers.xaml.cs">
-      <DependentUpon>UcIttLettersChooseReceivers.xaml</DependentUpon>
+    <Compile Include="UcIttLetters.xaml.cs">
+      <DependentUpon>UcIttLetters.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UcIttLettersPrepareCommonLetter.xaml.cs">
-      <DependentUpon>UcIttLettersPrepareCommonLetter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcIttLettersPreparePersonalLetters.xaml.cs">
-      <DependentUpon>UcIttLettersPreparePersonalLetters.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UcIttLettersSendLetters.xaml.cs">
-      <DependentUpon>UcIttLettersSendLetters.xaml</DependentUpon>
+    <Compile Include="UcIttLettersShow.xaml.cs">
+      <DependentUpon>UcIttLettersShow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UcJobDescritions.xaml.cs">
       <DependentUpon>UcJobDescritions.xaml</DependentUpon>
@@ -381,19 +375,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcIttLettersChooseReceivers.xaml">
+    <Page Include="UcIttLetters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UcIttLettersPrepareCommonLetter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UcIttLettersPreparePersonalLetters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UcIttLettersSendLetters.xaml">
+    <Page Include="UcIttLettersShow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -617,6 +603,43 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\button-small-broad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\project-copy.png" />
+    <Resource Include="Images\project-create.png" />
+    <Resource Include="Images\project-edit.png" />
+    <Resource Include="Images\project-status.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\project-delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enterprise-create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enterprise-edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\enterprise-show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\entrepeneur-add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\subentrepeneur-create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\subentrepeneur-edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\subentrepeneur-show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ittLetter-show.png" />
+    <Resource Include="Images\request-show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\project-caseId.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

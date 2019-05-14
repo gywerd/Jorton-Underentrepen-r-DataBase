@@ -18,9 +18,9 @@ using System.Windows.Shapes;
 namespace JudGui
 {
     /// <summary>
-    /// Interaction logic for UcIttLettersSendLetters.xaml
+    /// Interaction logic for UcIttLettersShow.xaml
     /// </summary>
-    public partial class UcIttLettersSendLetters : UserControl
+    public partial class UcIttLettersShow : UserControl
     {
         #region Fields
         public Bizz CBZ;
@@ -29,7 +29,7 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcIttLettersSendLetters(Bizz cbz, UserControl ucMain)
+        public UcIttLettersShow(Bizz cbz, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;

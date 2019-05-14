@@ -100,7 +100,8 @@
                Grid.ColumnSpan="2" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top" />
-        <xctk:WatermarkTextBox x:Name="TextBoxNewParagraf"
+        <xctk:WatermarkTextBox x:Name="TextBoxNewParagraf" 
+                               AcceptsReturn="True" 
                                FontSize="24"
                                Grid.Column="3" Grid.Row="5" 
                                Grid.ColumnSpan="5"
@@ -110,7 +111,7 @@
                                TextChanged="TextBoxNewParagraf_TextChanged"
                                TextWrapping="Wrap"
                                VerticalAlignment="Top" 
-                               Watermark="Projekttegninger"/>
+                               Watermark="Projekttegninger" />
         <Label x:Name="LabelBullets"
                Content="Punkter:"
                FontSize="24"
@@ -132,6 +133,7 @@
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxNewBullet"
+                               AcceptsReturn="True" 
                                FontSize="24"
                                Grid.Column="3" Grid.Row="7"
                                Grid.ColumnSpan="5"

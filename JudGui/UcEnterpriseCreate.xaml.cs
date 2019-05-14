@@ -83,7 +83,7 @@ namespace JudGui
                 MessageBox.Show("Entrepriselisten blev oprettet", "Entrepriser", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Reset Boxes
-                TextBoxCaseName.Content = "";
+                TextBoxCaseName.Text = "";
                 TextBoxName.Text = "";
                 TextBoxElaboration.Text = "";
                 TextBoxOfferList.Text = "";
@@ -117,7 +117,7 @@ namespace JudGui
         {
             CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
 
-            TextBoxCaseName.Content = CBZ.TempProject.Details.Name;
+            TextBoxCaseName.Text = CBZ.TempProject.Details.Name;
 
             CBZ.TempEnterprise.Project = CBZ.TempProject;
 
@@ -211,24 +211,6 @@ namespace JudGui
                 TextBoxElaboration.Select(TextBoxElaboration.Text.Length, 0);
             }
             CBZ.TempEnterprise.Elaboration = TextBoxElaboration.Text;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-        }
-
-        private void TextBoxOfferList_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (TextBoxOfferList.Text.Count() > 255)
-            {
-                string textBlock = TextBoxOfferList.Text;
-                textBlock = textBlock.Remove(textBlock.Length - 1);
-                TextBoxOfferList.Text = textBlock;
-                TextBoxOfferList.Select(TextBoxOfferList.Text.Length, 0);
-            }
-            CBZ.TempEnterprise.OfferList = TextBoxOfferList.Text;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)

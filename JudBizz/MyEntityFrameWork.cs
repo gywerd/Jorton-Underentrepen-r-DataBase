@@ -14,7 +14,7 @@ namespace JudBizz
     {
         #region Fields
         private static string strConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=JortonSubEnt;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        public ProjectLists ProjectLists;
+        public ProjectLists ProjectLists = new ProjectLists();
         private Executor executor = new Executor(strConnection);
         private MacAddress macAddress = new MacAddress();
         private string appPath = "";
@@ -33,7 +33,6 @@ namespace JudBizz
         public EnterpriseForm TempEnterpriseForm = new EnterpriseForm();
         public Entrepeneur TempEntrepeneur = new Entrepeneur();
         public IttLetter TempIttLetter = new IttLetter();
-        public IttLetterShipping TempIttLetterShipping = new IttLetterShipping();
         public JobDescription TempJobDescription = new JobDescription();
         public LegalEntity TempLegalEntity = new LegalEntity();
         public LetterData TempLetterData = new LetterData();
@@ -43,10 +42,10 @@ namespace JudBizz
         public Project TempProject = new Project();
         public ProjectDetail TempProjectDetail = new ProjectDetail();
         public ProjectStatus TempProjectStatus = new ProjectStatus();
-        public RequestShipping TempRequestShipping = new RequestShipping();
         public Receiver TempReceiver = new Receiver();
         public Region TempRegion = new Region();
         public Request TempRequest = new Request();
+        public Shipping TempShipping = new Shipping();
         public SubEntrepeneur TempSubEntrepeneur;
         public TenderForm TempTenderForm = new TenderForm();
         public User TempUser = new User();
@@ -54,48 +53,47 @@ namespace JudBizz
 
 
 
-            #region Lists
-            public List<Builder> ActiveBuilders = new List<Builder>();
-            public List<Entrepeneur> ActiveEntrepeneurs = new List<Entrepeneur>();
-            public List<Project> ActiveProjects = new List<Project>();
-            public List<User> ActiveUsers = new List<User>();
-            public List<Address> Addresses = new List<Address>();
-            public List<Builder> Builders = new List<Builder>();
-            public List<Bullet> Bullets = new List<Bullet>();
-            public List<Category> Categories = new List<Category>();
-            public List<Contact> Contacts = new List<Contact>();
-            public List<ContactInfo> ContactInfoList = new List<ContactInfo>();
-            public List<CraftGroup> CraftGroups = new List<CraftGroup>();
-            public List<EnterpriseForm> EnterpriseForms = new List<EnterpriseForm>();
-            public List<Enterprise> Enterprises = new List<Enterprise>();
-            public List<Entrepeneur> Entrepeneurs = new List<Entrepeneur>();
-            public List<Builder> InactiveBuilders = new List<Builder>();
-            public List<Entrepeneur> InactiveEntrepeneurs = new List<Entrepeneur>();
-            public List<Project> InactiveProjects = new List<Project>();
-            public List<User> InactiveUsers = new List<User>();
-            public List<IttLetter> IttLetters = new List<IttLetter>();
-            public List<IttLetterShipping> IttLetterShippings = new List<IttLetterShipping>();
-            public List<JobDescription> JobDescriptions = new List<JobDescription>();
-            public List<LegalEntity> LegalEntities = new List<LegalEntity>();
-            public List<LetterData> LetterDataList = new List<LetterData>();
-            public List<Offer> Offers = new List<Offer>();
-            public List<Paragraf> Paragrafs = new List<Paragraf>();
-            public List<Person> Persons = new List<Person>();
-            public List<ProjectDetail> ProjectDetails = new List<ProjectDetail>();
-            public List<Project> Projects = new List<Project>();
-            public List<ProjectStatus> ProjectStatuses = new List<ProjectStatus>();
-            public List<Receiver> Receivers = new List<Receiver>();
-            public List<Region> Regions = new List<Region>();
-            public List<Request> Requests = new List<Request>();
-            public List<RequestShipping> RequestShippings = new List<RequestShipping>();
-            public List<RequestStatus> RequestStatuses = new List<RequestStatus>();
-            public List<SubEntrepeneur> SubEntrepeneurs = new List<SubEntrepeneur>();
-            public List<TenderForm> TenderForms = new List<TenderForm>();
-            public List<UserLevel> UserLevels = new List<UserLevel>();
-            public List<User> Users = new List<User>();
-            public List<ZipTown> ZipTowns = new List<ZipTown>();
+        #region Lists
+        public List<Builder> ActiveBuilders = new List<Builder>();
+        public List<Entrepeneur> ActiveEntrepeneurs = new List<Entrepeneur>();
+        public List<Project> ActiveProjects = new List<Project>();
+        public List<User> ActiveUsers = new List<User>();
+        public List<Address> Addresses = new List<Address>();
+        public List<Builder> Builders = new List<Builder>();
+        public List<Bullet> Bullets = new List<Bullet>();
+        public List<Category> Categories = new List<Category>();
+        public List<Contact> Contacts = new List<Contact>();
+        public List<ContactInfo> ContactInfoList = new List<ContactInfo>();
+        public List<CraftGroup> CraftGroups = new List<CraftGroup>();
+        public List<EnterpriseForm> EnterpriseForms = new List<EnterpriseForm>();
+        public List<Enterprise> Enterprises = new List<Enterprise>();
+        public List<Entrepeneur> Entrepeneurs = new List<Entrepeneur>();
+        public List<Builder> InactiveBuilders = new List<Builder>();
+        public List<Entrepeneur> InactiveEntrepeneurs = new List<Entrepeneur>();
+        public List<Project> InactiveProjects = new List<Project>();
+        public List<User> InactiveUsers = new List<User>();
+        public List<IttLetter> IttLetters = new List<IttLetter>();
+        public List<JobDescription> JobDescriptions = new List<JobDescription>();
+        public List<LegalEntity> LegalEntities = new List<LegalEntity>();
+        public List<LetterData> LetterDataList = new List<LetterData>();
+        public List<Offer> Offers = new List<Offer>();
+        public List<Paragraf> Paragrafs = new List<Paragraf>();
+        public List<Person> Persons = new List<Person>();
+        public List<ProjectDetail> ProjectDetails = new List<ProjectDetail>();
+        public List<Project> Projects = new List<Project>();
+        public List<ProjectStatus> ProjectStatuses = new List<ProjectStatus>();
+        public List<Receiver> Receivers = new List<Receiver>();
+        public List<Region> Regions = new List<Region>();
+        public List<Request> Requests = new List<Request>();
+        public List<RequestStatus> RequestStatuses = new List<RequestStatus>();
+        public List<Shipping> Shippings = new List<Shipping>();
+        public List<SubEntrepeneur> SubEntrepeneurs = new List<SubEntrepeneur>();
+        public List<TenderForm> TenderForms = new List<TenderForm>();
+        public List<UserLevel> UserLevels = new List<UserLevel>();
+        public List<User> Users = new List<User>();
+        public List<ZipTown> ZipTowns = new List<ZipTown>();
 
-            #endregion
+        #endregion
 
         #endregion
 
@@ -157,35 +155,35 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether an Address exists in Addresses
+        /// Method, that checks wether an Address is Changed
         /// </summary>
         /// <param name="tempAddress">Address</param>
         /// <returns>bool</returns>
-        private bool CheckAddressExist(Address tempAddress)
+        private bool CheckAddressChanged(Address tempAddress)
         {
             bool result = false;
-
-            RefreshAddresses();
 
             foreach (Address address in Addresses)
             {
                 if (address.Id == tempAddress.Id)
                 {
-                    result = true;
-                    break;
+                    if (address != tempAddress)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
             return result;
         }
 
-
         /// <summary>
-        /// Method, that checks wether an Builder exists in Builders
+        /// Method, that checks wether a Builder is Changed
         /// </summary>
         /// <param name="tempBuilder">Builder</param>
         /// <returns>bool</returns>
-        private bool CheckBuilderExist(Builder tempBuilder)
+        private bool CheckBuilderChanged(Builder tempBuilder)
         {
             bool result = false;
 
@@ -193,21 +191,23 @@ namespace JudBizz
             {
                 if (builder.Id == tempBuilder.Id)
                 {
-                    result = true;
-                    break;
+                    if (builder != tempBuilder)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
             return result;
         }
 
-
         /// <summary>
-        /// Method, that checks wether a ContactInfo exists in ContactInfoList
+        /// Method, that checks wether a ContactInfo is Changed
         /// </summary>
         /// <param name="tempContactInfo">ContactInfo</param>
         /// <returns>bool</returns>
-        private bool CheckContactInfoExist(ContactInfo tempContactInfo)
+        private bool CheckContactInfoChanged(ContactInfo tempContactInfo)
         {
             bool result = false;
 
@@ -215,8 +215,11 @@ namespace JudBizz
             {
                 if (info.Id == tempContactInfo.Id)
                 {
-                    result = true;
-                    break;
+                    if (info == tempContactInfo)
+                    {
+                        result = false;
+                        break;
+                    }
                 }
             }
 
@@ -224,33 +227,35 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a Entrepeneur exists in Entrepeneurs
+        /// Method, that checks wether an Entrepeneur is Changed
         /// </summary>
-        /// <param name="tempPerson">Person</param>
+        /// <param name="tempEntrepeneur">Entrepeneur</param>
         /// <returns>bool</returns>
-        private bool CheckEntrepeneurExist(Entrepeneur tempEntrepeneur)
+        private bool CheckEntrepeneurChanged(Entrepeneur tempEntrepeneur)
         {
-            bool result = false;
+            bool result = true;
 
             foreach (Entrepeneur entrepeneur in Entrepeneurs)
             {
                 if (entrepeneur.Id == tempEntrepeneur.Id)
                 {
-                    result = true;
-                    break;
+                    if (entrepeneur == tempEntrepeneur)
+                    {
+                        result = false;
+                        break;
+                    }
                 }
             }
 
             return result;
         }
 
-
         /// <summary>
-        /// Method, that checks wether a LegalEntity exists in LegalEntities
+        /// Method, that checks wether a LegalEntity is Changed
         /// </summary>
         /// <param name="tempEntity">LegalEntity</param>
         /// <returns>bool</returns>
-        private bool CheckLegalEntityExist(LegalEntity tempEntity)
+        private bool CheckLegalEntityChanged(LegalEntity tempEntity)
         {
             bool result = false;
 
@@ -258,8 +263,11 @@ namespace JudBizz
             {
                 if (entity.Id == tempEntity.Id)
                 {
-                    result = true;
-                    break;
+                    if (entity != tempEntity)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -267,11 +275,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a LetterData exists in LetterDataList
+        /// Method, that checks wether a LetterData is Changed
         /// </summary>
-        /// <param name="tempEntity">LetterData</param>
+        /// <param name="tempData">LetterData</param>
         /// <returns>bool</returns>
-        private bool CheckLetterDataExist(LetterData tempData)
+        private bool CheckLetterDataChanged(LetterData tempData)
         {
             bool result = false;
 
@@ -279,8 +287,11 @@ namespace JudBizz
             {
                 if (data.Id == tempData.Id)
                 {
-                    result = true;
-                    break;
+                    if (data != tempData)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -288,11 +299,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a Paragraf exists in Paragrafs
+        /// Method, that checks wether a Paragraf is Changed
         /// </summary>
         /// <param name="tempParagraf">Paragraf</param>
         /// <returns>bool</returns>
-        private bool CheckParagrafExist(Paragraf tempParagraf)
+        private bool CheckParagrafChanged(Paragraf tempParagraf)
         {
             bool result = false;
 
@@ -300,8 +311,11 @@ namespace JudBizz
             {
                 if (paragraf.Id == tempParagraf.Id)
                 {
-                    result = true;
-                    break;
+                    if (paragraf != tempParagraf)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -309,11 +323,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a Person exists in Persons
+        /// Method, that checks wether a Person is Changed
         /// </summary>
         /// <param name="tempPerson">Person</param>
         /// <returns>bool</returns>
-        private bool CheckPersonExist(Person tempPerson)
+        private bool CheckPersonChanged(Person tempPerson)
         {
             bool result = false;
 
@@ -321,8 +335,11 @@ namespace JudBizz
             {
                 if (person.Id == tempPerson.Id)
                 {
-                    result = true;
-                    break;
+                    if (person != tempPerson)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -330,11 +347,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a Project exists in Projects
+        /// Method, that checks wether a Project is Changed
         /// </summary>
         /// <param name="tempProject">Project</param>
         /// <returns>bool</returns>
-        private bool CheckProjectExist(Project tempProject)
+        private bool CheckProjectChanged(Project tempProject)
         {
             bool result = false;
 
@@ -342,8 +359,11 @@ namespace JudBizz
             {
                 if (project.Id == tempProject.Id)
                 {
-                    result = true;
-                    break;
+                    if (project != tempProject)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -351,11 +371,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a ProjectDetail exists in ProjectDetails
+        /// Method, that checks wether a ProjectDetail is Changed
         /// </summary>
-        /// <param name="tempDetail">Person</param>
+        /// <param name="tempDetail">ProjectDetail</param>
         /// <returns>bool</returns>
-        private bool CheckProjectDetailExist(ProjectDetail tempDetail)
+        private bool CheckProjectDetailChanged(ProjectDetail tempDetail)
         {
             bool result = false;
 
@@ -363,8 +383,11 @@ namespace JudBizz
             {
                 if (detail.Id == tempDetail.Id)
                 {
-                    result = true;
-                    break;
+                    if (detail != tempDetail)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -372,11 +395,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a Receiver exists in Receivers
+        /// Method, that checks wether a Receiver is Changed
         /// </summary>
         /// <param name="tempReceiver">Receiver</param>
         /// <returns>bool</returns>
-        private bool CheckReceiverExist(Receiver tempReceiver)
+        private bool CheckReceiverChanged(Receiver tempReceiver)
         {
             bool result = false;
 
@@ -384,8 +407,11 @@ namespace JudBizz
             {
                 if (receiver.Id == tempReceiver.Id)
                 {
-                    result = true;
-                    break;
+                    if (receiver != tempReceiver)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -393,11 +419,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a SubEntrepeneur exists in SubEntrepeneurs
+        /// Method, that checks wether a SubEntrepeneur is Changed
         /// </summary>
         /// <param name="tempSubEntrepeneur">SubEntrepeneur</param>
         /// <returns>bool</returns>
-        private bool CheckSubEntrepeneurExist(SubEntrepeneur tempSubEntrepeneur)
+        private bool CheckSubEntrepeneurChanged(SubEntrepeneur tempSubEntrepeneur)
         {
             bool result = false;
 
@@ -405,8 +431,11 @@ namespace JudBizz
             {
                 if (subEntrepeneur.Id == tempSubEntrepeneur.Id)
                 {
-                    result = true;
-                    break;
+                    if (subEntrepeneur != tempSubEntrepeneur)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -414,11 +443,11 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that checks wether a User exists in Users
+        /// Method, that checks wether a User is Changed
         /// </summary>
         /// <param name="tempUser">User</param>
         /// <returns>bool</returns>
-        private bool CheckUserExist(User tempUser)
+        private bool CheckUserChanged(User tempUser)
         {
             bool result = false;
 
@@ -426,8 +455,11 @@ namespace JudBizz
             {
                 if (user.Id == tempUser.Id)
                 {
-                    result = true;
-                    break;
+                    if (user != tempUser)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
 
@@ -445,16 +477,16 @@ namespace JudBizz
 
             Bullet tempBullet = new Bullet((Bullet)entity);
 
-            if (tempBullet.Paragraf.Id != 0 && CheckParagrafExist(tempBullet.Paragraf))
+            if (tempBullet.Paragraf.Id != 0 && CheckParagrafChanged(tempBullet.Paragraf))
             {
-                UpdateInDb(tempBullet.Paragraf);
+                UpdateInDb(tempBullet.Paragraf, false);
             }
             else
             {
                 tempBullet.Paragraf.SetId(CreateInDb(tempBullet.Paragraf));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Builders", tempBullet));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Bullets", tempBullet));
 
             return result;
         }
@@ -470,16 +502,16 @@ namespace JudBizz
 
             Builder tempBuilder = new Builder((Builder)entity);
 
-            if (tempBuilder.Entity.Id != 0 && CheckLegalEntityExist(tempBuilder.Entity))
+            if (tempBuilder.Entity.Id != 0 && CheckLegalEntityChanged(tempBuilder.Entity))
             {
-                UpdateInDb(tempBuilder.Entity);
+                UpdateInDb(tempBuilder.Entity, false);
             }
             else
             {
                 tempBuilder.Entity.SetId(CreateInDb(tempBuilder.Entity));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Builders", tempBuilder));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Builders", tempBuilder));
 
             return result;
         }
@@ -495,25 +527,25 @@ namespace JudBizz
 
             Contact tempContact = new Contact((Contact)entity);
 
-            if (tempContact.Person.Id != 0 && CheckPersonExist(tempContact.Person))
+            if (tempContact.Person.Id != 0 && CheckPersonChanged(tempContact.Person))
             {
-                UpdateInDb(tempContact.Person);
+                UpdateInDb(tempContact.Person, false);
             }
             else
             {
                 tempContact.Person.SetId(CreateInDb(tempContact.Person));
             }
 
-            if (tempContact.Entrepeneur.Id != 0 && CheckEntrepeneurExist(tempContact.Entrepeneur))
+            if (tempContact.Entrepeneur.Id != 0 && CheckEntrepeneurChanged(tempContact.Entrepeneur))
             {
-                UpdateInDb(tempContact.Entrepeneur);
+                UpdateInDb(tempContact.Entrepeneur, false);
             }
             else
             {
                 tempContact.Entrepeneur.SetId(CreateInDb(tempContact.Entrepeneur));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Contacts", tempContact));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Contacts", tempContact));
 
             return result;
         }
@@ -529,16 +561,16 @@ namespace JudBizz
 
             Enterprise tempEnterprise = new Enterprise((Enterprise)entity);
 
-            if (tempEnterprise.Project.Id != 0 && CheckProjectExist(tempEnterprise.Project))
+            if (tempEnterprise.Project.Id != 0 && CheckProjectChanged(tempEnterprise.Project))
             {
-                UpdateInDb(tempEnterprise.Project);
+                UpdateInDb(tempEnterprise.Project, false);
             }
             else
             {
                 tempEnterprise.Project.SetId(CreateInDb(tempEnterprise.Project));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Enterprises", tempEnterprise));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Enterprises", tempEnterprise));
 
             return result;
         }
@@ -554,59 +586,16 @@ namespace JudBizz
 
             Entrepeneur tempEntrepeneur = new Entrepeneur((Entrepeneur)entity);
 
-            if (tempEntrepeneur.Entity.Id != 0 && CheckLegalEntityExist(tempEntrepeneur.Entity))
+            if (tempEntrepeneur.Entity.Id != 0 && CheckLegalEntityChanged(tempEntrepeneur.Entity))
             {
-                UpdateInDb(tempEntrepeneur.Entity);
+                UpdateInDb(tempEntrepeneur.Entity, false);
             }
             else
             {
                 tempEntrepeneur.Entity.SetId(CreateInDb(tempEntrepeneur.Entity));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Entrepeneurs", tempEntrepeneur));
-
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that creates an IttLetter Shipping
-        /// </summary>
-        /// <param name="entity">object</param>
-        /// <returns>bool</returns>
-        private bool CreateIttLetterShipping(object entity)
-        {
-            bool result = false;
-
-            IttLetterShipping tempShipping = new IttLetterShipping((IttLetterShipping)entity);
-
-            if (tempShipping.SubEntrepeneur.Id != 0 && CheckSubEntrepeneurExist(tempShipping.SubEntrepeneur))
-            {
-                UpdateInDb(tempShipping.SubEntrepeneur);
-            }
-            else
-            {
-                tempShipping.SubEntrepeneur.SetId(CreateInDb(tempShipping.SubEntrepeneur));
-            }
-
-            if (tempShipping.Receiver.Id != 0 && CheckReceiverExist(tempShipping.Receiver))
-            {
-                UpdateInDb(tempShipping.Receiver);
-            }
-            else
-            {
-                tempShipping.Receiver.SetId(CreateInDb(tempShipping.Receiver));
-            }
-
-            if (tempShipping.LetterData.Id != 0 && CheckLetterDataExist(tempShipping.LetterData))
-            {
-                UpdateInDb(tempShipping.LetterData);
-            }
-            else
-            {
-                tempShipping.LetterData.SetId(CreateInDb(tempShipping.LetterData));
-            }
-
-            ProcesSqlQuery(GetSQLQueryInsert("IttLetterShippings", tempShipping));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Entrepeneurs", tempEntrepeneur));
 
             return result;
         }
@@ -623,7 +612,7 @@ namespace JudBizz
             string entityTypeDk = "";
             bool dbAnswer = false;
             string entityType = entity.GetType().ToString().Remove(0, 14);
-            string list = GetListNameFromEntityType(entityType);
+            string list = GetListNameFromentityType(entityType);
 
             switch (list)
             {
@@ -642,9 +631,6 @@ namespace JudBizz
                 case "Entrepeneurs":
                     dbAnswer = CreateEntrepeneur(entity);
                     break;
-                case "IttLetterShippings":
-                    dbAnswer = CreateIttLetterShipping(entity);
-                    break;
                 case "LegalEntities":
                     dbAnswer = CreateLegalEntity(entity);
                     break;
@@ -657,8 +643,8 @@ namespace JudBizz
                 case "Projects":
                     dbAnswer = CreateProject(entity);
                     break;
-                case "RequestShippings":
-                    dbAnswer = CreateRequestShipping(entity);
+                case "Shippings":
+                    dbAnswer = CreateShipping(entity);
                     break;
                 case "SubEntrepeneurs":
                     dbAnswer = CreateSubEntrepeneur(entity);
@@ -671,7 +657,7 @@ namespace JudBizz
                     break;
             }
 
-            entityTypeDk = GetDanishEntityType(entityType);
+            entityTypeDk = GetDanishentityType(entityType);
 
             if (!dbAnswer)
             {
@@ -736,11 +722,6 @@ namespace JudBizz
                         count = IttLetters.Count;
                         result = IttLetters[count - 1].Id;
                         break;
-                    case "IttLetterShipping":
-                        RefreshList("IttLetterShippings");
-                        count = IttLetterShippings.Count;
-                        result = IttLetterShippings[count - 1].Id;
-                        break;
                     case "JobDescription":
                         RefreshList("JobDescriptions");
                         count = JobDescriptions.Count;
@@ -796,15 +777,15 @@ namespace JudBizz
                         count = Requests.Count;
                         result = Requests[count - 1].Id;
                         break;
-                    case "RequestShipping":
-                        RefreshList("RequestShippings");
-                        count = RequestShippings.Count;
-                        result = RequestShippings[count - 1].Id;
-                        break;
                     case "RequestStatus":
                         RefreshList("RequestStatuses");
                         count = RequestStatuses.Count;
                         result = RequestStatuses[count - 1].Id;
+                        break;
+                    case "Shipping":
+                        RefreshList("Shippings");
+                        count = Shippings.Count;
+                        result = Shippings[count - 1].Id;
                         break;
                     case "SubEntrepeneur":
                         RefreshList("SubEntrepeneurs");
@@ -849,25 +830,25 @@ namespace JudBizz
 
             LegalEntity tempLegalEntity = new LegalEntity((LegalEntity)entity);
 
-            if (tempLegalEntity.Address.Id != 0 && CheckAddressExist(tempLegalEntity.Address))
+            if (tempLegalEntity.Address.Id != 0 && CheckAddressChanged(tempLegalEntity.Address))
             {
-                UpdateInDb(tempLegalEntity.Address);
+                UpdateInDb(tempLegalEntity.Address, false);
             }
             else
             {
                 tempLegalEntity.Address.SetId(CreateInDb(tempLegalEntity.Address));
             }
 
-            if (tempLegalEntity.ContactInfo.Id != 0 && CheckContactInfoExist(tempLegalEntity.ContactInfo))
+            if (tempLegalEntity.ContactInfo.Id != 0 && CheckContactInfoChanged(tempLegalEntity.ContactInfo))
             {
-                UpdateInDb(tempLegalEntity.ContactInfo);
+                UpdateInDb(tempLegalEntity.ContactInfo, false);
             }
             else
             {
                 tempLegalEntity.ContactInfo.SetId(CreateInDb(tempLegalEntity.ContactInfo));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("LegalEntities", tempLegalEntity));
+            result = ProcesSqlQuery(GetSQLQueryInsert("LegalEntities", tempLegalEntity));
 
             return result;
         }
@@ -883,16 +864,16 @@ namespace JudBizz
 
             Paragraf tempParagraf = new Paragraf((Paragraf)entity);
 
-            if (tempParagraf.Project.Id != 0 && CheckProjectExist(tempParagraf.Project))
+            if (tempParagraf.Project.Id != 0 && CheckProjectChanged(tempParagraf.Project))
             {
-                UpdateInDb(tempParagraf.Project);
+                UpdateInDb(tempParagraf.Project, false);
             }
             else
             {
                 tempParagraf.Project.SetId(CreateInDb(tempParagraf.Project));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Paragrafs", tempParagraf));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Paragrafs", tempParagraf));
 
             return result;
         }
@@ -908,16 +889,16 @@ namespace JudBizz
 
             Person tempPerson = new Person((Person)entity);
 
-            if (tempPerson.ContactInfo.Id != 0 && CheckContactInfoExist(tempPerson.ContactInfo))
+            if (tempPerson.ContactInfo.Id != 0 && CheckContactInfoChanged(tempPerson.ContactInfo))
             {
-                UpdateInDb(tempPerson.ContactInfo);
+                UpdateInDb(tempPerson.ContactInfo, false);
             }
             else
             {
                 tempPerson.ContactInfo.SetId(CreateInDb(tempPerson.ContactInfo));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Persons", tempPerson));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Persons", tempPerson));
 
             return result;
         }
@@ -933,59 +914,59 @@ namespace JudBizz
 
             Project tempProject = new Project((Project)entity);
 
-            if (tempProject.Builder.Id != 0 && CheckBuilderExist(tempProject.Builder))
+            if (tempProject.Builder.Id != 0 && CheckBuilderChanged(tempProject.Builder))
             {
-                UpdateInDb(tempProject.Builder);
+                UpdateInDb(tempProject.Builder, false);
             }
             else
             {
                 tempProject.Builder.SetId(CreateInDb(tempProject.Builder));
             }
 
-            if (tempProject.Executive.Id != 0 && CheckUserExist(tempProject.Executive))
+            if (tempProject.Executive.Id != 0 && CheckUserChanged(tempProject.Executive))
             {
-                UpdateInDb(tempProject.Executive);
+                UpdateInDb(tempProject.Executive, false);
             }
             else
             {
                 tempProject.Executive.SetId(CreateInDb(tempProject.Executive));
             }
 
-            if (tempProject.Details.Id != 0 && CheckProjectDetailExist(tempProject.Details))
+            if (tempProject.Details.Id != 0 && CheckProjectDetailChanged(tempProject.Details))
             {
-                UpdateInDb(tempProject.Details);
+                UpdateInDb(tempProject.Details, false);
             }
             else
             {
                 tempProject.Details.SetId(CreateInDb(tempProject.Details));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("Projects", tempProject));
+            result = ProcesSqlQuery(GetSQLQueryInsert("Projects", tempProject));
 
             return result;
         }
 
         /// <summary>
-        /// Method, that creates an Request Shipping
+        /// Method, that creates a Shipping
         /// </summary>
         /// <param name="entity">object</param>
         /// <returns>bool</returns>
-        private bool CreateRequestShipping(object entity)
+        private bool CreateShipping(object entity)
         {
             bool result = false;
 
-            RequestShipping tempShipping = new RequestShipping((RequestShipping)entity);
+            Shipping tempShipping = new Shipping((Shipping)entity);
 
-            if (tempShipping.SubEntrepeneur.Id != 0 && CheckSubEntrepeneurExist(tempShipping.SubEntrepeneur))
+            if (tempShipping.SubEntrepeneur.Id != 0 && CheckSubEntrepeneurChanged(tempShipping.SubEntrepeneur))
             {
-                UpdateInDb(tempShipping.SubEntrepeneur);
+                UpdateInDb(tempShipping.SubEntrepeneur, false);
             }
             else
             {
                 tempShipping.SubEntrepeneur.SetId(CreateInDb(tempShipping.SubEntrepeneur));
             }
 
-            if (tempShipping.Receiver.Id != 0 && CheckReceiverExist(tempShipping.Receiver))
+            if (tempShipping.Receiver.Id != 0 && CheckReceiverChanged(tempShipping.Receiver))
             {
                 UpdateInDb(tempShipping.Receiver);
             }
@@ -994,7 +975,16 @@ namespace JudBizz
                 tempShipping.Receiver.SetId(CreateInDb(tempShipping.Receiver));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("RequestShippings", tempShipping));
+            if (tempShipping.LetterData.Id != 0 && CheckLetterDataChanged(tempShipping.LetterData))
+            {
+                UpdateInDb(tempShipping.LetterData);
+            }
+            else
+            {
+                tempShipping.LetterData.SetId(CreateInDb(tempShipping.LetterData));
+            }
+
+            result = ProcesSqlQuery(GetSQLQueryInsert("Shippings", tempShipping));
 
             return result;
         }
@@ -1010,16 +1000,16 @@ namespace JudBizz
 
             SubEntrepeneur tempSubEntrepeneur = new SubEntrepeneur((SubEntrepeneur)entity);
 
-            if (tempSubEntrepeneur.Entrepeneur.Id != 0 && CheckEntrepeneurExist(tempSubEntrepeneur.Entrepeneur))
+            if (tempSubEntrepeneur.Entrepeneur.Id != 0 && CheckEntrepeneurChanged(tempSubEntrepeneur.Entrepeneur))
             {
-                UpdateInDb(tempSubEntrepeneur.Entrepeneur);
+                UpdateInDb(tempSubEntrepeneur.Entrepeneur, false);
             }
             else
             {
                 tempSubEntrepeneur.Entrepeneur.SetId(CreateInDb(tempSubEntrepeneur.Entrepeneur));
             }
 
-            ProcesSqlQuery(GetSQLQueryInsert("SubEntrepeneurs", tempSubEntrepeneur));
+            result = ProcesSqlQuery(GetSQLQueryInsert("SubEntrepeneurs", tempSubEntrepeneur));
 
             return result;
         }
@@ -1034,9 +1024,9 @@ namespace JudBizz
             bool result = false;
             User tempUser = new User((User)entity);
 
-            if (tempUser.Department.Id != 0 && CheckLegalEntityExist(tempUser.Department))
+            if (tempUser.Department.Id != 0 && CheckLegalEntityChanged(tempUser.Department))
             {
-                UpdateInDb(tempUser.Department);
+                UpdateInDb(tempUser.Department, false);
             }
             else
             {
@@ -1053,7 +1043,7 @@ namespace JudBizz
         /// </summary>
         /// <param name="entityType">string</param>
         /// <returns>string</returns>
-        private string GetDanishEntityType(string entityType)
+        private string GetDanishentityType(string entityType)
         {
             string result = "";
 
@@ -1092,9 +1082,6 @@ namespace JudBizz
                 case "IttLetter":
                     result = "Udbudsbrev";
                     break;
-                case "IttLetterShipping":
-                    result = "Forsendelse af Udbudsbrev";
-                    break;
                 case "LegalEntity":
                     result = "Legal Person";
                     break;
@@ -1128,11 +1115,11 @@ namespace JudBizz
                 case "Request":
                     result = "Forespørgsel";
                     break;
-                case "RequestShipping":
-                    result = "Forsendelse af Forespørgsel";
-                    break;
                 case "RequestStatus":
                     result = "Forespørgselsstatus";
+                    break;
+                case "Shipping":
+                    result = "Forsendelsesoplysninger";
                     break;
                 case "SubEntrepeneur":
                     result = "Underentrepenør";
@@ -1159,7 +1146,7 @@ namespace JudBizz
         /// </summary>
         /// <param name="entityType"></param>
         /// <returns></returns>
-        private string GetListNameFromEntityType(string entityType)
+        private string GetListNameFromentityType(string entityType)
         {
             string result = "";
 
@@ -1201,9 +1188,6 @@ namespace JudBizz
                 case "IttLetter":
                     result = "IttLetters";
                     break;
-                case "IttLetterShipping":
-                    result = "IttLetterShippings";
-                    break;
                 case "JobDescription":
                     result = "JobDescriptions";
                     break;
@@ -1237,11 +1221,11 @@ namespace JudBizz
                 case "Request":
                     result = "Requests";
                     break;
-                case "RequestData":
-                    result = "RequestShippings";
-                    break;
                 case "RequestStatus":
                     result = "RequestStatuses";
+                    break;
+                case "Shipping":
+                    result = "Shippings";
                     break;
                 case "SubEntrepeneur":
                     result = "SubEntrepeneurs";
@@ -1287,7 +1271,8 @@ namespace JudBizz
                     break;
                 case "Bullets":
                     Bullet bullet = new Bullet((Bullet)entity);
-                    result = @"INSERT INTO [dbo].[Bullets]([Paragraf], [Text]) VALUES(" + bullet.Paragraf.Id + @", '" + bullet.Text + @"')";
+                    //result = INSERT INTO[dbo].[Bullets] ([Paragraph], [Text]) VALUES(<Paragraph, int,>, <Text, nvarchar(255),>)
+                    result = @"INSERT INTO [dbo].[Bullets]([Paragraph], [Text]) VALUES(" + bullet.Paragraf.Id + @", '" + bullet.Text + @"')";
                     break;
                 case "Categories":
                     Category category = new Category((Category)entity);
@@ -1321,10 +1306,6 @@ namespace JudBizz
                     IttLetter ittLetter = new IttLetter((IttLetter)entity);
                     result = "INSERT INTO[dbo].[IttLetters]([Sent], [SentDate]) VALUES('" + ittLetter.Sent.ToString() + "', '" + ittLetter.SentDate.ToString("yyyy-MM-dd") + "')";
                     break;
-                case "IttLetterShippings":
-                    IttLetterShipping shipping = new IttLetterShipping((IttLetterShipping)entity);
-                    result = "INSERT INTO [dbo].[IttLetterShippings]([SubEntrepeneur], [Receiver, [LetterData], [CommonPdfPath], [PersonalPdfPath]) VALUES(" + shipping.SubEntrepeneur.Id + ", " + shipping.Receiver.Id + ", " + shipping.LetterData.Id + ", '" + shipping.CommonPdfPath + "', '" + shipping.PersonalPdfPath + "')";
-                    break;
                 case "LegalEntities":
                     LegalEntity legalEntity = new LegalEntity((LegalEntity)entity);
                     result = "INSERT INTO [dbo].[LegalEntities]([Cvr], [Name], [CoName], [Address], [ContactInfo], [Url]) VALUES(" + legalEntity.Cvr + ", " + legalEntity.Name + ", '" + legalEntity.CoName + "', " + legalEntity.Address.Id + ", " + legalEntity.ContactInfo.Id + ", '" + legalEntity.Url + "')";
@@ -1338,8 +1319,9 @@ namespace JudBizz
                     result = "INSERT INTO [dbo].[Offers]([Received], [ReceivedDate], [Price], [Chosen]) VALUES('" + offer.Received.ToString() + @"', '" + offer.ReceivedDate.ToString("yyyy-MM-dd") + @"', " + offer.Price.ToString() + @", '" + offer.Chosen.ToString() + @"')";
                     break;
                 case "Paragrafs":
-                    Paragraf paragraph = new Paragraf((Paragraf)entity);
-                    result = @"INSERT INTO [dbo].[Paragrafs](Project, Name) VALUES(" + paragraph.Project.Id.ToString() + @", '" + paragraph.Text + @"')";
+                    Paragraf paragraf = new Paragraf((Paragraf)entity);
+                    //result = @"INSERT INTO [dbo].[Paragraphs]([Project], [Text]) VALUES(<Project, int,>, <Text, nvarchar(50),>)"
+                    result = @"INSERT INTO [dbo].[Paragraphs]([Project], [Text]) VALUES(" + paragraf.Project.Id + @", '" + paragraf.Text + @"')";
                     break;
                 case "Persons":
                     Person person = new Person((Person)entity);
@@ -1361,7 +1343,8 @@ namespace JudBizz
                     break;
                 case "Receivers":
                     Receiver receiver = new Receiver((Receiver)entity);
-                    result = "INSERT INTO [dbo].[Receivers]([Cvr], [Name], [Attention], [Street], [Place], [Zip], [Email]) VALUES('" + receiver.Cvr + "', '" + receiver.Name + "', '" + receiver.Attention + "', '" + receiver.Street + "', '" + receiver.Place + "', '" + receiver.ZipTown + "', '" + receiver.Email + "')";
+                    //result == "INSERT INTO [dbo].[Receivers]([Cvr], [Name], [Attention], [Street], [Place], [ZipTown], [Email]) VALUES(<Cvr, nvarchar(50),>, <Name, nvarchar(50),>, <Attention, nvarchar(50),>, <Street, nvarchar(50),>, <Place, nvarchar(50),>, <ZipTown, nvarchar(50),>, <Email, nvarchar(50),>)";
+                    result = "INSERT INTO [dbo].[Receivers]([Cvr], [Name], [Attention], [Street], [Place], [ZipTown], [Email]) VALUES('" + receiver.Cvr + "', '" + receiver.Name + "', '" + receiver.Attention + "', '" + receiver.Street + "', '" + receiver.Place + "', '" + receiver.ZipTown + "', '" + receiver.Email + "')";
                     break;
                 case "Regions":
                     Region region = new Region((Region)entity);
@@ -1371,14 +1354,14 @@ namespace JudBizz
                     Request request = new Request((Request)entity);
                     result = "INSERT INTO [dbo].[Requests]([Status], [SentDate], [ReceivedDate]) VALUES(" + request.Status.Id + @", '" + request.SentDate.ToString("yyyy-MM-dd") + @"', '" + request.ReceivedDate.ToString("yyyy-MM-dd") + @"')";
                     break;
-                case "RequestShippings":
-                    RequestShipping requestShipping = new RequestShipping((RequestShipping)entity);
-                    //result = "INSERT INTO [dbo].[RequestShippings]([SubEntrepeneur], [AcceptUrl], [DeclineUrl], [Period], [AnswerDate], [RequestPdfPath]) VALUES(< SubEntrepeneur, int,>, < AcceptUrl, nvarchar(50),>, < DeclineUrl, nvarchar(50),>, < RequestPdfPath, nvarchar(50),>)"
-                    result = @"INSERT INTO [dbo].[RequestShippings]([SubEntrepeneur], [AcceptUrl], [DeclineUrl], [Period], [AnswerDate], [RequestPdfPath]) VALUES(" + requestShipping.SubEntrepeneur.Id + @", '" + requestShipping.AcceptUrl + @"', '" + requestShipping.DeclineUrl + @"', '" + requestShipping.RequestPdfPath + @"')";
-                    break;
                 case "RequestStatuses":
                     RequestStatus requestStatus = new RequestStatus((RequestStatus)entity);
                     result = "INSERT INTO [dbo].[RequestStatuses]([Description]) VALUES('" + requestStatus.Text + @"')";
+                    break;
+                case "Shippings":
+                    Shipping Shipping = new Shipping((Shipping)entity);
+                    //result = "INSERT INTO [dbo].[Shippings]([SubEntrepeneur], [Receiver], [AcceptUrl], [DeclineUrl], [RequestPdfPath]) VALUES(< SubEntrepeneur, int,>, < Receiver, int,>, < AcceptUrl, nvarchar(50),>, < DeclineUrl, nvarchar(50),>, < RequestPdfPath, nvarchar(50),>)"
+                    result = @"INSERT INTO [dbo].[Shippings]([SubEntrepeneur], [Receiver], [AcceptUrl], [DeclineUrl], [RequestPdfPath]) VALUES(" + Shipping.SubEntrepeneur.Id + @", " + Shipping.Receiver.Id + @", '" + Shipping.AcceptUrl + @"', '" + Shipping.DeclineUrl + @"', '" + Shipping.RequestPdfPath + @"')";
                     break;
                 case "SubEntrepeneurs":
                     SubEntrepeneur subEntrepeneur = new SubEntrepeneur((SubEntrepeneur)entity);
@@ -1520,16 +1503,12 @@ namespace JudBizz
                     Request request = new Request(Convert.ToInt32(resultArray[0]), GetRequestStatus(Convert.ToInt32(resultArray[1])), Convert.ToDateTime(resultArray[2]), Convert.ToDateTime(resultArray[3]));
                     result = request;
                     break;
-                case "RequestShippings":
-                    RequestShipping requestData = new RequestShipping(Convert.ToInt32(resultArray[0]), GetSubEntrepeneur(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), resultArray[3], resultArray[4], resultArray[5]);
-                    result = requestData;
-                    break;
                 case "RequestStatuses":
                     RequestStatus requestStatus = new RequestStatus(Convert.ToInt32(resultArray[0]), resultArray[1]);
                     result = requestStatus;
                     break;
-                case "IttLetterShippings":
-                    IttLetterShipping shipping = new IttLetterShipping(Convert.ToInt32(resultArray[0]), GetSubEntrepeneur(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), GetLetterData(Convert.ToInt32(resultArray[3])), resultArray[4], resultArray[5]);
+                case "Shippings":
+                    Shipping shipping = new Shipping(Convert.ToInt32(resultArray[0]), GetSubEntrepeneur(Convert.ToInt32(resultArray[1])), GetReceiver(Convert.ToInt32(resultArray[2])), GetLetterData(Convert.ToInt32(resultArray[3])), resultArray[4], resultArray[5], resultArray[6], resultArray[7], resultArray[8]);
                     result = shipping;
                     break;
                 case "SubEntrepeneurs":
@@ -1610,9 +1589,6 @@ namespace JudBizz
                 case "IttLetters":
                     result = 3;
                     break;
-                case "IttLetterShippings":
-                    result = 6;
-                    break;
                 case "JobDescriptions":
                     result = 4;
                     break;
@@ -1646,14 +1622,14 @@ namespace JudBizz
                 case "Requests":
                     result = 4;
                     break;
-                case "RequestShippings":
-                    result = 6;
-                    break;
                 case "RequestStatuses":
                     result = 2;
                     break;
                 case "Receivers":
                     result = 8;
+                    break;
+                case "Shippings":
+                    result = 6;
                     break;
                 case "SubEntrepeneurs":
                     result = 11;
@@ -1680,14 +1656,14 @@ namespace JudBizz
         /// </summary>
         /// <param name="list">string</param>
         /// <returns>List<object></returns>
-        public List<object> ReadListFromDb(string list)
+        public List<object> ReadListFromDb(string list, int id = -1)
         {
             List<object> result = new List<object>();
 
 
             List<string> strResults;
 
-            strResults = executor.ReadListFromDataBase(list);
+            strResults = executor.ReadListFromDataBase(list, id);
 
             int fieldAmount = GetFieldAmount(list);
 
@@ -1706,17 +1682,18 @@ namespace JudBizz
         /// Method, that reads a List from Db
         /// </summary>
         /// <param name="list">string</param>
-        /// <returns>List<object></returns>
+        /// <param name="id">int</param>
+        /// <returns>object</returns>
         public object ReadPostFromDb(string list, int id)
         {
+            List<object> objList = ReadListFromDb(list, id);
             object result = new object();
-            string strResult;
-            strResult = executor.ReadPostFromDataBase(list, id);
 
-            string[] resultArray = new string[GetFieldAmount(list)];
-            resultArray = strResult.Split(';');
-            object obj = ConvertObject(list, resultArray);
-            result = (obj);
+            foreach (object _object in objList)
+            {
+                result = _object;
+                break;
+            }
 
             return result;
         }
@@ -1749,129 +1726,150 @@ namespace JudBizz
 
             switch (list)
             {
-                //UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
                 case "Addresses":
                     Address address = new Address((Address)_object);
-                    result = @"UPDATE [dbo].[Addresses] SET [Street] = '" + address.Street + "', [Place] = '" + address.Place + "', [Zip] = " + address.ZipTown.Id + " WHERE [Id] = '" + address.Id + "';";
+                    //result = @"UPDATE [dbo].[Addresses] SET [Street] = <Street, nvarchar(50),>, [Place] = <Place, nvarchar(50),>, [ZipTown] = <ZipTown, int,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Addresses] SET [Street] = '" + address.Street + "', [Place] = '" + address.Place + "', [ZipTown] = " + address.ZipTown.Id + " WHERE [Id] = '" + address.Id + "';";
                     break;
                 case "Builders":
                     Builder builder = new Builder((Builder)_object);
-                    result = @"UPDATE[dbo].[Builders] SET [Entity] = " + builder.Entity.Id + @" [Active] = '" + builder.Active.ToString() + @"' WHERE [Id] = " + builder.Id;
+                    //result = @"UPDATE[dbo].[Builders]  SET [Entity] = < Entity, int,>, [Active] = <Active, bit,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE[dbo].[Builders] SET [Entity] = " + builder.Entity.Id + @", [Active] = '" + builder.Active.ToString() + @"' WHERE [Id] = " + builder.Id;
                     break;
                 case "Bullets":
                     Bullet bullet = new Bullet((Bullet)_object);
-                    result = @"UPDATE[dbo].[Bullets] SET [Paragraf] = " + bullet.Paragraf.Id + @", [Text] = '" + bullet.Text + @"' WHERE [Id] = " + bullet.Id;
+                    //result = @"UPDATE [dbo].[Bullets] SET [Paragraph] = <Paragraph, int,>, [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE[dbo].[Bullets] SET [Paragraph] = " + bullet.Paragraf.Id + @", [Text] = '" + bullet.Text + @"' WHERE [Id] = " + bullet.Id;
                     break;
                 case "Categories":
                     Category category = new Category((Category)_object);
+                    //result = @"UPDATE [dbo].[Categories] SET [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE[dbo].[Categories] SET [Text] = '" + category.Text + @"' WHERE[Id] = " + category.Id;
                     break;
                 case "ContactInfoList":
                     ContactInfo info = new ContactInfo((ContactInfo)_object);
+                    //result = @"UPDATE [dbo].[ContactInfoList] SET [Phone] = <Phone, nvarchar(50),>, [Fax] = <Fax, nvarchar(50),>, [Mobile] = <Mobile, nvarchar(50),>, [Email] = <Email, nvarchar(50),> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[ContactInfoList] SET [Phone] = '" + info.Phone + "', [Fax] = '" + info.Fax + "', [Mobile] = '" + info.Mobile + "', [Email] = '" + info.Email + "' WHERE [Id] = " + info.Id;
                     break;
                 case "Contacts":
                     Contact contact = new Contact((Contact)_object);
+                    //result = @"UPDATE [dbo].[Contacts] SET [Person] = <Person, int,>, [Entrepeneur] = <Entrepeneur, int,>, [Area] = <Area, nvarchar(10),> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[Contacts] SET [Person] = " + contact.Person.Id + ", [Entrepeneur] = " + contact.Entrepeneur.Id + ", [Area] = '" + contact.Area + "' WHERE [Id] = " + contact.Id;
                     break;
                 case "CraftGroups":
                     CraftGroup craftGroup = new CraftGroup((CraftGroup)_object);
+                    //result = @"UPDATE [dbo].[CraftGroups] SET [Category] = <Category, int,>, [Designation] = <Designation, nvarchar(255),>, [Description] = <Description, nvarchar(255),>, [Active] = <Active, bit,> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[CraftGroup] SET [Category] = '" + craftGroup.Category.Id + "', [Designation] = '" + craftGroup.Designation + "', [Description] = '" + craftGroup.Description + "', [Active] = '" + craftGroup.Active.ToString() + "' WHERE [Id] = " + craftGroup.Id;
                     break;
                 case "EnterpriseForms":
                     EnterpriseForm form = new EnterpriseForm((EnterpriseForm)_object);
+                    //result = @"UPDATE [dbo].[EnterpriseForms] SET [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[EnterpriseForms] SET [Text] = '" + form.Text + @"' WHERE [Id] = " + form.Id;
                     break;
                 case "Enterprises":
                     Enterprise enterprise = new Enterprise((Enterprise)_object);
-                    result = @"UPDATE [dbo].[Enterprises] SET [Project] = " + enterprise.Project.Id.ToString() + @", [Name] = '" + enterprise.Name + @"', [Elaboration] = '" + enterprise.Elaboration + @"', [OfferList] = '" + enterprise.OfferList + @"', [CraftGroup1] = " + enterprise.CraftGroup1.Id.ToString() + @", [CraftGroup2] = " + enterprise.CraftGroup2.Id.ToString() + @", [CraftGroup3] = " + enterprise.CraftGroup3.Id.ToString() + @", [CraftGroup4] = " + enterprise.CraftGroup4.Id.ToString() + @" WHERE [Id] = " + enterprise.Id;
+                    //result = @"UPDATE [dbo].[Enterprises] SET [Project] = <Project, int,>, [Name] = <Name, nvarchar(255),>, [Elaboration] = <Elaboration, nvarchar(255),>, [OfferList] = <OfferList, nvarchar(255),>, [CraftGroup1] = <CraftGroup1, int,>, [CraftGroup2] = <CraftGroup2, int,>, [CraftGroup3] = <CraftGroup3, int,>, [CraftGroup4] = <CraftGroup4, int,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Enterprises] SET [Project] = " + enterprise.Project.Id + @", [Name] = '" + enterprise.Name + @"', [Elaboration] = '" + enterprise.Elaboration + @"', [OfferList] = '" + enterprise.OfferList + @"', [CraftGroup1] = " + enterprise.CraftGroup1.Id + @", [CraftGroup2] = " + enterprise.CraftGroup2.Id + @", [CraftGroup3] = " + enterprise.CraftGroup3.Id + @", [CraftGroup4] = " + enterprise.CraftGroup4.Id + @" WHERE [Id] = " + enterprise.Id;
                     break;
                 case "Entrepeneurs":
                     Entrepeneur entrepeneur = new Entrepeneur((Entrepeneur)_object);
-                    result = @"UPDATE [dbo].[Entrepeneurs] SET [Entity] = " + entrepeneur.Entity.Id.ToString() + @", [CraftGroup1] = " + entrepeneur.CraftGroup1.Id.ToString() + @", [CraftGroup2] = " + entrepeneur.CraftGroup2.Id.ToString() + @", [CraftGroup3] = " + entrepeneur.CraftGroup3.Id.ToString() + @", [CraftGroup4] = " + entrepeneur.CraftGroup4.Id.ToString() + @", [Region] = " + entrepeneur.Region.Id.ToString() + @", [CountryWide] = '" + entrepeneur.CountryWide.ToString() + @"', [Cooperative] = '" + entrepeneur.Cooperative.ToString() + @"', [Active] = '" + entrepeneur.Active.ToString() + @"' WHERE [Id] = " + entrepeneur.Id;
+                    //result = @"UPDATE [dbo].[Entrepeneurs] SET [Entity] = <Entity, int,>, [CraftGroup1] = <CraftGroup1, int,>, [CraftGroup2] = <CraftGroup2, int,>, [CraftGroup3] = <CraftGroup3, int,>, [CraftGroup4] = <CraftGroup4, int,>, [Region] = <Region, int,>, [CountryWide] = <CountryWide, bit,>, [Cooperative] = <Cooperative, bit,>, [Active] = <Active, bit,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Entrepeneurs] SET [Entity] = " + entrepeneur.Entity.Id + @", [CraftGroup1] = " + entrepeneur.CraftGroup1.Id + @", [CraftGroup2] = " + entrepeneur.CraftGroup2.Id + @", [CraftGroup3] = " + entrepeneur.CraftGroup3.Id + @", [CraftGroup4] = " + entrepeneur.CraftGroup4.Id + @", [Region] = " + entrepeneur.Region.Id + @", [CountryWide] = '" + entrepeneur.CountryWide.ToString() + @"', [Cooperative] = '" + entrepeneur.Cooperative.ToString() + @"', [Active] = '" + entrepeneur.Active.ToString() + @"' WHERE [Id] = " + entrepeneur.Id;
                     break;
                 case "IttLetters":
                     IttLetter ittLetter = new IttLetter((IttLetter)_object);
-                    result = @"UPDATE [dbo].[IttLetters] SET [Sent] = '" + ittLetter.Sent + @"', [SentDate] = " + ittLetter.SentDate + "' WHERE [Id] = " + ittLetter.Id;
-                    break;
-                case "IttLetterShippings":
-                    IttLetterShipping shipping = new IttLetterShipping((IttLetterShipping)_object);
-                    result = @"UPDATE [dbo].[IttLetterShippings] SET [SubEntrepeneur] = " + shipping.SubEntrepeneur.Id + @", [Receiver] = " + shipping.Receiver.Id + @", [LetterData] = " + shipping.LetterData.Id + @", [CommonPdfPath] = '" + shipping.CommonPdfPath + @"', [PersonalPdfPath] = '" + shipping.PersonalPdfPath + @"' WHERE [Id] = " + shipping.Id;
+                    //result = @"UPDATE [dbo].[IttLetters] SET [Sent] = <Sent, bit,>, [SentDate] = <SentDate, date,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[IttLetters] SET [Sent] = '" + ittLetter.Sent.ToString() + @"', [SentDate] = '" + ittLetter.SentDate + "' WHERE [Id] = " + ittLetter.Id;
                     break;
                 case "JobDescriptions":
                     JobDescription jobDescription = new JobDescription((JobDescription)_object);
-                    result = @"UPDATE [dbo].[Regions] SET [Occupation] = " + jobDescription.Occupation + ", [Area] = '" + jobDescription.Area + "', [Procuration] = '" + jobDescription.Procuration.ToString() + "' WHERE [Id] = " + jobDescription.Id.ToString();
+                    //result = @"UPDATE [dbo].[JobDescriptions] SET [Occupation] = <Occupation, nvarchar(50),>, [Area] = <Area, nvarchar(50),>, [Procuration] = <Procuration, bit,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[JobDescriptions] SET [Occupation] = '" + jobDescription.Occupation + "', [Area] = '" + jobDescription.Area + "', [Procuration] = '" + jobDescription.Procuration.ToString() + "' WHERE [Id] = " + jobDescription.Id.ToString();
                     break;
                 case "LegalEntities":
                     LegalEntity legalEntity = new LegalEntity((LegalEntity)_object);
+                    //result = @"UPDATE [dbo].[LegalEntities] SET [Cvr] = <Cvr, nvarchar(50),>, [Name] = <Name, nvarchar(255),>, [CoName] = <CoName, nvarchar(255),>, [Address] = <Address, int,>, [ContactInfo] = <ContactInfo, int,>, [Url] = <Url, nvarchar(50),> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[LegalEntities] SET [Cvr] = '" + legalEntity.Cvr + @"', [Name] = '" + legalEntity.Name + @"', [CoName] = '" + legalEntity.CoName + @"', [Address] = " + legalEntity.Address.Id + @", [ContactInfo] = " + legalEntity.ContactInfo.Id + @", [Url] = '" + legalEntity.Url + @"' WHERE [Id] = " + legalEntity.Id;
                     break;
                 case "LetterDataList":
                     LetterData letterData = new LetterData((LetterData)_object);
-                    result = @"UPDATE [dbo].[LetterDataList] SET [ProjectName] = '" + letterData.ProjectName + @"', [Builder] = '" + letterData.Builder + @" [AnswerDate] = '" + letterData.AnswerDate + @"', [QuestionDate] = '" + letterData.QuestionDate + @"', [CorrectionDate] = '" + letterData.CorrectionDate + @"', [TimeSpan] = '" + letterData.TimeSpan + @"', [MaterialUrl] = '" + letterData.MaterialUrl + @"', [ConditionUrl] = '" + letterData.ConditionUrl + @"', [PassWord] = '" + letterData.PassWord + @"' WHERE [Id] = " + letterData.Id;
+                    //result = @"UPDATE [dbo].[LetterDataList] SET [ProjectName] = <ProjectName, nvarchar(50),>, [Builder] = <Builder, nvarchar(50),>, [AnswerDate] = <AnswerDate, nvarchar(50),>, [QuestionDate] = <QuestionDate, nvarchar(50),>, [CorrectionDate] = <CorrectionDate, nvarchar(50),>, [ConditionDate] = <ConditionDate, nvarchar(50),>, [MaterialUrl] = <MaterialUrl, nvarchar(50),>, [ConditionUrl] = <ConditionUrl, nvarchar(50),>, [TimeSpan] = <TimeSpan, int,>, [PassWord] = <PassWord, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[LetterDataList] SET [ProjectName] = '" + letterData.ProjectName + @"', [Builder] = '" + letterData.Builder + @"' [AnswerDate] = '" + letterData.AnswerDate + @"', [QuestionDate] = '" + letterData.QuestionDate + @"', [CorrectionDate] = '" + letterData.CorrectionDate + @"', [ConditionDate] = '" + letterData.ConditionDate + @"', [MaterialUrl] = '" + letterData.MaterialUrl + @"', [ConditionUrl] = '" + letterData.ConditionUrl + @"', [TimeSpan] = " + letterData.TimeSpan + @", [PassWord] = '" + letterData.PassWord + @"' WHERE [Id] = " + letterData.Id;
                     break;
                 case "Offers":
                     Offer offer = new Offer((Offer)_object);
-                    result = @"UPDATE [dbo].[Offers] SET [Received] = " + offer.Received.ToString() + @", [ReceivedDate] = " + offer.ReceivedDate.ToString("yyyy-MM-dd") + @", [Price] = " + offer.Price + @", [Chosen] = '" + offer.Chosen.ToString() + @"' WHERE [Id] = " + offer.Id;
+                    //result = @"UPDATE [dbo].[Offers] SET [Received] = <Received, bit,>, [ReceivedDate] = <ReceivedDate, date,>, [Price] = <Price, money,>, [Chosen] = <Chosen, bit,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Offers] SET [Received] = '" + offer.Received.ToString() + @"', [ReceivedDate] = '" + offer.ReceivedDate.ToString("yyyy-MM-dd") + @"', [Price] = " + offer.Price + @", [Chosen] = '" + offer.Chosen.ToString() + @"' WHERE [Id] = " + offer.Id;
                     break;
                 case "Paragrafs":
-                    Paragraf paragraph = new Paragraf((Paragraf)_object);
-                    result = @"UPDATE [dbo].[Paragrafs] SET [Project] = " + paragraph.Project.Id + @", [Name] = '" + paragraph.Text + @"' WHERE[Id] = " + paragraph.Id;
+                    Paragraf paragraf = new Paragraf((Paragraf)_object);
+                    //result = @"UPDATE [dbo].[Paragraphs] SET [Project] = <Project, int,>, [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Paragraphs] SET [Project] = " + paragraf.Project.Id + @", [Text] = '" + paragraf.Text + @"' WHERE[Id] = " + paragraf.Id;
                     break;
                 case "Persons":
                     Person person = new Person((Person)_object);
+                    //result = @"UPDATE [dbo].[Persons] SET [Name] = <Name, nvarchar(50),>, [ContactInfo] = <ContactInfo, int,> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[Persons] SET [Name] = '" + person.Name + @"', [ContactInfo] = " + person.ContactInfo.Id + @" WHERE[Id] = " + person.Id;
                     break;
                 case "ProjectDetails":
                     ProjectDetail projectDetail = new ProjectDetail((ProjectDetail)_object);
                     //result = @"UPDATE [dbo].[ProjectDetails] SET [Name] = < Case, int,>, [Description] = <Description, nvarchar(max),>, [Period] = <Period, nvarchar(50),>, [AnswerDate] = <AnswerDate, nvarchar(50),> WHERE[Id] = <Id, int,>"
-                    result = @"UPDATE dbo.[ProjectDetails] SET [Name] = '" + projectDetail.Name + "', [Description] = '" + projectDetail.Description + "', [Period] = " + projectDetail.Period + "', [AnswerDate] = " + projectDetail.AnswerDate + "' WHERE [Id] = " + projectDetail.Id;
+                    result = @"UPDATE dbo.[ProjectDetails] SET [Name] = '" + projectDetail.Name + "', [Description] = '" + projectDetail.Description + "', [Period] = '" + projectDetail.Period + "', [AnswerDate] = '" + projectDetail.AnswerDate + "' WHERE [Id] = " + projectDetail.Id;
                     break;
                 case "Projects":
                     Project project = new Project((Project)_object);
                     //result = @"UPDATE [dbo].[Projects] SET[Case] = < Case, int,>, [Name] = <Name, nvarchar(250),>, [Builder] = <Builder, int,>, [Status] = <Status, int,>, [TenderForm] = <TenderForm, int,>, [EnterpriseForm] = <EnterpriseForm, int,>, [Executive] = <Executive, int,>, [Details] = <Details, int,>, [EnterpriseList] = <EnterpriseList, bit,>, [Copy] = <Copy, bit,> WHERE[Id] = <Id, int,>"
-                    result = @"UPDATE dbo.[Projects] SET [Case] = '" + project.Case + "', [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Details] = " + project.Details.Id + ", [EnterpriseList] = '" + project.EnterpriseList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
+                    result = @"UPDATE dbo.[Projects] SET [Case] = " + project.Case + ", [Builder] = " + project.Builder.Id + ", [Status] = " + project.Status.Id + ", [TenderForm] = " + project.TenderForm.Id + ", [EnterpriseForm] = " + project.EnterpriseForm.Id + ", [Executive] = " + project.Executive.Id + ", [Details] = " + project.Details.Id + ", [EnterpriseList] = '" + project.EnterpriseList.ToString() + "', [Copy] = '" + project.Copy.ToString() + "' WHERE [Id] = " + project.Id;
                     break;
                 case "ProjectStatuses":
                     ProjectStatus projectStatus = new ProjectStatus((ProjectStatus)_object);
-                    result = @"UPDATE dbo.[ProjectStatuses] SET [Description] = '" + projectStatus.Text + "' WHERE Id = " + projectStatus.Id;
+                    //result = @"UPDATE [dbo].[ProjectStatuses] SET [Text] = <Text, nvarchar(255),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE dbo.[ProjectStatuses] SET [Text] = '" + projectStatus.Text + "' WHERE Id = " + projectStatus.Id;
                     break;
                 case "Regions":
                     Region region = new Region((Region)_object);
-                    result = @"UPDATE [dbo].[Regions] SET [Text] = '" + region.Text + ", [Zips] = '" + region.Zips + "' WHERE [Id] = " + region.Id;
+                    //result = @"UPDATE [dbo].[Regions] SET [Text] = <Text, nvarchar(50),>, [Zips] = <Zips, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Regions] SET [Text] = '" + region.Text + "', [Zips] = '" + region.Zips + "' WHERE [Id] = " + region.Id;
                     break;
                 case "Requests":
                     Request request = new Request((Request)_object);
+                    //result = @"UPDATE [dbo].[Requests] SET [Status] = <Status, int,>, [SentDate] = <SentDate, date,>, [ReceivedDate] = <ReceivedDate, date,> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[Requests] SET [Status] = " + request.Status.Id + ", [SentDate] = '" + request.SentDate.ToString("yyyy-MM-dd") + "', [ReceivedDate] = '" + request.ReceivedDate.ToString("yyyy-MM-dd") + "' WHERE [Id] = " + request.Id.ToString();
-                    break;
-                case "RequestShippings":
-                    RequestShipping requestData = new RequestShipping((RequestShipping)_object);
-                    //result = "UPDATE [dbo].[RequestShippings] SET [SubEntrepeneur] = <SubEntrepeneur, int,>, [AcceptUrl] = <AcceptUrl, nvarchar(50),>, [DeclineUrl] = <DeclineUrl, nvarchar(50),>, [RequestPdfPath] = <RequestPdfPath, nvarchar(50),> WHERE [Id] = <Id, int,>"
-                    result = @"UPDATE [dbo].[RequestShippings] SET [SubEntrepeneur] = " + requestData.SubEntrepeneur.Id + @", [AcceptUrl] = '" + requestData.AcceptUrl + @"', [DeclineUrl] = '" + requestData.DeclineUrl + @"', [RequestPdfPath] = '" + requestData.RequestPdfPath + "' WHERE [Id] = " + requestData.Id;
                     break;
                 case "RequestStatuses":
                     RequestStatus requestStatus = new RequestStatus((RequestStatus)_object);
-                    result = @"UPDATE [dbo].[RequestStatuses] SET [Text] = '" + requestStatus.Text + "' WHERE [Id] = " + requestStatus.Id.ToString();
+                    //result = @"UPDATE [dbo].[RequestStatuses] SET [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[RequestStatuses] SET [Text] = '" + requestStatus.Text + "' WHERE [Id] = " + requestStatus.Id;
+                    break;
+                case "Shippings":
+                    Shipping requestData = new Shipping((Shipping)_object);
+                    //result = "UPDATE [dbo].[Shippings] SET [SubEntrepeneur] = <SubEntrepeneur, int,>, [AcceptUrl] = <AcceptUrl, nvarchar(50),>, [DeclineUrl] = <DeclineUrl, nvarchar(50),>, [RequestPdfPath] = <RequestPdfPath, nvarchar(50),> WHERE [Id] = <Id, int,>"
+                    result = @"UPDATE [dbo].[Shippings] SET [SubEntrepeneur] = " + requestData.SubEntrepeneur.Id + @", [AcceptUrl] = '" + requestData.AcceptUrl + @"', [DeclineUrl] = '" + requestData.DeclineUrl + @"', [RequestPdfPath] = '" + requestData.RequestPdfPath + "' WHERE [Id] = " + requestData.Id;
                     break;
                 case "SubEntrepeneurs":
                     SubEntrepeneur subEntrepeneur = new SubEntrepeneur((SubEntrepeneur)_object);
-                    result = @"UPDATE [dbo].[SubEntrepeneurs] SET [Enterprise] = " + subEntrepeneur.Enterprise.Id + ", [Entrepeneur] = " + subEntrepeneur.Entrepeneur.Id + ", [Contact] = " + subEntrepeneur.Contact.Id + ", [Request] = " + subEntrepeneur.Request.Id + ", [IttLetter] = " + subEntrepeneur.IttLetter.Id + ", [Offer] = " + subEntrepeneur.Offer.Id + ", [Reservations] = '" + subEntrepeneur.Reservations.ToString() + "', [Uphold] = '" + subEntrepeneur.Uphold.ToString() + "', [AgreementConcluded] = '" + subEntrepeneur.AgreementConcluded.ToString() + "', [Active] = '" + subEntrepeneur.Active.ToString() + "' WHERE [Id] = " + subEntrepeneur.Id;
+                    //result = @"UPDATE [dbo].[SubEntrepeneurs] SET [Entrepeneur] = <Entrepeneur, int,>, [Enterprise] = <Enterprise, int,>, [Contact] = <Contact, int,>, [Request] = <Request, int,>, [IttLetter] = <IttLetter, int,>, [Offer] = <Offer, int,>, [Reservations] = <Reservations, bit,>, [Uphold] = <Uphold, bit,>, [AgreementConcluded] = <AgreementConcluded, bit,>, [Active] = <Active, bit,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[SubEntrepeneurs] SET [Entrepeneur] = " + subEntrepeneur.Entrepeneur.Id + ", [Enterprise] = " + subEntrepeneur.Enterprise.Id + ", [Contact] = " + subEntrepeneur.Contact.Id + ", [Request] = " + subEntrepeneur.Request.Id + ", [IttLetter] = " + subEntrepeneur.IttLetter.Id + ", [Offer] = " + subEntrepeneur.Offer.Id + ", [Reservations] = '" + subEntrepeneur.Reservations.ToString() + "', [Uphold] = '" + subEntrepeneur.Uphold.ToString() + "', [AgreementConcluded] = '" + subEntrepeneur.AgreementConcluded.ToString() + "', [Active] = '" + subEntrepeneur.Active.ToString() + "' WHERE [Id] = " + subEntrepeneur.Id;
                     break;
                 case "TenderForms":
                     TenderForm tenderForm = new TenderForm((TenderForm)_object);
-                    result = @"UPDATE [dbo].[TenderForms] SET [description] = '" + tenderForm.Text + "' WHERE [Id] = " + tenderForm.Id;
-                    break;
-                case "Users":
-                    User user = new User((User)_object);
-                    result = @"UPDATE [dbo].[Users] SET [Person] = " + user.Person.Id + ", [Initials] = '" + user.Initials + ", [Department] = '" + user.Department.Id + "', [JobDescription] = " + user.JobDescription.Id + ", [UserLevel] = " + user.UserLevel.Id + " WHERE [Id] = " + user.Id;
+                    //result = @"UPDATE [dbo].[Tenderforms] SET [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[TenderForms] SET [Text] = '" + tenderForm.Text + "' WHERE [Id] = " + tenderForm.Id;
                     break;
                 case "UserLevels":
                     UserLevel userLevel = new UserLevel((UserLevel)_object);
+                    //result = @"UPDATE [dbo].[UserLevels] SET [Text] = <Text, nvarchar(50),> WHERE [Id] = < Id, int,>";
                     result = @"UPDATE [dbo].[UserLevels] SET [Text] = '" + userLevel.Text + "' WHERE [Id] = " + userLevel.Id;
+                    break;
+                case "Users":
+                    User user = new User((User)_object);
+                    //result = @"UPDATE [dbo].[Users] SET [Person] = <Person, int,>, [Initials] = <Initials, nvarchar(10),>, [Department] = <Department, int,>, [JobDescription] = <JobDescription, int,>, [Userlevel] = <Userlevel, int,> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE [dbo].[Users] SET [Person] = " + user.Person.Id + ", [Initials] = '" + user.Initials + "', [Department] = " + user.Department.Id + ", [JobDescription] = " + user.JobDescription.Id + ", [UserLevel] = " + user.UserLevel.Id + " WHERE [Id] = " + user.Id;
                     break;
                 case "ZipTown":
                     ZipTown zipTown = new ZipTown((ZipTown)_object);
-                    result = @"UPDATE dbo.[ZipTown] SET [Town] = '" + zipTown.Town + "' WHERE [Zip] = '" + zipTown.Zip + "'";
+                    //result = @"UPDATE [dbo].[ZipTowns] SET [Zip] = <Zip, nvarchar(10),>, [Town] = <Town, nvarchar(50),> WHERE [Id] = < Id, int,>";
+                    result = @"UPDATE dbo.[ZipTowns] SET [Zip] = '" + zipTown.Zip + "', [Town] = '" + zipTown.Town + "' WHERE [Id] = " + zipTown.Id;
                     break;
                 default:
                     result = "";
@@ -1886,7 +1884,7 @@ namespace JudBizz
         /// </summary>
         /// <param name="_object">object</param>
         /// <returns>bool</returns>
-        public bool UpdateInDb(object _object)
+        public bool UpdateInDb(object _object, bool update = true)
         {
             bool result = false;
             string entityType = _object.GetType().ToString().Remove(0, 14);
@@ -1895,63 +1893,67 @@ namespace JudBizz
             {
                 case "Address":
                     Address address = new Address((Address)_object);
-                    UpdateInDb(address.ZipTown);
                     result = ProcesSqlQuery(GetSQLQueryUpdate("Addresses", address));
                     break;
                 case "Builder":
                     Builder builder = new Builder((Builder)_object);
-                    UpdateInDb(builder.Entity);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", builder));
+                    if (UpdateInDb(builder.Entity))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Builders", builder));
+                    }
                     break;
                 case "Bullet":
                     Bullet bullet = new Bullet((Bullet)_object);
-                    UpdateInDb(bullet.Paragraf);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", bullet));
+                    if (UpdateInDb(bullet.Paragraf))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Bullets", bullet));
+                    }
                     break;
                 case "Category":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("Categories", new Category((Category)_object)));
                     break;
                 case "Contact":
                     Contact contact = new Contact((Contact)_object);
-                    UpdateInDb(contact.Person);
-                    UpdateInDb(contact.Entrepeneur);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", contact));
+                    if (UpdateInDb(contact.Person) && UpdateInDb(contact.Entrepeneur))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Contacts", contact));
+                    }
                     break;
                 case "ContactInfo":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("ContactInfoList", new ContactInfo((ContactInfo)_object)));
                     break;
                 case "CraftGroup":
-                    CraftGroup craftGroup = new CraftGroup((CraftGroup)_object);
-                    UpdateInDb(craftGroup.Category);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", craftGroup));
+                    result = ProcesSqlQuery(GetSQLQueryUpdate("CraftGroups", new CraftGroup((CraftGroup)_object)));
                     break;
                 case "Enterprise":
                     Enterprise enterprise = new Enterprise((Enterprise)_object);
-                    UpdateInDb(enterprise.Project);
-                    UpdateInDb(enterprise.CraftGroup1);
-                    UpdateInDb(enterprise.CraftGroup2);
-                    UpdateInDb(enterprise.CraftGroup3);
-                    UpdateInDb(enterprise.CraftGroup4);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", enterprise));
+                    if (UpdateInDb(enterprise.Project))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Enterprises", enterprise));
+                    }
                     break;
                 case "EnterpriseForm":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("EnterpriseForms", new EnterpriseForm((EnterpriseForm)_object)));
                     break;
+                case "Entrepeneur":
+                    Entrepeneur entrepeneur = new Entrepeneur((Entrepeneur)_object);
+                    if (UpdateInDb(entrepeneur.Entity))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Entrepeneurs", entrepeneur));
+                    }
+                    break;
                 case "IttLetter":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetters", new Enterprise((Enterprise)_object)));
-                    break;
-                case "IttLetterShipping":
-                    IttLetterShipping ittLetterShipping = new IttLetterShipping((IttLetterShipping)_object);
-                    UpdateInDb(ittLetterShipping.SubEntrepeneur);
-                    UpdateInDb(ittLetterShipping.Receiver);
-                    UpdateInDb(ittLetterShipping.LetterData);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("IttLetterShippings", ittLetterShipping));
                     break;
                 case "JobDescription":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("JobDescriptions", new JobDescription((JobDescription)_object)));
                     break;
                 case "LegalEntity":
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("LegalEntities", new LegalEntity((LegalEntity)_object)));
+                    LegalEntity entity = new LegalEntity((LegalEntity)_object);
+                    if (UpdateInDb(entity.Address) && UpdateInDb(entity.ContactInfo))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("LegalEntities", entity));
+                    }
                     break;
                 case "LetterData":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("LetterDataList", new LetterData((LetterData)_object)));
@@ -1961,23 +1963,24 @@ namespace JudBizz
                     break;
                 case "Paragraf":
                     Paragraf paragraf = new Paragraf((Paragraf)_object);
-                    UpdateInDb(paragraf.Project);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Paragrafs", paragraf));
+                    if (UpdateInDb(paragraf.Project))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Paragrafs", paragraf));
+                    }
                     break;
                 case "Person":
                     Person person = new Person((Person)_object);
-                    UpdateInDb(person.ContactInfo);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", person));
+                    if (UpdateInDb(person.ContactInfo))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Persons", person));
+                    }
                     break;
                 case "Project":
                     Project project = new Project((Project)_object);
-                    UpdateInDb(project.Builder);
-                    UpdateInDb(project.Status);
-                    UpdateInDb(project.TenderForm);
-                    UpdateInDb(project.EnterpriseForm);
-                    UpdateInDb(project.Executive);
-                    UpdateInDb(project.Details);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", project));
+                    if (UpdateInDb(project.Builder) && UpdateInDb(project.Executive) && UpdateInDb(project.Details))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Projects", project));
+                    }
                     break;
                 case "ProjectDetail":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("ProjectDetails", new ProjectDetail((ProjectDetail)_object)));
@@ -1991,14 +1994,15 @@ namespace JudBizz
                 case "Request":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("Requests", new Request((Request)_object)));
                     break;
-                case "RequestShipping":
-                    RequestShipping requestShipping = new RequestShipping((RequestShipping)_object);
-                    UpdateInDb(requestShipping.SubEntrepeneur);
-                    UpdateInDb(requestShipping);
-                    result = ProcesSqlQuery(GetSQLQueryUpdate("RequestShippings", requestShipping));
-                    break;
                 case "RequestStatus":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("RequestStatuses", new RequestStatus((RequestStatus)_object)));
+                    break;
+                case "Shipping":
+                    Shipping Shipping = new Shipping((Shipping)_object);
+                    if (UpdateInDb(Shipping.SubEntrepeneur) && UpdateInDb(Shipping.Receiver) && UpdateInDb(Shipping.LetterData))
+                    {
+                        result = ProcesSqlQuery(GetSQLQueryUpdate("Shippings", Shipping));
+                    }
                     break;
                 case "SubEntrepeneur":
                     result = ProcesSqlQuery(GetSQLQueryUpdate("SubEntrepeneurs", new SubEntrepeneur((SubEntrepeneur)_object)));
@@ -2017,6 +2021,104 @@ namespace JudBizz
                     break;
                 default:
                     break;
+            }
+
+            if (result)
+            {
+                if (update)
+                {
+                    switch (entityType)
+                    {
+                        case "Address":
+                            RefreshList("Addresses");
+                            break;
+                        case "Builder":
+                            RefreshList("Builders");
+                            break;
+                        case "Bullet":
+                            RefreshList("Bullets");
+                            break;
+                        case "Category":
+                            RefreshList("Categories");
+                            break;
+                        case "Contact":
+                            RefreshList("Contacts");
+                            break;
+                        case "ContactInfo":
+                            RefreshList("Contactinfolist");
+                            break;
+                        case "CraftGroup":
+                            RefreshList("CraftGroups");
+                            break;
+                        case "Enterprise":
+                            RefreshList("Enterprises");
+                            break;
+                        case "EnterpriseForm":
+                            RefreshList("EnterpriseForms");
+                            break;
+                        case "Entrepeneur":
+                            RefreshList("Entrepeneurs");
+                            break;
+                        case "IttLetter":
+                            RefreshList("IttLetters");
+                            break;
+                        case "JobDescription":
+                            RefreshList("JobDescriptions");
+                            break;
+                        case "LegalEntity":
+                            RefreshList("LegalEntities");
+                            break;
+                        case "LetterData":
+                            RefreshList("LetterDataList");
+                            break;
+                        case "Offer":
+                            RefreshList("Offers");
+                            break;
+                        case "Paragraf":
+                            RefreshList("Paragrafs");
+                            break;
+                        case "Project":
+                            RefreshList("Projects");
+                            break;
+                        case "ProjectDetail":
+                            RefreshList("ProjectDetails");
+                            break;
+                        case "ProjectStatus":
+                            RefreshList("ProjectStatuses");
+                            break;
+                        case "Receiver":
+                            RefreshList("Receivers");
+                            break;
+                        case "Region":
+                            RefreshList("Regions");
+                            break;
+                        case "Request":
+                            RefreshList("Requests");
+                            break;
+                        case "RequestStatus":
+                            RefreshList("RequestStatuses");
+                            break;
+                        case "Shipping":
+                            RefreshList("Shippings");
+                            break;
+                        case "SubEntrepeneur":
+                            RefreshList("SubEntrepeneurs");
+                            break;
+                        case "TenderForm":
+                            RefreshList("TenderForms");
+                            break;
+                        case "User":
+                            RefreshList("Users");
+                            break;
+                        case "UserLevel":
+                            RefreshList("UserLevels");
+                            break;
+                        case "ZipTown":
+                            RefreshList("ZipTowns");
+                            break;
+                    }
+                }
+
             }
 
             return result;
@@ -2054,38 +2156,29 @@ namespace JudBizz
 
         #region Refresh Project Lists
         /// <summary>
-        /// Method, that refreshes all Project Lists
-        /// </summary>
-        /// <param name="projectId">int</param>
-        private void RefreshAllProjectLists(int projectId)
-        {
-            RefreshProjectBullets(projectId);
-            RefreshProjectEnterprises(projectId);
-            RefreshProjectIttLetterShippings(projectId);
-            RefreshProjectParagrafs(projectId);
-            RefreshProjectSubEntrepeneurs(projectId);
-            RefreshProjectRequestShippings(projectId);
-
-        }
-
-        /// <summary>
         /// Method, that retrieves an Bullet List for a Project
         /// </summary>
         /// <param name="projectId">int</param>
         private void RefreshProjectBullets(int projectId)
         {
-            ProjectLists.Bullets.Clear();
-
-            RefreshBullets();
-
-            foreach (Bullet bullet in Bullets)
+            if (ProjectLists != null)
             {
-                if (bullet.Paragraf.Project.Id == projectId)
+                if (ProjectLists.Bullets != null)
                 {
-                    ProjectLists.Bullets.Add(new Bullet((Bullet)bullet));
+                    ProjectLists.Bullets.Clear();
                 }
-            }
 
+                RefreshBullets();
+
+                foreach (Bullet bullet in Bullets)
+                {
+                    if (bullet.Paragraf.Project.Id == projectId)
+                    {
+                        ProjectLists.Bullets.Add(new Bullet((Bullet)bullet));
+                    }
+                }
+
+            }
         }
 
         /// <summary>
@@ -2094,23 +2187,29 @@ namespace JudBizz
         /// <param name="projectId">int</param>
         private void RefreshProjectEnterprises(int projectId)
         {
-            ProjectLists.Enterprises.Clear();
-
-            RefreshEnterprises();
-
-            foreach (Enterprise enterprise in Enterprises)
+            if (ProjectLists != null)
             {
-                if (enterprise.Project.Id == projectId)
+                if (ProjectLists.Enterprises != null)
                 {
-                    ProjectLists.Enterprises.Add(new Enterprise((Enterprise)enterprise));
+                    ProjectLists.Enterprises.Clear();
                 }
-            }
 
+                RefreshEnterprises();
+
+                foreach (Enterprise enterprise in Enterprises)
+                {
+                    if (enterprise.Project.Id == projectId)
+                    {
+                        ProjectLists.Enterprises.Add(new Enterprise((Enterprise)enterprise));
+                    }
+                }
+
+            }
         }
 
         /// <summary>
         /// Method, that refreshes a single Project List
-        /// Accepts the following lists: All, Bullets, Enterprises, Paragrafs, RequestShippings, IttLetterShippings & SubEntrepeneurs
+        /// Accepts the following lists: All, Bullets, Enterprises, Paragrafs, Shippings, Shippings & SubEntrepeneurs
         /// </summary>
         /// <param name="list">string</param>
         /// <param name="projectId">int</param>
@@ -2119,7 +2218,11 @@ namespace JudBizz
             switch (list)
             {
                 case "All":
-                    RefreshAllProjectLists(projectId);
+                    RefreshProjectBullets(projectId);
+                    RefreshProjectEnterprises(projectId);
+                    RefreshProjectParagrafs(projectId);
+                    RefreshProjectSubEntrepeneurs(projectId);
+                    RefreshProjectShippings(projectId);
                     break;
                 case "Bullets":
                     RefreshProjectBullets(projectId);
@@ -2130,11 +2233,8 @@ namespace JudBizz
                 case "Paragrafs":
                     RefreshProjectParagrafs(projectId);
                     break;
-                case "RequestShippings":
-                    RefreshProjectRequestShippings(projectId);
-                    break;
-                case "IttLetterShippings":
-                    RefreshProjectIttLetterShippings(projectId);
+                case "Shippings":
+                    RefreshProjectShippings(projectId);
                     break;
                 case "SubEntrepeneurs":
                     RefreshProjectSubEntrepeneurs(projectId);
@@ -2149,35 +2249,21 @@ namespace JudBizz
         /// <param name="projectId">int</param>
         private void RefreshProjectParagrafs(int projectId)
         {
-            ProjectLists.Paragrafs.Clear();
-
-            RefreshParagrafs();
-
-            foreach (Paragraf paragraf in Paragrafs)
+            if (ProjectLists != null)
             {
-                if (paragraf.Project.Id == projectId)
+                if (ProjectLists.Paragrafs != null)
                 {
-                    ProjectLists.Paragrafs.Add(new Paragraf((Paragraf)paragraf));
+                    ProjectLists.Paragrafs.Clear();
                 }
-            }
 
-        }
+                RefreshParagrafs();
 
-        /// <summary>
-        /// Method, that retrieves an Request Shippings list for a Project
-        /// </summary>
-        /// <param name="projectId">int</param>
-        private void RefreshProjectRequestShippings(int projectId)
-        {
-            ProjectLists.RequestShippings.Clear();
-
-            RefreshRequestShippings();
-
-            foreach (RequestShipping requestData in RequestShippings)
-            {
-                if (requestData.SubEntrepeneur.Enterprise.Project.Id == projectId)
+                foreach (Paragraf paragraf in Paragrafs)
                 {
-                    ProjectLists.RequestShippings.Add(new RequestShipping((RequestShipping)requestData));
+                    if (paragraf.Project.Id == projectId)
+                    {
+                        ProjectLists.Paragrafs.Add(new Paragraf((Paragraf)paragraf));
+                    }
                 }
             }
 
@@ -2187,20 +2273,26 @@ namespace JudBizz
         /// Method, that retrieves an IttLetter Shippings list for a Project
         /// </summary>
         /// <param name="projectId">int</param>
-        private void RefreshProjectIttLetterShippings(int projectId)
+        private void RefreshProjectShippings(int projectId)
         {
-            ProjectLists.IttLetterShippings.Clear();
-
-            RefreshIttLetterShippings();
-
-            foreach (IttLetterShipping shipping in IttLetterShippings)
+            if (ProjectLists != null)
             {
-                if (shipping.SubEntrepeneur.Enterprise.Project.Id == projectId)
+                if (ProjectLists.Shippings != null)
                 {
-                    ProjectLists.IttLetterShippings.Add(new IttLetterShipping((IttLetterShipping)shipping));
+                    ProjectLists.Shippings.Clear();
                 }
-            }
 
+                RefreshShippings();
+
+                foreach (Shipping shipping in Shippings)
+                {
+                    if (shipping.SubEntrepeneur.Enterprise.Project.Id == projectId)
+                    {
+                        ProjectLists.Shippings.Add(new Shipping((Shipping)shipping));
+                    }
+                }
+
+            }
         }
 
         /// <summary>
@@ -2209,18 +2301,24 @@ namespace JudBizz
         /// <param name="projectId">int</param>
         private void RefreshProjectSubEntrepeneurs(int projectId)
         {
-            ProjectLists.SubEntrepeneurs.Clear();
-
-            RefreshSubEntrepeneurs();
-
-            foreach (SubEntrepeneur subEntrepeneur in SubEntrepeneurs)
+            if (ProjectLists != null)
             {
-                if (subEntrepeneur.Enterprise.Project.Id == projectId)
+                if (ProjectLists.SubEntrepeneurs != null)
                 {
-                    ProjectLists.SubEntrepeneurs.Add(subEntrepeneur);
+                    ProjectLists.SubEntrepeneurs.Clear();
                 }
-            }
 
+                RefreshSubEntrepeneurs();
+
+                foreach (SubEntrepeneur subEntrepeneur in SubEntrepeneurs)
+                {
+                    if (subEntrepeneur.Enterprise.Project.Id == projectId)
+                    {
+                        ProjectLists.SubEntrepeneurs.Add(subEntrepeneur);
+                    }
+                }
+
+            }
         }
 
         #endregion
@@ -2458,27 +2556,6 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that retrieves an IttLetterShipping from Id
-        /// </summary>
-        /// <param name="id">int</param>
-        /// <returns>IttLetterShipping</returns>
-        public IttLetterShipping GetIttLetterShipping(int id)
-        {
-            IttLetterShipping result = new IttLetterShipping();
-
-            foreach (IttLetterShipping shipping in IttLetterShippings)
-            {
-                if (shipping.Id == id)
-                {
-                    result = shipping;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Method, that retrieves a JobDescription from Id
         /// </summary>
         /// <param name="id">int</param>
@@ -2521,7 +2598,7 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that retrieves LetterData from Id
+        /// Method, that retrieves a LetterData from Id
         /// </summary>
         /// <param name="id">int</param>
         /// <returns>LetterData</returns>
@@ -2731,27 +2808,6 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that retrieves a RequestShipping from Id
-        /// </summary>
-        /// <param name="id">int</param>
-        /// <returns>RequestShipping</returns>
-        public RequestShipping GetRequestShipping(int id)
-        {
-            RequestShipping result = new RequestShipping();
-
-            foreach (RequestShipping requestShipping in RequestShippings)
-            {
-                if (requestShipping.Id == id)
-                {
-                    result = requestShipping;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Method, that retrieves a RequestStatus from Id
         /// </summary>
         /// <param name="id">int</param>
@@ -2765,6 +2821,27 @@ namespace JudBizz
                 if (status.Id == id)
                 {
                     result = status;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Method, that retrieves an Shipping from Id
+        /// </summary>
+        /// <param name="id">int</param>
+        /// <returns>Shipping</returns>
+        public Shipping GetShipping(int id)
+        {
+            Shipping result = new Shipping();
+
+            foreach (Shipping shipping in Shippings)
+            {
+                if (shipping.Id == id)
+                {
+                    result = shipping;
                     break;
                 }
             }
@@ -2926,12 +3003,11 @@ namespace JudBizz
             RefreshContacts(true); //
 
             //Seventh level Lists
-            RefreshBullets(true);
-            RefreshSubEntrepeneurs(true);
+            RefreshBullets(true); //
+            RefreshSubEntrepeneurs(true); //
 
             //Eightieth level Lists
-            RefreshIttLetterShippings(true);
-            RefreshRequestShippings(true); //
+            RefreshShippings(true); //
 
 
         }
@@ -3217,31 +3293,6 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the IttLetter Shippings List
-        /// </summary>
-        private void RefreshIttLetterShippings(bool allLists = false)
-        {
-            if (IttLetterShippings != null)
-            {
-                IttLetterShippings.Clear();
-            }
-
-            if (!allLists)
-            {
-                RefreshLetterDataList();
-                RefreshReceivers();
-                RefreshSubEntrepeneurs();
-            }
-
-            List<object> tempList = ReadListFromDb("IttLetterShippings");
-
-            foreach (object obj in tempList)
-            {
-                IttLetterShippings.Add((IttLetterShipping)obj);
-            }
-        }
-
-        /// <summary>
         /// Method, that refreshes the JobDescriptions list
         /// </summary>
         private void RefreshJobDescriptions()
@@ -3342,9 +3393,6 @@ namespace JudBizz
                 case "IttLetters":
                     RefreshIttLetters();
                     break;
-                case "IttLetterShippings":
-                    RefreshIttLetterShippings();
-                    break;
                 case "JobDescriptions":
                     RefreshJobDescriptions();
                     break;
@@ -3378,11 +3426,11 @@ namespace JudBizz
                 case "Requests":
                     RefreshRequests();
                     break;
-                case "RequestShippings":
-                    RefreshRequestShippings();
-                    break;
                 case "RequestStatuses":
                     RefreshRequestStatuses();
+                    break;
+                case "Shippings":
+                    RefreshShippings();
                     break;
                 case "SubEntrepeneurs":
                     RefreshSubEntrepeneurs();
@@ -3611,29 +3659,6 @@ namespace JudBizz
         }
 
         /// <summary>
-        /// Method, that refreshes the Request Shippings list
-        /// </summary>
-        private void RefreshRequestShippings(bool allLists = false)
-        {
-            if (RequestShippings != null)
-            {
-                RequestShippings.Clear();
-            }
-
-            if (!allLists)
-            {
-                RefreshSubEntrepeneurs();
-            }
-
-            List<object> tempList = ReadListFromDb("RequestShippings");
-
-            foreach (object obj in tempList)
-            {
-                RequestShippings.Add((RequestShipping)obj);
-            }
-        }
-
-        /// <summary>
         /// Method, that refreshes the Request Status List
         /// </summary>
         private void RefreshRequestStatuses()
@@ -3648,6 +3673,29 @@ namespace JudBizz
             foreach (object obj in tempList)
             {
                 RequestStatuses.Add((RequestStatus)obj);
+            }
+        }
+
+        /// <summary>
+        /// Method, that refreshes the Request Shippings list
+        /// </summary>
+        private void RefreshShippings(bool allLists = false)
+        {
+            if (Shippings != null)
+            {
+                Shippings.Clear();
+            }
+
+            if (!allLists)
+            {
+                RefreshSubEntrepeneurs();
+            }
+
+            List<object> tempList = ReadListFromDb("Shippings");
+
+            foreach (object obj in tempList)
+            {
+                Shippings.Add((Shipping)obj);
             }
         }
 
@@ -3698,6 +3746,24 @@ namespace JudBizz
         }
 
         /// <summary>
+        /// Method, that refreshes the User Level list
+        /// </summary>
+        private void RefreshUserLevels()
+        {
+            if (UserLevels != null)
+            {
+                UserLevels.Clear();
+            }
+
+            List<object> tempList = ReadListFromDb("UserLevels");
+
+            foreach (object obj in tempList)
+            {
+                UserLevels.Add((UserLevel)obj);
+            }
+        }
+
+        /// <summary>
         /// Method, that refreshes the Users lists
         /// </summary>
         private void RefreshUsers(bool allLists = false)
@@ -3741,24 +3807,6 @@ namespace JudBizz
                 }
             }
 
-        }
-
-        /// <summary>
-        /// Method, that refreshes the User Level list
-        /// </summary>
-        private void RefreshUserLevels()
-        {
-            if (UserLevels != null)
-            {
-                UserLevels.Clear();
-            }
-
-            List<object> tempList = ReadListFromDb("UserLevels");
-
-            foreach (object obj in tempList)
-            {
-                UserLevels.Add((UserLevel)obj);
-            }
         }
 
         /// <summary>

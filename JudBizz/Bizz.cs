@@ -143,44 +143,6 @@ namespace JudBizz
 
         #region Refresh Indexed Lists
         /// <summary>
-        /// Method, that checks, whether a Entrepeneur exists in Receivers list
-        /// </summary>
-        /// <param name="entrepeneur">IndexedEntrepeneur</param>
-        /// <returns>bool</returns>
-        private bool CheckEntrepeneurReceivers(Entrepeneur entrepeneur)
-        {
-            bool result = false;
-            foreach (Receiver receiver in Receivers)
-            {
-                if (receiver.Cvr == entrepeneur.Entity.Cvr)
-                {
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that checks, whether an Entrepeneur exists in IndexedActiveEntrepeneurs list
-        /// </summary>
-        /// <param name="tempEntrepeneur">Entrepeneur</param>
-        /// <returns></returns>
-        private bool CheckIndexedActiveEntrepeneurExist(Entrepeneur tempEntrepeneur)
-        {
-            bool exist = false;
-            foreach (IndexedEntrepeneur entrepeneur in IndexedActiveEntrepeneurs)
-            {
-                if (entrepeneur.Id == tempEntrepeneur.Id)
-                {
-                    exist = true;
-                    break;
-                }
-            }
-            return exist;
-        }
-
-        /// <summary>
         /// Method, that refreshes all Indexed lists
         /// </summary>
         public void RefreshAllInitialIndexedLists()
@@ -356,26 +318,18 @@ namespace JudBizz
         /// Method that refreshes a list of Indexed Entrepeneurs
         /// </summary>
         /// <returns>List<IndexedEntrepeneur></returns>
-        private void RefreshIndexedActiveEntrepeneursFromProjectSubEntrepeneurs()
+        private void RefreshIndexedSubEntrepeneursFromProjectSubEntrepeneurs()
         {
-            RefreshList("Entrepeneurs");
-            RefreshIndexedCraftGroups();
-            IndexedActiveEntrepeneurs.Clear();
-
-            List<Entrepeneur> tempResult = new List<Entrepeneur>();
+            RefreshProjectList("SubEntrepeneurs", TempProject.Id);
+            IndexedSubEntrepeneurs.Clear();
 
             int i = 0;
 
             //Fill Indexed Active Entrepeneur list
-            foreach (SubEntrepeneur sub in ProjectLists.SubEntrepeneurs)
+            foreach (SubEntrepeneur subEntrepeneur in ProjectLists.SubEntrepeneurs)
             {
-                bool exist = CheckIndexedActiveEntrepeneurExist(sub.Entrepeneur);
-
-                if (sub.Entrepeneur.Active && !exist)
-                {
-                    IndexedEntrepeneurs.Add(new IndexedEntrepeneur(i, sub.Entrepeneur));
-                    i++;
-                }
+                IndexedSubEntrepeneurs.Add(new IndexedSubEntrepeneur(i, subEntrepeneur));
+                i++;
             }
 
         }
@@ -387,8 +341,8 @@ namespace JudBizz
         {
             switch (list)
             {
-                case "ActiveEntrepeneursFromProjectSubEntrepeneurs":
-                    RefreshIndexedActiveEntrepeneursFromProjectSubEntrepeneurs();
+                case "SubEntrepeneursFromProjectSubEntrepeneurs":
+                    RefreshIndexedSubEntrepeneursFromProjectSubEntrepeneurs();
                     break;
                 case "Builders":
                     RefreshIndexedBuilders();

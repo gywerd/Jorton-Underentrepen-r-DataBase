@@ -27,7 +27,8 @@ namespace JudGui
         public UserControl UcMain;
         public List<IndexedContact> IndexedContacts = new List<IndexedContact>();
         public List<Enterprise> IndexedEnterprises = new List<Enterprise>();
-        public List<IndexedEntrepeneur> IndexedEntrepeneurs = new List<IndexedEntrepeneur>();
+
+        public List<IndexedEntrepeneur> FilteredEntrepeneurs = new List<IndexedEntrepeneur>();
 
         #endregion
 
@@ -118,13 +119,17 @@ namespace JudGui
         #region Events
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboBoxCaseId.SelectedIndex > -1)
+            if (ComboBoxCaseId.SelectedIndex >= 0)
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
                 TextBoxName.Text = CBZ.TempProject.Details.Name;
-                IndexedEnterprises = GetIndexedEnterprises();
-                ComboBoxEnterprise.ItemsSource = IndexedEnterprises;
+
+                RefreshIndexedEnterprises();
+                ComboBoxEnterprise.ItemsSource = "";
+                ComboBoxEnterprise.ItemsSource = CBZ.IndexedEnterprises;
+
                 CBZ.TempSubEntrepeneur = new SubEntrepeneur();
+
                 if (!CBZ.TempSubEntrepeneur.Active)
                 {
                     CBZ.TempSubEntrepeneur.ToggleActive();
@@ -159,10 +164,9 @@ namespace JudGui
             {
                 CBZ.TempSubEntrepeneur.Enterprise = new Enterprise((Enterprise)ComboBoxEnterprise.SelectedItem);
                 CBZ.RefreshList("SubEntrepeneurs");
-                IndexedEntrepeneurs.Clear();
-                IndexedEntrepeneurs = GetIndexedEntrepeneurs();
+                GetFilteredEntrepeneurs();
                 ListBoxEntrepeneurs.ItemsSource = "";
-                ListBoxEntrepeneurs.ItemsSource = IndexedEntrepeneurs;
+                ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
                 ComboBoxContact.SelectedIndex = -1;
                 ComboBoxContact.ItemsSource = "";
 
@@ -180,12 +184,9 @@ namespace JudGui
             if (ListBoxEntrepeneurs.SelectedItems.Count == 1)
             {
                 CBZ.TempSubEntrepeneur.Entrepeneur = new Entrepeneur((IndexedEntrepeneur)ListBoxEntrepeneurs.SelectedItem);
-                CBZ.RefreshList("Contacts");
-                IndexedContacts.Clear();
-                IndexedContacts = GetIndexedContacts();
-                //ListBoxEntrepeneurs.ItemsSource = IndexedLegalEntities;
+                CBZ.RefreshIndexedList("Contacts");
                 ComboBoxContact.ItemsSource = "";
-                ComboBoxContact.ItemsSource = IndexedContacts;
+                ComboBoxContact.ItemsSource = CBZ.IndexedContacts;
                 ComboBoxContact.SelectedIndex = 0;
 
                 //Set CBZ.UcMainEdited
@@ -195,6 +196,15 @@ namespace JudGui
                 }
 
             }
+        }
+
+        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            GetFilteredEntrepeneurs();
+            ListBoxEntrepeneurs.SelectedIndex = -1;
+            ListBoxEntrepeneurs.ItemsSource = "";
+            ListBoxEntrepeneurs.ItemsSource = this.FilteredEntrepeneurs;
+
         }
 
         #endregion
@@ -311,7 +321,7 @@ namespace JudGui
         /// Method, that filters existing Legal Entities in SubEntrepeneurs from list of indexable Legal Entities
         /// </summary>
         /// <param name="result"></param>
-        /// <returns></returns>
+        /// <returns>List<IndexedEntrepeneur></returns>
         private List<IndexedEntrepeneur> FilterIndexedEntrepeneur(List<Entrepeneur> list)
         {
             List<Entrepeneur> tempResult = new List<Entrepeneur>();
@@ -349,11 +359,8 @@ namespace JudGui
         /// </summary>
         private void GenerateComboBoxCaseIdItems()
         {
-            ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                ComboBoxCaseId.Items.Add(temp);
-            }
+            ComboBoxCaseId.ItemsSource = "";
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
         /// <summary>
@@ -361,12 +368,8 @@ namespace JudGui
         /// </summary>
         private void GenerateContactItems()
         {
-            ComboBoxContact.Items.Clear();
-            IndexedContacts = GetIndexedContacts();
-            foreach (IndexedContact temp in IndexedContacts)
-            {
-                    ComboBoxContact.Items.Add(temp);
-            }
+            ComboBoxContact.ItemsSource = "";
+            ComboBoxContact.ItemsSource = CBZ.IndexedContacts;
         }
 
         /// <summary>
@@ -374,11 +377,60 @@ namespace JudGui
         /// </summary>
         private void GenerateEnterpriseItems()
         {
-            ComboBoxEnterprise.Items.Clear();
-            IndexedEnterprises = GetIndexedEnterprises();
-            foreach (Enterprise temp in IndexedEnterprises)
+            ComboBoxEnterprise.ItemsSource = "";
+            ComboBoxEnterprise.ItemsSource = CBZ.IndexedEnterprises;
+        }
+
+        /// <summary>
+        /// Method, that retrieves a list of filtered Entrepeneurs for ListBoxEntrepeneurs
+        /// </summary>
+        private void GetFilteredEntrepeneurs()
+        {
+            List<Entrepeneur> tempResult = new List<Entrepeneur>();
+            List<IndexedEntrepeneur> result = new List<IndexedEntrepeneur>();
+            this.FilteredEntrepeneurs.Clear();
+            CBZ.RefreshList("Entrepeneurs");
+
+            int length = TextBoxSearch.Text.Length;
+
+            if (length >= 1)
             {
-                    ComboBoxEnterprise.Items.Add(temp);
+
+                foreach (Entrepeneur entrepeneur in CBZ.ActiveEntrepeneurs)
+                {
+                    if (entrepeneur.Entity.Name.Length >= length)
+                    {
+                        if (entrepeneur.Entity.Name.Remove(length).ToLower() == TextBoxSearch.Text.ToLower())
+                        {
+                            if (CheckCraftGroups(entrepeneur))
+                            {
+                                tempResult.Add(entrepeneur);
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (Entrepeneur entrepeneur in CBZ.ActiveEntrepeneurs)
+                {
+                    if (CheckCraftGroups(entrepeneur))
+                    {
+                        tempResult.Add(entrepeneur);
+                    }
+                }
+
+            }
+
+            result = FilterIndexedEntrepeneur(tempResult);
+
+            int i = 0;
+
+            foreach (Entrepeneur entrepeneur in result)
+            {
+                this.FilteredEntrepeneurs.Add(new IndexedEntrepeneur(i, entrepeneur));
+                i++;
             }
         }
 
@@ -388,85 +440,29 @@ namespace JudGui
         /// <returns>Contact</returns>
         private Contact GetContact()
         {
-            Contact result = new Contact();
-            int index = ComboBoxContact.SelectedIndex;
-            if (IndexedContacts.Count == 0)
-            {
-                GetIndexedContacts();
-            }
-            foreach (IndexedContact tempContact in IndexedContacts)
-            {
-                if (tempContact.Index == index)
-                {
-                    return tempContact;
-                }
-            }
-            return result;
-            throw new NotImplementedException();
+            return new Contact((Contact)ComboBoxContact.SelectedItem);
         }
 
         /// <summary>
         /// Method that creates a list of indexable Contacts
         /// </summary>
-        /// <returns>List<IndexedSubEntrepeneur></returns>
-        private List<IndexedContact> GetIndexedContacts()
-        {
-            List<IndexedContact> result = new List<IndexedContact>();
-            IndexedContact iContact = new IndexedContact(0, CBZ.Contacts[0]);
-            result.Add(iContact);
-            int i = 1;
-            foreach (Contact contact in CBZ.Contacts)
-            {
-                if (contact.Entrepeneur.Id == CBZ.TempSubEntrepeneur.Entrepeneur.Id)
-                {
-                    IndexedContact temp = new IndexedContact(i, contact);
-                    result.Add(temp);
-                    i++;
-                }
-            }
-            return result;
-        }
+        private void RefreshIndexedContacts() => CBZ.RefreshIndexedList("Contacts");
 
         /// <summary>
         /// Method, that creates an indexable Enterprises
         /// </summary>
-        /// <returns>List<IndexedEnterprise></returns>
-        private List<Enterprise> GetIndexedEnterprises()
+        private void RefreshIndexedEnterprises()
         {
-            List<Enterprise> result = new List<Enterprise>();
-            int i = 0;
-            foreach (Enterprise enterprise in CBZ.Enterprises)
-            {
-                if (enterprise.Project.Id == CBZ.TempProject.Id)
-                {
-                    IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
-                    result.Add(temp);
-                    i++;
-                }
-            }
-            return result;
-        }
+            CBZ.RefreshProjectList("All", CBZ.TempProject.Id);
+            CBZ.IndexedEnterprises.Clear();
 
-        /// <summary>
-        /// Method that creates a list of indexable Legal Entities
-        /// </summary>
-        /// <returns>List<IndexedEntrepeneur></returns>
-        private List<IndexedEntrepeneur> GetIndexedEntrepeneurs()
-        {
-            List<Entrepeneur> tempResult = new List<Entrepeneur>();
-            List<IndexedEntrepeneur> result = new List<IndexedEntrepeneur>();
             int i = 0;
-            CBZ.RefreshList("Entrepeneurs");
-            foreach (Entrepeneur entrepeneur in CBZ.ActiveEntrepeneurs)
+
+            foreach (Enterprise enterprise in CBZ.ProjectLists.Enterprises)
             {
-                if (CheckCraftGroups(entrepeneur))
-                {
-                    tempResult.Add(entrepeneur);
-                    i++;
-                }
+                CBZ.IndexedEnterprises.Add(new IndexedEnterprise(i, enterprise));
+                i++;
             }
-            result = FilterIndexedEntrepeneur(tempResult);
-            return result;
         }
 
         /// <summary>

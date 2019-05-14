@@ -12,22 +12,33 @@ namespace JudBizz
         #region Fields
         private List<Bullet> bullets = new List<Bullet>();
         private List<Enterprise> enterprises = new List<Enterprise>();
-        private List<IttLetterShipping> ittLetterShippings = new List<IttLetterShipping>();
         private List<Paragraf> paragrafs = new List<Paragraf>();
-        private List<RequestShipping> requestShippings = new List<RequestShipping>();
+        private List<Shipping> shippings = new List<Shipping>();
         private List<SubEntrepeneur> subEntrepeneurs = new List<SubEntrepeneur>();
 
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public ProjectLists() { }
 
-        public ProjectLists(List<Enterprise> projectEnterprises, List<RequestShipping> projectRequestDataList, List<SubEntrepeneur> projectSubEntrepeneurs, List<IttLetterShipping> projectShippingList)
+        /// <summary>
+        /// Constructor used to create new ProjectLists from existing lists
+        /// </summary>
+        /// <param name="bullets">List<Bullet></param>
+        /// <param name="enterprises">List<Bullet></param>
+        /// <param name="paragrafs">List<Paragraf></param>
+        /// <param name="shippings">List<Shipping></param>
+        /// <param name="subEntrepeneurs">List<SubEntrepeneur></param>
+        public ProjectLists(List<Bullet> bullets, List<Enterprise> enterprises, List<Paragraf> paragrafs, List<Shipping> shippings, List<SubEntrepeneur> subEntrepeneurs)
         {
-            this.enterprises = projectEnterprises;
-            this.requestShippings = projectRequestDataList;
-            this.subEntrepeneurs = projectSubEntrepeneurs;
-            this.ittLetterShippings = projectShippingList;
+            this.bullets = bullets;
+            this.enterprises = enterprises;
+            this.paragrafs = paragrafs;
+            this.shippings = shippings;
+            this.subEntrepeneurs = subEntrepeneurs;
 
         }
 
@@ -36,9 +47,8 @@ namespace JudBizz
         #region Properties
         public List<Bullet> Bullets { get => bullets; set => bullets = value; }
         public List<Enterprise> Enterprises { get => enterprises; set => enterprises = value; }
-        public List<IttLetterShipping> IttLetterShippings { get => ittLetterShippings; set => ittLetterShippings = value; }
         public List<Paragraf> Paragrafs { get => paragrafs; set => paragrafs = value; }
-        public List<RequestShipping> RequestShippings { get => requestShippings; set => requestShippings = value; }
+        public List<Shipping> Shippings { get => shippings; set => shippings = value; }
         public List<SubEntrepeneur> SubEntrepeneurs { get => subEntrepeneurs; set => subEntrepeneurs = value; }
 
         #endregion

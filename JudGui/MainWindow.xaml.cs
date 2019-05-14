@@ -39,15 +39,14 @@ namespace JudGui
         public UcEntrepeneurCreate UcEntrepeneurCreate;
         public UcEntrepeneurEdit UcEntrepeneurEdit;
         public UcEntrepeneursStatusChange UcEntrepeneursStatusChange;
-        public UcIttLettersPrepareCommonLetter UcIttLettersPrepareCommonLetter;
-        public UcIttLettersPreparePersonalLetters UcIttLettersPreparePersonalLetters;
-        public UcIttLettersChooseReceivers UcIttLettersChooseReceivers;
-        public UcIttLettersSendLetters UcIttLettersSendLetters;
+        public UcIttLetters UcIttLetters;
+        public UcIttLettersShow UcIttLettersShow;
         public UcJobDescritions UcJobDescritions;
         public UcLogin UcLogin;
         public UcProjectCreate UcProjectCreate;
         public UcProjectCaseIdChange UcProjectCaseIdChange;
         public UcProjectCopy UcProjectCopy;
+        public UcProjectDelete UcProjectDelete;
         public UcProjectsEdit UcProjectsEdit;
         public UcProjectsElaboration UcProjectsElaboration;
         public UcProjectStatusChange UcProjectStatusChange;
@@ -75,11 +74,13 @@ namespace JudGui
             CBZ = new Bizz();
             ButtonChangePassWord.IsEnabled = false;
             ButtonLogOut.IsEnabled = false;
-            TabOffer.IsEnabled = false;
-            TabMaintenance.IsEnabled = false;
-            TabAdministration.IsEnabled = false;
-            Data.IsEnabled = false;
-            Users.IsEnabled = false;
+            TabOffer.Visibility = Visibility.Hidden;
+            TabCalculation.Visibility = Visibility.Hidden;
+            TabNews.Visibility = Visibility.Hidden;
+            TabMaintenance.Visibility = Visibility.Hidden;
+            TabAdministration.Visibility = Visibility.Hidden;
+            Data.Visibility = Visibility.Hidden;
+            Users.Visibility = Visibility.Hidden;
             OpenUcLogin();
         }
 
@@ -404,75 +405,39 @@ namespace JudGui
             MessageBox.Show("Endnu ikke implementeret", "Hjælp", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void ButtonIttLetterChooseReceivers_Click(object sender, RoutedEventArgs e)
+        private void ButtonIttLettersSend_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Vælg Modtagere'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcIttLettersChooseReceivers = new UcIttLettersChooseReceivers(CBZ, UcMain);
-                    UcMain.Content = UcIttLettersChooseReceivers;
+                    UcIttLetters = new UcIttLetters(CBZ, UcMain);
+                    UcMain.Content = UcIttLetters;
                 }
             }
             else
             {
-                UcIttLettersChooseReceivers = new UcIttLettersChooseReceivers(CBZ, UcMain);
-                UcMain.Content = UcIttLettersChooseReceivers;
+                UcIttLetters = new UcIttLetters(CBZ, UcMain);
+                UcMain.Content = UcIttLetters;
             }
         }
 
-        private void ButtonIttLetterPrepareCommon_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.UcMainEdited)
-            {
-                if (MessageBox.Show("Vil du åbne 'Klargør Fælles Brevdel'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                {
-                    CBZ.UcMainEdited = false;
-                    UcIttLettersPrepareCommonLetter = new UcIttLettersPrepareCommonLetter(CBZ, UcMain);
-                    UcMain.Content = UcIttLettersPrepareCommonLetter;
-                }
-            }
-            else
-            {
-                UcIttLettersPrepareCommonLetter = new UcIttLettersPrepareCommonLetter(CBZ, UcMain);
-                UcMain.Content = UcIttLettersPrepareCommonLetter;
-            }
-        }
-
-        private void ButtonIttLetterPreparePersonal_Click(object sender, RoutedEventArgs e)
-        {
-            if (CBZ.UcMainEdited)
-            {
-                if (MessageBox.Show("Vil du åbne 'Klargør Personlig Brevdel'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
-                {
-                    CBZ.UcMainEdited = false;
-                    UcIttLettersPreparePersonalLetters = new UcIttLettersPreparePersonalLetters(CBZ, UcMain);
-                    UcMain.Content = UcIttLettersPreparePersonalLetters;
-                }
-            }
-            else
-            {
-                UcIttLettersPreparePersonalLetters = new UcIttLettersPreparePersonalLetters(CBZ, UcMain);
-                UcMain.Content = UcIttLettersPreparePersonalLetters;
-            }
-        }
-
-        private void ButtonIttLetterSend_Click(object sender, RoutedEventArgs e)
+        private void ButtonIttLettersShow_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
             {
                 if (MessageBox.Show("Vil du åbne 'Afsend'. Alle ugemte data mistes!", "Tilbudsbreve", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                 {
                     CBZ.UcMainEdited = false;
-                    UcIttLettersSendLetters = new UcIttLettersSendLetters(CBZ, UcMain);
-                    UcMain.Content = UcIttLettersSendLetters;
+                    UcIttLettersShow = new UcIttLettersShow(CBZ, UcMain);
+                    UcMain.Content = UcIttLettersShow;
                 }
             }
             else
             {
-                UcIttLettersSendLetters = new UcIttLettersSendLetters(CBZ, UcMain);
-                UcMain.Content = UcIttLettersSendLetters;
+                UcIttLettersShow = new UcIttLettersShow(CBZ, UcMain);
+                UcMain.Content = UcIttLettersShow;
             }
 
         }
@@ -560,6 +525,24 @@ namespace JudGui
             }
         }
 
+        private void ButtonProjectDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (CBZ.UcMainEdited)
+            {
+                if (MessageBox.Show("Vil du åbne 'Slet Projekt'. Alle ugemte data mistes!", "Projekter", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                {
+                    CBZ.UcMainEdited = false;
+                    UcProjectDelete = new UcProjectDelete(CBZ, UcMain);
+                    UcMain.Content = UcProjectDelete;
+                }
+            }
+            else
+            {
+                UcProjectDelete = new UcProjectDelete(CBZ, UcMain);
+                UcMain.Content = UcProjectDelete;
+            }
+        }
+
         private void ButtonProjectEdit_Click(object sender, RoutedEventArgs e)
         {
             if (CBZ.UcMainEdited)
@@ -587,13 +570,13 @@ namespace JudGui
                 {
                     CBZ.UcMainEdited = false;
                     UcProjectsElaboration = new UcProjectsElaboration(CBZ, UcMain);
-                    UcMain.Content = UcProjectsEdit;
+                    UcMain.Content = UcProjectsElaboration;
                 }
             }
             else
             {
-                UcProjectsEdit = new UcProjectsEdit(CBZ, UcMain);
-                UcMain.Content = UcProjectsEdit;
+                UcProjectsElaboration = new UcProjectsElaboration(CBZ, UcMain);
+                UcMain.Content = UcProjectsElaboration;
             }
 
         }
@@ -864,7 +847,7 @@ namespace JudGui
         private void OpenUcLogin()
         {
             CBZ.UcMainEdited = true;
-            UcLogin = new UcLogin(CBZ, TabOffer, TabMaintenance, TabAdministration, Data, Users, ButtonChangePassWord, ButtonLogOut, UserName, UcMain);
+            UcLogin = new UcLogin(CBZ, TabOffer, TabNews, TabMaintenance, TabAdministration, Data, Users, ButtonChangePassWord, ButtonLogOut, UserName, UcMain);
             UcMain.Content = UcLogin;
         }
 

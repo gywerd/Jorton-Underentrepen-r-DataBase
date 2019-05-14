@@ -23,9 +23,7 @@
             <RowDefinition Height="50*" />
             <RowDefinition Height="75*" />
             <RowDefinition Height="60*" />
-            <RowDefinition Height="225*" />
-            <RowDefinition Height="150*" />
-            <RowDefinition Height="60*" />
+            <RowDefinition Height="435*" />
             <RowDefinition Height="60*" />
             <RowDefinition Height="110*" />
             <RowDefinition Height="50" />
@@ -70,27 +68,6 @@
                 </TransformGroup>
             </CheckBox.RenderTransform>
         </CheckBox>
-        <Label x:Name="LabelProjectDescription"
-               Content="Projektbeskrivelse*:"
-               FontSize="24"
-               Grid.Column="1" Grid.Row="4"
-               Grid.ColumnSpan="4"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
-        <Label x:Name="LabelPeriod"
-               Content="Udførelsesperiode*:"
-               FontSize="24"
-               Grid.Column="1" Grid.Row="5"
-               Grid.ColumnSpan="4"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
-        <Label x:Name="LabelAnswerDate"
-               Content="Tilbudsfrist*:"
-               FontSize="24"
-               Grid.Column="1" Grid.Row="6"
-               Grid.ColumnSpan="4"
-               HorizontalAlignment="Left"
-               VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId"
                   FontSize="24"
                   Grid.Column="3" Grid.Row="2"
@@ -110,48 +87,31 @@
                                TextWrapping="Wrap"
                                VerticalAlignment="Top" 
                                Watermark="Renovering af Fjordskolen, Kruså" />
-        <ListBox x:Name="ListBoxEntrepeneurs"
+        <ListBox x:Name="ListBoxSubEntrepeneurs"
                  Grid.Column="3" Grid.Row="3"
                  Grid.ColumnSpan="6"
-                 Height="215" Width="1065"
+                 Height="420" Width="1065"
                  HorizontalAlignment="Left"
                  SelectionChanged="ListBoxEntrepeneurs_SelectionChanged"
                  SelectionMode="Multiple"
                  VerticalAlignment="Top" />
-        <xctk:WatermarkTextBox x:Name="TextBoxProjectDescription" 
-                               AcceptsReturn="True" 
-                               FontSize="12"
-                               Grid.Column="3" Grid.Row="4" 
-                               Grid.ColumnSpan="6"
-                               Height="140" Width="1065"
-                               HorizontalAlignment="Left" 
-                               Text="" 
-                               TextChanged="TextBoxProjectDescription_TextChanged" 
-                               TextWrapping="Wrap" 
-                               VerticalAlignment="Top" 
-                               Watermark="Byggeriet omfatter etablering af 6 nye punkthuse med hver 10 lejligheder i Skærbæk, Fredericia. Det vil sige i alt 60 boliger. De seks punkthuse er identiske i forhold til konstruktionsopbygning..."  />
-        <xctk:WatermarkTextBox x:Name="TextBoxPeriod"
-                               FontSize="24"
-                               Grid.Column="3" Grid.Row="5"
-                               Grid.ColumnSpan="6"
-                               Height="50" Width="1065"
-                               HorizontalAlignment="Left"
-                               Text="" 
-                               TextChanged="TextBoxPeriod_TextChanged" 
-                               TextWrapping="Wrap"
-                               VerticalAlignment="Top" 
-                               Watermark="22. januar 2018 – 30. april 2019" />
-        <xctk:WatermarkTextBox x:Name="TextBoxAnswerDate"
-                               FontSize="24"
-                               Grid.Column="3" Grid.Row="6"
-                               Grid.ColumnSpan="6"
-                               Height="50" Width="1065"
-                               HorizontalAlignment="Left"
-                               Text="" 
-                               TextChanged="TextBoxAnswerDate_TextChanged" 
-                               TextWrapping="Wrap"
-                               VerticalAlignment="Top" 
-                               Watermark="31. oktober 2017 kl. 12.00" />
+        <CheckBox x:Name="CheckBoxDetails" 
+                  Content="Detaljer" 
+                  FontSize="12" 
+                  Grid.Column="3" Grid.Row="4" 
+                  HorizontalAlignment="Left"
+                  IsEnabled="False"
+                  RenderTransformOrigin="1,1" 
+                  VerticalAlignment="Bottom" >
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterX="-90" CenterY="15" ScaleX="2" ScaleY="2"  />
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
         <Button x:Name="ButtonChoseAll"
                 Background="#216C9E"
                 Click="ButtonChoseAll_Click"
@@ -187,14 +147,14 @@
                 Height="35"  Width="35" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" />
-        <Button x:Name="ButtonSave"
+        <Button x:Name="ButtonSend"
                 Background="#216C9E"
-                Click="ButtonSave_Click"
-                Content="GEM"
+                Click="ButtonSend_Click"
+                Content="SEND"
                 FontSize="48"
                 FontWeight="Bold"
                 Foreground="#FF01A858"
-                Grid.Column="7" Grid.Row="7"
+                Grid.Column="7" Grid.Row="5"
                 Grid.ColumnSpan="2"
                 Height="100" Width="345"
                 HorizontalAlignment="Center"

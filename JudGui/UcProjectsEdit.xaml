@@ -23,67 +23,92 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="75*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
             <RowDefinition Height="195*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
             <RowDefinition Height="110*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        <Label x:Name="LabelEditProject" Content="Rediger Projekt" 
+        <Label x:Name="LabelEditProject" 
+               Content="Rediger Projekt" 
                FontSize="48" FontWeight="Bold"
-               Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" 
+               Grid.Column="1" Grid.Row="1" 
+               Grid.ColumnSpan="3" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelCaseId" Content="Sagsnummer*:" 
+        <Label x:Name="LabelCaseId" 
+               Content="Sagsnummer*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="2" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelBuilder" Content="Bygherre*:" 
+        <Label x:Name="LabelBuilder" 
+               Content="Bygherre*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="3" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelProjectStatus" Content="Projektstatus*:" 
+        <Label x:Name="LabelTenderForm" 
+               Content="Udbudsform*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="4" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelTenderForm" Content="Udbudsform*:" 
+        <Label x:Name="LabelEnterpriseForm" 
+               Content="Entrepriseform*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="5" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelEnterpriseForm" Content="Entrepriseform*:" 
+        <Label x:Name="LabelOfferExecutive" 
+               Content="Tilbudsansvarlig*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="6" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelOfferExecutive" Content="Tilbudsansvarlig*:" 
+        <Label x:Name="LabelDescription" 
+               Content="Beskrivelse*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="7" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
-        <Label x:Name="LabelDescription" Content="Beskrivelse*:" 
+        <Label x:Name="LabelPeriod" 
+               Content="Udførelsesperiode*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="8" 
+               Grid.ColumnSpan="2" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top" />
+        <Label x:Name="LabelAnswerDate" 
+               Content="Tilbudsfrist*::" 
+               FontSize="24" 
+               Grid.Column="1" Grid.Row="9" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCaseId" 
                   FontSize="24" 
-                  Height="50" Width="165"
+                  Height="40" Width="165"
                   Grid.Column="3" Grid.Row="2" 
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxCaseName" 
                  FontSize="24" 
-                 Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="5" 
-                 Height="50" Width="885"
+                 Grid.Column="4" Grid.Row="2" 
+                 Grid.ColumnSpan="5" 
+                 Height="40" Width="885"
                  HorizontalAlignment="Left" 
                  TextWrapping="Wrap" 
                  Text=""
@@ -91,43 +116,40 @@
                  VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxBuilder" 
                   FontSize="24" 
-                  Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-                  Height="50" Width="1065"
+                  Grid.Column="3" Grid.Row="3" 
+                  Grid.ColumnSpan="6" 
+                  Height="40" Width="1065"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxBuilder_SelectionChanged" 
                   VerticalAlignment="Top" />
-        <ComboBox x:Name="ComboBoxProjectStatus" 
-                  FontSize="24" 
-                 Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
-                  Height="50" Width="1065"
-                  HorizontalAlignment="Left" 
-                  SelectionChanged="ComboBoxProjectStatus_SelectionChanged" 
-                  VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxTenderForm" 
                   FontSize="24" 
-                  Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="6" 
-                  Height="50" Width="1065"
+                  Grid.Column="3" Grid.Row="4" 
+                  Grid.ColumnSpan="6" 
+                  Height="40" Width="1065"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxTenderForm_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxEnterpriseForm" 
                   FontSize="24" 
-                  Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6" 
-                  Height="50" Width="1065"
+                  Grid.Column="3" Grid.Row="5" 
+                  Grid.ColumnSpan="6" 
+                  Height="40" Width="1065"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxEnterpriseForm_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxExecutive" 
                   FontSize="24" 
-                  Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="6" 
-                  Height="50" Width="1065"
+                  Grid.Column="3" Grid.Row="6" 
+                  Grid.ColumnSpan="6" 
+                  Height="40" Width="1065"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxExecutive_SelectionChanged" 
                   VerticalAlignment="Top" />
         <xctk:WatermarkTextBox x:Name="TextBoxDescription" 
                                AcceptsReturn="True" 
                                FontSize="10"
-                               Grid.Column="3" Grid.Row="8" 
+                               Grid.Column="3" Grid.Row="7" 
                                Grid.ColumnSpan="6"
                                Height="180" Width="1065"
                                HorizontalAlignment="Left" 
@@ -136,6 +158,28 @@
                                TextWrapping="Wrap" 
                                VerticalAlignment="Top" 
                                Watermark="Byggeriet omfatter etablering af 6 nye punkthuse med hver 10 lejligheder i Skærbæk, Fredericia. Det vil sige i alt 60 boliger. De seks punkthuse er identiske i forhold til konstruktionsopbygning..."  />
+        <xctk:WatermarkTextBox x:Name="TextBoxPeriod"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="8"
+                               Grid.ColumnSpan="6"
+                               Height="40" Width="1065"
+                               HorizontalAlignment="Left"
+                               Text="" 
+                               TextChanged="TextBoxPeriod_TextChanged" 
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top" 
+                               Watermark="22. januar 2018 – 30. april 2019" />
+        <xctk:WatermarkTextBox x:Name="TextBoxAnswerDate"
+                               FontSize="24"
+                               Grid.Column="3" Grid.Row="9"
+                               Grid.ColumnSpan="6"
+                               Height="40" Width="1065"
+                               HorizontalAlignment="Left"
+                               Text="" 
+                               TextChanged="TextBoxAnswerDate_TextChanged" 
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top" 
+                               Watermark="31. oktober 2017 kl. 12.00" />
         <Button x:Name="ButtonClose" 
                 Background="#216C9E"
                 Content="X"
@@ -154,7 +198,7 @@
                 FontSize="48"
                 FontWeight="Bold"
                 Foreground="#FF01A858"
-                Grid.Column="7" Grid.Row="9"
+                Grid.Column="7" Grid.Row="10"
                 Grid.ColumnSpan="2"
                 Height="100" Width="345"
                 HorizontalAlignment="Center"

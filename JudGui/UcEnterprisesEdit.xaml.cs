@@ -80,9 +80,8 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = -1;
 
                 //Update Enterprise List
-                CBZ.RefreshList("Enterprises");
-                IndexedEnterprises.Clear();
-                IndexedEnterprises = GetIndexedEnterprises();
+                RefreshIndexedEnterprises();
+                ListBoxEnterprises.ItemsSource = "";
                 ListBoxEnterprises.ItemsSource = IndexedEnterprises;
             }
             else
@@ -112,9 +111,8 @@ namespace JudGui
                 ComboBoxCraftGroup4.SelectedIndex = -1;
 
                 //Update Enterprise List
-                CBZ.RefreshList("Enterprises");
-                IndexedEnterprises.Clear();
-                IndexedEnterprises = GetIndexedEnterprises();
+                RefreshIndexedEnterprises();
+                ListBoxEnterprises.ItemsSource = "";
                 ListBoxEnterprises.ItemsSource = IndexedEnterprises;
             }
             else
@@ -131,8 +129,9 @@ namespace JudGui
         {
             CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
 
-            IndexedEnterprises = GetIndexedEnterprises();
+            RefreshIndexedEnterprises();
 
+            ListBoxEnterprises.ItemsSource = "";
             ListBoxEnterprises.ItemsSource = IndexedEnterprises;
 
             //Set CBZ.UcMainEdited
@@ -245,65 +244,57 @@ namespace JudGui
 
         }
 
-        private void TextBoxOfferList_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (TextBoxOfferList.Text.Count() > 255)
-            {
-                string textBlock = TextBoxOfferList.Text;
-                textBlock = textBlock.Remove(textBlock.Length - 1);
-                TextBoxOfferList.Text = textBlock;
-                TextBoxOfferList.Select(TextBoxOfferList.Text.Length, 0);
-            }
-            CBZ.TempEnterprise.OfferList = TextBoxOfferList.Text;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
-            }
-        }
-
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that populates the CaseId ComboBox
+        /// </summary>
         private void GenerateComboBoxCaseIdItems()
         {
-            ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in CBZ.IndexedActiveProjects)
-            {
-                ComboBoxCaseId.Items.Add(temp);
-            }
+            ComboBoxCaseId.ItemsSource = "";
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
+        /// <summary>
+        /// Method, that populate the CraftGroups ComboBoxes
+        /// </summary>
         private void GenerateCraftGroupItems()
         {
-            ComboBoxCraftGroup1.Items.Clear();
-            ComboBoxCraftGroup2.Items.Clear();
-            ComboBoxCraftGroup3.Items.Clear();
-            ComboBoxCraftGroup4.Items.Clear();
-            foreach (CraftGroup temp in CBZ.CraftGroups)
-            {
-                ComboBoxCraftGroup1.Items.Add(temp);
-                ComboBoxCraftGroup2.Items.Add(temp);
-                ComboBoxCraftGroup3.Items.Add(temp);
-                ComboBoxCraftGroup4.Items.Add(temp);
-            }
+            ComboBoxCraftGroup1.ItemsSource = "";
+            ComboBoxCraftGroup2.ItemsSource = "";
+            ComboBoxCraftGroup3.ItemsSource = "";
+            ComboBoxCraftGroup4.ItemsSource = "";
+
+            ComboBoxCraftGroup1.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup2.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup3.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup4.ItemsSource = CBZ.IndexedCraftGroups;
         }
 
-        private List<Enterprise> GetIndexedEnterprises()
+        /// <summary>
+        /// Method, that refreshes Indexed Enterprises with content from Project Enterprises list
+        /// </summary>
+        private void RefreshIndexedEnterprises()
         {
-            List<Enterprise> result = new List<Enterprise>();
+            CBZ.RefreshProjectList("All", CBZ.TempProject.Id);
+
+            if (CBZ.IndexedEnterprises != null)
+            {
+                CBZ.IndexedEnterprises.Clear();
+            }
+
             int i = 0;
+
             foreach (Enterprise enterprise in CBZ.Enterprises)
             {
                 if (enterprise.Project.Id == CBZ.TempProject.Id)
                 {
-                    IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
-                    result.Add(temp);
+                    CBZ.IndexedEnterprises.Add(new IndexedEnterprise(i, enterprise));
                 }
                 i++;
             }
-            return result;
+
         }
 
         #endregion

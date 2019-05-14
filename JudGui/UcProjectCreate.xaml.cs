@@ -25,6 +25,8 @@ namespace JudGui
         #region Fields
         public Bizz CBZ;
         public UserControl UcMain;
+
+        bool newCaseIdCorrect = false;
         #endregion
 
         #region Constructors
@@ -63,10 +65,14 @@ namespace JudGui
             bool result = false;
 
             //Code that creates a new project
-            int id = CBZ.CreateInDb(CBZ.TempProject);
-            if (id >= 1)
+            if (newCaseIdCorrect)
             {
-                result = true;
+                int id = CBZ.CreateInDb(CBZ.TempProject);
+                if (id >= 1)
+                {
+                    result = true;
+                }
+
             }
 
             if (result)
@@ -88,7 +94,7 @@ namespace JudGui
             else
             {
                 //Show error
-                MessageBox.Show("Databasen returnerede en fejl. Projektet blev ikke oprettet. Prøv igen.", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Projektet blev ikke oprettet. Check alle oplysninger og prøv igen.", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -97,56 +103,99 @@ namespace JudGui
         #region Events
         private void ComboBoxBuilder_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Builder builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
-            if (CBZ.TempProject.Builder.Id != builder.Id)
+            if (ComboBoxBuilder.SelectedIndex >= 0)
             {
-                CBZ.TempProject.Builder = builder;
+                Builder builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
 
-                //Set CBZ.UcMainEdited
-                if (!CBZ.UcMainEdited)
+                if (CBZ.TempProject.Builder.Id != builder.Id)
                 {
-                    CBZ.UcMainEdited = true;
+                    CBZ.TempProject.Builder = builder;
+
+                    //Set CBZ.UcMainEdited
+                    if (!CBZ.UcMainEdited)
+                    {
+                        CBZ.UcMainEdited = true;
+                    }
                 }
+            }
+            else
+            {
+                CBZ.TempProject.Builder = new Builder();
             }
         }
 
         private void ComboBoxTenderForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TenderForm tenderForm = new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem);
-            if (CBZ.TempProject.TenderForm.Id != tenderForm.Id)
+            if (ComboBoxTenderForm.SelectedIndex >= 0)
             {
-                CBZ.TempProject.TenderForm = tenderForm;
-
-                //Set CBZ.UcMainEdited
-                if (!CBZ.UcMainEdited)
+                TenderForm tenderForm = new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem);
+                if (CBZ.TempProject.TenderForm.Id != tenderForm.Id)
                 {
-                    CBZ.UcMainEdited = true;
+                    CBZ.TempProject.TenderForm = tenderForm;
+
+                    //Set CBZ.UcMainEdited
+                    if (!CBZ.UcMainEdited)
+                    {
+                        CBZ.UcMainEdited = true;
+                    }
                 }
+            }
+            else
+            {
+                CBZ.TempProject.TenderForm = new TenderForm();
             }
         }
 
         private void ComboBoxEnterpriseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EnterpriseForm form = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
-            if (CBZ.TempProject.EnterpriseForm.Id != form.Id)
+            if (ComboBoxEnterpriseForm.SelectedIndex >= 0)
             {
-                CBZ.TempProject.EnterpriseForm = form;
-
-                //Set CBZ.UcMainEdited
-                if (!CBZ.UcMainEdited)
+                EnterpriseForm form = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
+                if (CBZ.TempProject.EnterpriseForm.Id != form.Id)
                 {
-                    CBZ.UcMainEdited = true;
+                    CBZ.TempProject.EnterpriseForm = form;
+
+                    //Set CBZ.UcMainEdited
+                    if (!CBZ.UcMainEdited)
+                    {
+                        CBZ.UcMainEdited = true;
+                    }
                 }
+            }
+            else
+            {
+                CBZ.TempProject.EnterpriseForm = new EnterpriseForm();
             }
         }
 
         private void ComboBoxExecutive_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            User user = new User((User)ComboBoxExecutive.SelectedItem);
-
-            if (CBZ.TempProject.Executive.Id != user.Id)
+            if (ComboBoxExecutive.SelectedIndex >= 0)
             {
-                CBZ.TempProject.Executive = user;
+                User user = new User((User)ComboBoxExecutive.SelectedItem);
+
+                if (CBZ.TempProject.Executive.Id != user.Id)
+                {
+                    CBZ.TempProject.Executive = user;
+
+                    //Set CBZ.UcMainEdited
+                    if (!CBZ.UcMainEdited)
+                    {
+                        CBZ.UcMainEdited = true;
+                    }
+                }
+            }
+            else
+            {
+                CBZ.TempProject.Executive = new User();
+            }
+        }
+
+        private void TextBoxAnswerDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CBZ.TempProject.Details.AnswerDate != TextBoxDescription.Text)
+            {
+                CBZ.TempProject.Details.AnswerDate = TextBoxAnswerDate.Text;
 
                 //Set CBZ.UcMainEdited
                 if (!CBZ.UcMainEdited)
@@ -168,16 +217,20 @@ namespace JudGui
 
             if (CBZ.TempProject.Case.ToString() != TextBoxCaseId.Text)
             {
-                try
+                if (TextBoxCaseId.Text.Count() >= 1)
                 {
-                    CBZ.TempProject.Case = Convert.ToInt32(TextBoxCaseId.Text);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Sagsnummer skal være et tal!", "Projekter", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                finally
-                {
+                    ChecknewCaseIdCorrect();
+                    if (newCaseIdCorrect)
+                    {
+                        Int32.TryParse(TextBoxCaseId.Text, out int caseId);
+                        CBZ.TempProject.Case = caseId;
+                    }
+
+                    else
+                    {
+                        CBZ.TempProject.Case = 0;
+                    }
+
                     //Set CBZ.UcMainEdited
                     if (!CBZ.UcMainEdited)
                     {
@@ -225,9 +278,69 @@ namespace JudGui
             }
         }
 
+        private void TextBoxPeriod_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CBZ.TempProject.Details.Period != TextBoxPeriod.Text)
+            {
+                CBZ.TempProject.Details.Period = TextBoxPeriod.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that sets new CaseId indicator
+        /// </summary>
+        private void ChecknewCaseIdCorrect()
+        {
+            bool vacantCaseId = CheckVacantCaseId();
+
+            if (vacantCaseId)
+            {
+                newCaseIdCorrect = true;
+                ButtonCaseIdNewIndicator.Background = CBZ.greenIndicator;
+            }
+            else
+            {
+                newCaseIdCorrect = false;
+                ButtonCaseIdNewIndicator.Background = CBZ.redIndicator;
+            }
+
+        }
+
+        /// <summary>
+        /// Method, that checks wether a caseId is already used
+        /// </summary>
+        /// <returns>bool</returns>
+        private bool CheckVacantCaseId()
+        {
+            bool result = true;
+
+            if (TextBoxCaseId.Text.Count() == 6)
+            {
+
+                foreach (Project project in CBZ.Projects)
+                {
+                    if (project.Case.ToString() == TextBoxCaseId.Text)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+
+            }
+
+
+            return result;
+        }
+
         private void GenerateComboBoxBuilderItems()
         {
             ComboBoxBuilder.Items.Clear();

@@ -29,8 +29,8 @@ namespace JudGui
         public UserControl UcMain;
         public static string macAddress;
 
-        public IttLetterShipping Shipping = new IttLetterShipping();
-        public List<RequestShipping> ProjectRequestData = new List<RequestShipping>();
+        public Shipping Shipping = new Shipping();
+        public List<Shipping> ProjectRequestData = new List<Shipping>();
 
         #endregion
 
@@ -40,7 +40,7 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             CBZ.TempProject = new Project();
-            CBZ.TempRequestShipping = new RequestShipping();
+            CBZ.TempShipping = new Shipping();
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
             GenerateComboBoxCaseIdItems();
@@ -67,7 +67,7 @@ namespace JudGui
 
         private void ButtonShow_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(CBZ.TempRequestShipping.RequestPdfPath);
+            System.Diagnostics.Process.Start(CBZ.TempShipping.RequestPdfPath);
 
         }
 
@@ -80,17 +80,17 @@ namespace JudGui
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
                 TextBoxName.Text = CBZ.TempProject.Details.Name;
-                CBZ.TempRequestShipping = new RequestShipping();
-                GetProjectRequestData();
+                CBZ.TempShipping = new Shipping();
+                CBZ.RefreshProjectList("All", CBZ.TempProject.Id);
                 ListBoxEntrepeneurs.ItemsSource = "";
-                ListBoxEntrepeneurs.ItemsSource = ProjectRequestData;
+                ListBoxEntrepeneurs.ItemsSource = CBZ.ProjectLists.Shippings;
                 ListBoxEntrepeneurs.SelectedIndex = -1;
             }
             else
             {
                 TextBoxName.Text = "";
                 CBZ.TempProject = new Project();
-                CBZ.TempRequestShipping = new RequestShipping();
+                CBZ.TempShipping = new Shipping();
                 ProjectRequestData.Clear();
                 ListBoxEntrepeneurs.ItemsSource = "";
                 ListBoxEntrepeneurs.SelectedIndex = -1;
@@ -107,7 +107,7 @@ namespace JudGui
 
         private void ListBoxEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempRequestShipping = new RequestShipping((RequestShipping)ListBoxEntrepeneurs.SelectedItem);
+            CBZ.TempShipping = new Shipping((Shipping)ListBoxEntrepeneurs.SelectedItem);
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -128,24 +128,6 @@ namespace JudGui
             ComboBoxCaseId.Items.Clear();
             ComboBoxCaseId.ItemsSource = "";
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
-        }
-
-        /// <summary>
-        /// Method, that generates List of ProjectSubEntrepeneurs
-        /// </summary>
-        /// <returns></returns>
-        private void GetProjectRequestData()
-        {
-            ProjectRequestData.Clear();
-            CBZ.RefreshList("Projects");
-            CBZ.RefreshList("LetterDataList");
-            foreach (RequestShipping data in CBZ.RequestShippings)
-            {
-                if (data.SubEntrepeneur.Id == CBZ.TempProject.Id)
-                {
-                    ProjectRequestData.Add(data);
-                }
-            }
         }
 
         #endregion

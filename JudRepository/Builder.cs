@@ -58,9 +58,18 @@ namespace JudRepository
         /// <param name="builder">Builder</param>
         public Builder(Builder builder)
         {
+            if (builder !=null)
+            {
                 this.id = builder.Id;
-                this.entity = builder.Entity;
+                this.entity = new LegalEntity();
                 this.active = builder.Active;
+            }
+            else
+            {
+                this.id = 0;
+                this.entity = new LegalEntity();
+                this.active = false;
+            }
         }
 
 

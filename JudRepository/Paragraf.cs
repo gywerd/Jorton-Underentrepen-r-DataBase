@@ -52,9 +52,19 @@ namespace JudRepository
         /// <param name="paragraf">Paragraf</param>
         public Paragraf(Paragraf paragraf)
         {
-            this.id = paragraf.id;
-            this.project = paragraf.Project;
-            this.text = paragraf.Text;
+            if (paragraf != null)
+            {
+                this.id = paragraf.id;
+                this.project = paragraf.Project;
+                this.text = paragraf.Text;
+            }
+
+            else
+            {
+                this.id = 0;
+                this.project = new Project();
+                this.text = "";
+            }
         }
 
         /// <summary>

@@ -24,47 +24,47 @@
             <RowDefinition Height="75*"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="60*"/>
-            <RowDefinition Height="60*"/>
             <RowDefinition Height="120*"/>
             <RowDefinition Height="120*"/>
             <RowDefinition Height="60*"/>
-            <RowDefinition Height="75*"/>
+            <RowDefinition Height="135*"/>
             <RowDefinition Height="110*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Label x:Name="LabelCreateEnterprises" Content="Opret Entreprise" 
                FontSize="48" FontWeight="Bold"
-               Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4" 
+               Grid.Column="1" Grid.Row="1" 
+               Grid.ColumnSpan="4" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelCaseId" Content="Sagsnummer*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" 
-               HorizontalAlignment="Left" 
-               VerticalAlignment="Top" />
-        <Label x:Name="LabelCaseName" Content="Sagsnavn:" 
-               FontSize="24" 
-               Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="2" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelDesignation" Content="Benævnelse*:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="3" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelElaboration" Content="Uddybning:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="4" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelOfferList" Content="Tilbudsliste:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="5" 
+               Grid.ColumnSpan="2" 
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
         <Label x:Name="LabelCraftgroups" Content="Faggrupper:" 
                FontSize="24" 
-               Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" 
+               Grid.Column="1" Grid.Row="6" 
+               Grid.ColumnSpan="2" 
                Height="50" Width="345"
                HorizontalAlignment="Left" 
                VerticalAlignment="Top" />
@@ -75,24 +75,32 @@
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCaseId_SelectionChanged" 
                   VerticalAlignment="Top" />
-        <Label x:Name="TextBoxCaseName" Content=""
-               FontSize="24" 
-               Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="6" 
-               Height="50" Width="1065"
-               HorizontalAlignment="Left" 
-               VerticalAlignment="Top" />
+        <TextBox x:Name="TextBoxCaseName" 
+                 Background="GhostWhite"
+                 FontSize="24" 
+                 Grid.Column="4" Grid.Row="2" 
+                 Grid.ColumnSpan="5" 
+                 Height="50" Width="885" 
+                 HorizontalAlignment="Left"
+                 IsEnabled="False"
+                 TextWrapping="Wrap" 
+                 Text="" 
+                 VerticalAlignment="Top" />
         <TextBox x:Name="TextBoxName" 
                  FontSize="24" 
-                 Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="6" 
+                 Grid.Column="3" Grid.Row="3" 
+                 Grid.ColumnSpan="6" 
                  Height="50" Width="1065" 
                  HorizontalAlignment="Left" 
                  TextWrapping="Wrap" 
                  Text="" 
                  TextChanged="TextBoxName_TextChanged"
                  VerticalAlignment="Top" />
-        <TextBox x:Name="TextBoxElaboration" 
+        <TextBox x:Name="TextBoxElaboration"
+                 AcceptsReturn="True"
                  FontSize="24" 
-                 Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="6" 
+                 Grid.Column="3" Grid.Row="4" 
+                 Grid.ColumnSpan="6" 
                  Height="100" Width="1065"
                  HorizontalAlignment="Left" 
                  TextWrapping="Wrap" 
@@ -100,38 +108,45 @@
                  TextChanged="TextBoxElaboration_TextChanged"
                  VerticalAlignment="Top"/>
         <TextBox x:Name="TextBoxOfferList" 
+                 AcceptsReturn="True"
+                 Background="GhostWhite"
                  FontSize="24" 
-                 Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="6" 
+                 Grid.Column="3" Grid.Row="5" 
+                 Grid.ColumnSpan="6" 
                  Height="100" Width="1065"
                  HorizontalAlignment="Left" 
+                 IsEnabled="False"
                  TextWrapping="Wrap" 
                  Text="" 
-                 TextChanged="TextBoxOfferList_TextChanged"
                  VerticalAlignment="Top"/>
         <ComboBox x:Name="ComboBoxCraftGroup1" 
                   FontSize="24" 
-                  Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="3" 
+                  Grid.Column="3" Grid.Row="6" 
+                  Grid.ColumnSpan="3" 
                   Height="50" Width="525"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCraftGroup1_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCraftGroup2" 
                   FontSize="24" 
-                  Grid.Column="6" Grid.Row="7" Grid.ColumnSpan="3" 
+                  Grid.Column="6" Grid.Row="6" 
+                  Grid.ColumnSpan="3" 
                   Height="50" Width="525"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCraftGroup2_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCraftGroup3" 
                   FontSize="24" 
-                  Grid.Column="3" Grid.Row="8" Grid.ColumnSpan="3" 
+                  Grid.Column="3" Grid.Row="7" 
+                  Grid.ColumnSpan="3" 
                   Height="50" Width="525"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCraftGroup3_SelectionChanged" 
                   VerticalAlignment="Top" />
         <ComboBox x:Name="ComboBoxCraftGroup4" 
                   FontSize="24" 
-                  Grid.Column="6" Grid.Row="8" Grid.ColumnSpan="3" 
+                  Grid.Column="6" Grid.Row="7" 
+                  Grid.ColumnSpan="3" 
                   Height="50" Width="525"
                   HorizontalAlignment="Left" 
                   SelectionChanged="ComboBoxCraftGroup4_SelectionChanged" 
@@ -154,7 +169,7 @@
                 FontSize="48"
                 FontWeight="Bold"
                 Foreground="#FF01A858"
-                Grid.Column="7" Grid.Row="9"
+                Grid.Column="7" Grid.Row="8"
                 Grid.ColumnSpan="2"
                 Height="100" Width="345"
                 HorizontalAlignment="Center"

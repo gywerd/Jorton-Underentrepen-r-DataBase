@@ -26,6 +26,7 @@ namespace JudGui
         #region Fields
         public Bizz CBZ;
         public RibbonTab TabOffer;
+        public RibbonTab TabNews;
         public RibbonTab TabMaintenance;
         public RibbonTab TabAdministration;
         public RibbonGroup Data;
@@ -38,11 +39,12 @@ namespace JudGui
         #endregion
 
         #region Constructors
-        public UcLogin(Bizz cbz, RibbonTab tabOffer, RibbonTab tabMaintenance, RibbonTab tabAdministration, RibbonGroup data, RibbonGroup users, RibbonApplicationMenuItem buttonChangePassWord, RibbonApplicationMenuItem buttonLogOut, Label userName, UserControl ucMain)
+        public UcLogin(Bizz cbz, RibbonTab tabOffer, RibbonTab tabNews, RibbonTab tabMaintenance, RibbonTab tabAdministration, RibbonGroup data, RibbonGroup users, RibbonApplicationMenuItem buttonChangePassWord, RibbonApplicationMenuItem buttonLogOut, Label userName, UserControl ucMain)
         {
             InitializeComponent();
             this.CBZ = cbz;
             this.TabOffer = tabOffer;
+            this.TabNews = tabNews;
             this.TabMaintenance = tabMaintenance;
             this.TabAdministration = tabAdministration;
             this.Data = data;
@@ -65,38 +67,38 @@ namespace JudGui
                     case 1:
                         ButtonChangePassWord.IsEnabled = true;
                         ButtonLogOut.IsEnabled = true;
-                        TabOffer.IsEnabled = true;
-                        TabMaintenance.IsEnabled = false;
-                        TabAdministration.IsEnabled = false;
-                        Data.IsEnabled = false;
-                        Users.IsEnabled = false;
+                        TabOffer.Visibility = Visibility.Visible;
+                        TabNews.Visibility = Visibility.Visible;
+                        TabMaintenance.Visibility = Visibility.Hidden;
+                        TabAdministration.Visibility = Visibility.Hidden;
                         break;
                     case 2:
                         ButtonChangePassWord.IsEnabled = true;
                         ButtonLogOut.IsEnabled = true;
-                        TabOffer.IsEnabled = true;
-                        TabMaintenance.IsEnabled = true;
-                        TabAdministration.IsEnabled = false;
-                        Data.IsEnabled = false;
-                        Users.IsEnabled = false;
+                        TabOffer.Visibility = Visibility.Visible;
+                        TabNews.Visibility = Visibility.Visible;
+                        TabMaintenance.Visibility = Visibility.Visible;
+                        TabAdministration.Visibility = Visibility.Hidden;
                         break;
                     case 3:
                         ButtonChangePassWord.IsEnabled = true;
                         ButtonLogOut.IsEnabled = true;
-                        TabOffer.IsEnabled = true;
-                        TabMaintenance.IsEnabled = true;
-                        TabAdministration.IsEnabled = true;
-                        Data.IsEnabled = true;
-                        Users.IsEnabled = false;
+                        TabOffer.Visibility = Visibility.Visible;
+                        TabNews.Visibility = Visibility.Visible;
+                        TabMaintenance.Visibility = Visibility.Visible;
+                        TabAdministration.Visibility = Visibility.Visible;
+                        Data.Visibility = Visibility.Visible;
+                        Users.Visibility = Visibility.Hidden;
                         break;
                     case 4:
                         ButtonChangePassWord.IsEnabled = true;
                         ButtonLogOut.IsEnabled = true;
-                        TabOffer.IsEnabled = true;
-                        TabMaintenance.IsEnabled = true;
-                        TabAdministration.IsEnabled = true;
-                        Data.IsEnabled = true;
-                        Users.IsEnabled = true;
+                        TabOffer.Visibility = Visibility.Visible;
+                        TabNews.Visibility = Visibility.Visible;
+                        TabMaintenance.Visibility = Visibility.Visible;
+                        TabAdministration.Visibility = Visibility.Visible;
+                        Data.Visibility = Visibility.Visible;
+                        Users.Visibility = Visibility.Visible;
                         break;
                     default:
                         ButtonChangePassWord.IsEnabled = true;

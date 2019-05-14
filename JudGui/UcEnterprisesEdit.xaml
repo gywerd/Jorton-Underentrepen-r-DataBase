@@ -109,14 +109,15 @@
                  TextChanged="TextBoxElaboration_TextChanged"
                  VerticalAlignment="Top"/>
         <TextBox x:Name="TextBoxOfferList" 
+                 Background="GhostWhite"
                  FontSize="24" 
                  Grid.Column="3" Grid.Row="6" 
                  Grid.ColumnSpan="6" 
                  Height="50" Width="1065"
-                 HorizontalAlignment="Left" 
+                 HorizontalAlignment="Left"
+                 IsEnabled="False"
                  TextWrapping="Wrap" 
                  Text="" 
-                 TextChanged="TextBoxOfferList_TextChanged"
                  VerticalAlignment="Top"/>
         <ComboBox x:Name="ComboBoxCraftGroup1" 
                   FontSize="24" 

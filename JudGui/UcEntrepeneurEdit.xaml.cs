@@ -27,7 +27,7 @@ namespace JudGui
         public UserControl UcMain;
         public CraftGroup CCG = new CraftGroup();
 
-        public List<Entrepeneur> FilteredEntrepeneurs = new List<Entrepeneur>();
+        public List<IndexedEntrepeneur> FilteredEntrepeneurs = new List<IndexedEntrepeneur>();
 
         #endregion
 
@@ -41,17 +41,15 @@ namespace JudGui
             GetFilteredEntrepeneurs();
             ListBoxEntrepeneurs.ItemsSource = FilteredEntrepeneurs;
 
-            ComboBoxCraftGroup1.ItemsSource = CBZ.IndexedCraftGroups;
-            ComboBoxCraftGroup2.ItemsSource = CBZ.IndexedCraftGroups;
-            ComboBoxCraftGroup3.ItemsSource = CBZ.IndexedCraftGroups;
-            ComboBoxCraftGroup4.ItemsSource = CBZ.IndexedCraftGroups;
+            GenerateCraftGroupItems();
+            ComboBoxRegion.ItemsSource = "";
             ComboBoxRegion.ItemsSource = CBZ.IndexedRegions;
 
-            ComboBoxCraftGroup1.SelectedIndex = 0;
-            ComboBoxCraftGroup2.SelectedIndex = 0;
-            ComboBoxCraftGroup3.SelectedIndex = 0;
-            ComboBoxCraftGroup4.SelectedIndex = 0;
-            ComboBoxRegion.SelectedIndex = 0;
+            ComboBoxCraftGroup1.SelectedIndex = -1;
+            ComboBoxCraftGroup2.SelectedIndex = -1;
+            ComboBoxCraftGroup3.SelectedIndex = -1;
+            ComboBoxCraftGroup4.SelectedIndex = -1;
+            ComboBoxRegion.SelectedIndex = -1;
 
         }
 
@@ -76,7 +74,7 @@ namespace JudGui
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            bool result = UpdateEntrepeneurInDb();
+            bool result = UpdateEntrepeneurInDb;
 
             //Display result
             if (result)
@@ -127,46 +125,97 @@ namespace JudGui
         #region Events
         private void ComboBoxCraftGroup1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempEntrepeneur.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxCraftGroup1.SelectedIndex >= 1)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempEntrepeneur.CraftGroup1 = new CraftGroup((CraftGroup)ComboBoxCraftGroup1.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+            else
+            {
+                //Reset CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+
             }
         }
 
         private void ComboBoxCraftGroup2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempEntrepeneur.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxCraftGroup2.SelectedIndex >= 1)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempEntrepeneur.CraftGroup2 = new CraftGroup((CraftGroup)ComboBoxCraftGroup2.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
+            else
+            {
+                //Reset CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+
+            }
+
         }
 
         private void ComboBoxCraftGroup3_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempEntrepeneur.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxCraftGroup3.SelectedIndex >= 1)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempEntrepeneur.CraftGroup3 = new CraftGroup((CraftGroup)ComboBoxCraftGroup3.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
+            else
+            {
+                //Reset CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+
+            }
+
         }
 
         private void ComboBoxCraftGroup4_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempEntrepeneur.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxCraftGroup4.SelectedIndex >= 1)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempEntrepeneur.CraftGroup4 = new CraftGroup((CraftGroup)ComboBoxCraftGroup4.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
+            else
+            {
+                //Reset CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+
+            }
+
         }
 
         private void ComboBoxRegion_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -320,6 +369,22 @@ namespace JudGui
 
         #region Methods
         /// <summary>
+        /// Method, that populate the CraftGroups ComboBoxes
+        /// </summary>
+        private void GenerateCraftGroupItems()
+        {
+            ComboBoxCraftGroup1.ItemsSource = "";
+            ComboBoxCraftGroup2.ItemsSource = "";
+            ComboBoxCraftGroup3.ItemsSource = "";
+            ComboBoxCraftGroup4.ItemsSource = "";
+
+            ComboBoxCraftGroup1.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup2.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup3.ItemsSource = CBZ.IndexedCraftGroups;
+            ComboBoxCraftGroup4.ItemsSource = CBZ.IndexedCraftGroups;
+        }
+
+        /// <summary>
         /// Method, that retrieves an index from CraftGroup id
         /// </summary>
         /// <param name="craftGroupId"></param>
@@ -351,11 +416,15 @@ namespace JudGui
             {
                 CBZ.RefreshList("Entrepeneurs");
                 this.FilteredEntrepeneurs.Clear();
-                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
+
+                int i = 0;
+
+                foreach (Entrepeneur entrepeneur in CBZ.ActiveEntrepeneurs)
                 {
                     if (entrepeneur.Entity.Name.Remove(length).ToLower() == TextBoxSearch.Text.ToLower())
                     {
-                        this.FilteredEntrepeneurs.Add(entrepeneur);
+                        this.FilteredEntrepeneurs.Add(new IndexedEntrepeneur(i, entrepeneur));
+                        i++;
                     }
                 }
 
@@ -364,9 +433,10 @@ namespace JudGui
             {
                 CBZ.RefreshList("Entrepeneurs");
                 this.FilteredEntrepeneurs.Clear();
-                foreach (Entrepeneur entrepeneur in CBZ.Entrepeneurs)
+                int j = 0;
+                foreach (Entrepeneur entrepeneur in CBZ.ActiveEntrepeneurs)
                 {
-                    this.FilteredEntrepeneurs.Add(entrepeneur);
+                    this.FilteredEntrepeneurs.Add(new IndexedEntrepeneur(j, entrepeneur));
                 }
 
             }
@@ -395,40 +465,10 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates Contact Info in Db
-        /// </summary>
-        /// <returns>bool</returns>
-        private bool UpdateContactInfo => CBZ.UpdateInDb(CBZ.TempEntrepeneur.Entity.ContactInfo);
-
-        /// <summary>
         /// Method, that creates an Entrepeneur in Db
         /// </summary>
         /// <returns>bool</returns>
-        private bool UpdateEntrepeneurInDb()
-        {
-            //Code that creates a new Entrepeneur
-            bool result = false;
-
-            //Update ContactInfo in Db
-            bool contactInfoUpdated = UpdateContactInfo;
-
-            //Update LegalEntity in Db
-            bool legalEntityUpdated = UpdateLegalEntity;
-
-            //Create Entrepeneur in Db
-            if (contactInfoUpdated && legalEntityUpdated)
-            {
-                result = CBZ.UpdateInDb(CBZ.TempEntrepeneur);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that creates a Legal Entity in Db
-        /// </summary>
-        /// <returns>bool</returns>
-        private bool UpdateLegalEntity => CBZ.UpdateInDb(CBZ.TempEntrepeneur.Entity);
+        private bool UpdateEntrepeneurInDb => CBZ.UpdateInDb(CBZ.TempEntrepeneur);
 
         #endregion
 

@@ -29,7 +29,7 @@ namespace JudGui
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
         public List<Paragraf> ProjectParagrafs = new List<Paragraf>();
-        public List<IttLetterShipping> ProjectShippings = new List<IttLetterShipping>();
+        public List<Shipping> ProjectShippings = new List<Shipping>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
         public List<Receiver> Receivers = new List<Receiver>();
 
@@ -81,10 +81,10 @@ namespace JudGui
                 }
                 else
                 {
-                    RefreshList("Bullets");
                     RefreshIndexedBullets();
+                    ListBoxBullets.SelectedIndex = -1;
+                    ListBoxBullets.ItemsSource = "";
                     ListBoxBullets.ItemsSource = CBZ.IndexedBullets;
-                    ListBoxBullets.SelectedIndex = 0;
                     TextBoxNewBullet.Text = "";
 
                     SetUcMainEdited();
@@ -118,21 +118,12 @@ namespace JudGui
                 }
                 if (dbAnswer < 1)
                 {
-                    Exception tempEx = new Exception();
-                    if (exception != tempEx)
-                    {
-                        MessageBox.Show("Databasen meldte en fejl. Overskriften blev ikke tilføjet til afsnittet\n" + exception, "Projekter", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Databasen meldte en fejl. Overskriften blev ikke tilføjet til afsnittet", "Projekter", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    MessageBox.Show("Databasen meldte en fejl. Overskriften blev ikke tilføjet til afsnittet\n" + exception, "Projekter", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    RefreshList("Paragrafs");
-                    RefreshIndexedParagrafs();
                     ComboBoxParagrafs.SelectedIndex = -1;
+                    RefreshIndexedParagrafs();
                     ComboBoxParagrafs.ItemsSource = "";
                     ComboBoxParagrafs.ItemsSource = CBZ.IndexedParagrafs;
                     TextBoxNewParagraf.Text = "";
@@ -181,8 +172,9 @@ namespace JudGui
             CBZ.TempParagraf = new Paragraf((Paragraf)ComboBoxParagrafs.SelectedItem);
             RefreshIndexedBullets();
 
-            ListBoxBullets.ItemsSource = CBZ.IndexedBullets;
             ListBoxBullets.SelectedIndex = -1;
+            ListBoxBullets.ItemsSource = "";
+            ListBoxBullets.ItemsSource = CBZ.IndexedBullets;
 
             //Set CBZ.UcMainEdited
             if (!CBZ.UcMainEdited)
@@ -331,9 +323,12 @@ namespace JudGui
             }
             else
             {
-                if (paragrafReset && bulletReset)
+                if (CBZ.UcMainEdited)
                 {
-                    CBZ.UcMainEdited = false;
+                    if (paragrafReset && bulletReset)
+                    {
+                        CBZ.UcMainEdited = false;
+                    }
                 }
             }
 

@@ -10,7 +10,7 @@ namespace JudRepository
     {
         #region Fields
         private int id = 0;
-        private string name;
+        private string name = "";
         private string description = "";
         private string period = "";
         private string answerDate = "";

@@ -26,6 +26,8 @@ namespace JudGui
         public Bizz CBZ;
         public UserControl UcMain;
 
+        bool newCaseIdCorrect = false;
+
         #endregion
 
         #region Constructors
@@ -46,7 +48,7 @@ namespace JudGui
             if (CBZ.UcMainEdited)
             {
                 //Warning before cancelling
-                if (MessageBox.Show("Vil du lukke Rediger SagsId? Alle ugemte data mistes", "Projekter", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Vil du lukke 'Rediger SagsId'? Alle ugemte data mistes", "Projekter", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     CBZ.CloseUcMain(UcMain);
                 }
@@ -68,13 +70,12 @@ namespace JudGui
                 MessageBox.Show("Sagsnummer blev ændret", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update list of projects
-                CBZ.RefreshList("Projects");
-                ReloadListActiveProjects();
-                ReloadListIndexedProjects();
+                CBZ.RefreshIndexedList("Projects");
 
-                //Close right UserControl
+                //ResetForm
+                ComboBoxCaseId.SelectedItem = -1;
                 CBZ.UcMainEdited = false;
-                UcMain.Content = new UserControl();
+                
             }
             else
             {
@@ -88,14 +89,29 @@ namespace JudGui
         #region Events
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
-
-            TextBoxName.Text = CBZ.TempProject.Details.Name;
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxCaseId.SelectedIndex == -1)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject = new Project();
+
+                TextBoxName.Text = "";
+
+                //Reset CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+            }
+            else
+            {
+                CBZ.TempProject = new Project((IndexedProject)ComboBoxCaseId.SelectedItem);
+
+                TextBoxName.Text = CBZ.TempProject.Details.Name;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
         }
 
@@ -108,25 +124,81 @@ namespace JudGui
                 TextBoxCaseId.Text = id;
                 TextBoxCaseId.Select(TextBoxCaseId.Text.Length, 0);
             }
-            CBZ.TempProject.Case = Convert.ToInt32(TextBoxCaseId.Text);
 
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            ChecknewCaseIdCorrect();
+            if (newCaseIdCorrect)
+            {
+                Int32.TryParse(TextBoxCaseId.Text, out int caseId);
+                CBZ.TempProject.Case = caseId;
+            }
+
+            //Check CBZ.UcMainEdited
+            if (!CBZ.UcMainEdited && TextBoxCaseId.Text != "")
             {
                 CBZ.UcMainEdited = true;
             }
+            else if (CBZ.UcMainEdited && TextBoxCaseId.Text == "")
+            {
+                CBZ.UcMainEdited = false;
+            }
+
+
         }
 
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that sets new CaseId indicator
+        /// </summary>
+        private void ChecknewCaseIdCorrect()
+        {
+            bool vacantCaseId = CheckVacantCaseId();
+
+            if (vacantCaseId)
+            {
+                newCaseIdCorrect = true;
+                ButtonCaseIdNewIndicator.Background = CBZ.greenIndicator;
+            }
+            else
+            {
+                newCaseIdCorrect = false;
+                ButtonCaseIdNewIndicator.Background = CBZ.redIndicator;
+            }
+
+        }
+
+        /// <summary>
+        /// Method, that checks wether a caseId is already used
+        /// </summary>
+        /// <returns>bool</returns>
+        private bool CheckVacantCaseId()
+        {
+            bool result = true;
+
+            if (TextBoxCaseId.Text.Count() == 6)
+            {
+
+                foreach (Project project in CBZ.Projects)
+                {
+                    if (project.Case.ToString() == TextBoxCaseId.Text)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+
+            }
+
+
+            return result;
+        }
+
         private void GenerateComboBoxCaseIdItems()
         {
-            ComboBoxCaseId.Items.Clear();
-            foreach (IndexedProject temp in CBZ.IndexedProjects)
-            {
-                ComboBoxCaseId.Items.Add(temp);
-            }
+            CBZ.RefreshIndexedList("Projects");
+            ComboBoxCaseId.ItemsSource = "";
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
 
         /// <summary>

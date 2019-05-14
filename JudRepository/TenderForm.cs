@@ -52,8 +52,16 @@ namespace JudRepository
         /// <param name="form">TenderForm</param>
         public TenderForm(TenderForm form)
         {
+            if (form != null)
+            {
                 this.id = form.Id;
                 this.text = form.Text;
+            }
+            else
+            {
+                this.id = 0;
+                this.text = "";
+            }
         }
 
         /// <summary>

@@ -23,6 +23,9 @@ namespace JudDataAccess
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Method, that opens the connection to the Db
+        /// </summary>
         protected void OpenDB()
         {
             try
@@ -50,6 +53,9 @@ namespace JudDataAccess
             }
         }
 
+        /// <summary>
+        /// Method, that closes the connection to the Db
+        /// </summary>
         protected void CloseDB()
         {
             try
@@ -63,22 +69,17 @@ namespace JudDataAccess
         }
 
         /// <summary>
-        /// Funktionen DbReturnDataTable, skal returnere
-        /// datatypen DataTable og modtage et SQL-Udtryk i vores strSql string.
-        /// Vi opretter en ny instans af DataTable, navngiver den dtRes og åbner forbindelsen til DB.
-        /// Derefter fortæller vi vores DB hvilke informationer den skal hive ud, via strSQL og
-        /// indsætter resultatsættet i dtRes
-        /// Til slut lukker vi DB igen.
+        /// Method, that receives an SQL-query and returns the result as a DataTable
         /// </summary>
-        /// <param name="strSql">Tekststreng med SQL-Udtrykket</param>
-        /// <returns>DataTable med det samlede resultat</returns>
-        protected DataTable DbReturnDataTable(string strSql)
+        /// <param name="sqlQuery">string with SQL-query</param>
+        /// <returns>DataTable</returns>
+        protected DataTable DbReturnDataTable(string sqlQuery)
         {
             DataTable dtRes = new DataTable();
             try
             {
                 OpenDB();
-                using (SqlCommand command = new SqlCommand(strSql, myConnection))
+                using (SqlCommand command = new SqlCommand(sqlQuery, myConnection))
                 {
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
@@ -90,10 +91,19 @@ namespace JudDataAccess
             {
                 MessageBox.Show(ex.ToString(), "Database", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                CloseDB();
+            }
 
             return dtRes;
         }
 
+        /// <summary>
+        /// Method, that receives an SQL-command and returns the result as a DataTable
+        /// </summary>
+        /// <param name="cmd">SqlCommand</param>
+        /// <returns>DataTable</returns>
         protected DataTable DbReturnDataTable(SqlCommand cmd)
         {
             DataTable dtRes = new DataTable();
@@ -112,16 +122,18 @@ namespace JudDataAccess
             {
                 MessageBox.Show(ex.ToString(), "Database", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                CloseDB();
+            }
 
             return dtRes;
         }
 
         /// <summary>
-        /// Denne funktion returnerer en bool,
-        /// der modsvarer strSql forespørgslen.
-        /// Til slut lukker vi DB igen.
+        /// Method, that receives an SQL-query and returns the result as bool
         /// </summary>
-        /// <param name="sqlQuery">string - textstring with SQL-Query</param>
+        /// <param name="sqlQuery">string with SQL-query</param>
         /// <param name="args">string[] - strengArray med parametre</param>
         /// <returns>bool</returns>
         protected bool DbReturnBool(string sqlQuery, string[] args)
@@ -165,33 +177,34 @@ namespace JudDataAccess
 
                 }
 
-                CloseDB();
             }
             catch (SqlException ex)
             {
-                CloseDB();
                 throw ex;
+            }
+            finally
+            {
+                CloseDB();
             }
 
             return result;
         }
 
         /// <summary>
-        /// Funktion der henter én, lang liste af strings med alle data i DB.
-        /// Til slut lukker vi DB igen.
+        /// Method, that retrieves one, long liste of strings with all data in Db.
         /// </summary>
-        /// <param name="strSql">Tekststreng med SQL-Udtrykket</param>
+        /// <param name="sqlQuery">string with SQL-query</param>
         /// <returns>list</returns>
-        protected List<string> DbReturnListString(string strSql)
+        protected List<string> DbReturnListString(string sqlQuery)
         {
-            MessageBox.Show(strSql + ".\n" + myConnection.ConnectionString + ".", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(sqlQuery + ".\n" + myConnection.ConnectionString + ".", "Debug", MessageBoxButton.OK, MessageBoxImage.Information);
             List<string> listString = new List<string>();
             try
             {
                 OpenDB();
                 using (var cmd = myConnection.CreateCommand())
                 {
-                    cmd.CommandText = strSql;
+                    cmd.CommandText = sqlQuery;
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -204,23 +217,25 @@ namespace JudDataAccess
                     }
                 }
 
-                CloseDB();
             }
             catch(SqlException ex)
             {
                 MessageBox.Show(ex.Message, "SQL Fejl", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            finally
+            {
+                CloseDB();
             }
 
             return listString;
         }
 
         /// <summary>
-        /// Funktion der henter én, lang ArrayListe af strings med alle data i DB.
-        /// Til slut lukker vi DB igen.
+        /// Method, that retrieves one, long Array List of strings with all data in Db.
         /// </summary>
-        /// <param name="strSql">Tekststreng med SQL-Udtrykket</param>
+        /// <param name="sqlQuery">string with SQL-query</param>
         /// <returns>ArrayList</returns>
-        protected ArrayList DbReturnArrayListString(string strSql)
+        protected ArrayList DbReturnArrayListString(string sqlQuery)
         {
             ArrayList arrayList = new ArrayList();
             try
@@ -228,7 +243,7 @@ namespace JudDataAccess
                 OpenDB();
                 using (var cmd = myConnection.CreateCommand())
                 {
-                    cmd.CommandText = strSql;
+                    cmd.CommandText = sqlQuery;
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -241,27 +256,29 @@ namespace JudDataAccess
                     }
                 }
 
-                CloseDB();
             }
             catch (SqlException ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                CloseDB();
             }
 
             return arrayList;
         }
 
         /// <summary>
-        /// Funktion, der skriver i DB.
-        /// Til slut lukker vi DB igen.
+        /// Method, that sends an SQL-query to Db.
         /// </summary>
-        /// <param name="strSql">Tekststreng med SQL-Udtrykket</param>
-        protected void FunctionExecuteNonQuery(string strSql)
+        /// <param name="sqlQuery">string with SQL-query</param>
+        protected void FunctionExecuteNonQuery(string sqlQuery)
         {
             try
             {
                 OpenDB();
-                using (SqlCommand cmd = new SqlCommand(strSql, myConnection))
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, myConnection))
                 {
                     cmd.ExecuteNonQuery();
                 }
@@ -278,18 +295,17 @@ namespace JudDataAccess
         }
 
         /// <summary>
-        /// Funktion, der returnerer en boolsk værdi fra DB.
-        /// Til slut lukker vi DB igen.
+        /// Method, that returns a boolean result from Db.
         /// </summary>
-        /// <param name="strSql">Tekststreng med SQL-Udtrykket</param>
+        /// <param name="sqlQuery">string with SQL-query</param>
         /// <returns>bool</returns>
-        protected bool DbReturnBool(string strSql)
+        protected bool DbReturnBool(string sqlQuery)
         {
             bool bolRes = false;
             try
             {
                 OpenDB();
-                using (SqlCommand cmd = new SqlCommand(strSql, myConnection))
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, myConnection))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -298,11 +314,14 @@ namespace JudDataAccess
                     }
                 }
 
-                CloseDB();
             }
             catch(SqlException ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                CloseDB();
             }
 
             return bolRes;

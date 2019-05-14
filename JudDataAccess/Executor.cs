@@ -94,10 +94,10 @@ namespace JudDataAccess
         /// <param name="table">string</param>
         /// <param name="id">int</param>
         /// <returns>List<string></returns>
-        public List<string> ReadListFromDataBase(string table)
+        public List<string> ReadListFromDataBase(string table, int id = -1)
         {
             List<string> listRes = new List<string>();
-            DataTable dm = GetListDataTable(table);
+            DataTable dm = GetListDataTable(table, id);
 
             foreach (DataRow row in dm.Rows)
             {
@@ -118,78 +118,45 @@ namespace JudDataAccess
         /// </summary>
         /// <param name="table">string</param>
         /// <returns>DataTable</returns>
-        private DataTable GetListDataTable(string table)
+        private DataTable GetListDataTable(string table, int id = -1)
         {
             DataTable result = new DataTable();
 
             switch (table)
             {
                 case "Entrepeneurs":
-                    result = DbReturnDataTable(@"SELECT * FROM [Entrepeneurs] ORDER BY [Cooperative] DESC, [Id] ASC");
+                    if (id >= 0)
+                    {
+                        result = DbReturnDataTable(@"SELECT * FROM [Entrepeneurs] WHERE [Id] = " + id);
+                    }
+                    else
+                    {
+                        result = DbReturnDataTable(@"SELECT * FROM [Entrepeneurs] ORDER BY [Cooperative] DESC, [Id] ASC");
+                    }
                     break;
                 case "Users":
-                    result = DbReturnDataTable(@"SELECT Id, Person, Initials, Department, JobDescription, UserLevel FROM [Users]");
+                    if (id >= 0)
+                    {
+                        result = DbReturnDataTable(@"SELECT Id, Person, Initials, Department, JobDescription, UserLevel FROM [Users] WHERE [Id] = " + id);
+                    }
+                    else
+                    {
+                        result = DbReturnDataTable(@"SELECT Id, Person, Initials, Department, JobDescription, UserLevel FROM [Users]");
+                    }
                     break;
                 default:
-                    result = DbReturnDataTable("SELECT * FROM " + table);
+                    if (id >= 0)
+                    {
+                        result = DbReturnDataTable(@"SELECT * FROM [" + table + "] WHERE [Id] = " + id);
+                    }
+                    else
+                    {
+                        result = DbReturnDataTable("SELECT * FROM " + table);
+                    }
                     break;
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Method, that retrieves a DataTable containing a row
-        /// </summary>
-        /// <param name="table">string</param>
-        /// <param name="id">int</param>
-        /// <returns>DataTable</returns>
-        private DataTable GetPostDataTable(string table, int id)
-        {
-            DataTable result = new DataTable();
-
-            switch (table)
-            {
-                case "ActiveProjects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'true', [Id] = " + id + @" ORDER BY [Cooperative] DESC, [Name] ASC");
-                    break;
-                case "InactiveProjects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Active] = 'false', [Id] = " + id + @" ORDER BY [Name] ASC");
-                    break;
-                case "Projects":
-                    result = DbReturnDataTable("SELECT * FROM [LegalEntities] WHERE [Id] = " + id + @"  ORDER BY [Name] ASC");
-                    break;
-                default:
-                    result = DbReturnDataTable(@"SELECT * FROM " + table + @" WHERE [Id] = " + id);
-                    break;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that retrieves a post from Db
-        /// </summary>
-        /// <param name="table">string</param>
-        /// <param name="id">int</param>
-        /// <returns>string</returns>
-        public string ReadPostFromDataBase(string table, int id)
-        {
-            List<string> listResult = new List<string>();
-            DataTable dm = GetPostDataTable(table, id);
-            
-            foreach (DataRow row in dm.Rows)
-            {
-                string rowString = "";
-
-                for (int i = 0; i < row.Table.Columns.Count; i++)
-                {
-                    rowString += row[i] + ";";
-                }
-                rowString = rowString.Remove(rowString.Length - 1);
-                listResult.Add(rowString);
-            }
-            return listResult[0];
         }
 
         /// <summary>
@@ -202,18 +169,6 @@ namespace JudDataAccess
         private DataTable GetProjectListDataTable(string table, int projectId)
         {
             return DbReturnDataTable(@"SELECT * FROM [" + table + @"] WHERE [Project] = " + projectId + "");
-        }
-
-        /// <summary>
-        /// Method, that retrieves a DataTable containing a List
-        /// Accepts the following tables: Enterprises, Shippings & SubEntrepeneurs
-        /// </summary>
-        /// <param name="table">string</param>
-        /// <param name="subEntrepeneurId">int</param>
-        /// <returns>DataTable</returns>
-        private DataTable GetProjectRequestDataListDataTable(int subEntrepeneurId)
-        {
-            return DbReturnDataTable(@"SELECT * FROM [RequestDataList] WHERE [SubEntrepeneur] = " + subEntrepeneurId + "");
         }
 
         /// <summary>

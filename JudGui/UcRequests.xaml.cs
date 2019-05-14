@@ -30,10 +30,10 @@ namespace JudGui
         public static string macAddress;
         public PdfCreator PdfCreator;
 
-        public IttLetterShipping IttLetterShipping = new IttLetterShipping();
+        public Shipping Shipping = new Shipping();
         public List<Contact> ProjectContacts = new List<Contact>();
         public List<Enterprise> ProjectEnterprises = new List<Enterprise>();
-        public List<IttLetterShipping> ProjectShippingList = new List<IttLetterShipping>();
+        public List<Shipping> ProjectShippingList = new List<Shipping>();
         public List<Receiver> TempReceivers = new List<Receiver>();
         public List<SubEntrepeneur> ProjectSubEntrepeneurs = new List<SubEntrepeneur>();
 
@@ -46,7 +46,7 @@ namespace JudGui
             this.CBZ = cbz;
             PdfCreator = new PdfCreator(CBZ.StrConnection);
             CBZ.TempProject = new Project();
-            CBZ.TempRequestShipping = new RequestShipping();
+            CBZ.TempShipping = new Shipping();
             RefreshIndexedSubEntrepeneurs();
             macAddress = CBZ.MacAddress;
             this.UcMain = ucMain;
@@ -58,12 +58,12 @@ namespace JudGui
         #region Buttons
         private void ButtonClearAll_Click(object sender, RoutedEventArgs e)
         {
-            ListBoxEntrepeneurs.UnselectAll();
+            ListBoxSubEntrepeneurs.UnselectAll();
         }
 
         private void ButtonChoseAll_Click(object sender, RoutedEventArgs e)
         {
-            ListBoxEntrepeneurs.SelectAll();
+            ListBoxSubEntrepeneurs.SelectAll();
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
@@ -86,64 +86,69 @@ namespace JudGui
         {
             result = false;
             bool receivers = CheckReceiversExist();
+            bool details = Convert.ToBoolean(CheckBoxDetails.IsChecked);
 
-            switch (receivers)
+            if (details)
             {
-                case false:
-                    //Show Confirmation
-                    MessageBox.Show("Du har ikke valgt nogen modtagere. Der blev ikke føjet modtagere til modtagerlisten.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
-                    break;
-                case true:
-                    RefreshReceivers();
-                    result = true;
-                    break;
-            }
-
-            if (result)
-            {
-                //Show Confirmation
-                MessageBox.Show("Modtageren/-erne blev føjet til modtagerlisten.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //Code to Send Requests
-                try
+                switch (receivers)
                 {
-                    //Make som code, that sends emails
-                    foreach (object item in ListBoxEntrepeneurs.SelectedItems)
-                    {
-                        IndexedSubEntrepeneur subEntrepeneur = new IndexedSubEntrepeneur((IndexedSubEntrepeneur)item);
-                        CBZ.TempRequestShipping.SubEntrepeneur = subEntrepeneur;
-                        CBZ.TempRequestShipping.RequestPdfPath = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempRequestShipping);
-                        string[] fileNames = new string[] { CBZ.TempRequestShipping.RequestPdfPath };
-                        Email email = new Email(CBZ, "PRØVE: Forespørgsel om underentreprise på " + CBZ.TempProject.Details.Name, subEntrepeneur.Contact.Person.ContactInfo.Email, CBZ.CurrentUser.Person.ContactInfo.Email, "Dette er en prøve", fileNames);
-                        subEntrepeneur.Request.Status = new RequestStatus((RequestStatus)CBZ.GetRequestStatus(1));
-                        subEntrepeneur.Request.SentDate = DateTime.Now;
-                        CBZ.CreateInDb(CBZ.TempRequestShipping);
-                        CBZ.UpdateInDb(subEntrepeneur.Request);
-                        CBZ.UpdateInDb(subEntrepeneur);
-                    }
-                    MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                    case false:
+                        //Show Confirmation
+                        MessageBox.Show("Du har ikke valgt nogen modtagere. Der blev ikke føjet modtagere til modtagerlisten.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                        break;
+                    case true:
+                        result = true;
+                        break;
+                }
 
-                    //Reset Boxes
-                    ComboBoxCaseId.SelectedIndex = -1;
-                    ListBoxEntrepeneurs.SelectedIndex = -1;
-                    ListBoxEntrepeneurs.ItemsSource = "";
-                    TextBoxName.Text = "";
-                    TextBoxProjectDescription.Text = "";
-                    TextBoxPeriod.Text = "";
-                    TextBoxAnswerDate.Text = "";
-                    CBZ.RefreshList("SubEntrepeneurs");
+                if (result)
+                {
+                    //Code to Send Requests
+                    try
+                    {
+                        //Make som code, that sends emails
+                        foreach (object item in ListBoxSubEntrepeneurs.SelectedItems)
+                        {
+                            IndexedSubEntrepeneur subEntrepeneur = new IndexedSubEntrepeneur((IndexedSubEntrepeneur)item);
+                            CBZ.TempShipping.SubEntrepeneur = subEntrepeneur;
+                            CBZ.TempShipping.Receiver = new Receiver(CBZ.TempShipping.SubEntrepeneur.Entrepeneur.Entity.Cvr, CBZ.TempShipping.SubEntrepeneur.Entrepeneur.Entity.Name, @"Att. " + CBZ.TempShipping.SubEntrepeneur.Contact.Person.Name, CBZ.TempShipping.SubEntrepeneur.Entrepeneur.Entity.Address.Street, CBZ.TempShipping.SubEntrepeneur.Entrepeneur.Entity.Address.ZipTown.ToString(), CBZ.TempShipping.SubEntrepeneur.Contact.Person.ContactInfo.Email, CBZ.TempShipping.SubEntrepeneur.Entrepeneur.Entity.Address.Place);
+                            CBZ.TempShipping.RequestPdfPath = PdfCreator.GenerateRequestPdf(CBZ, CBZ.TempShipping);
+                            string[] fileNames = new string[] { CBZ.TempShipping.RequestPdfPath };
+                            Email email = new Email(CBZ, "Forespørgsel om underentreprise på " + CBZ.TempShipping.Receiver.Name, CBZ.TempShipping.Receiver.Email, CBZ.TempShipping.SubEntrepeneur.Enterprise.Project.Executive.Person.ContactInfo.Email, "Dette er en prøve", fileNames);
+                            CBZ.TempShipping.SubEntrepeneur.Request.Status = new RequestStatus((RequestStatus)CBZ.GetRequestStatus(1));
+                            CBZ.TempShipping.SubEntrepeneur.Request.SentDate = DateTime.Now;
+                            CBZ.CreateInDb(CBZ.TempShipping);
+                            //CBZ.UpdateInDb(subEntrepeneur.Request);
+                            //CBZ.UpdateInDb(subEntrepeneur);
+                        }
+                        MessageBox.Show("Forespørgslen/-erne blev sendt.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        //Reset Boxes
+                        ComboBoxCaseId.SelectedIndex = -1;
+                        ListBoxSubEntrepeneurs.SelectedIndex = -1;
+                        ListBoxSubEntrepeneurs.ItemsSource = "";
+                        TextBoxName.Text = "";
+                        CheckBoxDetails.IsChecked = false;
+                        CBZ.RefreshList("SubEntrepeneurs");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Forespørgslen/-erne blev ikke sendt.\n" + ex.ToString(), "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
 
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Forespørgslen/-erne blev ikke sendt.\n" + ex.ToString(), "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //Show error
+                    MessageBox.Show("Modtageren/-erne blev ikke føjet til modtagerlisten. Prøv igen.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
             }
             else
             {
                 //Show error
-                MessageBox.Show("Modtageren/-erne blev ikke føjet til modtagerlisten. Prøv igen.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Projektet mangler detaljer. Tilføj disse under 'Rediger Projekt' og prøv igen.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
         }
@@ -153,14 +158,12 @@ namespace JudGui
         #region Events
         private void CheckBoxShowSent_ToggleChecked(object sender, RoutedEventArgs e)
         {
-            CBZ.TempRequestShipping = new RequestShipping();
+            CBZ.TempShipping = new Shipping();
             RefreshIndexedSubEntrepeneurs();
-            ListBoxEntrepeneurs.SelectedIndex = -1;
-            ListBoxEntrepeneurs.ItemsSource = "";
-            ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
-            TextBoxAnswerDate.Text = "";
-            TextBoxPeriod.Text = "";
-            TextBoxProjectDescription.Text = "";
+            ListBoxSubEntrepeneurs.SelectedIndex = -1;
+            ListBoxSubEntrepeneurs.ItemsSource = "";
+            ListBoxSubEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
+            SetCheckboxes();
 
         }
 
@@ -170,54 +173,55 @@ namespace JudGui
             {
                 CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
                 TextBoxName.Text = CBZ.TempProject.Details.Name;
-                CBZ.TempRequestShipping = new RequestShipping();
+                CBZ.TempShipping = new Shipping();
                 RefreshIndexedSubEntrepeneurs();
-                ListBoxEntrepeneurs.ItemsSource = "";
-                ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
-                ListBoxEntrepeneurs.SelectedIndex = -1;
+                ListBoxSubEntrepeneurs.ItemsSource = "";
+                ListBoxSubEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
+                ListBoxSubEntrepeneurs.SelectedIndex = -1;
+                SetCheckboxes();
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+
             }
             else
             {
                 TextBoxName.Text = "";
                 CBZ.TempProject = new Project();
-                CBZ.TempRequestShipping = new RequestShipping();
+                CBZ.TempShipping = new Shipping();
                 ProjectSubEntrepeneurs.Clear();
                 ProjectEnterprises.Clear();
                 CBZ.IndexedSubEntrepeneurs.Clear();
-                ListBoxEntrepeneurs.ItemsSource = "";
-                ListBoxEntrepeneurs.SelectedIndex = -1;
-            }
+                ListBoxSubEntrepeneurs.ItemsSource = "";
+                ListBoxSubEntrepeneurs.SelectedIndex = -1;
+                CheckBoxDetails.IsChecked = false;
 
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
-            {
-                CBZ.UcMainEdited = true;
+                //Set CBZ.UcMainEdited
+                if (CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = false;
+                }
+
             }
 
         }
 
         private void ListBoxEntrepeneurs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedItemsCount = ListBoxEntrepeneurs.SelectedItems.Count;
+            int selectedItemsCount = ListBoxSubEntrepeneurs.SelectedItems.Count;
             switch (selectedItemsCount)
             {
                 case 1:
-                    int selectedIndex = ListBoxEntrepeneurs.SelectedIndex;
-                    foreach (IndexedEntrepeneur temp in CBZ.IndexedEntrepeneurs)
+                    CBZ.TempSubEntrepeneur = new SubEntrepeneur((IndexedSubEntrepeneur)ListBoxSubEntrepeneurs.SelectedItem);
+                    if (!CBZ.TempSubEntrepeneur.Active)
                     {
-                        if (temp.Index == selectedIndex)
-                        {
-                            CBZ.TempEntrepeneur = temp;
-                            CBZ.TempSubEntrepeneur = GetSubEntrepeneur(CBZ.TempEntrepeneur.Id);
-                            if (!CBZ.TempSubEntrepeneur.Active)
-                            {
-                                CBZ.TempSubEntrepeneur.ToggleActive();
-                            }
-                        }
+                        CBZ.TempSubEntrepeneur.ToggleActive();
                     }
                     break;
                 default:
-                    CBZ.TempLegalEntity = null;
                     CBZ.TempSubEntrepeneur = null;
                     break;
             }
@@ -228,24 +232,6 @@ namespace JudGui
                 CBZ.UcMainEdited = true;
             }
 
-        }
-
-        private void TextBoxProjectDescription_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.Description != TextBoxProjectDescription.Text)
-            {
-                CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.Description = TextBoxProjectDescription.Text;
-            }
-        }
-
-        private void TextBoxPeriod_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.Period = TextBoxPeriod.Text;
-        }
-
-        private void TextBoxAnswerDate_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CBZ.TempRequestShipping.SubEntrepeneur.Enterprise.Project.Details.AnswerDate = TextBoxAnswerDate.Text;
         }
 
         #endregion
@@ -259,7 +245,7 @@ namespace JudGui
         {
             bool result = false;
 
-            if (ListBoxEntrepeneurs.SelectedItems.Count >= 1)
+            if (ListBoxSubEntrepeneurs.SelectedItems.Count >= 1)
             {
                 result = true;
             }
@@ -285,32 +271,10 @@ namespace JudGui
         }
 
         /// <summary>
-        /// Method, that creates a Shipping
-        /// </summary>
-        /// <param name="subEntrepeneur">SubEntrepeneur</param>
-        /// <param name="receiver">Receiver</param>
-        private void CreateShipping(SubEntrepeneur subEntrepeneur, Receiver receiver)
-        {
-            IttLetterShipping = new IttLetterShipping(subEntrepeneur, receiver, new LetterData(), @"PDF_Documents\", macAddress);
-            try
-            {
-                int id = CBZ.CreateInDb(IttLetterShipping);
-                IttLetterShipping.SetId(id);
-                IttLetterShipping.PersonalPdfPath = @"PDF_Documents\";
-                CBZ.UpdateInDb(IttLetterShipping);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Databasen returnerede en fejl. Forsendelsen blev ikke opdateret.\n" + ex, "Opdater forsendelse", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        /// <summary>
         /// Method, that generates Items for ComboBoxCaseId
         /// </summary>
         private void GenerateComboBoxCaseIdItems()
         {
-            ComboBoxCaseId.Items.Clear();
             ComboBoxCaseId.ItemsSource = "";
             ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
         }
@@ -319,12 +283,11 @@ namespace JudGui
         /// Method, that generates a receiver from Indexed SubEntrepeneur
         /// </summary>
         /// <param name="selectedItem"></param>
-        /// <returns></returns>
-        private Receiver GenerateReceiver(object selectedItem)
+        /// <returns>Receiver</returns>
+        private Receiver GenerateReceiver(SubEntrepeneur subEntrepeneur)
         {
             Receiver result = new Receiver();
 
-            IndexedSubEntrepeneur subEntrepeneur = new IndexedSubEntrepeneur((IndexedSubEntrepeneur)selectedItem);
             result.Cvr = subEntrepeneur.Entrepeneur.Entity.Cvr;
             result.Name = subEntrepeneur.Entrepeneur.Entity.Name;
             result.Attention = subEntrepeneur.Contact.Person.Name;
@@ -336,82 +299,12 @@ namespace JudGui
             return result;
         }
 
-
         /// <summary>
-        /// Method, that returns a Contact
-        /// </summary>
-        /// <param name="entrepeneur">string</param>
-        /// <returns>Contact</returns>
-        private Contact GetContact(int entrepeneur)
-        {
-            SubEntrepeneur sub = GetSubEntrepeneur(entrepeneur);
-            Contact contact = sub.Contact;
-            return contact;
-        }
-
-        /// <summary>
-        /// Method, that creates an indexable Enterprises List
-        /// </summary>
-        /// <returns>List<IndexedEnterprise></returns>
-        private List<IndexedEnterprise> GetIndexedEnterprises()
-        {
-            List<IndexedEnterprise> result = new List<IndexedEnterprise>();
-            int i = 0;
-            foreach (Enterprise enterprise in ProjectEnterprises)
-            {
-                IndexedEnterprise temp = new IndexedEnterprise(i, enterprise);
-                result.Add(temp);
-                i++;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that generates List of ProjectSubEntrepeneurs
-        /// </summary>
-        /// <returns></returns>
-        private void GetProjectSubEntrepeneurs()
-        {
-            ProjectEnterprises.Clear();
-            ProjectSubEntrepeneurs.Clear();
-            CBZ.RefreshList("Enterprises");
-            CBZ.RefreshList("SubEntrepeneurs");
-            foreach (Enterprise enterprise in CBZ.Enterprises)
-            {
-                if (enterprise.Project.Id == CBZ.TempProject.Id)
-                {
-                    foreach (SubEntrepeneur sub in CBZ.SubEntrepeneurs)
-                    {
-                        if (sub.Enterprise.Id == enterprise.Id)
-                        {
-                            ProjectSubEntrepeneurs.Add(sub);
-                        }
-                    }
-
-                    ProjectEnterprises.Add(enterprise);
-                }
-            }
-        }
-
-        private SubEntrepeneur GetSubEntrepeneur(int entrepeneur)
-        {
-            SubEntrepeneur tempSub = new SubEntrepeneur();
-            foreach (SubEntrepeneur sub in ProjectSubEntrepeneurs)
-            {
-                if (sub.Entrepeneur.Id == entrepeneur)
-                {
-                    tempSub = sub;
-                }
-            }
-            return tempSub;
-        }
-
-        /// <summary>
-        /// Method that creates a list of indexable Legal Entities
+        /// Method that creates a list of Indexed SubEntrepeneurs
         /// </summary>
         private void RefreshIndexedSubEntrepeneurs()
         {
-            GetProjectSubEntrepeneurs();
+            CBZ.RefreshProjectList("SubEntrepeneurs", CBZ.TempProject.Id);
             CBZ.IndexedSubEntrepeneurs.Clear();
 
             int i = 0;
@@ -432,8 +325,8 @@ namespace JudGui
                 }
             }
 
-            ListBoxEntrepeneurs.ItemsSource = "";
-            ListBoxEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
+            ListBoxSubEntrepeneurs.ItemsSource = "";
+            ListBoxSubEntrepeneurs.ItemsSource = CBZ.IndexedSubEntrepeneurs;
         }
 
         /// <summary>
@@ -443,20 +336,36 @@ namespace JudGui
         {
             TempReceivers.Clear();
 
-            switch (ListBoxEntrepeneurs.SelectedItems.Count)
+            switch (ListBoxSubEntrepeneurs.SelectedItems.Count)
             {
                 case 0:
                     MessageBox.Show("Forespørgslen kan ikke sendes, da du ikke har valgt nogen modtagere.", "Forespørgsler", MessageBoxButton.OK, MessageBoxImage.Warning);
                     break;
                 case 1:
-                    TempReceivers.Add(GenerateReceiver(ListBoxEntrepeneurs.SelectedItem));
+                    TempReceivers.Add(GenerateReceiver(new SubEntrepeneur((IndexedSubEntrepeneur)ListBoxSubEntrepeneurs.SelectedItem)));
                     break;
                 default:
-                    foreach (object subEntrepeneur in ListBoxEntrepeneurs.SelectedItems)
+                    foreach (object obj in ListBoxSubEntrepeneurs.SelectedItems)
                     {
-                        TempReceivers.Add(GenerateReceiver(subEntrepeneur));
+                        TempReceivers.Add(GenerateReceiver(new SubEntrepeneur((IndexedSubEntrepeneur)obj)));
                     }
                     break;
+            }
+
+        }
+
+        /// <summary>
+        /// Method, that sets IsChecked for CheckBoxes
+        /// </summary>
+        private void SetCheckboxes()
+        {
+            if (CBZ.TempProject.Details.Description.Length >= 1 && CBZ.TempProject.Details.Period.Length >= 1 && CBZ.TempProject.Details.AnswerDate.Length >= 1)
+            {
+                CheckBoxDetails.IsChecked = true;
+            }
+            else
+            {
+                CheckBoxDetails.IsChecked = false;
             }
 
         }

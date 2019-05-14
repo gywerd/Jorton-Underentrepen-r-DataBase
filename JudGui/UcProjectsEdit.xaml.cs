@@ -34,18 +34,12 @@ namespace JudGui
             InitializeComponent();
             this.CBZ = cbz;
             this.UcMain = ucMain;
-            CBZ.RefreshList("Projects");
-            ComboBoxCaseId.ItemsSource = CBZ.ActiveProjects;
-            CBZ.RefreshIndexedList("Builders");
-            ComboBoxBuilder.ItemsSource = CBZ.ActiveBuilders;
-            CBZ.RefreshIndexedList("ProjectStatuses");
-            ComboBoxProjectStatus.ItemsSource = CBZ.IndexedProjectStatuses;
-            CBZ.RefreshIndexedList("TenderForms");
+            CBZ.RefreshIndexedList("Projects"); //Refreshes Indexed Projects list and all dependent lists
+            ComboBoxCaseId.ItemsSource = CBZ.IndexedActiveProjects;
+            ComboBoxBuilder.ItemsSource = CBZ.IndexedActiveBuilders;
             ComboBoxTenderForm.ItemsSource = CBZ.IndexedTenderForms;
-            CBZ.RefreshIndexedList("EnterpriseForms");
             ComboBoxEnterpriseForm.ItemsSource = CBZ.IndexedEnterpriseForms;
-            CBZ.RefreshIndexedList("Users");
-            ComboBoxExecutive.ItemsSource = CBZ.ActiveUsers;
+            ComboBoxExecutive.ItemsSource = CBZ.IndexedActiveUsers;
         }
 
         #endregion
@@ -78,12 +72,10 @@ namespace JudGui
                 MessageBox.Show("Projektet blev rettet", "Projekter", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 //Update Projects lists
-                CBZ.RefreshList("Projects");
-                CBZ.RefreshIndexedList("Projects");
+                CBZ.RefreshIndexedList("Projects"); //Refreshes Indexed Projects list and all dependent lists
 
-                //Close right UserControl
-                UcMain.Content = new UserControl();
-                CBZ.UcMainEdited = false;
+                //Reset form
+                ComboBoxCaseId.SelectedIndex = -1;
             }
             else
             {
@@ -98,82 +90,117 @@ namespace JudGui
         #region Events
         private void ComboBoxBuilder_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject.Builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
-
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxEnterpriseForm.SelectedIndex >= 0)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.Builder = new Builder((Builder)ComboBoxBuilder.SelectedItem);
+
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+            else
+            {
+                CBZ.TempProject.Builder = new Builder();
             }
         }
 
         private void ComboBoxCaseId_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
-
-            TextBoxCaseName.Text = CBZ.TempProject.Details.Name;
-            ComboBoxBuilder.SelectedIndex = GetBuilderIndex();
-            ComboBoxProjectStatus.SelectedIndex = GetProjectStatusIndex();
-            ComboBoxTenderForm.SelectedIndex = GetTenderFormIndex();
-            ComboBoxEnterpriseForm.SelectedIndex = GetEnterPriseFormIndex();
-            ComboBoxExecutive.SelectedIndex = GetExecutiveIndex();
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxCaseId.SelectedIndex >= 0)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject = new Project((Project)ComboBoxCaseId.SelectedItem);
+
+                TextBoxCaseName.Text = CBZ.TempProject.Details.Name;
+                ComboBoxBuilder.SelectedIndex = GetBuilderIndex();
+                ComboBoxTenderForm.SelectedIndex = GetTenderFormIndex();
+                ComboBoxEnterpriseForm.SelectedIndex = GetEnterPriseFormIndex();
+                ComboBoxExecutive.SelectedIndex = GetExecutiveIndex();
+                TextBoxDescription.Text = CBZ.TempProject.Details.Description;
+                TextBoxPeriod.Text = CBZ.TempProject.Details.Period;
+                TextBoxAnswerDate.Text = CBZ.TempProject.Details.AnswerDate;
+
+            }
+            else
+            {
+                ResetForm();
             }
 
         }
 
         private void ComboBoxEnterpriseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject.EnterpriseForm = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxEnterpriseForm.SelectedIndex >= 0)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.EnterpriseForm = new EnterpriseForm((EnterpriseForm)ComboBoxEnterpriseForm.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+            else
+            {
+                CBZ.TempProject.EnterpriseForm = new EnterpriseForm();
             }
         }
 
         private void ComboBoxExecutive_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject.Executive = new User((User)ComboBoxExecutive.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxEnterpriseForm.SelectedIndex >= 0)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.Executive = new User((User)ComboBoxExecutive.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
-        }
-
-        private void ComboBoxProjectStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CBZ.TempProject.Status = new ProjectStatus((ProjectStatus)ComboBoxProjectStatus.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            else
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.Executive = new User();
             }
         }
 
         private void ComboBoxTenderForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CBZ.TempProject.TenderForm = new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem);
-
-            //Set CBZ.UcMainEdited
-            if (!CBZ.UcMainEdited)
+            if (ComboBoxEnterpriseForm.SelectedIndex >= 0)
             {
-                CBZ.UcMainEdited = true;
+                CBZ.TempProject.TenderForm = new TenderForm((TenderForm)ComboBoxTenderForm.SelectedItem);
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+            else
+            {
+                CBZ.TempProject.TenderForm = new TenderForm();
+            }
+        }
+
+        private void TextBoxAnswerDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CBZ.TempProject.Details.AnswerDate != TextBoxDescription.Text)
+            {
+                CBZ.TempProject.Details.AnswerDate = TextBoxAnswerDate.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
             }
         }
 
         private void TextBoxCaseName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (CBZ.TempProject.Details.Name != TextBoxCaseName.Text)
+            if (TextBoxCaseName.Text.Count() >= 1 && CBZ.TempProject.Details.Name != TextBoxCaseName.Text)
             {
                 CBZ.TempProject.Details.Name = TextBoxCaseName.Text;
 
@@ -188,9 +215,23 @@ namespace JudGui
 
         private void TextBoxDescription_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (CBZ.TempProject.Details.Description != TextBoxDescription.Text)
+            if (TextBoxDescription.Text.Count() >= 1 && CBZ.TempProject.Details.Description != TextBoxDescription.Text)
             {
                 CBZ.TempProject.Details.Description = TextBoxDescription.Text;
+
+                //Set CBZ.UcMainEdited
+                if (!CBZ.UcMainEdited)
+                {
+                    CBZ.UcMainEdited = true;
+                }
+            }
+        }
+
+        private void TextBoxPeriod_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CBZ.TempProject.Details.Period != TextBoxPeriod.Text)
+            {
+                CBZ.TempProject.Details.Period = TextBoxPeriod.Text;
 
                 //Set CBZ.UcMainEdited
                 if (!CBZ.UcMainEdited)
@@ -213,7 +254,7 @@ namespace JudGui
 
             CBZ.RefreshIndexedList("Builders");
 
-            foreach (IndexedBuilder builder in CBZ.IndexedBuilders)
+            foreach (IndexedBuilder builder in CBZ.IndexedActiveBuilders)
             {
                 if (builder.Id == CBZ.TempProject.Builder.Id)
                 {
@@ -257,33 +298,11 @@ namespace JudGui
 
             CBZ.RefreshIndexedList("Users");
 
-            foreach (IndexedUser user in CBZ.IndexedUsers)
+            foreach (IndexedUser user in CBZ.IndexedActiveUsers)
             {
                 if (user.Id == CBZ.TempProject.Executive.Id)
                 {
                     result = user.Index;
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Method, that retrieves the index of a Project Status
-        /// </summary>
-        /// <returns>int</returns>
-        private int GetProjectStatusIndex()
-        {
-            int result = 0;
-
-            CBZ.RefreshIndexedList("ProjectStatuses");
-
-            foreach (IndexedProjectStatus status in CBZ.IndexedProjectStatuses)
-            {
-                if (status.Id == CBZ.TempProject.Status.Id)
-                {
-                    result = status.Index;
                     break;
                 }
             }
@@ -311,6 +330,29 @@ namespace JudGui
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Method, that resets ComboBoxes - except ComboBoxCaseId - and TextBoces
+        /// </summary>
+        private void ResetForm()
+        {
+            CBZ.TempProject = new Project();
+
+            TextBoxCaseName.Text = "";
+            ComboBoxBuilder.SelectedIndex = -1;
+            ComboBoxTenderForm.SelectedIndex = -1;
+            ComboBoxEnterpriseForm.SelectedIndex = -1;
+            ComboBoxExecutive.SelectedIndex = -1;
+            TextBoxDescription.Text = "";
+            TextBoxPeriod.Text = "";
+            TextBoxAnswerDate.Text = "";
+
+            //Reset CBZ.UcMainEdited
+            if (CBZ.UcMainEdited)
+            {
+                CBZ.UcMainEdited = false;
+            }
         }
 
         #endregion

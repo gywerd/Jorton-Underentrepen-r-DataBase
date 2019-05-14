@@ -83,8 +83,7 @@
     <Compile Include="Person.cs" />
     <Compile Include="ProjectDetail.cs" />
     <Compile Include="Receiver.cs" />
-    <Compile Include="RequestShipping.cs" />
-    <Compile Include="IttLetterShipping.cs" />
+    <Compile Include="Shipping.cs" />
     <Compile Include="JobDescription.cs" />
     <Compile Include="LegalEntity.cs" />
     <Compile Include="Offer.cs" />
