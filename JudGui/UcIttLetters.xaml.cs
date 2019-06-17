@@ -382,7 +382,7 @@ namespace JudGui
                     {
                         ProjectReceivers.Add(CBZ.TempReceiver);
 
-                        CBZ.TempShipping = new Shipping(subEntrepeneur, CBZ.TempReceiver, CBZ.TempLetterData, @"PDF_Documents\", macAddress);
+                        CBZ.TempShipping = new Shipping(subEntrepeneur, CBZ.TempReceiver, CBZ.TempLetterData, @"PDF_Documents\", @"PDF_Documents\", @"PDF_Documents\", macAddress);
                         CBZ.TempShipping.SetId(CBZ.CreateInDb(CBZ.TempShipping));
                         ProjectShippings.Add(CBZ.TempShipping);
 
@@ -438,7 +438,7 @@ namespace JudGui
         /// <param name="letterData">PdfData</param>
         private void CreateShipping(Project project, Receiver receiver, IndexedSubEntrepeneur subEntrepeneur)
         {
-            CBZ.TempShipping = new Shipping(subEntrepeneur, receiver, new LetterData(), @"PDF_Documents\", macAddress);
+            CBZ.TempShipping = new Shipping(subEntrepeneur, receiver, new LetterData(), @"PDF_Documents\", @"PDF_Documents\", @"PDF_Documents\", macAddress);
 
             try
             {
